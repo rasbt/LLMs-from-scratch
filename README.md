@@ -1,6 +1,9 @@
 # Build a Large Language Model (From Scratch)
 
 
+<br>
+<br>
+
 
 <a href="http://mng.bz/orYv"><img src="images/cover.jpg" width="250px"></a>
 
@@ -13,7 +16,8 @@ The method described in this book for training and developing your own small-but
 - ISBN 9781633437166
 - Publication in Early 2025 (estimated)
 
-
+<br>
+<br>
 
 ## Table of Contents
 

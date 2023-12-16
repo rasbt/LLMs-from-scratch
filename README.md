@@ -32,6 +32,6 @@ The method described in this book for training and developing your own small-but
 <br>
 <br>
 
-<img src="images/mental-model.png" width="500px">
+<img src="images/mental-model.jpg" width="600px">
 
 (A mental model summarizing the contents covered in this book.)

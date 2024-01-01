@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2023 Sebastian Raschka
+Copyright (c) 2023-2024 Sebastian Raschka
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software (the "Software"), to deal

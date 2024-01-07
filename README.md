@@ -19,21 +19,20 @@ The method described in this book for training and developing your own small-but
 <br>
 <br>
 
-## Table of Contents
+
+# Table of Contents
 
 Please note that the `Readme.md` file is a Markdown (`.md`) file. If you have downloaded this code bundle from the Manning website and are viewing it on your local computer, I recommend using a Markdown editor or previewer for proper viewing. If you haven't installed a Markdown editor yet, MarkText[https://www.marktext.cc](https://www.marktext.cc) is a good free option.
 
 Alternatively, you can view this and other files on GitHub at [https://github.com/rasbt/LLMs-from-scratch](https://github.com/rasbt/LLMs-from-scratch).
 
-
-
-| Chapter                                   | Main code                                                    | Code + supplementary         |
+| Chapter title                             | Main code                                                    | Code + supplementary         |
 | ----------------------------------------- | ------------------------------------------------------------ | ---------------------------- |
 | Ch 1: Understanding Large Language Models | No code                                                      | No code                      |
-| Ch 2: Working with Text Data              | [ch02.ipynb](ch02/01_main-chapter-code/ch02.ipynb)<br />[dataloader.ipynb](ch02/01_main-chapter-code/dataloader.ipynb) | [./ch02](./ch02)             |
-| Ch 3: Understanding Attention Mechanisms  | [ch03.ipynb](ch03/01_main-chapter-code/ch03.ipynb)<br />[multihead-attention.ipynb](ch03/01_main-chapter-code/multihead-attention.ipynb) | [./ch03](./ch03)             |
+| Ch 2: Working with Text Data              | All chapter code: [ch02.ipynb](ch02/01_main-chapter-code/ch02.ipynb)<br />Chapter takeaway: [dataloader.ipynb](ch02/01_main-chapter-code/dataloader.ipynb)<br />[exercise-solutions.ipynb](ch02/01_main-chapter-code/exercise-solutions.ipynb) | [./ch02](./ch02)             |
+| Ch 3: Understanding Attention Mechanisms  | All chapter code: [ch03.ipynb](ch03/01_main-chapter-code/ch03.ipynb)<br />Chapter takeaway: [multihead-attention.ipynb](ch03/01_main-chapter-code/multihead-attention.ipynb) | [./ch03](./ch03)             |
 | ...                                       | ...                                                          | ...                          |
-| Appendix A: Introduction to PyTorch       | [code-part1.ipynb](03_main-chapter-code/01_main-chapter-code/code-part1.ipynb)<br />[code-part2.ipynb](03_main-chapter-code/01_main-chapter-code/code-part2.ipynb)<br />[DDP-script.py](03_main-chapter-code/01_main-chapter-code/DDP-script.py) | [./appendix-A](./appendix-A) |
+| Appendix A: Introduction to PyTorch       | Code up to GPU training: [code-part1.ipynb](03_main-chapter-code/01_main-chapter-code/code-part1.ipynb)<br />GPU training sections: [code-part2.ipynb](03_main-chapter-code/01_main-chapter-code/code-part2.ipynb)<br />Multi-GPU training script: [DDP-script.py](03_main-chapter-code/01_main-chapter-code/DDP-script.py)<br />[exercise-solutions.ipynb](https://github.com/rasbt/LLMs-from-scratch/blob/main/appendix-A/03_main-chapter-code/exercise-solutions.ipynb) | [./appendix-A](./appendix-A) |
 
 <br>
 <br>
@@ -41,3 +40,4 @@ Alternatively, you can view this and other files on GitHub at [https://github.co
 <img src="images/mental-model.jpg" width="600px">
 
 (A mental model summarizing the contents covered in this book.)
+

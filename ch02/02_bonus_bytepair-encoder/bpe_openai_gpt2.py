@@ -3,6 +3,9 @@ Byte pair encoding utilities
 
 Code from https://github.com/openai/gpt-2/blob/master/src/encoder.py
 
+And modified code (download_vocab) from
+https://github.com/openai/gpt-2/blob/master/download_model.py
+
 Modified MIT License
 
 Software Copyright (c) 2019 OpenAI
@@ -34,6 +37,8 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 import os
 import json
 import regex as re
+import requests
+from tqdm import tqdm
 from functools import lru_cache
 
 @lru_cache()
@@ -146,3 +151,24 @@ def get_encoder(model_name, models_dir):
         encoder=encoder,
         bpe_merges=bpe_merges,
     )
+
+
+def download_vocab():
+    # Modified code from
+    subdir = 'gpt2_model'
+    if not os.path.exists(subdir):
+        os.makedirs(subdir)
+    subdir = subdir.replace('\\','/') # needed for Windows
+
+    for filename in ['encoder.json', 'vocab.bpe']:
+
+        r = requests.get("https://openaipublic.blob.core.windows.net/gpt-2/models/117M" + "/" + filename, stream=True)
+
+        with open(os.path.join(subdir, filename), 'wb') as f:
+            file_size = int(r.headers["content-length"])
+            chunk_size = 1000
+            with tqdm(ncols=100, desc="Fetching " + filename, total=file_size, unit_scale=True) as pbar:
+                # 1k for chunk_size, since Ethernet packet size is around 1500 bytes
+                for chunk in r.iter_content(chunk_size=chunk_size):
+                    f.write(chunk)
+                    pbar.update(chunk_size)

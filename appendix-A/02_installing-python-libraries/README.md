@@ -19,7 +19,6 @@ To install these requirements most conveniently, you can use the `requirements.t
 pip install -r requirements.txt
 ```
 
-![install-requirements](figures/install-requirements.png)
 
 Then, after completing the installation, please check if all the packages are installed and are up to date using
 
@@ -27,21 +26,20 @@ Then, after completing the installation, please check if all the packages are in
 python_environment_check.py
 ```
 
-![check_1](figures/check_1.jpg)
+<img src="figures/check_1.jpg" width="600px">
 
 It's also recommended to check the versions in JupyterLab by running the `jupyter_environment_check.ipynb` in this directory, which should ideally give you the same results as above.
 
-![check_1](figures/check_2.jpg)
+<img src="figures/check_2.jpg" width="500px">
 
 If you see the following issues, it's likely that your JupyterLab instance is connected to wrong conda environment:
 
-![jupyter-issues](figures/jupyter-issues.jpg)
+<img src="figures/jupyter-issues.jpg" width="450px">
 
 
 In this case, you may want to use `watermark` to check if you opened the JupyterLab instance in the right conda environment using the `--conda` flag:
 
-![watermark](figures/watermark.jpg)
-
+<img src="figures/watermark.jpg" width="350px">
 
 
 <br>

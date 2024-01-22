@@ -3,7 +3,6 @@ scipy >= 1.10.1
 pandas >= 2.0.2
 matplotlib >= 3.7.1
 jupyterlab >= 4.0
-ipywidgets >= 8.0.6
 watermark >= 2.4.2
 torch >= 2.0.1
 tiktoken >= 0.5.1

@@ -28,6 +28,8 @@ where `Desktop/` is the folder where the Miniforge installer was downloaded to. 
 
 Next, step through the download instructions, confirming with "Enter".
 
+
+
 ## 2. Create a new virtual environment
 
 After the installation was successfully completed, I recommend creating a new virtual environment called `dl-fundamentals`, which you can do by executing
@@ -37,6 +39,8 @@ conda create -n LLMs python=3.10
 ```
 
 <img src="figures/new-env.png" alt="new-env" style="zoom:33%;" />
+
+> Many scientific computing libraries do not immediately support the newest version of Python. Therefore, when installing PyTorch, it's advisable to use a version of Python that is one or two releases older. For instance, if the latest version of Python is 3.13, using Python 3.10 or 3.11 is recommended.
 
 Next, activate your new virtual environment (you have to do it every time you open a new terminal window or tab):
 
@@ -52,7 +56,7 @@ If you want to style your terminal similar to mine so that you can see which vir
 
 
 
-# 3. Install new Python libraries
+## 3. Install new Python libraries
 
 
 
@@ -69,6 +73,24 @@ conda install jupyterlab watermark
 You can also still use `pip` to install libraries. By default, `pip` should be linked to your new `LLms` conda environment:
 
 <img src="figures/check-pip.png" alt="check-pip" style="zoom:33%;" />
+
+
+
+## 4. Install PyTorch
+
+PyTorch can be installed just like any other Python library or package using pip. For example:
+
+```bash
+pip install torch==2.0.1
+```
+
+However, since PyTorch is a comprehensive library featuring CPU- and GPU-compatible codes, the installation may require additional settings and explanation (see the *A.1.3 Installing PyTorch in the book for more information*).
+
+It's also highly recommended to consult the installation guide menu on the official PyTorch website at [https://pytorch.org](https://pytorch.org).
+
+<img src="figures/pytorch-installer.jpg" width="600px">
+
+
 
 ---
 

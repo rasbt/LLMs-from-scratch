@@ -37,7 +37,7 @@ Alternatively, you can view this and other files on GitHub at [https://github.co
 | ...                                       | ...                                                          | ...                          |
 | Appendix A: Introduction to PyTorch*      | - [code-part1.ipynb](appendix-A/03_main-chapter-code/code-part1.ipynb)<br />- [code-part2.ipynb](appendix-A/03_main-chapter-code/code-part2.ipynb)<br />- [DDP-script.py](appendix-A/03_main-chapter-code/DDP-script.py)<br />- [exercise-solutions.ipynb](appendix-A/03_main-chapter-code/exercise-solutions.ipynb) | [./appendix-A](./appendix-A) |
 
-(* Please see [this](01_optional-python-setup-preferences) and [this](02_installing-python-libraries) folder if you need more guidance on installing Python and Python packages.)
+(* Please see [this](appendix-A/01_optional-python-setup-preferences) and [this](appendix-A/02_installing-python-libraries) folder if you need more guidance on installing Python and Python packages.)
 
 
 

@@ -1,20 +1,17 @@
-# Libraries Used In This Workshop
+# Libraries Used In This Book
 
-We will be using the following libraries in this workshop, and I highly recommend installing them before attending the event:
+This document provides more information on double-checking your installed Python version and packages. (Please see the [../01_optional-python-setup-preferences](../01_optional-python-setup-preferences) folder for more information on installing Python and Python packages.)
 
-- numpy >= 1.24.3 (The fundamental package for scientific computing with Python)
-- scipy >= 1.10.1 (Additional functions for NumPy)
-- pandas >= 2.0.2 (A data frame library)
-- matplotlib >= 3.7.1 (A plotting library)
-- jupyterlab >= 4.0 (An application for running Jupyter notebooks)
-- ipywidgets >= 8.0.6 (Fixes progress bar issues in Jupyter Lab)
-- scikit-learn >= 1.2.2 (A general machine learning library)
-- watermark >= 2.4.2 (An IPython/Jupyter extension for printing package information)
-- torch >= 2.0.1 (The PyTorch deep learning library)
-- torchvision >= 0.15.2 (PyTorch utilities for computer vision)
-- torchmetrics >= 0.11.4 (Metrics for PyTorch)
-- transformers >= 4.30.2 (Language transformers and LLMs for PyTorch)
-- lightning >= 2.0.3 (A library for advanced PyTorch features: multi-GPU, mixed-precision etc.)
+I used the following main libraries in this book. Newer versions of these libraries are likely compatible as well. However, if you experience any problems with the code, you can try these library versions as a fallback:
+
+-  numpy  1.24.3
+-  scipy 1.10.1
+-  pandas  2.0.2
+-  matplotlib  3.7.1
+-  jupyterlab  4.0
+-  watermark  2.4.2
+-  torch  2.0.1
+-  tiktoken  0.5.1
 
 To install these requirements most conveniently, you can use the `requirements.txt` file:
 
@@ -30,17 +27,46 @@ Then, after completing the installation, please check if all the packages are in
 python_environment_check.py
 ```
 
-![check_1](figures/check_1.png)
+![check_1](figures/check_1.jpg)
 
-It's also recommended to check the versions in JupyterLab by running the `jupyter_environment_check.ipynb` in this directory. Ideally, it should look like as follows:
+It's also recommended to check the versions in JupyterLab by running the `jupyter_environment_check.ipynb` in this directory, which should ideally give you the same results as above.
 
-![check_1](figures/check_2.png)
+![check_1](figures/check_2.jpg)
 
 If you see the following issues, it's likely that your JupyterLab instance is connected to wrong conda environment:
 
-![jupyter-issues](figures/jupyter-issues.png)
+![jupyter-issues](figures/jupyter-issues.jpg)
 
 
 In this case, you may want to use `watermark` to check if you opened the JupyterLab instance in the right conda environment using the `--conda` flag:
 
-![watermark](figures/watermark.png)
+![watermark](figures/watermark.jpg)
+
+
+
+<br>
+<br>
+
+
+## Installing PyTorch
+
+PyTorch can be installed just like any other Python library or package using pip. For example:
+
+```bash
+pip install torch==2.0.1
+```
+
+However, since PyTorch is a comprehensive library featuring CPU- and GPU-compatible codes, the installation may require additional settings and explanation (see the *A.1.3 Installing PyTorch in the book for more information*).
+
+It's also highly recommended to consult the installation guide menu on the official PyTorch website at [https://pytorch.org](https://pytorch.org).
+
+<img src="figures/pytorch-installer.jpg" width="600px">
+
+
+
+---
+
+
+
+
+Any questions? Please feel free to reach out in the [Discussion Forum](https://github.com/rasbt/LLMs-from-scratch/discussions).

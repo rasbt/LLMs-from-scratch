@@ -1,4 +1,4 @@
-# Sebastian Raschka, 2023
+# Sebastian Raschka, 2024
 
 from os.path import dirname, join, realpath
 from packaging.version import parse as version_parse
@@ -25,8 +25,15 @@ def get_packages(pkgs):
                 except AttributeError:
                     try:
                         versions.append(imported.version_info)
-                    except AttributeError:
-                        versions.append('0.0')
+                    except:
+                        try:
+                            import importlib, importlib_metadata
+                            imported = importlib.import_module(p)
+                            version = importlib_metadata.version(p)
+                            versions.append(version)
+                        except ImportError:
+                            version = "not installed"
+                            versions.append('0.0')
         except ImportError:
             print(f'[FAIL]: {p} is not installed and/or cannot be imported.')
             versions.append('N/A')

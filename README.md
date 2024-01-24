@@ -29,13 +29,17 @@ Alternatively, you can view this and other files on GitHub at [https://github.co
 <br>
 <br>
 
-| Chapter title                             | Main code (for quick access)                                 | All code + supplementary     |
-| ----------------------------------------- | ------------------------------------------------------------ | ---------------------------- |
-| Ch 1: Understanding Large Language Models | No code                                                      | No code                      |
-| Ch 2: Working with Text Data              | - [ch02.ipynb](ch02/01_main-chapter-code/ch02.ipynb)<br />- [dataloader.ipynb](ch02/01_main-chapter-code/dataloader.ipynb) (summary)<br />- [exercise-solutions.ipynb](ch02/01_main-chapter-code/exercise-solutions.ipynb) | [./ch02](./ch02)             |
-| Ch 3: Coding Attention Mechanisms         | - [ch03.ipynb](ch03/01_main-chapter-code/ch03.ipynb)<br />- [multihead-attention.ipynb](ch03/01_main-chapter-code/multihead-attention.ipynb) (summary) | [./ch03](./ch03)             |
-| ...                                       | ...                                                          | ...                          |
-| Appendix A: Introduction to PyTorch*      | - [code-part1.ipynb](appendix-A/03_main-chapter-code/code-part1.ipynb)<br />- [code-part2.ipynb](appendix-A/03_main-chapter-code/code-part2.ipynb)<br />- [DDP-script.py](appendix-A/03_main-chapter-code/DDP-script.py)<br />- [exercise-solutions.ipynb](appendix-A/03_main-chapter-code/exercise-solutions.ipynb) | [./appendix-A](./appendix-A) |
+| Chapter Title                                  | Main Code (for quick access)                                                                                                    | All Code + Supplementary      |
+|------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|-------------------------------|
+| Ch 1: Understanding Large Language Models      | No code                                                                                                                         | No code                       |
+| Ch 2: Working with Text Data                   | - [ch02.ipynb](ch02/01_main-chapter-code/ch02.ipynb)<br/>- [dataloader.ipynb](ch02/01_main-chapter-code/dataloader.ipynb) (summary)<br/>- [exercise-solutions.ipynb](ch02/01_main-chapter-code/exercise-solutions.ipynb) | [./ch02](./ch02)              |
+| Ch 3: Coding Attention Mechanisms              | - [ch03.ipynb](ch03/01_main-chapter-code/ch03.ipynb)<br/>- [multihead-attention.ipynb](ch03/01_main-chapter-code/multihead-attention.ipynb) (summary) | [./ch03](./ch03)              |
+| Ch 4: Implementing a GPT Model from Scratch    | ...                                                                                                                             | ...                           |
+| Ch 5: Pretraining on Unlabeled Data            | ...                                                                                                                             | ...                           |
+| Ch 6: Finetuning for Text Classification       | ...                                                                                                                             | ...                           |
+| Ch 7: Finetuning with Human Feedback           | ...                                                                                                                             | ...                           |
+| Ch 8: Using Large Language Models in Practice  | ...                                                                                                                             | ...                           |
+| Appendix A: Introduction to PyTorch*           | - [code-part1.ipynb](appendix-A/03_main-chapter-code/code-part1.ipynb)<br/>- [code-part2.ipynb](appendix-A/03_main-chapter-code/code-part2.ipynb)<br/>- [DDP-script.py](appendix-A/03_main-chapter-code/DDP-script.py)<br/>- [exercise-solutions.ipynb](appendix-A/03_main-chapter-code/exercise-solutions.ipynb) | [./appendix-A](./appendix-A) |
 
 (* Please see [this](appendix-A/01_optional-python-setup-preferences) and [this](appendix-A/02_installing-python-libraries) folder if you need more guidance on installing Python and Python packages.)
 

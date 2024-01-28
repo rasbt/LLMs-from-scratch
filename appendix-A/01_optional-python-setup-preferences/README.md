@@ -7,6 +7,9 @@ There are several different ways you can install Python and set up your computin
 (I am using computers running macOS, but this workflow is similar for Linux machines and may work for other operating systems as well.)
 
 
+<br>
+<br>
+
 
 ## 1. Download and install Miniforge
 
@@ -30,6 +33,16 @@ Next, step through the download instructions, confirming with "Enter".
 
 
 
+If you work with many packages, Conda can be slow because of its thorough but complex dependency resolution process and the handling of large package indexes and metadata. To speed up Conda, you can use the following setting, which switches to a more efficient Rust reimplementation for solving dependencies:
+
+```
+conda config --set solver libmamba
+```
+
+<br>
+<br>
+
+
 ## 2. Create a new virtual environment
 
 After the installation was successfully completed, I recommend creating a new virtual environment called `dl-fundamentals`, which you can do by executing
@@ -50,11 +63,15 @@ conda activate dl-workshop
 
 <img src="figures/activate-env.png" alt="activate-env" width="600px">
 
+<br>
+<br>
+
 ## Optional: styling your terminal
 
 If you want to style your terminal similar to mine so that you can see which virtual environment is active,  check out the [Oh My Zsh](https://github.com/ohmyzsh/ohmyzsh) project.
 
-
+<br>
+<br>
 
 ## 3. Install new Python libraries
 
@@ -74,7 +91,8 @@ You can also still use `pip` to install libraries. By default, `pip` should be l
 
 <img src="figures/check-pip.png" alt="check-pip" width="600px">
 
-
+<br>
+<br>
 
 ## 4. Install PyTorch
 

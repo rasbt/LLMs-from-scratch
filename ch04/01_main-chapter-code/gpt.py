@@ -91,8 +91,8 @@ class MultiHeadAttention(nn.Module):
         attn_scores = queries @ keys.transpose(2, 3)  # Dot product for each head
         # Original mask truncated to the number of tokens and converted to boolean
         mask_bool = self.mask.bool()[:num_tokens, :num_tokens]
-        # Unsqueeze the mask twice to match dimensions
-        mask_unsqueezed = mask_bool.unsqueeze(0).unsqueeze(0)
+        # Unsqueeze the mask to match dimensions
+        mask_unsqueezed = mask_bool.unsqueeze(0)
         # Use the unsqueezed mask to fill attention scores
         attn_scores.masked_fill_(mask_unsqueezed, -torch.inf)
 

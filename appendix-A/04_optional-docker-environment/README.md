@@ -39,7 +39,7 @@ Since the `.devcontainer` folder is present in the main `LLMs-from-scratch` dire
 
 Docker will now begin the process of building the Docker image specified in the `.devcontainer` configuration if it hasn't been built before, or pull the image if it's available from a registry. 
 
-The entire process is automated and might take a few minutes, depending on your system and internet speed. Optionally clock on "Starting Dev Container (show log)" in the lower right corner of VS Code to see the current built progress.
+The entire process is automated and might take a few minutes, depending on your system and internet speed. Optionally click on "Starting Dev Container (show log)" in the lower right corner of VS Code to see the current built progress.
 
 Once completed, VS Code will automatically connect to the container and reopen the project within the newly created Docker development environment. You will be able to write, execute, and debug code as if it were running on your local machine, but with the added benefits of Docker's isolation and consistency.
 

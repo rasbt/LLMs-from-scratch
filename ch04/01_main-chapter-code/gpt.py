@@ -56,7 +56,7 @@ def create_dataloader_v1(txt, batch_size=4, max_length=256,
 class MultiHeadAttention(nn.Module):
     def __init__(self, d_in, d_out, block_size, dropout, num_heads, qkv_bias=False):
         super().__init__()
-        assert d_out % num_heads == 0, "d_out must be divisible by n_heads"
+        assert d_out % num_heads == 0, "d_out must be divisible by num_heads"
 
         self.d_out = d_out
         self.num_heads = num_heads

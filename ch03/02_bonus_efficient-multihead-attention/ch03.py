@@ -37,9 +37,11 @@ class MultiHeadAttentionWrapper(nn.Module):
             [CausalAttention(d_in, d_out, block_size, dropout, qkv_bias) 
              for _ in range(num_heads)]
         )
+        self.out_proj = nn.Linear(d_out*num_heads, d_out*num_heads)
 
     def forward(self, x):
-        return torch.cat([head(x) for head in self.heads], dim=-1)
+        context_vec = torch.cat([head(x) for head in self.heads], dim=-1)
+        return self.out_proj(context_vec)
 
 
 

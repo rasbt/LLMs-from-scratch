@@ -27,15 +27,49 @@ git clone https://github.com/rasbt/LLMs-from-scratch.git
 cd LLMs-from-scratch
 ```
 
-2. Type `code .` in the terminal to open the project in VS Code. Alternatively, you can launch VS Code and select the project to open from the UI.
+2. In Docker Desktop, make sure that ***desktop-linux* builder** is running and will be used to build the Docker container (see *Docker Desktop* -> *Change settings* -> *Builders* -> *desktop-linux* -> *...* -> *Use*)
 
-3. Install the **Remote Development** extension from the VS Code *Extensions* menu on the left-hand side.
+3. If you have a [CUDA-supported GPU](https://developer.nvidia.com/cuda-gpus), you can speed up the training and inference:
+    
+    3.1  Install **NVIDIA Container Toolkit** as described [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html#installing-with-apt). NVIDIA Container Toolkit is supported as written [here](https://docs.nvidia.com/cuda/wsl-user-guide/index.html#nvidia-compute-software-support-on-wsl-2). 
 
-4. Open the DevContainer. 
+    3.2 Add *nvidia* as runtime in Docker Engine daemon config (see *Docker Desktop* -> *Change settings* -> *Docker Engine*). Add these lines to your config:
+    ```json
+    "runtimes": {
+        "nvidia": {
+        "path": "nvidia-container-runtime",
+        "runtimeArgs": []
+    ```
+    
+    For example, the full Docker Engine daemon config json code should look like that:
+    ```json
+    {
+    "builder": {
+        "gc": {
+        "defaultKeepStorage": "20GB",
+        "enabled": true
+        }
+    },
+    "experimental": false,
+    "runtimes": {
+        "nvidia": {
+        "path": "nvidia-container-runtime",
+        "runtimeArgs": []
+        }
+    }
+    }
+    ```
+    and restart Docker Desktop.
+
+4. Type `code .` in the terminal to open the project in VS Code. Alternatively, you can launch VS Code and select the project to open from the UI.
+
+5. Install the **Remote Development** extension from the VS Code *Extensions* menu on the left-hand side.
+
+6. Open the DevContainer. 
 
 Since the `.devcontainer` folder is present in the main `LLMs-from-scratch` directory (folders starting with `.` may be invisible in your OS depending on your settings), VS Code should automatically detect it and ask whether you would like to open the project in a devcontainer. If it doesn't, simply press `Ctrl + Shift + P` to open the command palette and start typing `dev containers` to see a list of all DevContainer-specific options.
 
-5. Select **Reopen in Container**.
+7. Select **Reopen in Container**.
 
 Docker will now begin the process of building the Docker image specified in the `.devcontainer` configuration if it hasn't been built before, or pull the image if it's available from a registry. 
 
@@ -46,12 +80,7 @@ Once completed, VS Code will automatically connect to the container and reopen t
 > [!WARNING]
 > If you are encountering an error during the build process, this is likely because your machine does not support NVIDIA container toolkit because your machine doesn't have a compatible GPU. In this case, edit the `devcontainer.json` file to remove the `"runArgs": ["--runtime=nvidia", "--gpus=all"],` line and run the "Reopen Dev Container" procedure again.
 
-
-
-
-6. Finished.
-
-   
+8. Finished. 
 
 Once the image has been pulled and built, you should have your project mounted inside the container with all the packages installed, ready for development. 
 

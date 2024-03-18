@@ -70,6 +70,10 @@ def check_packages(d):
             print(f'[OK] {pkg_name} {actual_ver}')
 
 
-if __name__ == '__main__':
+def main():
     d = get_requirements_dict()
     check_packages(d)
+
+
+if __name__ == '__main__':
+    main()

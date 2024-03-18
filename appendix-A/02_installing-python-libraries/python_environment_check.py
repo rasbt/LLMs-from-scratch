@@ -19,10 +19,9 @@ def get_packages(pkgs):
         try:
             imported = importlib.import_module(p)
             try:
-                # Try accessing common version attributes
-                version = getattr(imported, '__version__', None) or \
-                          getattr(imported, 'version', None) or \
-                          getattr(imported, 'version_info', None)
+                version = (getattr(imported, '__version__', None) or
+                           getattr(imported, 'version', None) or
+                           getattr(imported, 'version_info', None))
                 if version is None:
                     # If common attributes don't exist, use importlib.metadata
                     version = importlib.metadata.version(p)

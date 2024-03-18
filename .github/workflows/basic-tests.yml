@@ -18,7 +18,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    
+
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
@@ -33,9 +33,9 @@ jobs:
     - name: Test Selected Python Scripts
       run: |
         pytest ch04/01_main-chapter-code/tests.py
+        pytest appendix-A/02_installing-python-libraries/tests.py
 
     - name: Validate Selected Jupyter Notebooks
       run: |
-        pytest --nbval appendix-A/02_installing-python-libraries/python_environment_check.ipynb
         pytest --nbval ch02/01_main-chapter-code/dataloader.ipynb
         pytest --nbval ch03/01_main-chapter-code/multihead-attention.ipynb

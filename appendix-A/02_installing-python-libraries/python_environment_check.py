@@ -25,9 +25,10 @@ def get_packages(pkgs):
                 except AttributeError:
                     try:
                         versions.append(imported.version_info)
-                    except:
+                    except AttributeError:
                         try:
-                            import importlib, importlib_metadata
+                            import importlib
+                            import importlib_metadata
                             imported = importlib.import_module(p)
                             version = importlib_metadata.version(p)
                             versions.append(version)

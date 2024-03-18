@@ -42,11 +42,18 @@ def get_packages(pkgs):
 
 def get_requirements_dict():
     PROJECT_ROOT = dirname(realpath(__file__))
-    REQUIREMENTS_FILE = join(PROJECT_ROOT, "requirements.txt")
+    PROJECT_ROOT_UP_TWO = dirname(dirname(PROJECT_ROOT))
+    REQUIREMENTS_FILE = join(PROJECT_ROOT_UP_TWO, "requirements.txt")
     d = {}
     with open(REQUIREMENTS_FILE) as f:
         for line in f:
+            if not line.strip():
+                continue
+            line = line.split("#")[0]
+            print(line)
             line = line.split(" ")
+            if not line[0].strip() or not line[-1].strip():
+                continue
             d[line[0]] = line[-1]
     return d
 

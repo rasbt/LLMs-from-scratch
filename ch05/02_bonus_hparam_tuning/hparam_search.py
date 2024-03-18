@@ -159,7 +159,7 @@ if __name__ == "__main__":
                 stride=GPT_CONFIG_124M["ctx_len"],
                 drop_last=False,
                 shuffle=False
-                )
+            )
 
             model = GPTModel(GPT_CONFIG_124M)
             model.to(device)

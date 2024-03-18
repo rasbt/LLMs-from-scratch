@@ -1,6 +1,5 @@
 name: Python PEP8 Linting
 
-# Define triggers for the workflow: run on push and pull request to the main branch
 on:
   push:
     branches: [ main ]
@@ -20,11 +19,5 @@ jobs:
       run: pip install flake8
     - name: Run flake8 with exceptions
       run: |
-        # Run flake8 with customized settings
-        flake8 . --max-line-length=120 \  # Set max line length to 120 characters
-                 --ignore=W504,E402,E731,C406,E741 # Ignore specific PEP 8 warnings/errors
-        # W504: Allow line break after binary operator
-        # E402: Allow module level import not at top of file
-        # E731: Allow lambda expressions to be assigned
-        # C406: Allow unnecessary list literals (instead of dict literals)
-        # E741: Allow ambiguous variable names like 'l', 'O', or 'I'
+        flake8 . --max-line-length=120 \
+                 --ignore=W504,E402,E731,C406,E741

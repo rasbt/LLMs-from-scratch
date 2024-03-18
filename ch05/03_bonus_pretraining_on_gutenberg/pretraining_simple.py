@@ -99,7 +99,7 @@ def train_model_simple(model, optimizer, device, n_epochs,
                     max_length=GPT_CONFIG_124M["ctx_len"],
                     stride=GPT_CONFIG_124M["ctx_len"]
                 )
-                print(f"Training ...")
+                print("Training ...")
                 model.train()
                 for input_batch, target_batch in train_loader:
                     optimizer.zero_grad()

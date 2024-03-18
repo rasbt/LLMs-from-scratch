@@ -41,6 +41,7 @@ import requests
 from tqdm import tqdm
 from functools import lru_cache
 
+
 @lru_cache()
 def bytes_to_unicode():
     """
@@ -63,6 +64,7 @@ def bytes_to_unicode():
     cs = [chr(n) for n in cs]
     return dict(zip(bs, cs))
 
+
 def get_pairs(word):
     """Return set of symbol pairs in a word.
 
@@ -75,13 +77,14 @@ def get_pairs(word):
         prev_char = char
     return pairs
 
+
 class Encoder:
     def __init__(self, encoder, bpe_merges, errors='replace'):
         self.encoder = encoder
-        self.decoder = {v:k for k,v in self.encoder.items()}
-        self.errors = errors # how to handle errors in decoding
+        self.decoder = {v: k for k, v in self.encoder.items()}
+        self.errors = errors  # how to handle errors in decoding
         self.byte_encoder = bytes_to_unicode()
-        self.byte_decoder = {v:k for k, v in self.byte_encoder.items()}
+        self.byte_decoder = {v: k for k, v in self.byte_encoder.items()}
         self.bpe_ranks = dict(zip(bpe_merges, range(len(bpe_merges))))
         self.cache = {}
 
@@ -98,7 +101,7 @@ class Encoder:
             return token
 
         while True:
-            bigram = min(pairs, key = lambda pair: self.bpe_ranks.get(pair, float('inf')))
+            bigram = min(pairs, key=lambda pair: self.bpe_ranks.get(pair, float('inf')))
             if bigram not in self.bpe_ranks:
                 break
             first, second = bigram
@@ -141,6 +144,7 @@ class Encoder:
         text = bytearray([self.byte_decoder[c] for c in text]).decode('utf-8', errors=self.errors)
         return text
 
+
 def get_encoder(model_name, models_dir):
     with open(os.path.join(models_dir, model_name, 'encoder.json'), 'r') as f:
         encoder = json.load(f)
@@ -158,7 +162,7 @@ def download_vocab():
     subdir = 'gpt2_model'
     if not os.path.exists(subdir):
         os.makedirs(subdir)
-    subdir = subdir.replace('\\','/') # needed for Windows
+    subdir = subdir.replace('\\', '/')  # needed for Windows
 
     for filename in ['encoder.json', 'vocab.bpe']:
 

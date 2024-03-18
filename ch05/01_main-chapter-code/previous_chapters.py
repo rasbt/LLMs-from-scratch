@@ -100,7 +100,7 @@ class MultiHeadAttention(nn.Module):
         attn_weights = self.dropout(attn_weights)
 
         # Shape: (b, num_tokens, num_heads, head_dim)
-        context_vec = (attn_weights @ values).transpose(1, 2) 
+        context_vec = (attn_weights @ values).transpose(1, 2)
 
         # Combine heads, where self.d_out = self.num_heads * self.head_dim
         context_vec = context_vec.reshape(b, num_tokens, self.d_out)
@@ -132,7 +132,7 @@ class GELU(nn.Module):
 
     def forward(self, x):
         return 0.5 * x * (1 + torch.tanh(
-            torch.sqrt(torch.tensor(2.0 / torch.pi)) * 
+            torch.sqrt(torch.tensor(2.0 / torch.pi)) *
             (x + 0.044715 * torch.pow(x, 3))
         ))
 
@@ -158,7 +158,7 @@ class TransformerBlock(nn.Module):
             d_in=cfg["emb_dim"],
             d_out=cfg["emb_dim"],
             block_size=cfg["ctx_len"],
-            num_heads=cfg["n_heads"], 
+            num_heads=cfg["n_heads"],
             dropout=cfg["drop_rate"],
             qkv_bias=cfg["qkv_bias"])
         self.ff = FeedForward(cfg)
@@ -224,7 +224,7 @@ def generate_text_simple(model, idx, max_new_tokens, context_size):
 
         # Focus only on the last time step
         # (batch, n_token, vocab_size) becomes (batch, vocab_size)
-        logits = logits[:, -1, :]  
+        logits = logits[:, -1, :]
 
         # Get the idx of the vocab entry with the highest logits value
         idx_next = torch.argmax(logits, dim=-1, keepdim=True)  # (batch, 1)

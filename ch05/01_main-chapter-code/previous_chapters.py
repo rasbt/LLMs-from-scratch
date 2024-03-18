@@ -35,7 +35,7 @@ class GPTDatasetV1(Dataset):
         return self.input_ids[idx], self.target_ids[idx]
 
 
-def create_dataloader_v1(txt, batch_size=4, max_length=256, 
+def create_dataloader_v1(txt, batch_size=4, max_length=256,
                          stride=128, shuffle=True, drop_last=True):
     # Initialize the tokenizer
     tokenizer = tiktoken.get_encoding("gpt2")
@@ -78,7 +78,7 @@ class MultiHeadAttention(nn.Module):
 
         # We implicitly split the matrix by adding a `num_heads` dimension
         # Unroll last dim: (b, num_tokens, d_out) -> (b, num_tokens, num_heads, head_dim)
-        keys = keys.view(b, num_tokens, self.num_heads, self.head_dim) 
+        keys = keys.view(b, num_tokens, self.num_heads, self.head_dim)
         values = values.view(b, num_tokens, self.num_heads, self.head_dim)
         queries = queries.view(b, num_tokens, self.num_heads, self.head_dim)
 

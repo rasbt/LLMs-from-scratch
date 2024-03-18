@@ -2,18 +2,9 @@
 
 This document provides more information on double-checking your installed Python version and packages. (Please see the [../01_optional-python-setup-preferences](../01_optional-python-setup-preferences) folder for more information on installing Python and Python packages.)
 
-I used the following main libraries in this book. Newer versions of these libraries are likely compatible as well. However, if you experience any problems with the code, you can try these library versions as a fallback:
+I used the following libraries listed [here](https://github.com/rasbt/LLMs-from-scratch/blob/main/requirements.txt) for this book. Newer versions of these libraries are likely compatible as well. However, if you experience any problems with the code, you can try these library versions as a fallback.
 
--  numpy  1.24.3
--  scipy 1.10.1
--  pandas  2.0.2
--  matplotlib  3.7.1
--  jupyterlab  4.0
--  watermark  2.4.2
--  torch  2.0.1
--  tiktoken  0.5.1
-
-To install these requirements most conveniently, you can use the `requirements.txt` file:
+To install these requirements most conveniently, you can use the `requirements.txt` file in the root directory for this code repository and execute the following command:
 
 ```
 pip install -r requirements.txt
@@ -35,7 +26,6 @@ It's also recommended to check the versions in JupyterLab by running the `jupyte
 If you see the following issues, it's likely that your JupyterLab instance is connected to wrong conda environment:
 
 <img src="figures/jupyter-issues.jpg" width="450px">
-
 
 In this case, you may want to use `watermark` to check if you opened the JupyterLab instance in the right conda environment using the `--conda` flag:
 

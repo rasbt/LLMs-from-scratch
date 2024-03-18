@@ -1,5 +1,6 @@
 # Sebastian Raschka, 2024
 
+import importlib
 from os.path import dirname, join, realpath
 from packaging.version import parse as version_parse
 import platform
@@ -16,28 +17,21 @@ def get_packages(pkgs):
     versions = []
     for p in pkgs:
         try:
-            imported = __import__(p)
+            imported = importlib.import_module(p)
             try:
-                versions.append(imported.__version__)
-            except AttributeError:
-                try:
-                    versions.append(imported.version)
-                except AttributeError:
-                    try:
-                        versions.append(imported.version_info)
-                    except AttributeError:
-                        try:
-                            import importlib
-                            import importlib_metadata
-                            imported = importlib.import_module(p)
-                            version = importlib_metadata.version(p)
-                            versions.append(version)
-                        except ImportError:
-                            version = "not installed"
-                            versions.append('0.0')
+                version = (getattr(imported, '__version__', None) or
+                           getattr(imported, 'version', None) or
+                           getattr(imported, 'version_info', None))
+                if version is None:
+                    # If common attributes don't exist, use importlib.metadata
+                    version = importlib.metadata.version(p)
+                versions.append(version)
+            except importlib.metadata.PackageNotFoundError:
+                # Handle case where package is not installed
+                versions.append('0.0')
         except ImportError:
-            print(f'[FAIL]: {p} is not installed and/or cannot be imported.')
-            versions.append('N/A')
+            # Fallback if importlib.import_module fails for unexpected reasons
+            versions.append('0.0')
     return versions
 
 
@@ -50,11 +44,9 @@ def get_requirements_dict():
         for line in f:
             if not line.strip():
                 continue
-            line = line.split("#")[0]
-            print(line)
+            line = line.split("#")[0].strip()
             line = line.split(" ")
-            if not line[0].strip() or not line[-1].strip():
-                continue
+            line = [l.strip() for l in line]
             d[line[0]] = line[-1]
     return d
 
@@ -72,6 +64,10 @@ def check_packages(d):
             print(f'[OK] {pkg_name} {actual_ver}')
 
 
-if __name__ == '__main__':
+def main():
     d = get_requirements_dict()
     check_packages(d)
+
+
+if __name__ == '__main__':
+    main()

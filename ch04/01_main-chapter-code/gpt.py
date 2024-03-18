@@ -235,8 +235,7 @@ def generate_text_simple(model, idx, max_new_tokens, context_size):
     return idx
 
 
-if __name__ == "__main__":
-
+def main():
     GPT_CONFIG_124M = {
         "vocab_size": 50257,  # Vocabulary size
         "ctx_len": 1024,      # Context length
@@ -274,3 +273,7 @@ if __name__ == "__main__":
     print("\nOutput:", out)
     print("Output length:", len(out[0]))
     print("Output text:", decoded_text)
+
+
+if __name__ == "__main__":
+    main()

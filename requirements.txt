@@ -1,6 +1,6 @@
 numpy >= 1.24.3       # ch05
-matplotlib >= 3.7.1.  # ch04, ch05
-jupyterlab >= 4.0.    # all
+matplotlib >= 3.7.1   # ch04, ch05
+jupyterlab >= 4.0     # all
 tensorflow >= 2.15.0  # ch05
 torch >= 2.0.1        # all
 tqdm >= 4.66.1        # ch05

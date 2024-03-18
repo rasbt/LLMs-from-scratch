@@ -25,7 +25,7 @@ def get_packages(pkgs):
                 except AttributeError:
                     try:
                         versions.append(imported.version_info)
-                    except AttributeError:
+                    except:
                         try:
                             import importlib
                             import importlib_metadata
@@ -50,11 +50,9 @@ def get_requirements_dict():
         for line in f:
             if not line.strip():
                 continue
-            line = line.split("#")[0]
-            print(line)
+            line = line.split("#")[0].strip()
             line = line.split(" ")
-            if not line[0].strip() or not line[-1].strip():
-                continue
+            line = [l.strip() for l in line]
             d[line[0]] = line[-1]
     return d
 

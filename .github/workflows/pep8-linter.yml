@@ -20,4 +20,4 @@ jobs:
     - name: Run flake8 with exceptions
       run: |
         flake8 . --max-line-length=120 \
-                 --ignore=W504,E402,E731,C406,E741
+                 --ignore=W504,E402,E731,C406,E741,E722

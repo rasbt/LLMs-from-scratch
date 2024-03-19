@@ -33,6 +33,7 @@ jobs:
     - name: Test Selected Python Scripts
       run: |
         pytest ch04/01_main-chapter-code/tests.py
+        pytest ch05/01_main-chapter-code/tests.py
         pytest appendix-A/02_installing-python-libraries/tests.py
 
     - name: Validate Selected Jupyter Notebooks

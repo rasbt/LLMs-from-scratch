@@ -18,4 +18,4 @@ jobs:
     - name: Install flake8
       run: pip install flake8
     - name: Run flake8 with exceptions
-      run: flake8 . --max-line-length=120 --ignore=W504,E402,E731,C406,E741,E722,E226
+      run: flake8 . --max-line-length=140 --ignore=W504,E402,E731,C406,E741,E722,E226

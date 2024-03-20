@@ -199,16 +199,17 @@ def main(gpt_config, input_prompt, model_size):
     gpt = GPTModel(gpt_config)
     load_weights_into_gpt(gpt, params)
     gpt.to(device)
+    gpt.eval()
 
     tokenizer = tiktoken.get_encoding("gpt2")
 
     token_ids = generate(
         model=gpt,
         idx=text_to_token_ids(input_prompt, tokenizer),
-        max_new_tokens=65,
+        max_new_tokens=30,
         context_size=gpt_config["ctx_len"],
-        top_k=50,
-        temperature=1.5
+        top_k=1,
+        temperature=1.0
     )
 
     print("Output text:\n", token_ids_to_text(token_ids, tokenizer))
@@ -219,7 +220,7 @@ if __name__ == "__main__":
     torch.manual_seed(123)
 
     CHOOSE_MODEL = "gpt2-small"
-    INPUT_PROMPT = "Every effort moves you"
+    INPUT_PROMPT = "Every effort moves"
 
     BASE_CONFIG = {
         "vocab_size": 50257,  # Vocabulary size

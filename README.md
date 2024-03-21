@@ -58,3 +58,34 @@ Alternatively, you can view this and other files on GitHub at [https://github.co
 Shown below is a mental model summarizing the contents covered in this book.
 
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/mental-model.jpg" width="600px">
+
+<br>
+<br>
+&nbsp
+
+### Reader Projects and Showcase
+
+Below are interesting projects by readers of the *Build A Large Language Model From Scratch* book:
+
+- [https://github.com/Intelligence-Manifesto/LLMs-from-scratch](https://github.com/Intelligence-Manifesto/LLMs-from-scratch), a fork of this repository with Chinese translation
+
+<br>
+<br>
+&nbsp
+
+### Citation
+
+If you find this book  or code useful for your research, please consider citing it:
+
+```
+@book{build-llms-from-scratch-book,
+  author       = {Sebastian Raschka},
+  title        = {Build A Large Language Model (From Scratch)},
+  publisher    = {Manning},
+  year         = {2023},
+  isbn         = {978-1633437166},
+  url          = {https://www.manning.com/books/build-a-large-language-model-from-scratch},
+  note         = {Work in progress},
+  github       = {https://github.com/rasbt/LLMs-from-scratch}
+}
+```

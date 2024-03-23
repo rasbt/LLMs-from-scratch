@@ -1,3 +1,8 @@
+ch05/01_main-chapter-code/gpt2/
+ch05/01_main-chapter-code/loss-plot.pdf
+ch05/01_main-chapter-code/model.pth
+ch05/01_main-chapter-code/model_and_optimizer.pth
+ch05/01_main-chapter-code/temperature-plot.pdf
 ch05/02_alternative_weight_loading/checkpoints
 ch05/01_main-chapter-code/the-verdict.txt
 

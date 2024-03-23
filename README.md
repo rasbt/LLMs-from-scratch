@@ -57,11 +57,38 @@ Alternatively, you can view this and other files on GitHub at [https://github.co
 
 Shown below is a mental model summarizing the contents covered in this book.
 
-<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/mental-model.jpg" width="600px">
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/mental-model.jpg" width="650px">
 
 <br>
 <br>
 &nbsp
+
+## Bonus Material
+
+Several folders contain optional materials as a bonus for interested readers:
+
+- **Appendix A:**
+  - [Python Setup Tips](appendix-A/01_optional-python-setup-preferences)
+  - [Installing Libraries Used In This Book](appendix-A/02_installing-python-libraries)
+  - [Docker Environment Setup Guide](appendix-A/04_optional-docker-environment)
+
+- **Chapter 2:**
+  - [Comparing Various Byte Pair Encoding (BPE) Implementations](ch02/02_bonus_bytepair-encoder)
+  - [Understanding the Difference Between Embedding Layers and Linear Layers](ch02/03_bonus_embedding-vs-matmul)
+
+- **Chapter 3:**
+  - [Comparing Efficient Multi-Head Attention Implementations](ch03/02_bonus_efficient-multihead-attention/mha-implementations.ipynb)
+
+- **Chapter 5:**
+  - [Alternative Weight Loading from Hugging Face Model Hub using Transformers](ch05/02_alternative_weight_loading/weight-loading-hf-transformers.ipynb)
+  - [Pretraining GPT on the Project Gutenberg Dataset](ch05/03_bonus_pretraining_on_gutenberg) 
+  - [Adding Bells and Whistles to the Training Loop](ch05/04_learning_rate_schedulers)
+  - [Optimizing Hyperparameters for Pretraining](05_bonus_hparam_tuning)
+
+<br>
+<br>
+&nbsp
+
 
 ### Reader Projects and Showcase
 

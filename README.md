@@ -90,15 +90,6 @@ Several folders contain optional materials as a bonus for interested readers:
 &nbsp
 
 
-### Reader Projects and Showcase
-
-Below are interesting projects by readers of the *Build A Large Language Model From Scratch* book:
-
-- [https://github.com/Intelligence-Manifesto/LLMs-from-scratch](https://github.com/Intelligence-Manifesto/LLMs-from-scratch), a fork of this repository with Chinese translation
-
-<br>
-<br>
-&nbsp
 
 ### Citation
 

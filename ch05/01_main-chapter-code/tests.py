@@ -6,7 +6,7 @@
 # File for internal use (unit tests)
 
 import pytest
-from train import main
+from gpt_train import main
 
 
 @pytest.fixture

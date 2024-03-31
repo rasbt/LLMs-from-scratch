@@ -1,8 +1,5 @@
 # Build a Large Language Model (From Scratch)
 
-[![Python PEP8 Linting](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/pep8-linter.yml/badge.svg)](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/pep8-linter.yml)
-[![Python Tests](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/basic-tests.yml/badge.svg)](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/basic-tests.yml)
-
 This repository contains the code for coding, pretraining, and finetuning a GPT-like LLM and is the official code repository for the book [Build a Large Language Model (From Scratch)](http://mng.bz/orYv).
 
 (If you downloaded the code bundle from the Manning website, please consider visiting the official code repository on GitHub at [https://github.com/rasbt/LLMs-from-scratch](https://github.com/rasbt/LLMs-from-scratch).)
@@ -34,6 +31,11 @@ Alternatively, you can view this and other files on GitHub at [https://github.co
 <br>
 <br>
 
+[![Python PEP8 Linting](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/pep8-linter.yml/badge.svg)](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/pep8-linter.yml)
+[![Python Tests](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/basic-tests.yml/badge.svg)](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/basic-tests.yml)
+
+<br>
+
 | Chapter Title                                              | Main Code (for quick access)                                                                                                    | All Code + Supplementary      |
 |------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|-------------------------------|
 | Ch 1: Understanding Large Language Models                  | No code                                                                                                                         | -                             |
@@ -49,6 +51,8 @@ Alternatively, you can view this and other files on GitHub at [https://github.co
 | Appendix C: Exercises                                      | No code                                                                                                                         | -                             |
 | Appendix D: Adding Bells and Whistles to the Training Loop | - [appendix-D.ipynb](appendix-D/01_main-chapter-code/appendix-D.ipynb)                                                          | [./appendix-D](./appendix-D)  |
 <br>
+
+
 
 > [!TIP]
 > Please see [this](appendix-A/01_optional-python-setup-preferences) and [this](appendix-A/02_installing-python-libraries) folder if you need more guidance on installing Python and Python packages.

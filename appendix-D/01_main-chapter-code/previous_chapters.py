@@ -308,7 +308,7 @@ def plot_losses(epochs_seen, tokens_seen, train_losses, val_losses):
     ax2.set_xlabel("Tokens seen")
 
     fig.tight_layout()  # Adjust layout to make room
-    plt.show()
+    #plt.show()
 
 
 def text_to_token_ids(text, tokenizer):

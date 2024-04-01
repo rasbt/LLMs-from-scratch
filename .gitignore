@@ -1,11 +1,20 @@
-ch05/01_main-chapter-code/gpt2/
+# Graphics
+appendix-D/01_main-chapter-code/1.pdf
+appendix-D/01_main-chapter-code/2.pdf
+appendix-D/01_main-chapter-code/3.pdf
+
 ch05/01_main-chapter-code/loss-plot.pdf
-ch05/01_main-chapter-code/model.pth
-ch05/01_main-chapter-code/model_and_optimizer.pth
 ch05/01_main-chapter-code/temperature-plot.pdf
-ch05/02_alternative_weight_loading/checkpoints
 ch05/01_main-chapter-code/the-verdict.txt
 
+# Checkpoint files
+ch05/01_main-chapter-code/gpt2/
+ch05/02_alternative_weight_loading/checkpoints
+ch05/01_main-chapter-code/model.pth
+ch05/01_main-chapter-code/model_and_optimizer.pth
+
+
+# Temporary OS-related files
 .DS_Store
 
 # Byte-compiled / optimized / DLL files

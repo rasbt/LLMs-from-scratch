@@ -69,5 +69,5 @@ if __name__ == "__main__":
                  for name in files if name.endswith((".txt", ".txt.utf8")) and "raw" not in path]
 
     print(f"{len(all_files)} file(s) to process.")
-    file_counter = combine_files(all_files, args.output_dir)
+    file_counter = combine_files(all_files, args.output_dir, max_size_mb=args.max_size_mb)
     print(f"{file_counter} file(s) saved in {os.path.abspath(args.output_dir)}")

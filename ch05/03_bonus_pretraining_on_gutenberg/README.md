@@ -34,10 +34,10 @@ Follow these steps to download the dataset:
 Next, run the `prepare_dataset.py` script, which concatenates the (as of this writing, 60,173) text files into fewer larger files so that they can be more efficiently transferred and accessed:
 
 ```
-prepare_dataset.py \
-  --data_dir "gutenberg/data" \
+python prepare_dataset.py \
+  --data_dir gutenberg/data \
   --max_size_mb 500 \
-  --output_dir "gutenberg_preprocessed"
+  --output_dir gutenberg_preprocessed
 ```
 
 > [!TIP] 
@@ -53,7 +53,7 @@ prepare_dataset.py \
 You can run the pretraining script as follows. Note that the additional command line arguments are shown with the default values for illustration purposes:
 
 ```bash
-pretraining_simple.py \
+python pretraining_simple.py \
   --data_dir "gutenberg_preprocessed" \
   --n_epochs 1 \
   --batch_size 4 \

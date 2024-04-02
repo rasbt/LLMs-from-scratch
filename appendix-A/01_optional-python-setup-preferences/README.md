@@ -45,7 +45,7 @@ conda config --set solver libmamba
 
 ## 2. Create a new virtual environment
 
-After the installation was successfully completed, I recommend creating a new virtual environment called `dl-fundamentals`, which you can do by executing
+After the installation was successfully completed, I recommend creating a new virtual environment called `LLMs`, which you can do by executing
 
 ```bash
 conda create -n LLMs python=3.10
@@ -58,7 +58,7 @@ conda create -n LLMs python=3.10
 Next, activate your new virtual environment (you have to do it every time you open a new terminal window or tab):
 
 ```bash
-conda activate dl-workshop
+conda activate LLMs
 ```
 
 <img src="figures/activate-env.png" alt="activate-env" width="600px">

@@ -14,7 +14,7 @@ pip install -r requirements.txt
 Then, after completing the installation, please check if all the packages are installed and are up to date using
 
 ```
-python_environment_check.py
+python python_environment_check.py
 ```
 
 <img src="figures/check_1.jpg" width="600px">

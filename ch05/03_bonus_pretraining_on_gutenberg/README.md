@@ -32,7 +32,17 @@ Follow these steps to download the dataset:
 
 &nbsp;
 > [!NOTE]
-> The [`pgcorpus/gutenberg`](https://github.com/pgcorpus/gutenberg) code is compatible with both Linux and macOS. However, Windows users would have to make small adjustments, such as adding `shell=True` to the `subprocess` calls and replacing `rsync`. Alternatively, an easier way to run this code on Windows is by using the "Windows Subsystem for Linux" feature, which allows users to run a Linux environment in Windows. For more information, please read [Microsoft's official installation instruction](https://learn.microsoft.com/en-us/windows/wsl/install) and [tutorial](https://learn.microsoft.com/en-us/training/modules/wsl-introduction/).
+> The [`pgcorpus/gutenberg`](https://github.com/pgcorpus/gutenberg) code is compatible with both Linux and macOS. However, Windows users would have to make small adjustments, such as adding `shell=True` to the `subprocess` calls and replacing `rsync`. Alternatively, an easier way to run this code on Windows is by using the "Windows Subsystem for Linux" (WSL) feature, which allows users to run a Linux environment using Ubuntu in Windows. For more information, please read [Microsoft's official installation instruction](https://learn.microsoft.com/en-us/windows/wsl/install) and [tutorial](https://learn.microsoft.com/en-us/training/modules/wsl-introduction/). When using WSL, please make sure you have Python 3 installed (check via `python3 --version`, or install it for instance with `sudo apt-get install -y python3.10` for Python 3.10) and install following packages there:
+> ```bash
+>sudo apt-get update && \
+>sudo apt-get upgrade -y && \
+>sudo apt-get install -y python3-pip && \
+>sudo apt-get install -y python-is-python3 && \
+>sudo apt-get install -y rsync && \
+> ```
+> Instructions about how to set up Python and installing packages can be found in  [Appendix A: Optional Python Setup Preferences](../../appendix-A/01_optional-python-setup-preferences/README.md) and [Appendix A: Installing Python Libraries](../../appendix-A/02_installing-python-libraries/README.md).
+>
+> Optionally, a Docker image running Ubuntu is provided with this repository. When having cloned the [`pgcorpus/gutenberg`](https://github.com/pgcorpus/gutenberg) GitHub repository, copy the *.devcontainer* folder of this `LLMs-from-scratch` repository and paste it to the locally cloned `gutenberg` repository. Instructions about how to run a container with the provided Docker image can be found in [Appendix A: Optional Docker Environment](../../appendix-A/04_optional-docker-environment/README.md).
 
 &nbsp;
 ### 2) Prepare the dataset

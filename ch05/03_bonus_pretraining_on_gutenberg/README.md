@@ -13,6 +13,8 @@ Please read the [Project Gutenberg Permissions, Licensing and other Common Reque
 
 ### 1) Download the dataset
 
+In this section, we download books from Project Gutenberg using code from the [`pgcorpus/gutenberg`](https://github.com/pgcorpus/gutenberg) GitHub repository.
+
 As of this writing, this will require approximately 50 GB of disk space, but it may be more depending on how much Project Gutenberg grew since then.
 
 Follow these steps to download the dataset:
@@ -27,6 +29,10 @@ Follow these steps to download the dataset:
 4. `python get_data.py`
 
 5. `cd ..`
+
+&nbsp;
+> [!NOTE]
+> The [`pgcorpus/gutenberg`](https://github.com/pgcorpus/gutenberg) code is compatible with both Linux and macOS. However, Windows users would have to make small adjustments, such as adding `shell=True` to the `subprocess` calls and replacing `rsync`. Alternatively, an easier way to run this code on Windows is by using the "Windows Subsystem for Linux" feature, which allows users to run a Linux environment in Windows. For more information, please read [Microsoft's official installation instruction](https://learn.microsoft.com/en-us/windows/wsl/install) and [tutorial](https://learn.microsoft.com/en-us/training/modules/wsl-introduction/).
 
 &nbsp;
 ### 2) Prepare the dataset

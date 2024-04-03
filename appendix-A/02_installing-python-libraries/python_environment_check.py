@@ -3,7 +3,8 @@
 #   - https://www.manning.com/books/build-a-large-language-model-from-scratch
 # Code: https://github.com/rasbt/LLMs-from-scratch
 
-import importlib
+from importlib.metadata import PackageNotFoundError, import_module
+import importlib.metadata
 from os.path import dirname, join, realpath
 from packaging.version import parse as version_parse
 import platform
@@ -20,7 +21,7 @@ def get_packages(pkgs):
     versions = []
     for p in pkgs:
         try:
-            imported = importlib.import_module(p)
+            imported = import_module(p)
             try:
                 version = (getattr(imported, '__version__', None) or
                            getattr(imported, 'version', None) or
@@ -29,7 +30,7 @@ def get_packages(pkgs):
                     # If common attributes don't exist, use importlib.metadata
                     version = importlib.metadata.version(p)
                 versions.append(version)
-            except importlib.metadata.PackageNotFoundError:
+            except PackageNotFoundError:
                 # Handle case where package is not installed
                 versions.append('0.0')
         except ImportError:

@@ -149,7 +149,6 @@ class FeedForward(nn.Module):
             nn.Linear(cfg["emb_dim"], 4 * cfg["emb_dim"]),
             GELU(),
             nn.Linear(4 * cfg["emb_dim"], cfg["emb_dim"]),
-            nn.Dropout(cfg["drop_rate"])
         )
 
     def forward(self, x):

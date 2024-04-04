@@ -250,10 +250,10 @@ if __name__ == "__main__":
     INPUT_PROMPT = "Every effort moves"
 
     BASE_CONFIG = {
-        "vocab_size": 50257,    # Vocabulary size
-        "context_length": 1024, # Context length
-        "drop_rate": 0.0,       # Dropout rate
-        "qkv_bias": True        # Query-key-value bias
+        "vocab_size": 50257,     # Vocabulary size
+        "context_length": 1024,  # Context length
+        "drop_rate": 0.0,        # Dropout rate
+        "qkv_bias": True         # Query-key-value bias
     }
 
     model_configs = {

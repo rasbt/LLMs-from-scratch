@@ -4,14 +4,14 @@ import torch.nn as nn
 
 class CausalAttention(nn.Module):
 
-    def __init__(self, d_in, d_out, block_size, dropout, qkv_bias=False):
+    def __init__(self, d_in, d_out, context_length, dropout, qkv_bias=False):
         super().__init__()
         self.d_out = d_out
         self.W_query = nn.Linear(d_in, d_out, bias=qkv_bias)
         self.W_key = nn.Linear(d_in, d_out, bias=qkv_bias)
         self.W_value = nn.Linear(d_in, d_out, bias=qkv_bias)
         self.dropout = nn.Dropout(dropout)  # New
-        self.register_buffer('mask', torch.triu(torch.ones(block_size, block_size), diagonal=1))  # New
+        self.register_buffer('mask', torch.triu(torch.ones(context_length, context_length), diagonal=1))  # New
 
     def forward(self, x):
         b, num_tokens, d_in = x.shape  # New batch dimension b
@@ -31,10 +31,10 @@ class CausalAttention(nn.Module):
 
 class MultiHeadAttentionWrapper(nn.Module):
 
-    def __init__(self, d_in, d_out, block_size, dropout, num_heads, qkv_bias=False):
+    def __init__(self, d_in, d_out, context_length, dropout, num_heads, qkv_bias=False):
         super().__init__()
         self.heads = nn.ModuleList(
-            [CausalAttention(d_in, d_out, block_size, dropout, qkv_bias)
+            [CausalAttention(d_in, d_out, context_length, dropout, qkv_bias)
              for _ in range(num_heads)]
         )
         self.out_proj = nn.Linear(d_out*num_heads, d_out*num_heads)
@@ -45,7 +45,7 @@ class MultiHeadAttentionWrapper(nn.Module):
 
 
 class MultiHeadAttention(nn.Module):
-    def __init__(self, d_in, d_out, block_size, dropout, num_heads, qkv_bias=False):
+    def __init__(self, d_in, d_out, context_length, dropout, num_heads, qkv_bias=False):
         super().__init__()
         assert d_out % num_heads == 0, "d_out must be divisible by num_heads"
 
@@ -58,7 +58,7 @@ class MultiHeadAttention(nn.Module):
         self.W_value = nn.Linear(d_in, d_out, bias=qkv_bias)
         self.out_proj = nn.Linear(d_out, d_out)  # Linear layer to combine head outputs
         self.dropout = nn.Dropout(dropout)
-        self.register_buffer('mask', torch.triu(torch.ones(block_size, block_size), diagonal=1))
+        self.register_buffer('mask', torch.triu(torch.ones(context_length, context_length), diagonal=1))
 
     def forward(self, x):
         b, num_tokens, d_in = x.shape

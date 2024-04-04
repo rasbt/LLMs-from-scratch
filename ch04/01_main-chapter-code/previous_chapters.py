@@ -48,7 +48,7 @@ def create_dataloader_v1(txt, batch_size=4, max_length=256,
 
 
 class MultiHeadAttention(nn.Module):
-    def __init__(self, d_in, d_out, block_size, dropout, num_heads, qkv_bias=False):
+    def __init__(self, d_in, d_out, context_length, dropout, num_heads, qkv_bias=False):
         super().__init__()
         assert d_out % num_heads == 0, "d_out must be divisible by num_heads"
 
@@ -61,7 +61,7 @@ class MultiHeadAttention(nn.Module):
         self.W_value = nn.Linear(d_in, d_out, bias=qkv_bias)
         self.out_proj = nn.Linear(d_out, d_out)  # Linear layer to combine head outputs
         self.dropout = nn.Dropout(dropout)
-        self.register_buffer('mask', torch.triu(torch.ones(block_size, block_size), diagonal=1))
+        self.register_buffer('mask', torch.triu(torch.ones(context_length, context_length), diagonal=1))
 
     def forward(self, x):
         b, num_tokens, d_in = x.shape

@@ -139,21 +139,21 @@ if __name__ == "__main__":
             HPARAM_CONFIG = dict(zip(HPARAM_GRID.keys(), combination))
 
             GPT_CONFIG_124M = {
-                "vocab_size": 50257,  # Vocabulary size
-                "ctx_len": 256,       # Context length -- shortened from original 1024 tokens
-                "emb_dim": 768,       # Embedding dimension
-                "n_heads": 12,        # Number of attention heads
-                "n_layers": 12,       # Number of layers
+                "vocab_size": 50257,    # Vocabulary size
+                "context_length": 256,  # Context length -- shortened from original 1024 tokens
+                "emb_dim": 768,         # Embedding dimension
+                "n_heads": 12,          # Number of attention heads
+                "n_layers": 12,         # Number of layers
                 "drop_rate": HPARAM_CONFIG["drop_rate"],
-                "qkv_bias": False,    # Query-Key-Value bias
+                "qkv_bias": False,     # Query-Key-Value bias
             }
 
             torch.manual_seed(123)
             train_loader = create_dataloader_v1(
                 text_data[:split_idx],
                 batch_size=HPARAM_CONFIG["batch_size"],
-                max_length=GPT_CONFIG_124M["ctx_len"],
-                stride=GPT_CONFIG_124M["ctx_len"],
+                max_length=GPT_CONFIG_124M["context_length"],
+                stride=GPT_CONFIG_124M["context_length"],
                 drop_last=True,
                 shuffle=True
             )
@@ -161,8 +161,8 @@ if __name__ == "__main__":
             val_loader = create_dataloader_v1(
                 text_data[split_idx:],
                 batch_size=HPARAM_CONFIG["batch_size"],
-                max_length=GPT_CONFIG_124M["ctx_len"],
-                stride=GPT_CONFIG_124M["ctx_len"],
+                max_length=GPT_CONFIG_124M["context_length"],
+                stride=GPT_CONFIG_124M["context_length"],
                 drop_last=False,
                 shuffle=False
             )

@@ -234,7 +234,7 @@ def main(gpt_config, input_prompt, model_size):
         model=gpt,
         idx=text_to_token_ids(input_prompt, tokenizer),
         max_new_tokens=30,
-        context_size=gpt_config["ctx_len"],
+        context_size=gpt_config["context_length"],
         top_k=1,
         temperature=1.0
     )
@@ -250,10 +250,10 @@ if __name__ == "__main__":
     INPUT_PROMPT = "Every effort moves"
 
     BASE_CONFIG = {
-        "vocab_size": 50257,  # Vocabulary size
-        "ctx_len": 1024,      # Context length
-        "drop_rate": 0.0,     # Dropout rate
-        "qkv_bias": True      # Query-key-value bias
+        "vocab_size": 50257,     # Vocabulary size
+        "context_length": 1024,  # Context length
+        "drop_rate": 0.0,        # Dropout rate
+        "qkv_bias": True         # Query-key-value bias
     }
 
     model_configs = {

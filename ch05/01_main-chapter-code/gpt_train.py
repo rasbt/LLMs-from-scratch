@@ -166,8 +166,8 @@ def main(gpt_config, hparams):
     train_loader = create_dataloader_v1(
         text_data[:split_idx],
         batch_size=hparams["batch_size"],
-        max_length=gpt_config["ctx_len"],
-        stride=gpt_config["ctx_len"],
+        max_length=gpt_config["context_length"],
+        stride=gpt_config["context_length"],
         drop_last=True,
         shuffle=True
     )
@@ -175,8 +175,8 @@ def main(gpt_config, hparams):
     val_loader = create_dataloader_v1(
         text_data[split_idx:],
         batch_size=hparams["batch_size"],
-        max_length=gpt_config["ctx_len"],
-        stride=gpt_config["ctx_len"],
+        max_length=gpt_config["context_length"],
+        stride=gpt_config["context_length"],
         drop_last=False,
         shuffle=False
     )
@@ -197,13 +197,13 @@ def main(gpt_config, hparams):
 if __name__ == "__main__":
 
     GPT_CONFIG_124M = {
-        "vocab_size": 50257,  # Vocabulary size
-        "ctx_len": 256,       # Shortened context length (orig: 1024)
-        "emb_dim": 768,       # Embedding dimension
-        "n_heads": 12,        # Number of attention heads
-        "n_layers": 12,       # Number of layers
-        "drop_rate": 0.1,     # Dropout rate
-        "qkv_bias": False     # Query-key-value bias
+        "vocab_size": 50257,    # Vocabulary size
+        "context_length": 256,  # Shortened context length (orig: 1024)
+        "emb_dim": 768,         # Embedding dimension
+        "n_heads": 12,          # Number of attention heads
+        "n_layers": 12,         # Number of layers
+        "drop_rate": 0.1,       # Dropout rate
+        "qkv_bias": False       # Query-key-value bias
     }
 
     OTHER_HPARAMS = {

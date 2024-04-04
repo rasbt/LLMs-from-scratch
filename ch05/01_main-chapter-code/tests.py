@@ -13,10 +13,10 @@ from gpt_train import main
 def gpt_config():
     return {
         "vocab_size": 50257,
-        "ctx_len": 12,      # small for testing efficiency
-        "emb_dim": 32,      # small for testing efficiency
-        "n_heads": 4,       # small for testing efficiency
-        "n_layers": 2,      # small for testing efficiency
+        "context_length": 12,  # small for testing efficiency
+        "emb_dim": 32,         # small for testing efficiency
+        "n_heads": 4,          # small for testing efficiency
+        "n_layers": 2,         # small for testing efficiency
         "drop_rate": 0.1,
         "qkv_bias": False
     }

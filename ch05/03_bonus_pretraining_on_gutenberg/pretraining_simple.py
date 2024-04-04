@@ -100,8 +100,8 @@ def train_model_simple(model, optimizer, device, n_epochs,
                     text_data,
                     train_ratio=train_ratio,
                     batch_size=batch_size,
-                    max_length=GPT_CONFIG_124M["ctx_len"],
-                    stride=GPT_CONFIG_124M["ctx_len"]
+                    max_length=GPT_CONFIG_124M["context_length"],
+                    stride=GPT_CONFIG_124M["context_length"]
                 )
                 print("Training ...")
                 model.train()
@@ -168,13 +168,13 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     GPT_CONFIG_124M = {
-        "vocab_size": 50257,  # Vocabulary size
-        "ctx_len": 1024,      # Context length
-        "emb_dim": 768,       # Embedding dimension
-        "n_heads": 12,        # Number of attention heads
-        "n_layers": 12,       # Number of layers
-        "drop_rate": 0.1,     # Dropout rate
-        "qkv_bias": False     # Query-key-value bias
+        "vocab_size": 50257,     # Vocabulary size
+        "context_length": 1024,  # Context length
+        "emb_dim": 768,          # Embedding dimension
+        "n_heads": 12,           # Number of attention heads
+        "n_layers": 12,          # Number of layers
+        "drop_rate": 0.1,        # Dropout rate
+        "qkv_bias": False        # Query-key-value bias
     }
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

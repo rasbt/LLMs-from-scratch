@@ -164,7 +164,7 @@ class TransformerBlock(nn.Module):
         self.att = MultiHeadAttention(
             d_in=cfg["emb_dim"],
             d_out=cfg["emb_dim"],
-            context_length=cfg["ctx_len"],
+            context_length=cfg["context_length"],
             num_heads=cfg["n_heads"],
             dropout=cfg["drop_rate"],
             qkv_bias=cfg["qkv_bias"])
@@ -195,7 +195,7 @@ class GPTModel(nn.Module):
     def __init__(self, cfg):
         super().__init__()
         self.tok_emb = nn.Embedding(cfg["vocab_size"], cfg["emb_dim"])
-        self.pos_emb = nn.Embedding(cfg["ctx_len"], cfg["emb_dim"])
+        self.pos_emb = nn.Embedding(cfg["context_length"], cfg["emb_dim"])
         self.drop_emb = nn.Dropout(cfg["drop_rate"])
 
         self.trf_blocks = nn.Sequential(

@@ -11,7 +11,7 @@
         "ms-python.python",
         "ms-azuretools.vscode-docker",
         "ms-toolsai.jupyter",
-        "esbenp.prettier-vscode"
+        "yahyabatulu.vscode-markdown-alert"
       ]
     }
   }

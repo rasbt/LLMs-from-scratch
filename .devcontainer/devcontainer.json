@@ -11,7 +11,8 @@
         "ms-python.python",
         "ms-azuretools.vscode-docker",
         "ms-toolsai.jupyter",
-        "yahyabatulu.vscode-markdown-alert"
+        "yahyabatulu.vscode-markdown-alert",
+        "tomoki1207.pdf"
       ]
     }
   }

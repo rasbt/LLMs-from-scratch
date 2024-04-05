@@ -164,18 +164,32 @@ if __name__ == "__main__":
                         help='Learning rate for the optimizer')
     parser.add_argument('--batch_size', type=int, default=4,
                         help='Batch size for training')
+    parser.add_argument('--debug', type=bool, default=False,
+                        help='Uses a very small model for debugging purposes')
 
     args = parser.parse_args()
 
-    GPT_CONFIG_124M = {
-        "vocab_size": 50257,     # Vocabulary size
-        "context_length": 1024,  # Context length
-        "emb_dim": 768,          # Embedding dimension
-        "n_heads": 12,           # Number of attention heads
-        "n_layers": 12,          # Number of layers
-        "drop_rate": 0.1,        # Dropout rate
-        "qkv_bias": False        # Query-key-value bias
-    }
+    if args.debug:
+        GPT_CONFIG_124M = {
+            "vocab_size": 50257,     # Vocabulary size
+            "context_length": 10,    # Context length
+            "emb_dim": 12,           # Embedding dimension
+            "n_heads": 2,            # Number of attention heads
+            "n_layers": 2,           # Number of layers
+            "drop_rate": 0.0,        # Dropout rate
+            "qkv_bias": False        # Query-key-value bias
+        }
+
+    else:
+        GPT_CONFIG_124M = {
+            "vocab_size": 50257,     # Vocabulary size
+            "context_length": 1024,  # Context length
+            "emb_dim": 768,          # Embedding dimension
+            "n_heads": 12,           # Number of attention heads
+            "n_layers": 12,          # Number of layers
+            "drop_rate": 0.1,        # Dropout rate
+            "qkv_bias": False        # Query-key-value bias
+        }
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     torch.manual_seed(123)
@@ -210,8 +224,6 @@ if __name__ == "__main__":
     )
 
     epochs_tensor = torch.linspace(0, args.n_epochs, len(train_losses))
-
-    print("debug", epochs_tensor, tokens_seen, train_losses, val_losses, output_dir)
     plot_losses(epochs_tensor, tokens_seen, train_losses, val_losses, output_dir)
 
     torch.save(model.state_dict(), output_dir / "model_pg_final.pth")

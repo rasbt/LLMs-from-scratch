@@ -48,7 +48,7 @@ pip install -r requirements.txt
 python get_data.py
 ```
 
-6. Go back into the *03_bonus_pretraining_on_gutenberg* folder
+6. Go back into the `03_bonus_pretraining_on_gutenberg` folder
 ```bash
 cd ..
 ```

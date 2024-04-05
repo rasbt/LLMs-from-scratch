@@ -23,7 +23,7 @@ def gpt_config():
 
 
 @pytest.fixture
-def other_hparams():
+def other_settings():
     return {
         "learning_rate": 5e-4,
         "num_epochs": 1,    # small for testing efficiency
@@ -32,8 +32,8 @@ def other_hparams():
     }
 
 
-def test_main(gpt_config, other_hparams):
-    train_losses, val_losses, tokens_seen, model = main(gpt_config, other_hparams)
+def test_main(gpt_config, other_settings):
+    train_losses, val_losses, tokens_seen, model = main(gpt_config, other_settings)
 
     assert len(train_losses) == 39, "Unexpected number of training losses"
     assert len(val_losses) == 39, "Unexpected number of validation losses"

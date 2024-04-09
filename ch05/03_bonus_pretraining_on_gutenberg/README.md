@@ -23,7 +23,7 @@ As of this writing, this will require approximately 50 GB of disk space, but it 
 
 Linux and macOS users can follow these steps to download the dataset (if you are a Windows user, please see the note below):
 
-Set the `03_bonus_pretraining_on_gutenberg` folder as working directory to clone the `gutenberg` repository locally in this folder (this is necessary to run the provided scripts `prepare_dataset.py` and `pretraining_simple.py`). For instance, when being in the `LLMs-from-scratch` repository's folder, navigate into the *03_bonus_pretraining_on_gutenberg* folder via:
+1. Set the `03_bonus_pretraining_on_gutenberg` folder as working directory to clone the `gutenberg` repository locally in this folder (this is necessary to run the provided scripts `prepare_dataset.py` and `pretraining_simple.py`). For instance, when being in the `LLMs-from-scratch` repository's folder, navigate into the *03_bonus_pretraining_on_gutenberg* folder via:
 ```bash
 cd ch05/03_bonus_pretraining_on_gutenberg
 ```

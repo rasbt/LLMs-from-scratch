@@ -3,7 +3,7 @@
 
 This document lists different approaches for setting up your machine and using the code in this repository. I recommend browsing through the different sections from top to bottom and then deciding which approach best suits your needs.
 
-<br>
+&nbsp;
 
 ## Quickstart
 
@@ -13,7 +13,7 @@ If you already have a Python installation on your machine, the quickest way to g
 pip install -r requirements.txt
 ```
 
-<br>
+&nbsp;
 
 ## Setting up Python
 
@@ -25,7 +25,7 @@ If you don't have Python set up on your machine yet, I have written about my per
 
 
 
-<br>
+&nbsp;
 
 ## Using Google Colab
 
@@ -44,13 +44,19 @@ You can optionally run the code on a GPU by changing the *Runtime* as illustrate
 <img src="./figures/3.webp" alt="3" width="700">
 
 
-<br>
+&nbsp;
 
 ## Using DevContainers
 
 Alternatively, If you prefer a development setup that isolates a project's dependencies and configurations, using Docker is a highly effective solution. This approach eliminates the need to manually install software packages and libraries and ensures a consistent development environment. You can find more instructions for setting up Docker and using a DevContainer here in [../appendix-A/04_optional-docker-environment](../appendix-A/04_optional-docker-environment).
 
-<br>
+&nbsp;
+
+## VSCode extensions
+
+If you are using Visual Studio Code (VSCode) as your primary code editor, you can find recommended extensions in the `.vscode` subfolder. To install these, open the `extensions.json` file in VSCode and click the "Install" button in the pop-up menu on the lower right.
+
+&nbsp;
 
 ## Questions?
 

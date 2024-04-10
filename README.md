@@ -24,7 +24,7 @@ The method described in this book for training and developing your own small-but
 
 # Table of Contents
 
-Please note that the `Readme.md` file is a Markdown (`.md`) file. If you have downloaded this code bundle from the Manning website and are viewing it on your local computer, I recommend using a Markdown editor or previewer for proper viewing. If you haven't installed a Markdown editor yet, [MarkText](https://www.marktext.cc) is a good free option.
+Please note that this `README.md` file is a Markdown (`.md`) file. If you have downloaded this code bundle from the Manning website and are viewing it on your local computer, I recommend using a Markdown editor or previewer for proper viewing. If you haven't installed a Markdown editor yet, [MarkText](https://www.marktext.cc) is a good free option.
 
 Alternatively, you can view this and other files on GitHub at [https://github.com/rasbt/LLMs-from-scratch](https://github.com/rasbt/LLMs-from-scratch).
 
@@ -33,6 +33,12 @@ Alternatively, you can view this and other files on GitHub at [https://github.co
 
 [![Python PEP8 Linting](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/pep8-linter.yml/badge.svg)](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/pep8-linter.yml)
 [![Python Tests](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/basic-tests.yml/badge.svg)](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/basic-tests.yml)
+
+<br>
+
+
+> [!TIP]
+> If you're seeking guidance on installing Python and Python packages and setting up your code environment, I suggest reading the [README.md](01_setup/README.md) file located in the [1st_setup](1st_setup) directory.
 
 <br>
 
@@ -46,16 +52,11 @@ Alternatively, you can view this and other files on GitHub at [https://github.co
 | Ch 6: Finetuning for Text Classification                   | Q2 2024                                                                                                                         | ...                           |
 | Ch 7: Finetuning with Human Feedback                       | Q2 2024                                                                                                                         | ...                           |
 | Ch 8: Using Large Language Models in Practice              | Q2/3 2024                                                                                                                       | ...                           |
-| Appendix A: Introduction to PyTorch                        | - [code-part1.ipynb](appendix-A/03_main-chapter-code/code-part1.ipynb)<br/>- [code-part2.ipynb](appendix-A/03_main-chapter-code/code-part2.ipynb)<br/>- [DDP-script.py](appendix-A/03_main-chapter-code/DDP-script.py)<br/>- [exercise-solutions.ipynb](appendix-A/03_main-chapter-code/exercise-solutions.ipynb) | [./appendix-A](./appendix-A) |
+| Appendix A: Introduction to PyTorch                        | - [code-part1.ipynb](appendix-A/01_main-chapter-code/code-part1.ipynb)<br/>- [code-part2.ipynb](appendix-A/01_main-chapter-code/code-part2.ipynb)<br/>- [DDP-script.py](appendix-A/01_main-chapter-code/DDP-script.py)<br/>- [exercise-solutions.ipynb](appendix-A/01_main-chapter-code/exercise-solutions.ipynb) | [./appendix-A](./appendix-A) |
 | Appendix B: References and Further Reading                 | No code                                                                                                                         | -                             |
 | Appendix C: Exercises                                      | No code                                                                                                                         | -                             |
 | Appendix D: Adding Bells and Whistles to the Training Loop | - [appendix-D.ipynb](appendix-D/01_main-chapter-code/appendix-D.ipynb)                                                          | [./appendix-D](./appendix-D)  |
 |<br>|||
-
-
-
-> [!TIP]
-> Please see [this](appendix-A/01_optional-python-setup-preferences) and [this](appendix-A/02_installing-python-libraries) folder if you need more guidance on installing Python and Python packages.
 
 
 
@@ -88,7 +89,7 @@ Several folders contain optional materials as a bonus for interested readers:
 
 - **Chapter 5:**
   - [Alternative Weight Loading from Hugging Face Model Hub using Transformers](ch05/02_alternative_weight_loading/weight-loading-hf-transformers.ipynb)
-  - [Pretraining GPT on the Project Gutenberg Dataset](ch05/03_bonus_pretraining_on_gutenberg) 
+  - [Pretraining GPT on the Project Gutenberg Dataset](ch05/03_bonus_pretraining_on_gutenberg)
   - [Adding Bells and Whistles to the Training Loop](ch05/04_learning_rate_schedulers)
   - [Optimizing Hyperparameters for Pretraining](05_bonus_hparam_tuning)
 

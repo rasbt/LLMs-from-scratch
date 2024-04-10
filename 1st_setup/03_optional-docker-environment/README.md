@@ -27,10 +27,8 @@ git clone https://github.com/rasbt/LLMs-from-scratch.git
 cd LLMs-from-scratch
 ```
 
-2. Move the `.devcontainer` file to the main `LLMs-from-scratch` project directory.
-
 ```bash
-mv appendix-A/04_optional-docker-environment/.devcontainer ./
+mv 1st_setup/03_optional-docker-environment/.devcontainer ./
 ```
 
 3. In Docker Desktop, make sure that ***desktop-linux* builder** is running and will be used to build the Docker container (see *Docker Desktop* -> *Change settings* -> *Builders* -> *desktop-linux* -> *...* -> *Use*)

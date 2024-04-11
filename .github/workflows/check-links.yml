@@ -1,0 +1,24 @@
+name: Check Markdown Links
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check-links:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install Markdown Link Checker
+        run: npm install -g markdown-link-check
+
+      - name: Find Markdown Files and Check Links
+        run: |
+          find . -name '*.md' -exec markdown-link-check {} \;

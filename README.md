@@ -38,7 +38,7 @@ Alternatively, you can view this and other files on GitHub at [https://github.co
 
 
 > [!TIP]
-> If you're seeking guidance on installing Python and Python packages and setting up your code environment, I suggest reading the [README.md](01_setup/README.md) file located in the [1st_setup](1st_setup) directory.
+> If you're seeking guidance on installing Python and Python packages and setting up your code environment, I suggest reading the [README.md](setup/README.md) file located in the [setup](setup) directory.
 
 <br>
 

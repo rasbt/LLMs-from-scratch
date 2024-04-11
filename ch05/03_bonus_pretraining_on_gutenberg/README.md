@@ -71,9 +71,9 @@ sudo apt-get install -y rsync && \
 ```
 
 > [!NOTE]
-> Instructions about how to set up Python and installing packages can be found in  [Appendix A: Optional Python Setup Preferences](../../appendix-A/01_optional-python-setup-preferences/README.md) and [Appendix A: Installing Python Libraries](../../appendix-A/02_installing-python-libraries/README.md).
+> Instructions about how to set up Python and installing packages can be found in [Optional Python Setup Preferences](../../setup/01_optional-python-setup-preferences/README.md) and [Installing Python Libraries](../../setup/02_installing-python-libraries/README.md).
 >
-> Optionally, a Docker image running Ubuntu is provided with this repository. Instructions about how to run a container with the provided Docker image can be found in [Appendix A: Optional Docker Environment](../../appendix-A/04_optional-docker-environment/README.md).
+> Optionally, a Docker image running Ubuntu is provided with this repository. Instructions about how to run a container with the provided Docker image can be found in [Optional Docker Environment](../../setup/03_optional-docker-environment/README.md).
 
 &nbsp;
 ### 2) Prepare the dataset

@@ -19,6 +19,17 @@ jobs:
       - name: Install Markdown Link Checker
         run: npm install -g markdown-link-check
 
+      - name: Create config for markdown link checker
+        run: |
+          echo '{
+            "projectBaseUrl":"${{ github.workspace }}",
+            "ignorePatterns": [
+              {
+                "pattern": "^#"
+              }
+            ]
+          }' > $GITHUB_WORKSPACE/md_checker_config.json
+
       - name: Find Markdown Files and Check Links
         run: |
-          find . -name '*.md' -exec markdown-link-check {} \;
+          find . -name \*.md -print0 | xargs -0 -n1 markdown-link-check -c $GITHUB_WORKSPACE/md_checker_config.json

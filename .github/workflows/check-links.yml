@@ -21,11 +21,4 @@ jobs:
 
       - name: Find Markdown Files and Check Links
         run: |
-          find . -name '*.md' | while read line; do
-            echo "Checking $line"
-            markdown-link-check "$line" --config .github/markdown-link-check-config.json
-            if [ $? -ne 0 ]; then
-              echo "::error ::Broken links detected"
-              exit 1
-            fi
-          done
+          find . -name '*.md' -exec markdown-link-check {} \;

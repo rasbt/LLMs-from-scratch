@@ -30,15 +30,16 @@ Alternatively, you can view this and other files on GitHub at [https://github.co
 
 <br>
 <br>
+<!--  -->
+
+> [!TIP]
+> If you're seeking guidance on installing Python and Python packages and setting up your code environment, I suggest reading the [README.md](setup/README.md) file located in the [setup](setup) directory.
+
+<br>
 
 [![Python PEP8 Linting](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/pep8-linter.yml/badge.svg)](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/pep8-linter.yml)
 [![Python Tests](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/basic-tests.yml/badge.svg)](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/basic-tests.yml)
 
-<br>
-
-
-> [!TIP]
-> If you're seeking guidance on installing Python and Python packages and setting up your code environment, I suggest reading the [README.md](setup/README.md) file located in the [setup](setup) directory.
 
 <br>
 

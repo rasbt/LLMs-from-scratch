@@ -1,4 +1,4 @@
-name: Check Markdown Links
+name: Check hyperlinks
 
 on:
   push:

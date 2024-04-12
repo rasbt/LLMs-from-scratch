@@ -1,4 +1,4 @@
-name: Check Markdown Links
+name: Check hyperlinks
 
 on:
   push:
@@ -9,27 +9,22 @@ on:
       - main
 
 jobs:
-  check-links:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
-      - name: Install Markdown Link Checker
-        run: npm install -g markdown-link-check
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
 
-      - name: Create config for markdown link checker
-        run: |
-          echo '{
-            "projectBaseUrl":"${{ github.workspace }}",
-            "ignorePatterns": [
-              {
-                "pattern": "^#"
-              }
-            ]
-          }' > $GITHUB_WORKSPACE/md_checker_config.json
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest pytest-check-links
 
-      - name: Find Markdown Files and Check Links
-        run: |
-          find . -name \*.md -print0 | xargs -0 -n1 markdown-link-check -c $GITHUB_WORKSPACE/md_checker_config.json
+    - name: Check links
+      run: |
+        pytest --check-links ./

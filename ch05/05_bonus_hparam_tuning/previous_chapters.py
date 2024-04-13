@@ -19,12 +19,11 @@ from torch.utils.data import Dataset, DataLoader
 
 class GPTDatasetV1(Dataset):
     def __init__(self, txt, tokenizer, max_length, stride):
-        self.tokenizer = tokenizer
         self.input_ids = []
         self.target_ids = []
 
         # Tokenize the entire text
-        token_ids = self.tokenizer.encode(txt)
+        token_ids = tokenizer.encode(txt)
 
         # Use a sliding window to chunk the book into overlapping sequences of max_length
         for i in range(0, len(token_ids) - max_length, stride):
@@ -46,11 +45,11 @@ def create_dataloader_v1(txt, batch_size=4, max_length=256,
     tokenizer = tiktoken.get_encoding("gpt2")
 
     # Create dataset
-    dataset = GPTDatasetV1(txt, tokenizer, max_length, stride)
+    dataset = GPTDatasetV1(txt, tokenizer, max_length, stride, num_workers=0)
 
     # Create dataloader
     dataloader = DataLoader(
-        dataset, batch_size=batch_size, shuffle=shuffle, drop_last=drop_last)
+        dataset, batch_size=batch_size, shuffle=shuffle, drop_last=drop_last, num_workers=0)
 
     return dataloader
 

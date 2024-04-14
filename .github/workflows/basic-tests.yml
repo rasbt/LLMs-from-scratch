@@ -1,4 +1,4 @@
-name: Test Python Scripts and Notebooks
+name: Code tests
 
 on:
   push:

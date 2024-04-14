@@ -1,4 +1,4 @@
-name: Python PEP8 Linting
+name: PEP8 Style checks
 
 on:
   push:

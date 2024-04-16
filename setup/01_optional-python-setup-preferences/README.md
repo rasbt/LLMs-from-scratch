@@ -15,7 +15,7 @@ There are several different ways you can install Python and set up your computin
 
 Download miniforge from the GitHub repository [here](https://github.com/conda-forge/miniforge).
 
-<img src="figures/download.png" alt="download" width="600px">
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/01_optional-python-setup-preferences/download.png" alt="download" width="600px">
 
 Depending on your operating system, this should download either an `.sh` (macOS, Linux) or `.exe` file (Windows).
 
@@ -27,7 +27,7 @@ sh ~/Desktop/Miniforge3-MacOSX-arm64.sh
 
 where `Desktop/` is the folder where the Miniforge installer was downloaded to. On your computer, you may have to replace it with `Downloads/`.
 
-<img src="figures/miniforge-install.png" alt="miniforge-install" width="600px">
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/01_optional-python-setup-preferences/miniforge-install.png" alt="miniforge-install" width="600px">
 
 Next, step through the download instructions, confirming with "Enter".
 
@@ -51,7 +51,7 @@ After the installation was successfully completed, I recommend creating a new vi
 conda create -n LLMs python=3.10
 ```
 
-<img src="figures/new-env.png" alt="new-env" width="600px">
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/01_optional-python-setup-preferences/new-env.png" alt="new-env" width="600px">
 
 > Many scientific computing libraries do not immediately support the newest version of Python. Therefore, when installing PyTorch, it's advisable to use a version of Python that is one or two releases older. For instance, if the latest version of Python is 3.13, using Python 3.10 or 3.11 is recommended.
 
@@ -61,7 +61,7 @@ Next, activate your new virtual environment (you have to do it every time you op
 conda activate LLMs
 ```
 
-<img src="figures/activate-env.png" alt="activate-env" width="600px">
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/01_optional-python-setup-preferences/activate-env.png" alt="activate-env" width="600px">
 
 <br>
 <br>
@@ -83,13 +83,13 @@ To install new Python libraries, you can now use the `conda` package installer. 
 conda install jupyterlab watermark
 ```
 
-<img src="figures/conda-install.png" alt="conda-install" width="600px">
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/01_optional-python-setup-preferences/conda-install.png" alt="conda-install" width="600px">
 
 
 
 You can also still use `pip` to install libraries. By default, `pip` should be linked to your new `LLms` conda environment:
 
-<img src="figures/check-pip.png" alt="check-pip" width="600px">
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/01_optional-python-setup-preferences/check-pip.png" alt="check-pip" width="600px">
 
 <br>
 <br>
@@ -106,7 +106,7 @@ However, since PyTorch is a comprehensive library featuring CPU- and GPU-compati
 
 It's also highly recommended to consult the installation guide menu on the official PyTorch website at [https://pytorch.org](https://pytorch.org).
 
-<img src="figures/pytorch-installer.jpg" width="600px">
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/01_optional-python-setup-preferences/pytorch-installer.jpg" width="600px">
 
 
 

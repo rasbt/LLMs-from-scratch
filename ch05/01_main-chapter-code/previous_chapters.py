@@ -4,7 +4,7 @@
 # Code: https://github.com/rasbt/LLMs-from-scratch
 #
 # This file collects all the relevant code that we covered thus far
-# throughout Chapters 2-5.
+# throughout Chapters 2-4.
 # This file can be run as a standalone script.
 
 import tiktoken

@@ -237,26 +237,31 @@ def train_classifier_simple(model, train_loader, val_loader, optimizer, device, 
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model_size", type=str, default="gpt2-small (124M)",
-                        help=(
-                              "Which GPT model to use. Options:"
-                              " 'gpt2-small (124M)', 'gpt2-medium (355M)',"
-                              " 'gpt2-large (774M)', 'gpt2-xl (1558M)'."
-                             )
-                        )
-    parser.add_argument("--trainable_layers", type=str, default="last_block",
-                        help=(
-                              "Which layers to train. Options:"
-                              " 'all', 'last_block', 'last_layer'."
-                             )
-                        )
-
-    parser.add_argument("--trainable_token", type=str, default="last",
-                        help=(
-                              "Which token to train. Options:"
-                              " 'first', 'last'."
-                             )
-                        )
+    parser.add_argument(
+        "--model_size", 
+        type=str, 
+        default="gpt2-small (124M)",
+        help=(
+            "Which GPT model to use. Options: 'gpt2-small (124M)', 'gpt2-medium (355M)',"
+            " 'gpt2-large (774M)', 'gpt2-xl (1558M)'."
+        )
+    )
+    parser.add_argument(
+        "--trainable_layers", 
+        type=str, 
+        default="last_block",
+        help=(
+            "Which layers to train. Options: 'all', 'last_block', 'last_layer'."
+        )
+    )
+    parser.add_argument(
+        "--trainable_token", 
+        type=str, 
+        default="last",
+        help=(
+            "Which token to train. Options: 'first', 'last'."
+        )
+    )
 
     args = parser.parse_args()
 

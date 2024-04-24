@@ -254,7 +254,7 @@ if __name__ == "__main__":
         help=(
             "Whether to use 'pretrained' or 'random' weights."
         )
-    )    
+    )
     parser.add_argument(
         "--trainable_layers",
         type=str,
@@ -289,7 +289,6 @@ if __name__ == "__main__":
         args.trainable_token = -1
     else:
         raise ValueError("Invalid --trainable_token argument")
-
 
     ###############################
     # Load model

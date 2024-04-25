@@ -89,6 +89,9 @@ Several folders contain optional materials as a bonus for interested readers:
   - [Pretraining GPT on the Project Gutenberg Dataset](ch05/03_bonus_pretraining_on_gutenberg)
   - [Adding Bells and Whistles to the Training Loop](ch05/04_learning_rate_schedulers)
   - [Optimizing Hyperparameters for Pretraining](ch05/05_bonus_hparam_tuning)
+- **Chapter 6:**
+  - [Additional experiments finetuning different layers and using larger models](ch06/02_bonus_additional-experiments) 	
+  - [Finetuning different models on 50k IMDB movie review dataset](ch06/03_bonus_imdb-classification) 	
 
 <br>
 <br>

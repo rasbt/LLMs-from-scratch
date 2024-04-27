@@ -22,7 +22,9 @@ For example,
 
 &nbsp;
 
-### Usage:
+### Usage
+
+You can use the following code to reproduce the experiments:
 
 - Row 1: `python additional-experiments.py`
 - Row 2: `python additional-experiments.py --trainable_token first` 
@@ -32,3 +34,21 @@ For example,
 - Row 6: `python additional-experiments.py --model_size gpt2-large (774M)`
 - Row 7: `python additional-experiments.py --weights random --trainable_layers all`
 - Row 8: `python additional-experiments.py --context_length "model_context_length"`
+
+I've kept the LLM and dataset small on purpose, so you can run the training on a regular laptop like a MacBook Air M3 in about 15 minutes in case you don't have access to a GPU.
+  
+&nbsp;
+
+### Interpretation
+
+1. **Training the Last vs. First Output Token (Row 1 vs. 2)**: Training the last output token results in significantly better performance compared to the first. This improvement is expected due to the causal self-attention mask.
+
+2. **Training the Last Transformer Block vs. Last Layer (Row 1 vs. 3)**: Training the entire last transformer block is much more effective than training only the last layer.
+
+3. **Training All Layers vs. Last Transformer Block (Row 1 vs. 4)**: Training all layers shows a modest improvement of 2% over just training the last transformer block, but it requires almost three times longer in terms of training duration.
+
+4. **Using Larger Pretrained Models (Row 1 vs 5, and Row 1 vs. 6)**: Employing a 3x larger pretrained model leads to worse results. However, using a 5x larger model improves performance compared to the initial model, as was anticipated.
+
+5. **Using a Model with Random Weights vs. Pretrained Weights (Row 1 vs. 7)**: Utilizing a model with random weights yields results that are only slightly worse by 1.3% compared to using pretrained weights.
+
+6. **Padding Input to Full Context Length vs. Longest Training Example (Row 1 vs. 8)**: Padding the input to the full supported context length results is significantly worse.

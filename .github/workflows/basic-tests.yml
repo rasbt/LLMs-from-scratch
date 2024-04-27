@@ -22,7 +22,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.10'
+        python-version: "3.10"
 
     - name: Install dependencies
       run: |
@@ -40,3 +40,4 @@ jobs:
       run: |
         pytest --nbval ch02/01_main-chapter-code/dataloader.ipynb
         pytest --nbval ch03/01_main-chapter-code/multihead-attention.ipynb
+        pytest --nbval ch02/04_bonus_dataloader-intuition/dataloader-intuition.ipynb

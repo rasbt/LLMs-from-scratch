@@ -15,6 +15,7 @@ ch05/01_main-chapter-code/model_and_optimizer.pth
 ch05/03_bonus_pretraining_on_gutenberg/model_checkpoints
 
 # Datasets
+ch02/01_main-chapter-code/number-data.txt
 ch05/03_bonus_pretraining_on_gutenberg/gutenberg
 ch05/03_bonus_pretraining_on_gutenberg/gutenberg_preprocessed
 

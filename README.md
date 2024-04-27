@@ -82,6 +82,7 @@ Several folders contain optional materials as a bonus for interested readers:
 - **Chapter 2:**
   - [Comparing Various Byte Pair Encoding (BPE) Implementations](ch02/02_bonus_bytepair-encoder)
   - [Understanding the Difference Between Embedding Layers and Linear Layers](ch02/03_bonus_embedding-vs-matmul)
+  - [Dataloader Intuition with Simple Numbers](ch02/04_bonus_dataloader-intuition)
 - **Chapter 3:**
   - [Comparing Efficient Multi-Head Attention Implementations](ch03/02_bonus_efficient-multihead-attention/mha-implementations.ipynb)
 - **Chapter 5:**
@@ -91,7 +92,7 @@ Several folders contain optional materials as a bonus for interested readers:
   - [Optimizing Hyperparameters for Pretraining](ch05/05_bonus_hparam_tuning)
 - **Chapter 6:**
   - [Additional experiments finetuning different layers and using larger models](ch06/02_bonus_additional-experiments) 	
-  - [Finetuning different models on 50k IMDB movie review dataset](ch06/03_bonus_imdb-classification) 	
+  - [Finetuning different models on 50k IMDB movie review dataset](ch06/03_bonus_imdb-classification)
 
 <br>
 <br>

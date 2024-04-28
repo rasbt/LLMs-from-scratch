@@ -1,4 +1,4 @@
-name: Code tests on Linux
+name: Code tests (Linux)
 
 on:
   push:
@@ -7,6 +7,7 @@ on:
       - '**/*.py'    # Run workflow for changes in Python files
       - '**/*.ipynb'
       - '**/*.yaml'
+      - '**/*.yml'
       - '**/*.sh'
   pull_request:
     branches: [ main ]
@@ -14,6 +15,7 @@ on:
       - '**/*.py'
       - '**/*.ipynb'
       - '**/*.yaml'
+      - '**/*.yml'
       - '**/*.sh'
 
 jobs:

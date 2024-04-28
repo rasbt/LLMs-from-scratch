@@ -169,21 +169,21 @@ class TransformerBlock(nn.Module):
         self.ff = FeedForward(cfg)
         self.norm1 = LayerNorm(cfg["emb_dim"])
         self.norm2 = LayerNorm(cfg["emb_dim"])
-        self.drop_resid = nn.Dropout(cfg["drop_rate"])
+        self.drop_shortcut = nn.Dropout(cfg["drop_rate"])
 
     def forward(self, x):
         # Shortcut connection for attention block
         shortcut = x
         x = self.norm1(x)
         x = self.att(x)   # Shape [batch_size, num_tokens, emb_size]
-        x = self.drop_resid(x)
+        x = self.drop_shortcut(x)
         x = x + shortcut  # Add the original input back
 
         # Shortcut connection for feed-forward block
         shortcut = x
         x = self.norm2(x)
         x = self.ff(x)
-        x = self.drop_resid(x)
+        x = self.drop_shortcut(x)
         x = x + shortcut  # Add the original input back
 
         return x

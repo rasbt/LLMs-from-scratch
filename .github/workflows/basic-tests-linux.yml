@@ -1,4 +1,4 @@
-name: Code tests on Linux
+name: Code tests (Linux)
 
 on:
   push:

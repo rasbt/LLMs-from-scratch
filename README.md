@@ -16,7 +16,6 @@ The method described in this book for training and developing your own small-but
 - Link to the official [source code repository](https://github.com/rasbt/LLMs-from-scratch)
 - [Link to the early access version](http://mng.bz/orYv) at Manning
 - ISBN 9781633437166
-- Publication in Early 2025 (estimated)
 
 <br>
 <br>
@@ -37,16 +36,17 @@ Alternatively, you can view this and other files on GitHub at [https://github.co
 
 <br>
 
-[![Code tests on Linux](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/basic-tests-linux.yml/badge.svg)](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/basic-tests-linux.yml)
-[![Code tests on Windows](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/basic-tests-windows.yml/badge.svg?123)](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/basic-tests-windows.yml)
-[![Code tests on macOS](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/basic-tests-macos.yml/badge.svg)](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/basic-tests-macos.yml)
-[![Python PEP8 linting](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/pep8-linter.yml/badge.svg)](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/pep8-linter.yml)
+[![Code tests (Linux)](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/basic-tests-linux.yml/badge.svg)](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/basic-tests-linux.yml)
+[![Code tests (Windows)](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/basic-tests-windows.yml/badge.svg)](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/basic-tests-windows.yml)
+[![Code tests (macOS)](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/basic-tests-macos.yml/badge.svg)](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/basic-tests-macos.yml)
+[![Check Python style](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/pep8-linter.yml/badge.svg)](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/pep8-linter.yml)
 [![Check hyperlinks](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/check-links.yml/badge.svg)](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/check-links.yml)
 
 <br>
 
 | Chapter Title                                              | Main Code (for quick access)                                                                                                    | All Code + Supplementary      |
 |------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|-------------------------------|
+| [Setup recommendations](setup)                  | -                                                                                                                         | -                             |
 | Ch 1: Understanding Large Language Models                  | No code                                                                                                                         | -                             |
 | Ch 2: Working with Text Data                               | - [ch02.ipynb](ch02/01_main-chapter-code/ch02.ipynb)<br/>- [dataloader.ipynb](ch02/01_main-chapter-code/dataloader.ipynb) (summary)<br/>- [exercise-solutions.ipynb](ch02/01_main-chapter-code/exercise-solutions.ipynb)               | [./ch02](./ch02)              |
 | Ch 3: Coding Attention Mechanisms                          | - [ch03.ipynb](ch03/01_main-chapter-code/ch03.ipynb)<br/>- [multihead-attention.ipynb](ch03/01_main-chapter-code/multihead-attention.ipynb) (summary) <br/>- [exercise-solutions.ipynb](ch03/01_main-chapter-code/exercise-solutions.ipynb)| [./ch03](./ch03)              |
@@ -93,7 +93,7 @@ Several folders contain optional materials as a bonus for interested readers:
   - [Adding Bells and Whistles to the Training Loop](ch05/04_learning_rate_schedulers)
   - [Optimizing Hyperparameters for Pretraining](ch05/05_bonus_hparam_tuning)
 - **Chapter 6:**
-  - [Additional experiments finetuning different layers and using larger models](ch06/02_bonus_additional-experiments) 	
+  - [Additional experiments finetuning different layers and using larger models](ch06/02_bonus_additional-experiments)
   - [Finetuning different models on 50k IMDB movie review dataset](ch06/03_bonus_imdb-classification)
 
 <br>

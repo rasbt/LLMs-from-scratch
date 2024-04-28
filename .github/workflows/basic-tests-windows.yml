@@ -1,4 +1,4 @@
-name: Code tests on Windows
+name: Code tests (Windows)
 
 on:
   push:

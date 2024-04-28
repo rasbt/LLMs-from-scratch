@@ -1,4 +1,4 @@
-name: Code tests on macOS
+name: Code tests (macOS)
 
 on:
   push:

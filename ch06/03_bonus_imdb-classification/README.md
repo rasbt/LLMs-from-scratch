@@ -97,6 +97,15 @@ Test accuracy: 90.81%
 
 ---
 
+A 355M parameter encoder-style [RoBERTa](https://arxiv.org/abs/1907.11692) model, starting for the pretrained weights and only training the last transformer block plus output layers:
+
+
+```bash
+python train-bert-hf.py --bert_model roberta
+```
+
+---
+
 A scikit-learn Logistic Regression model as a basline.
 
 ```bash

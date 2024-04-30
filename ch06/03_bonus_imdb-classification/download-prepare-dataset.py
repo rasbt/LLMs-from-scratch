@@ -68,7 +68,7 @@ def partition_and_save(df, sizes=(35000, 5000, 10000)):
 
     # Save to CSV files
     train.to_csv("train.csv", index=False)
-    val.to_csv("val.csv", index=False)
+    val.to_csv("validation.csv", index=False)
     test.to_csv("test.csv", index=False)
 
 

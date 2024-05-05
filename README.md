@@ -58,7 +58,7 @@ Alternatively, you can view this and other files on GitHub at [https://github.co
 | Appendix B: References and Further Reading                 | No code                                                                                                                         | -                             |
 | Appendix C: Exercise Solutions                             | No code                                                                                                                         | -                             |
 | Appendix D: Adding Bells and Whistles to the Training Loop | - [appendix-D.ipynb](appendix-D/01_main-chapter-code/appendix-D.ipynb)                                                          | [./appendix-D](./appendix-D)  |
-| Appendix E: Parameter-efficient Finetuning with LoRA       | - Q2 2024                                                                                                                       | ...                           |
+| Appendix E: Parameter-efficient Finetuning with LoRA       | - [appendix-E.ipynb](appendix-E/01_main-chapter-code/appendix-E.ipynb)                                                 | [./appendix-E](./appendix-E) |
 
 
 

@@ -139,7 +139,7 @@ def instantiate_model(choose_model, load_weights):
 
 def calc_loss_batch(input_batch, target_batch, model, device, trainable_token=-1):
     input_batch, target_batch = input_batch.to(device), target_batch.to(device)
-    logits = model(input_batch)[:, trainable_token, :]  # Logits of last ouput token
+    logits = model(input_batch)[:, trainable_token, :]  # Logits of last output token
     loss = torch.nn.functional.cross_entropy(logits, target_batch)
     return loss
 
@@ -175,7 +175,7 @@ def calc_accuracy_loader(data_loader, model, device, num_batches=None, trainable
     for i, (input_batch, target_batch) in enumerate(data_loader):
         if i < num_batches:
             input_batch, target_batch = input_batch.to(device), target_batch.to(device)
-            logits = model(input_batch)[:, trainable_token, :]  # Logits of last ouput token
+            logits = model(input_batch)[:, trainable_token, :]  # Logits of last output token
             predicted_labels = torch.argmax(logits, dim=-1)
 
             num_examples += predicted_labels.shape[0]

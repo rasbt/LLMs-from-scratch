@@ -20,6 +20,9 @@ ch05/03_bonus_pretraining_on_gutenberg/gutenberg
 ch05/03_bonus_pretraining_on_gutenberg/gutenberg_preprocessed
 ch06/01_main-chapter-code/sms_spam_collection.zip
 ch06/01_main-chapter-code/sms_spam_collection
+ch06/01_main-chapter-code/test.csv
+ch06/01_main-chapter-code/train.csv
+ch06/01_main-chapter-code/validation.csv
 
 # Temporary OS-related files
 .DS_Store

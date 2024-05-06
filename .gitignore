@@ -18,6 +18,8 @@ ch05/03_bonus_pretraining_on_gutenberg/model_checkpoints
 ch02/01_main-chapter-code/number-data.txt
 ch05/03_bonus_pretraining_on_gutenberg/gutenberg
 ch05/03_bonus_pretraining_on_gutenberg/gutenberg_preprocessed
+ch06/01_main-chapter-code/sms_spam_collection.zip
+ch06/01_main-chapter-code/sms_spam_collection
 
 # Temporary OS-related files
 .DS_Store

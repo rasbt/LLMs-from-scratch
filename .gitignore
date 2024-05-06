@@ -13,6 +13,7 @@ ch05/02_alternative_weight_loading/checkpoints
 ch05/01_main-chapter-code/model.pth
 ch05/01_main-chapter-code/model_and_optimizer.pth
 ch05/03_bonus_pretraining_on_gutenberg/model_checkpoints
+ch06/01_main-chapter-code/gpt2
 
 # Datasets
 ch02/01_main-chapter-code/number-data.txt

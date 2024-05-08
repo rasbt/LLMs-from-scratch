@@ -61,18 +61,21 @@ Alternatively, you can view this and other files on GitHub at [https://github.co
 | Appendix E: Parameter-efficient Finetuning with LoRA       | - [appendix-E.ipynb](appendix-E/01_main-chapter-code/appendix-E.ipynb)                                                 | [./appendix-E](./appendix-E) |
 
 
-
 <br>
-<br>
+&nbsp
 
 Shown below is a mental model summarizing the contents covered in this book.
 
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/mental-model.jpg" width="650px">
 
 <br>
-<br>
 &nbsp
 
+## Hardware Requirements
+
+The code in the main chapters of this book is designed to run on conventional laptops within a reasonable timeframe and does not require specialized hardware. This approach ensures that a wide audience can engage with the material. Additionally, the code automatically utilizes GPUs if they are available.
+
+&nbsp;
 ## Bonus Material
 
 Several folders contain optional materials as a bonus for interested readers:
@@ -96,7 +99,6 @@ Several folders contain optional materials as a bonus for interested readers:
   - [Additional experiments finetuning different layers and using larger models](ch06/02_bonus_additional-experiments)
   - [Finetuning different models on 50k IMDB movie review dataset](ch06/03_bonus_imdb-classification)
 
-<br>
 <br>
 &nbsp
 

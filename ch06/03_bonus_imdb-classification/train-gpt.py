@@ -259,7 +259,7 @@ if __name__ == "__main__":
     elif args.model_size == "gpt2-large (774M)":
         in_features = 1280
     elif args.model_size == "gpt2-xl (1558M)":
-        in_features = 1280
+        in_features = 1600
     else:
         raise ValueError("Invalid --model_size argument")
 

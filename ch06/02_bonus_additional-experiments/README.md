@@ -17,9 +17,11 @@ For example,
 | 4    | gpt2-small (124M)  | pretrained | last            | all              | longest train ex. (120) | V100    | 0.94 min      | 99.62%       | 96.64%         | 96.67%   |
 | 5    | gpt2-medium (355M) | pretrained | last            | last_block       | longest train ex. (120) | V100    | 0.91 min      | 87.50%       | 91.28%         | 84.67%   |
 | 6    | gpt2-large (774M)  | pretrained | last            | last_block       | longest train ex. (120) | V100    | 1.91 min      | 99.52%       | 98.66%         | 96.67%   |
-| 7    | gpt2-xl (1558M)  | pretrained | last            | last_block       | longest train ex. (120) | V100    | 3.84 min      | 99.81%       | 99.33%         | 98.33%   |
+| 7    | gpt2-xl (1558M)    | pretrained | last            | last_block       | longest train ex. (120) | V100    | 3.84 min      | 99.81%       | 99.33%         | 98.33%   |
 | 8    | gpt2-small (124M)  | random     | last            | all              | longest train ex. (120) | V100    | 0.93 min      | 100%         | 96.64%         | 93.67%   |
-| 9    | gpt2-small (124M)  | pretrained | last            | last_block       | context length (1024)   | V100    | 3.24 min      | 83.08%       | 87.92%         | 78.33%   |
+| 9    | gpt2-small (124M)  | pretrained | last            | LoRA             | longest train ex. (120) | V100    | 0.82 min      | 99.52%       | 97.99%         | 97.67%   |
+| 10   | gpt2-small (124M)  | pretrained | last            | last_block       | context length (1024)   | V100    | 3.24 min      | 83.08%       | 87.92%         | 78.33%   |
+
 
 &nbsp;
 
@@ -35,7 +37,8 @@ You can use the following code to reproduce the experiments:
 - Row 6: `python additional-experiments.py --model_size "gpt2-large (774M)"`
 - Row 7: `python additional-experiments.py --model_size "gpt2-xl (1558M)"`
 - Row 8: `python additional-experiments.py --weights random --trainable_layers all`
-- Row 9: `python additional-experiments.py --context_length "model_context_length"`
+- Row 9: `python additional-experiments.py --trainable_layers lora --lora_rank 16 --lora_alpha 8`
+- Row 10: `python additional-experiments.py --context_length "model_context_length"`
 
 I've kept the LLM and dataset small on purpose, so you can run the training on a regular laptop like a MacBook Air M3 in about 15 minutes in case you don't have access to a GPU.
 
@@ -53,4 +56,6 @@ I've kept the LLM and dataset small on purpose, so you can run the training on a
 
 5. **Using a Model with Random Weights vs. Pretrained Weights (Row 1 vs. 8)**: Utilizing a model with random weights yields results that are only slightly worse by 1.3% compared to using pretrained weights.
 
-6. **Padding Input to Full Context Length vs. Longest Training Example (Row 1 vs. 9)**: Padding the input to the full supported context length results is significantly worse.
+6. **Using LoRA (Low-Rank Adaptation) vs Training All Layers (Row 9 vs. 4)**: Keeping the model frozen and adding trainable LoRA layers (see [Appendix E](../../appendix-E/01_main-chapter-code/appendix-E.ipynb) for details) is a viable alternative to training all model parameters and even improves the performance by 1% point. As it can be seen by the 1% lower gap between the training and validation accuracy when using LoRA, this is likely due to less overfitting. Moreover, using LoRA is also slightly faster because fewer parameters have to be updated.
+
+7. **Padding Input to Full Context Length vs. Longest Training Example (Row 1 vs. 10)**: Padding the input to the full supported context length results is significantly worse.

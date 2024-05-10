@@ -58,7 +58,7 @@ cd LLMs-from-scratch
 pip install -r requirements.txt
 ```
 
-(In contrast to Google Colab, these only need to be executed once since the Lightning AI Studion environments are persistent).
+(In contrast to Google Colab, these only need to be executed once since the Lightning AI Studio environments are persistent, even if you switch between CPU and GPU machines.)
 
 Then, navigate to the Python script or Jupyter Notebook you want to run. Optionally, you can also easily connect a GPU to accelerate the code's runtime, for example, when you are pretraining the LLM in chapter 5 or finetuning it in chapters 6 and 7.
 

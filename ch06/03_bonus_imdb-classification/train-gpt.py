@@ -286,6 +286,8 @@ if __name__ == "__main__":
     # Instantiate dataloaders
     ###############################
 
+    base_path = Path(".")
+
     tokenizer = tiktoken.get_encoding("gpt2")
 
     train_dataset = None

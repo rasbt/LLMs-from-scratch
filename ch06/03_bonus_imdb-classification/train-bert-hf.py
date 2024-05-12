@@ -239,7 +239,7 @@ if __name__ == "__main__":
     base_path = Path(".")
 
     train_dataset = IMDBDataset(base_path / "train.csv", max_length=256, tokenizer=tokenizer, pad_token_id=pad_token_id)
-    val_dataset = IMDBDataset(base_path / "val.csv", max_length=256, tokenizer=tokenizer, pad_token_id=pad_token_id)
+    val_dataset = IMDBDataset(base_path / "validation.csv", max_length=256, tokenizer=tokenizer, pad_token_id=pad_token_id)
     test_dataset = IMDBDataset(base_path / "test.csv", max_length=256, tokenizer=tokenizer, pad_token_id=pad_token_id)
 
     num_workers = 0

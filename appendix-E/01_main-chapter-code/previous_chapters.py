@@ -362,7 +362,7 @@ def evaluate_model(model, train_loader, val_loader, device, eval_iter):
 #####################################
 
 
-def download_and_unzip(url, zip_path, extracted_path, data_file_path):
+def download_and_unzip_spam_data(url, zip_path, extracted_path, data_file_path):
     if data_file_path.exists():
         print(f"{data_file_path} already exists. Skipping download and extraction.")
         return

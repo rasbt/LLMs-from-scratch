@@ -24,6 +24,11 @@ ch06/01_main-chapter-code/sms_spam_collection
 ch06/01_main-chapter-code/test.csv
 ch06/01_main-chapter-code/train.csv
 ch06/01_main-chapter-code/validation.csv
+ch06/03_bonus_imdb-classification/aclImdb/
+ch06/03_bonus_imdb-classification/aclImdb_v1.tar.gz
+ch06/03_bonus_imdb-classification/test.csv
+ch06/03_bonus_imdb-classification/train.csv
+ch06/03_bonus_imdb-classification/validation.csv
 
 # Temporary OS-related files
 .DS_Store

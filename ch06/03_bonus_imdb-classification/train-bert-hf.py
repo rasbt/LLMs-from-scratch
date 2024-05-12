@@ -236,7 +236,7 @@ if __name__ == "__main__":
 
     pad_token_id = tokenizer.encode(tokenizer.pad_token)
 
-    base_path = "."
+    base_path = Path(".")
 
     train_dataset = IMDBDataset(base_path / "train.csv", max_length=256, tokenizer=tokenizer, pad_token_id=pad_token_id)
     val_dataset = IMDBDataset(base_path / "val.csv", max_length=256, tokenizer=tokenizer, pad_token_id=pad_token_id)

@@ -226,10 +226,23 @@ def plot_values(epochs_seen, examples_seen, train_values, val_values, label="los
 
     fig.tight_layout()  # Adjust layout to make room
     plt.savefig(f"{label}-plot.pdf")
-    plt.show()
+    #plt.show()
 
 
 if __name__ == "__main__":
+
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        description="Finetune a GPT model for classification"
+    )
+    parser.add_argument(
+        "--test_mode",
+        action="store_true",
+        help=("This flag runs the model in test mode for internal testing purposes. "
+              "Otherwise, it runs the model as it is used in the chapter (recommended).")
+    )
+    args = parser.parse_args()
 
     ########################################
     # Download and prepare dataset
@@ -304,34 +317,53 @@ if __name__ == "__main__":
     # Load pretrained model
     ########################################
 
-    CHOOSE_MODEL = "gpt2-small (124M)"
-    INPUT_PROMPT = "Every effort moves"
+    # Small GPT model for testing purposes
+    if args.test_mode:
+        BASE_CONFIG = {
+            "vocab_size": 50257,
+            "context_length": 120,
+            "drop_rate": 0.0,
+            "qkv_bias": False,
+            "emb_dim": 12,
+            "n_layers": 1,
+            "n_heads": 2
+        }
+        model = GPTModel(BASE_CONFIG)
+        model.eval()
 
-    BASE_CONFIG = {
-        "vocab_size": 50257,     # Vocabulary size
-        "context_length": 1024,  # Context length
-        "drop_rate": 0.0,        # Dropout rate
-        "qkv_bias": True         # Query-key-value bias
-    }
+        device = "cpu"
+        model.to(device)
 
-    model_configs = {
-        "gpt2-small (124M)": {"emb_dim": 768, "n_layers": 12, "n_heads": 12},
-        "gpt2-medium (355M)": {"emb_dim": 1024, "n_layers": 24, "n_heads": 16},
-        "gpt2-large (774M)": {"emb_dim": 1280, "n_layers": 36, "n_heads": 20},
-        "gpt2-xl (1558M)": {"emb_dim": 1600, "n_layers": 48, "n_heads": 25},
-    }
+    # Code as it is used in the main chapter
+    else:
+        CHOOSE_MODEL = "gpt2-small (124M)"
+        INPUT_PROMPT = "Every effort moves"
 
-    BASE_CONFIG.update(model_configs[CHOOSE_MODEL])
+        BASE_CONFIG = {
+            "vocab_size": 50257,     # Vocabulary size
+            "context_length": 1024,  # Context length
+            "drop_rate": 0.0,        # Dropout rate
+            "qkv_bias": True         # Query-key-value bias
+        }
 
-    model_size = CHOOSE_MODEL.split(" ")[-1].lstrip("(").rstrip(")")
-    settings, params = download_and_load_gpt2(model_size=model_size, models_dir="gpt2")
+        model_configs = {
+            "gpt2-small (124M)": {"emb_dim": 768, "n_layers": 12, "n_heads": 12},
+            "gpt2-medium (355M)": {"emb_dim": 1024, "n_layers": 24, "n_heads": 16},
+            "gpt2-large (774M)": {"emb_dim": 1280, "n_layers": 36, "n_heads": 20},
+            "gpt2-xl (1558M)": {"emb_dim": 1600, "n_layers": 48, "n_heads": 25},
+        }
 
-    model = GPTModel(BASE_CONFIG)
-    load_weights_into_gpt(model, params)
-    model.eval()
+        BASE_CONFIG.update(model_configs[CHOOSE_MODEL])
 
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model.to(device)
+        model_size = CHOOSE_MODEL.split(" ")[-1].lstrip("(").rstrip(")")
+        settings, params = download_and_load_gpt2(model_size=model_size, models_dir="gpt2")
+
+        model = GPTModel(BASE_CONFIG)
+        load_weights_into_gpt(model, params)
+        model.eval()
+
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        model.to(device)
 
     ########################################
     # Modify and pretrained model
@@ -375,7 +407,12 @@ if __name__ == "__main__":
     # Plot results
     ########################################
 
+    # loss plot
     epochs_tensor = torch.linspace(0, num_epochs, len(train_losses))
     examples_seen_tensor = torch.linspace(0, examples_seen, len(train_losses))
-
     plot_values(epochs_tensor, examples_seen_tensor, train_losses, val_losses)
+
+    # accuracy plot
+    epochs_tensor = torch.linspace(0, num_epochs, len(train_accs))
+    examples_seen_tensor = torch.linspace(0, examples_seen, len(train_accs))
+    plot_values(epochs_tensor, examples_seen_tensor, train_accs, val_accs, label="accuracy")

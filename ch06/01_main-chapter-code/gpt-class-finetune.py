@@ -226,7 +226,7 @@ def plot_values(epochs_seen, examples_seen, train_values, val_values, label="los
 
     fig.tight_layout()  # Adjust layout to make room
     plt.savefig(f"{label}-plot.pdf")
-    #plt.show()
+    # plt.show()
 
 
 if __name__ == "__main__":

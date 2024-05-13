@@ -9,18 +9,18 @@ For example,
 
 &nbsp;
 
-|    | Model              | Weights    | Trainable token | Trainable layers | Context length          | Training acc | Test acc | Validation acc | Training time | CPU/GPU |
-|----|--------------------|------------|-----------------|------------------|-------------------------|--------------|----------|----------------|---------------|---------|
-| 1  | gpt2-small (124M)  | pretrained | last            | last_block       | longest train ex. (120) | 96.63%       | 95.00%   | 99.33%         | 0.39 min      | V100    |
-| 2  | gpt2-small (124M)  | pretrained | first           | last_block       | longest train ex. (120) | 78.46%       | 75.00%   | 80.54%         | 0.37 min      | V100    |
-| 3  | gpt2-small (124M)  | pretrained | last            | last_layer       | longest train ex. (120) | 78.65%       | 72.00%   | 79.87%         | 0.33 min      | V100    |
-| 4  | gpt2-small (124M)  | pretrained | last            | all              | longest train ex. (120) | 99.62%       | 96.67%   | 96.64%         | 0.94 min      | V100    |
-| 5  | gpt2-medium (355M) | pretrained | last            | last_block       | longest train ex. (120) | 87.50%       | 84.67%   | 91.28%         | 0.91 min      | V100    |
-| 6  | gpt2-large (774M)  | pretrained | last            | last_block       | longest train ex. (120) | 99.52%       | 96.67%   | 98.66%         | 1.91 min      | V100    |
-| 7  | gpt2-xl (1558M)    | pretrained | last            | last_block       | longest train ex. (120) | 99.81%       | 98.33%   | 99.33%         | 3.84 min      | V100    |
-| 8  | gpt2-small (124M)  | random     | last            | all              | longest train ex. (120) | 100%         | 93.67%   | 96.64%         | 0.93 min      | V100    |
-| 9  | gpt2-small (124M)  | pretrained | last            | LoRA             | longest train ex. (120) | 99.52%       | 97.67%   | 97.99%         | 0.82 min      | V100    |
-| 10 | gpt2-small (124M)  | pretrained | last            | last_block       | context length (1024)   | 83.08%       | 78.33%   | 87.92%         | 3.24 min      | V100    |
+|    | Model              | Weights    | Trainable token | Trainable layers | Context length          | Training acc | Validation acc | Test acc | Training time | CPU/GPU |
+|----|--------------------|------------|-----------------|------------------|-------------------------|--------------|----------------|----------|---------------|---------|
+| 1  | gpt2-small (124M)  | pretrained | last            | last_block       | longest train ex. (120) | 96.63%       | 99.33%         | 95.00%   | 0.39 min      | V100    |
+| 2  | gpt2-small (124M)  | pretrained | first           | last_block       | longest train ex. (120) | 78.46%       | 80.54%         | 75.00%   | 0.37 min      | V100    |
+| 3  | gpt2-small (124M)  | pretrained | last            | last_layer       | longest train ex. (120) | 78.65%       | 79.87%         | 72.00%   | 0.33 min      | V100    |
+| 4  | gpt2-small (124M)  | pretrained | last            | all              | longest train ex. (120) | 99.62%       | 96.64%         | 96.67%   | 0.94 min      | V100    |
+| 5  | gpt2-medium (355M) | pretrained | last            | last_block       | longest train ex. (120) | 87.50%       | 91.28%         | 84.67%   | 0.91 min      | V100    |
+| 6  | gpt2-large (774M)  | pretrained | last            | last_block       | longest train ex. (120) | 99.52%       | 98.66%         | 96.67%   | 1.91 min      | V100    |
+| 7  | gpt2-xl (1558M)    | pretrained | last            | last_block       | longest train ex. (120) | 99.81%       | 99.33%         | 98.33%   | 3.84 min      | V100    |
+| 8  | gpt2-small (124M)  | random     | last            | all              | longest train ex. (120) | 100%         | 96.64%         | 93.67%   | 0.93 min      | V100    |
+| 9  | gpt2-small (124M)  | pretrained | last            | LoRA             | longest train ex. (120) | 99.52%       | 97.99%         | 97.67%   | 0.82 min      | V100    |
+| 10 | gpt2-small (124M)  | pretrained | last            | last_block       | context length (1024)   | 83.08%       | 87.92%         | 78.33%   | 3.24 min      | V100    |
 
 
 &nbsp;

@@ -7,7 +7,6 @@
 
 
 import subprocess
-import pytest
 
 
 def test_gpt_class_finetune():
@@ -15,4 +14,3 @@ def test_gpt_class_finetune():
 
     result = subprocess.run(command, capture_output=True, text=True)
     assert result.returncode == 0, f"Script exited with errors: {result.stderr}"
-

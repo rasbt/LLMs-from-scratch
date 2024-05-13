@@ -41,9 +41,10 @@ jobs:
       - name: Test Selected Python Scripts
         shell: bash
         run: |
+          pytest setup/02_installing-python-libraries/tests.py
           pytest ch04/01_main-chapter-code/tests.py
           pytest ch05/01_main-chapter-code/tests.py
-          pytest setup/02_installing-python-libraries/tests.py
+          pytest ch06/01_main-chapter-code/tests.py
 
       - name: Validate Selected Jupyter Notebooks
         shell: bash

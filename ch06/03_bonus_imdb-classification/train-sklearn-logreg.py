@@ -13,7 +13,7 @@ from sklearn.dummy import DummyClassifier
 
 def load_dataframes():
     df_train = pd.read_csv("train.csv")
-    df_val = pd.read_csv("val.csv")
+    df_val = pd.read_csv("validation.csv")
     df_test = pd.read_csv("test.csv")
 
     return df_train, df_val, df_test

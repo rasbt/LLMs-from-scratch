@@ -16,6 +16,8 @@ ch05/01_main-chapter-code/model.pth
 ch05/01_main-chapter-code/model_and_optimizer.pth
 ch05/03_bonus_pretraining_on_gutenberg/model_checkpoints
 ch06/01_main-chapter-code/gpt2
+ch06/02_bonus_additional-experiments/gpt2
+ch06/03_bonus_imdb-classification/gpt2
 
 # Datasets
 ch02/01_main-chapter-code/number-data.txt
@@ -26,6 +28,11 @@ ch06/01_main-chapter-code/sms_spam_collection
 ch06/01_main-chapter-code/test.csv
 ch06/01_main-chapter-code/train.csv
 ch06/01_main-chapter-code/validation.csv
+ch06/02_bonus_additional-experiments/test.csv
+ch06/02_bonus_additional-experiments/train.csv
+ch06/02_bonus_additional-experiments/validation.csv
+ch06/02_bonus_additional-experiments/sms_spam_collection.zip
+ch06/02_bonus_additional-experiments/sms_spam_collection
 ch06/03_bonus_imdb-classification/aclImdb/
 ch06/03_bonus_imdb-classification/aclImdb_v1.tar.gz
 ch06/03_bonus_imdb-classification/test.csv

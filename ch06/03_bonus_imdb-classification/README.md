@@ -17,7 +17,7 @@ The codes are using the 50k movie reviews from IMDb ([dataset source](https://ai
 Run the following code to create the `train.csv`, `val.csv`, and `test.csv` datasets:
 
 ```bash
-download-prepare-dataset.py
+python download-prepare-dataset.py
 ```
 
 

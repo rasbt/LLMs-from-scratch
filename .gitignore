@@ -3,26 +3,41 @@ appendix-D/01_main-chapter-code/1.pdf
 appendix-D/01_main-chapter-code/2.pdf
 appendix-D/01_main-chapter-code/3.pdf
 
+appendix-E/01_main-chapter-code/loss-plot.pdf
+
 ch05/01_main-chapter-code/loss-plot.pdf
 ch05/01_main-chapter-code/temperature-plot.pdf
 ch05/01_main-chapter-code/the-verdict.txt
+
 ch06/01_main-chapter-code/loss-plot.pdf
 ch06/01_main-chapter-code/accuracy-plot.pdf
 
 # Checkpoint files
+appendix-A/01_main-chapter-code/model.pth
+appendix-E/01_main-chapter-code/gpt2
+
 ch05/01_main-chapter-code/gpt2/
 ch05/02_alternative_weight_loading/checkpoints
 ch05/01_main-chapter-code/model.pth
 ch05/01_main-chapter-code/model_and_optimizer.pth
 ch05/03_bonus_pretraining_on_gutenberg/model_checkpoints
+
 ch06/01_main-chapter-code/gpt2
 ch06/02_bonus_additional-experiments/gpt2
 ch06/03_bonus_imdb-classification/gpt2
 
 # Datasets
+appendix-E/01_main-chapter-code/sms_spam_collection.zip
+appendix-E/01_main-chapter-code/sms_spam_collection
+appendix-E/01_main-chapter-code/train.csv
+appendix-E/01_main-chapter-code/test.csv
+appendix-E/01_main-chapter-code/validation.csv
+
 ch02/01_main-chapter-code/number-data.txt
+
 ch05/03_bonus_pretraining_on_gutenberg/gutenberg
 ch05/03_bonus_pretraining_on_gutenberg/gutenberg_preprocessed
+
 ch06/01_main-chapter-code/sms_spam_collection.zip
 ch06/01_main-chapter-code/sms_spam_collection
 ch06/01_main-chapter-code/test.csv
@@ -38,6 +53,7 @@ ch06/03_bonus_imdb-classification/aclImdb_v1.tar.gz
 ch06/03_bonus_imdb-classification/test.csv
 ch06/03_bonus_imdb-classification/train.csv
 ch06/03_bonus_imdb-classification/validation.csv
+
 
 # Temporary OS-related files
 .DS_Store

@@ -14,7 +14,7 @@ pip install -r requirements-extra.txt
 
 The codes are using the 50k movie reviews from IMDb ([dataset source](https://ai.stanford.edu/~amaas/data/sentiment/)) to predict whether a movie review is positive or negative.
 
-Run the following code to create the `train.csv`, `val.csv`, and `test.csv` datasets:
+Run the following code to create the `train.csv`, `validation.csv`, and `test.csv` datasets:
 
 ```bash
 python download-prepare-dataset.py

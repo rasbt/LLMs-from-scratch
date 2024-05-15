@@ -19,7 +19,8 @@ def reporthook(count, block_size, total_size):
         duration = time.time() - start_time
         progress_size = int(count * block_size)
         percent = count * block_size * 100 / total_size
-        speed = progress_size / (1024**2 * duration)
+
+        speed = int(progress_size / (1024 * duration)) if duration else 0
         sys.stdout.write(
             f"\r{int(percent)}% | {progress_size / (1024**2):.2f} MB "
             f"| {speed:.2f} MB/s | {duration:.2f} sec elapsed"
@@ -32,6 +33,7 @@ def download_and_extract_dataset(dataset_url, target_file, directory):
         if os.path.exists(target_file):
             os.remove(target_file)
         urllib.request.urlretrieve(dataset_url, target_file, reporthook)
+        print("\nExtracting dataset ...")
         with tarfile.open(target_file, "r:gz") as tar:
             tar.extractall()
     else:
@@ -74,6 +76,9 @@ def partition_and_save(df, sizes=(35000, 5000, 10000)):
 
 if __name__ == "__main__":
     dataset_url = "http://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz"
+    print("Downloading dataset ...")
     download_and_extract_dataset(dataset_url, "aclImdb_v1.tar.gz", "aclImdb")
+    print("Creating data frames ...")
     df = load_dataset_to_dataframe()
+    print("Partitioning and saving data frames ...")
     partition_and_save(df)

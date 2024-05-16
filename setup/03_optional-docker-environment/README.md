@@ -28,7 +28,7 @@ cd LLMs-from-scratch
 ```
 
 ```bash
-mv 1st_setup/03_optional-docker-environment/.devcontainer ./
+mv setup/03_optional-docker-environment/.devcontainer ./
 ```
 
 3. In Docker Desktop, make sure that ***desktop-linux* builder** is running and will be used to build the Docker container (see *Docker Desktop* -> *Change settings* -> *Builders* -> *desktop-linux* -> *...* -> *Use*)

@@ -9,18 +9,19 @@ For example,
 
 &nbsp;
 
-|    | Model              | Weights    | Trainable token | Trainable layers | Context length          | Training acc | Validation acc | Test acc | Training time | CPU/GPU |
-|----|--------------------|------------|-----------------|------------------|-------------------------|--------------|----------------|----------|---------------|---------|
-| 1  | gpt2-small (124M)  | pretrained | last            | last_block       | longest train ex. (120) | 96.63%       | 99.33%         | 95.00%   | 0.39 min      | V100    |
-| 2  | gpt2-small (124M)  | pretrained | first           | last_block       | longest train ex. (120) | 78.46%       | 80.54%         | 75.00%   | 0.37 min      | V100    |
-| 3  | gpt2-small (124M)  | pretrained | last            | last_layer       | longest train ex. (120) | 78.65%       | 79.87%         | 72.00%   | 0.33 min      | V100    |
-| 4  | gpt2-small (124M)  | pretrained | last            | all              | longest train ex. (120) | 99.62%       | 96.64%         | 96.67%   | 0.94 min      | V100    |
-| 5  | gpt2-medium (355M) | pretrained | last            | last_block       | longest train ex. (120) | 87.50%       | 91.28%         | 84.67%   | 0.91 min      | V100    |
-| 6  | gpt2-large (774M)  | pretrained | last            | last_block       | longest train ex. (120) | 99.52%       | 98.66%         | 96.67%   | 1.91 min      | V100    |
-| 7  | gpt2-xl (1558M)    | pretrained | last            | last_block       | longest train ex. (120) | 99.81%       | 99.33%         | 98.33%   | 3.84 min      | V100    |
-| 8  | gpt2-small (124M)  | random     | last            | all              | longest train ex. (120) | 100%         | 96.64%         | 93.67%   | 0.93 min      | V100    |
-| 9  | gpt2-small (124M)  | pretrained | last            | LoRA             | longest train ex. (120) | 99.52%       | 97.99%         | 97.67%   | 0.82 min      | V100    |
-| 10 | gpt2-small (124M)  | pretrained | last            | last_block       | context length (1024)   | 83.08%       | 87.92%         | 78.33%   | 3.24 min      | V100    |
+|      | Model              | Weights    | Trainable token | Trainable layers | Context length          | Training acc | Validation acc | Test acc | Training time | CPU/GPU |
+| ---- | ------------------ | ---------- | --------------- | ---------------- | ----------------------- | ------------ | -------------- | -------- | ------------- | ------- |
+| 1    | gpt2-small (124M)  | pretrained | last            | last_block       | longest train ex. (120) | 96.63%       | 99.33%         | 95.00%   | 0.28 min      | A100    |
+| 2    | gpt2-small (124M)  | pretrained | first           | last_block       | longest train ex. (120) | 78.46%       | 80.54%         | 75.00%   | 0.28 min      | A100    |
+| 3    | gpt2-small (124M)  | pretrained | last            | last_layer       | longest train ex. (120) | 78.65%       | 79.87%         | 72.00%   | 0.25 min      | A100    |
+| 4    | gpt2-small (124M)  | pretrained | last            | all              | longest train ex. (120) | 99.62%       | 96.64%         | 96.67%   | 0.69 min      | A100    |
+| 5    | gpt2-medium (355M) | pretrained | last            | last_block       | longest train ex. (120) | 87.50%       | 91.28%         | 84.67%   | 0.75 min      | A100    |
+| 6    | gpt2-large (774M)  | pretrained | last            | last_block       | longest train ex. (120) | 99.52%       | 98.66%         | 96.67%   | 1.50 min      | A100    |
+| 7    | gpt2-xl (1558M)    | pretrained | last            | last_block       | longest train ex. (120) | 99.81%       | 99.33%         | 98.33%   | 2.83 min      | A100    |
+| 8    | gpt2-small (124M)  | random     | last            | all              | longest train ex. (120) | 100%         | 96.64%         | 93.67%   | 0.69 min      | A100    |
+| 9    | gpt2-small (124M)  | pretrained | last            | LoRA             | longest train ex. (120) | 99.52%       | 97.99%         | 97.67%   | 0.75 min      | A100    |
+| 10   | gpt2-small (124M)  | pretrained | last            | last_block       | context length (1024)   | 83.08%       | 87.92%         | 78.33%   | 2.46 min      | A100    |
+| 11   | gpt2-small (124M)  | pretrained | last            | last_block       | variable: no padding    | 97.42%       | 95.30%         | 95.00%   | 1.71 min      | A100    |
 
 
 &nbsp;
@@ -39,6 +40,7 @@ You can use the following code to reproduce the experiments:
 - Row 8: `python additional-experiments.py --weights random --trainable_layers all`
 - Row 9: `python additional-experiments.py --trainable_layers lora --lora_rank 16 --lora_alpha 8`
 - Row 10: `python additional-experiments.py --context_length "model_context_length"`
+- Row 11: `python additional-experiments.py --no_padding`
 
 I've kept the LLM and dataset small on purpose, so you can run the training on a regular laptop like a MacBook Air M3 in about 15 minutes in case you don't have access to a GPU.
 
@@ -59,3 +61,5 @@ I've kept the LLM and dataset small on purpose, so you can run the training on a
 6. **Using LoRA (Low-Rank Adaptation) vs Training All Layers (Row 9 vs. 4)**: Keeping the model frozen and adding trainable LoRA layers (see [Appendix E](../../appendix-E/01_main-chapter-code/appendix-E.ipynb) for details) is a viable alternative to training all model parameters and even improves the performance by 1% point. As it can be seen by the 1% lower gap between the training and validation accuracy when using LoRA, this is likely due to less overfitting. Moreover, using LoRA is also slightly faster because fewer parameters have to be updated.
 
 7. **Padding Input to Full Context Length vs. Longest Training Example (Row 1 vs. 10)**: Padding the input to the full supported context length results is significantly worse.
+
+8. **Padding vs no padding (Row 1 vs 11)**: The `--no_padding` option disables the padding in the dataset and trains the model with a batch size of 1 where the inputs have variable lengths. This results in exactly the same test set accuracy but takes substantially longer to train.

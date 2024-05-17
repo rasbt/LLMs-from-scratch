@@ -61,7 +61,7 @@ Test accuracy: 89.96%
 
 ---
 
-A 66M parameter encoder-style [DistilBERT](https://medium.com/huggingface/distilbert-8cf3380435b5) model (distilled down from a 340M parameter BERT model), starting for the pretrained weights and only training the last transformer block plus output layers:
+A 66M parameter encoder-style [DistilBERT](https://arxiv.org/abs/1910.01108) model (distilled down from a 340M parameter BERT model), starting for the pretrained weights and only training the last transformer block plus output layers:
 
 
 ```bash

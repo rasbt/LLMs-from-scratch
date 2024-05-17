@@ -343,7 +343,7 @@ if __name__ == "__main__":
         help=(
             "Enable no padding. When this flag is set it will train"
             " the model with a batch size of 1 and no padding."
-            )
+        )
     )
     parser.add_argument(
         "--num_epochs",

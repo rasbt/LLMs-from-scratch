@@ -153,7 +153,7 @@ def instantiate_model(choose_model, load_weights):
 
     if not load_weights:
         torch.manual_seed(123)
-    model = GPTModel(BASE_CONFIG)
+    model = GPTModel(BASE_CONFIG, disable_causal_mask=args.disable_causal_mask)
 
     if load_weights:
         model_size = choose_model.split(" ")[-1].lstrip("(").rstrip(")")
@@ -383,6 +383,15 @@ if __name__ == "__main__":
             " For example, setting `batch_size=8` and `accumulation_steps=1` compute the exact same"
             " loss and weight updates as setting `batch_size=1` and `accumulation_steps=8`, however,"
             " the latter setting uses more iterations."
+        )
+    )
+
+    parser.add_argument(
+        "--disable_causal_mask",
+        action='store_true',
+        default=False,
+        help=(
+            "Disables the causal attention mask."
         )
     )
 

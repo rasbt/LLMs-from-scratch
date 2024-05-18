@@ -23,6 +23,7 @@ For example,
 | 10   | gpt2-small (124M)  | pretrained | last            | last_block       | context length (1024)   | 83.08%       | 87.92%         | 78.33%   | 2.46 min      | A100    |
 | 11   | gpt2-small (124M)  | pretrained | last            | last_block       | variable: no padding (batch size 1)    | 100.00%      | 98.66%         | 98.00%   | 1.75 min      | A100    |
 | 12   | gpt2-small (124M)  | pretrained | last            | last_block       | variable: no padding (batch size 8) | 99.33% | 98.66%         | 98.33% | 1.70 min | A100    |
+| 13   | gpt2-small (124M)  | pretrained | last            | last_block       | longest train ex. (120); but no causal mask | 99.23% | 98.66% | 95.33% | 0.29 min | A100    |
 
 
 &nbsp;
@@ -43,6 +44,7 @@ You can use the following code to reproduce the experiments:
 - Row 10: `python additional-experiments.py --context_length "model_context_length"`
 - Row 11: `python additional-experiments.py --no_padding --batch_size 1`
 - Row 12: `python additional-experiments.py --no_padding --batch_size 1 --accumulation_steps 8`
+- Row 13: `python additional-experiments.py --disable_causal_mask`
 
 I've kept the LLM and dataset small on purpose, so you can run the training on a regular laptop like a MacBook Air M3 in about 15 minutes in case you don't have access to a GPU.
 
@@ -65,3 +67,5 @@ I've kept the LLM and dataset small on purpose, so you can run the training on a
 7. **Padding Input to Full Context Length vs. Longest Training Example (Row 1 vs. 10)**: Padding the input to the full supported context length results is significantly worse.
 
 8. **Padding vs no padding (Row 1 vs. 11 and 12)**: The `--no_padding` option disables the padding in the dataset, which requires training the model with a batch size of 1 since the inputs have variable lengths. This results in a better test accuracy but takes longer to train. In row 12, we additionally enable gradient accumulation with 8 steps to achieve the same batch size as in the other experiments, which helps reduce overfitting and slightly boost the test set accuracy.
+
+9. **Disabling the causal attention mask (Row 1 vs. 13)**: Disables the causal attention mask used in the multi-head attention module. This means all tokens can attend all other tokens. The model accuracy is slightly improved compared to the GPT model with causal mask.

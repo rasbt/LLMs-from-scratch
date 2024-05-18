@@ -222,7 +222,8 @@ def evaluate_model(model, train_loader, val_loader, device, eval_iter, trainable
 
 
 def train_classifier_simple(model, train_loader, val_loader, optimizer, device, num_epochs,
-                            eval_freq, eval_iter, tokenizer, max_steps=None, trainable_token=-1):
+                            eval_freq, eval_iter, tokenizer, max_steps=None, trainable_token=-1,
+                            accumulation_steps=1):
     # Initialize lists to track losses and tokens seen
     train_losses, val_losses, train_accs, val_accs = [], [], [], []
     examples_seen, global_step = 0, -1
@@ -231,11 +232,21 @@ def train_classifier_simple(model, train_loader, val_loader, optimizer, device, 
     for epoch in range(num_epochs):
         model.train()  # Set model to training mode
 
-        for input_batch, target_batch in train_loader:
-            optimizer.zero_grad()  # Reset loss gradients from previous epoch
+        for batch_idx, (input_batch, target_batch) in enumerate(train_loader):
             loss = calc_loss_batch(input_batch, target_batch, model, device, trainable_token=trainable_token)
+
+            # Use gradient accumulation if accumulation_steps > 1
+            # See https://sebastianraschka.com/blog/2023/llm-grad-accumulation.html
+            # for an explanation
+            loss /= accumulation_steps
+
             loss.backward()  # Calculate loss gradients
-            optimizer.step()  # Update model weights using loss gradients
+
+            # Use gradient accumulation if accumulation_steps > 1
+            if batch_idx % accumulation_steps == 0:
+                optimizer.step()  # Update model weights using loss gradients
+                optimizer.zero_grad()  # Reset loss gradients from previous epoch
+
             examples_seen += input_batch.shape[0]  # New: track examples instead of tokens
             global_step += 1
 
@@ -341,8 +352,8 @@ if __name__ == "__main__":
         action='store_true',
         default=False,
         help=(
-            "Enable no padding. When this flag is set it will train"
-            " the model with a batch size of 1 and no padding."
+            "Disable padding, which means each example may have a different lenght."
+            " This requires setting `--batch_size 1`."
         )
     )
     parser.add_argument(
@@ -351,6 +362,27 @@ if __name__ == "__main__":
         default=5,
         help=(
             "Number of training epochs."
+        )
+    )
+    parser.add_argument(
+        "--batch_size",
+        type=int,
+        default=8,
+        help=(
+            "The batch size used for training."
+        )
+    )
+
+    parser.add_argument(
+        "--accumulation_steps",
+        type=int,
+        default=1,
+        help=(
+            "Accumulation steps to allow for gradient accumulation."
+            " See https://sebastianraschka.com/blog/2023/llm-grad-accumulation.html for explanation."
+            " For example, setting `batch_size=8` and `accumulation_steps=1` compute the exact same"
+            " loss and weight updates as setting `batch_size=1` and `accumulation_steps=8`, however,"
+            " the latter setting uses more iterations."
         )
     )
 
@@ -455,14 +487,9 @@ if __name__ == "__main__":
 
     num_workers = 0
 
-    if args.no_padding:
-        batch_size = 1
-    else:
-        batch_size = 8
-
     train_loader = DataLoader(
         dataset=train_dataset,
-        batch_size=batch_size,
+        batch_size=args.batch_size,
         shuffle=True,
         num_workers=num_workers,
         drop_last=True,
@@ -470,14 +497,14 @@ if __name__ == "__main__":
 
     val_loader = DataLoader(
         dataset=val_dataset,
-        batch_size=batch_size,
+        batch_size=args.batch_size,
         num_workers=num_workers,
         drop_last=False,
     )
 
     test_loader = DataLoader(
         dataset=test_dataset,
-        batch_size=batch_size,
+        batch_size=args.batch_size,
         num_workers=num_workers,
         drop_last=False,
     )
@@ -493,7 +520,8 @@ if __name__ == "__main__":
     train_losses, val_losses, train_accs, val_accs, examples_seen = train_classifier_simple(
         model, train_loader, val_loader, optimizer, device,
         num_epochs=args.num_epochs, eval_freq=50, eval_iter=5,
-        tokenizer=tokenizer, max_steps=None, trainable_token=args.trainable_token
+        tokenizer=tokenizer, max_steps=None, trainable_token=args.trainable_token,
+        accumulation_steps=args.accumulation_steps
     )
 
     end_time = time.time()

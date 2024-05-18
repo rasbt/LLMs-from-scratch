@@ -21,7 +21,8 @@ For example,
 | 8    | gpt2-small (124M)  | random     | last            | all              | longest train ex. (120) | 100%         | 96.64%         | 93.67%   | 0.69 min      | A100    |
 | 9    | gpt2-small (124M)  | pretrained | last            | LoRA             | longest train ex. (120) | 99.52%       | 97.99%         | 97.67%   | 0.75 min      | A100    |
 | 10   | gpt2-small (124M)  | pretrained | last            | last_block       | context length (1024)   | 83.08%       | 87.92%         | 78.33%   | 2.46 min      | A100    |
-| 11   | gpt2-small (124M)  | pretrained | last            | last_block       | variable: no padding    | 97.42%       | 95.30%         | 95.00%   | 1.71 min      | A100    |
+| 11   | gpt2-small (124M)  | pretrained | last            | last_block       | variable: no padding (batch size 1)    | 100.00%      | 98.66%         | 98.00%   | 1.75 min      | A100    |
+| 11   | gpt2-small (124M)  | pretrained | last            | last_block       | variable: no padding (batch size 8) | 99.33% | 98.66%         | 98.33% | 1.70 min | A100    |
 
 
 &nbsp;
@@ -40,7 +41,8 @@ You can use the following code to reproduce the experiments:
 - Row 8: `python additional-experiments.py --weights random --trainable_layers all`
 - Row 9: `python additional-experiments.py --trainable_layers lora --lora_rank 16 --lora_alpha 8`
 - Row 10: `python additional-experiments.py --context_length "model_context_length"`
-- Row 11: `python additional-experiments.py --no_padding`
+- Row 11: `python additional-experiments.py --no_padding --batch_size 1`
+- Row 12: `python additional-experiments.py --no_padding --batch_size 1 --accumulation_steps 8`
 
 I've kept the LLM and dataset small on purpose, so you can run the training on a regular laptop like a MacBook Air M3 in about 15 minutes in case you don't have access to a GPU.
 
@@ -62,4 +64,4 @@ I've kept the LLM and dataset small on purpose, so you can run the training on a
 
 7. **Padding Input to Full Context Length vs. Longest Training Example (Row 1 vs. 10)**: Padding the input to the full supported context length results is significantly worse.
 
-8. **Padding vs no padding (Row 1 vs 11)**: The `--no_padding` option disables the padding in the dataset and trains the model with a batch size of 1 where the inputs have variable lengths. This results in exactly the same test set accuracy but takes substantially longer to train.
+8. **Padding vs no padding (Row 1 vs. 11 and 12)**: The `--no_padding` option disables the padding in the dataset, which requires training the model with a batch size of 1 since the inputs have variable lengths. This results in a better test accuracy but takes longer to train. In row 12, we additionally enable gradient accumulation with 8 steps to achieve the same batch size as in the other experiments, which helps reduce overfitting and slightly boost the test set accuracy.

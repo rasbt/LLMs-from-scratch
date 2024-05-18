@@ -22,7 +22,7 @@ For example,
 | 9    | gpt2-small (124M)  | pretrained | last            | LoRA             | longest train ex. (120) | 99.52%       | 97.99%         | 97.67%   | 0.75 min      | A100    |
 | 10   | gpt2-small (124M)  | pretrained | last            | last_block       | context length (1024)   | 83.08%       | 87.92%         | 78.33%   | 2.46 min      | A100    |
 | 11   | gpt2-small (124M)  | pretrained | last            | last_block       | variable: no padding (batch size 1)    | 100.00%      | 98.66%         | 98.00%   | 1.75 min      | A100    |
-| 11   | gpt2-small (124M)  | pretrained | last            | last_block       | variable: no padding (batch size 8) | 99.33% | 98.66%         | 98.33% | 1.70 min | A100    |
+| 12   | gpt2-small (124M)  | pretrained | last            | last_block       | variable: no padding (batch size 8) | 99.33% | 98.66%         | 98.33% | 1.70 min | A100    |
 
 
 &nbsp;

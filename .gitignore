@@ -43,6 +43,7 @@ ch06/01_main-chapter-code/sms_spam_collection
 ch06/01_main-chapter-code/test.csv
 ch06/01_main-chapter-code/train.csv
 ch06/01_main-chapter-code/validation.csv
+ch06/01_main-chapter-code/review_classifier.pth
 ch06/02_bonus_additional-experiments/test.csv
 ch06/02_bonus_additional-experiments/train.csv
 ch06/02_bonus_additional-experiments/validation.csv

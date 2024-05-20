@@ -19,7 +19,7 @@ For example,
 | 6    | gpt2-large (774M)  | pretrained | last            | last_block       | longest train ex. (120) | 99.52%       | 98.66%         | 96.67%   | 1.50 min      | A100    |
 | 7    | gpt2-xl (1558M)    | pretrained | last            | last_block       | longest train ex. (120) | 99.81%       | 99.33%         | 98.33%   | 2.83 min      | A100    |
 | 8    | gpt2-small (124M)  | random     | last            | all              | longest train ex. (120) | 100%         | 96.64%         | 93.67%   | 0.69 min      | A100    |
-| 9    | gpt2-small (124M)  | pretrained | last            | LoRA             | longest train ex. (120) | 99.52%       | 97.99%         | 97.67%   | 0.75 min      | A100    |
+| 9    | gpt2-small (124M)  | pretrained | last            | LoRA             | longest train ex. (120) | 100.00% | 97.32%   | 96.67% | 0.75 min      | A100    |
 | 10   | gpt2-small (124M)  | pretrained | last            | last_block       | context length (1024)   | 83.08%       | 87.92%         | 78.33%   | 2.46 min      | A100    |
 | 11   | gpt2-small (124M)  | pretrained | last            | last_block       | variable: no padding (batch size 1)    | 100.00%      | 98.66%         | 98.00%   | 1.75 min      | A100    |
 | 12   | gpt2-small (124M)  | pretrained | last            | last_block       | variable: no padding (batch size 8) | 99.33% | 98.66%         | 98.33% | 1.70 min | A100    |
@@ -41,7 +41,7 @@ You can use the following code to reproduce the experiments:
 - Row 6: `python additional-experiments.py --model_size "gpt2-large (774M)"`
 - Row 7: `python additional-experiments.py --model_size "gpt2-xl (1558M)"`
 - Row 8: `python additional-experiments.py --weights random --trainable_layers all`
-- Row 9: `python additional-experiments.py --trainable_layers lora --lora_rank 16 --lora_alpha 8`
+- Row 9: `python additional-experiments.py --trainable_layers lora --lora_rank 16 --lora_alpha 16`
 - Row 10: `python additional-experiments.py --context_length "model_context_length"`
 - Row 11: `python additional-experiments.py --no_padding --batch_size 1`
 - Row 12: `python additional-experiments.py --no_padding --batch_size 1 --accumulation_steps 8`
@@ -59,7 +59,7 @@ I've kept the LLM and dataset small on purpose, so you can run the training on a
 3. **Training All Layers vs. Last Transformer Block (Row 1 vs. 4)**: Training all layers shows a modest improvement of ~2% over just training the last transformer block, but it requires almost three times longer in terms of training duration.
 4. **Using Larger Pretrained Models (Row 1 vs 5, and Row 1 vs. 6 and 7)**: Employing a 3x larger pretrained model leads to worse results. However, using a 5x larger model improves performance compared to the initial model, as was anticipated. Similarly, the 12x larger model improves the predictive performance even further. (The medium model was perhaps not well pretrained or the particular finetuning configuration works not as well for this model.)
 5. **Using a Model with Random Weights vs. Pretrained Weights (Row 1 vs. 8)**: Utilizing a model with random weights yields results that are only slightly worse by 1.3% compared to using pretrained weights.
-6. **Using LoRA (Low-Rank Adaptation) vs Training All Layers (Row 9 vs. 4)**: Keeping the model frozen and adding trainable LoRA layers (see [Appendix E](../../appendix-E/01_main-chapter-code/appendix-E.ipynb) for details) is a viable alternative to training all model parameters and even improves the performance by 1% point. As it can be seen by the 1% lower gap between the training and validation accuracy when using LoRA, this is likely due to less overfitting. Moreover, using LoRA is also slightly faster because fewer parameters have to be updated.
+6. **Using LoRA (Low-Rank Adaptation) vs Training All Layers (Row 9 vs. 4)**: Keeping the model frozen and adding trainable LoRA layers (see [Appendix E](../../appendix-E/01_main-chapter-code/appendix-E.ipynb) for details) is a viable alternative to training all model parameters and even improves the performance by 1% point. As it can be seen by the ~1% lower gap between the training and validation accuracy when using LoRA, this is likely due to less overfitting. Moreover, using LoRA is also slightly faster because fewer parameters have to be updated.
 7. **Padding Input to Full Context Length vs. Longest Training Example (Row 1 vs. 10)**: Padding the input to the full supported context length results is significantly worse.
 8. **Padding vs no padding (Row 1 vs. 11 and 12)**: The `--no_padding` option disables the padding in the dataset, which requires training the model with a batch size of 1 since the inputs have variable lengths. This results in a better test accuracy but takes longer to train. In row 12, we additionally enable gradient accumulation with 8 steps to achieve the same batch size as in the other experiments, which helps reduce overfitting and slightly boost the test set accuracy.
 9. **Disabling the causal attention mask (Row 1 vs. 13)**: Disables the causal attention mask used in the multi-head attention module. This means all tokens can attend all other tokens. The model accuracy is slightly improved compared to the GPT model with causal mask.

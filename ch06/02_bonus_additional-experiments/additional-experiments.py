@@ -4,6 +4,7 @@
 # Code: https://github.com/rasbt/LLMs-from-scratch
 
 import argparse
+import math
 import os
 from pathlib import Path
 import time
@@ -23,8 +24,8 @@ from previous_chapters import GPTModel, load_weights_into_gpt
 class LoRALayer(torch.nn.Module):
     def __init__(self, in_dim, out_dim, rank, alpha):
         super().__init__()
-        std_dev = 1 / torch.sqrt(torch.tensor(rank).float())
-        self.A = torch.nn.Parameter(torch.randn(in_dim, rank) * std_dev)
+        self.A = torch.nn.Parameter(torch.empty(in_dim, rank))
+        torch.nn.init.kaiming_uniform_(self.A, a=math.sqrt(5))
         self.B = torch.nn.Parameter(torch.zeros(rank, out_dim))
         self.alpha = alpha
 

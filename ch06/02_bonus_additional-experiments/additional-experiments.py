@@ -329,7 +329,7 @@ if __name__ == "__main__":
         type=str,
         default="last_block",
         help=(
-            "Which layers to train. Options: 'all', 'last_block', 'last_layer', 'lora'."
+            "Which layers to train. Options: 'all', 'last_block', 'last_two_blocks', 'last_layer', 'lora'."
         )
     )
     parser.add_argument(
@@ -462,11 +462,14 @@ if __name__ == "__main__":
 
     if args.trainable_layers == "last_layer":
         pass
-    elif args.trainable_layers == "last_block":
+    elif args.trainable_layers == "last_block" or args.trainable_layers == "last_two_blocks":
         for param in model.trf_blocks[-1].parameters():
             param.requires_grad = True
         for param in model.final_norm.parameters():
             param.requires_grad = True
+        if args.trainable_layers == "last_two_blocks":
+            for param in model.trf_blocks[-2].parameters():
+                param.requires_grad = True
     elif args.trainable_layers == "all":
         for param in model.parameters():
             param.requires_grad = True

@@ -36,7 +36,7 @@ You can use the following code to reproduce the experiments:
 - Row 1: `python additional-experiments.py`
 - Row 2: `python additional-experiments.py --trainable_token first`
 - Row 3: `python additional-experiments.py --trainable_layers last_layer`
-- Row 4: `python additional-experiments.py --trainable_layers two_last_blocks`
+- Row 4: `python additional-experiments.py --trainable_layers last_two_blocks`
 - Row 5: `python additional-experiments.py --trainable_layers all`
 - Row 6: `python additional-experiments.py --model_size "gpt2-medium (355M)"`
 - Row 7: `python additional-experiments.py --model_size "gpt2-large (774M)"`
@@ -57,8 +57,8 @@ I've kept the LLM and dataset small on purpose, so you can run the training on a
 
 1. **Training the Last vs. First Output Token (Row 1 vs. 2)**: Training the last output token results in substantially better performance compared to the first. This improvement is expected due to the causal self-attention mask.
 2. **Training the Last Transformer Block vs. Last Layer (Row 1 vs. 3)**: Training the entire last transformer block is also results in substantially better results than training only the last layer.
-3. **Training the Last vs. Last Two Last Transormer Blocks (Row 1 vs. 4)**: Training the two last transformer blocks instead of only the last block results in a noticeable 3.33% accuracy boost.
-4. **Training Last Transformer Block vs  All Layers (Row 1 vs. 5)**: Training all layers shows a modest improvement of ~2% over just training the last transformer block, but it requires almost three times longer in terms of training duration. Also, it does not perform as well as training only the last two out of 12 transformer blocks.
+3. **Training the Last vs. Last Two Last Transformer Blocks (Row 1 vs. 4)**: Training the two last transformer blocks instead of only the last block results in a noticeable 3.33% accuracy boost.
+4. **Training Last Transformer Block vs All Layers (Row 1 vs. 5)**: Training all layers shows a modest improvement of ~2% over just training the last transformer block, but it requires almost three times longer in terms of training duration. Also, it does not perform as well as training only the last two out of 12 transformer blocks.
 5. **Using Larger Pretrained Models (Row 1 vs 5, and Row 1 vs. 7 and 8)**: Employing a 3x larger pretrained model leads to worse results. However, using a 5x larger model improves performance compared to the initial model, as was anticipated. Similarly, the 12x larger model improves the predictive performance even further. (The medium model was perhaps not well pretrained or the particular finetuning configuration works not as well for this model.)
 6. **Using a Model with Random Weights vs. Pretrained Weights (Row 1 vs. 9)**: Utilizing a model with random weights yields results that are only slightly worse by 1.3% compared to using pretrained weights.
 7. **Using LoRA (Low-Rank Adaptation) vs Training All Layers (Row 10 vs. 5)**: Keeping the model frozen and adding trainable LoRA layers (see [Appendix E](../../appendix-E/01_main-chapter-code/appendix-E.ipynb) for details) is a viable alternative to training all model parameters and even improves the performance by 1% point. As it can be seen by the ~1% lower gap between the training and validation accuracy when using LoRA, this is likely due to less overfitting. Moreover, using LoRA is also slightly faster because fewer parameters have to be updated.

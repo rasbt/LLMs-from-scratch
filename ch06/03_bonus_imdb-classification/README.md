@@ -56,7 +56,6 @@ Evaluating on the full datasets ...
 Training accuracy: 93.66%
 Validation accuracy: 90.02%
 Test accuracy: 89.96%
-
 ```
 
 ---

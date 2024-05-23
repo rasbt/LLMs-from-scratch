@@ -166,15 +166,15 @@ def instantiate_model(choose_model, load_weights):
 
 
 def calc_loss_batch(input_batch, target_batch, model, device,
-                    trainable_token=-1, ignore_index=-100):
+                    trainable_token_pos=-1, ignore_index=-100):
     input_batch, target_batch = input_batch.to(device), target_batch.to(device)
-    logits = model(input_batch)[:, trainable_token, :]  # Logits of last output token
+    logits = model(input_batch)[:, trainable_token_pos, :]  # Logits of last output token
     loss = torch.nn.functional.cross_entropy(logits, target_batch, ignore_index=ignore_index)
     return loss
 
 
 def calc_loss_loader(data_loader, model, device,
-                     num_batches=None, trainable_token=-1, ignore_index=-100):
+                     num_batches=None, trainable_token_pos=-1, ignore_index=-100):
     total_loss = 0.
     if len(data_loader) == 0:
         return float("nan")
@@ -188,7 +188,7 @@ def calc_loss_loader(data_loader, model, device,
         if i < num_batches:
             loss = calc_loss_batch(
                 input_batch, target_batch, model, device,
-                trainable_token=trainable_token, ignore_index=ignore_index
+                trainable_token_pos=trainable_token_pos, ignore_index=ignore_index
             )
             total_loss += loss.item()
         else:
@@ -197,7 +197,7 @@ def calc_loss_loader(data_loader, model, device,
 
 
 @torch.no_grad()  # Disable gradient tracking for efficiency
-def calc_accuracy_loader(data_loader, model, device, num_batches=None, trainable_token=-1):
+def calc_accuracy_loader(data_loader, model, device, num_batches=None, trainable_token_pos=-1):
     model.eval()
     correct_predictions, num_examples = 0, 0
 
@@ -208,7 +208,7 @@ def calc_accuracy_loader(data_loader, model, device, num_batches=None, trainable
     for i, (input_batch, target_batch) in enumerate(data_loader):
         if i < num_batches:
             input_batch, target_batch = input_batch.to(device), target_batch.to(device)
-            logits = model(input_batch)[:, trainable_token, :]  # Logits of last output token
+            logits = model(input_batch)[:, trainable_token_pos, :]  # Logits of last output token
             predicted_labels = torch.argmax(logits, dim=-1)
 
             num_examples += predicted_labels.shape[0]
@@ -219,23 +219,23 @@ def calc_accuracy_loader(data_loader, model, device, num_batches=None, trainable
 
 
 def evaluate_model(model, train_loader, val_loader, device,
-                   eval_iter, trainable_token=-1, ignore_index=-100):
+                   eval_iter, trainable_token_pos=-1, ignore_index=-100):
     model.eval()
     with torch.no_grad():
         train_loss = calc_loss_loader(
             train_loader, model, device, num_batches=eval_iter,
-            trainable_token=trainable_token, ignore_index=ignore_index
+            trainable_token_pos=trainable_token_pos, ignore_index=ignore_index
         )
         val_loss = calc_loss_loader(
             val_loader, model, device, num_batches=eval_iter,
-            trainable_token=trainable_token, ignore_index=ignore_index
+            trainable_token_pos=trainable_token_pos, ignore_index=ignore_index
         )
     model.train()
     return train_loss, val_loss
 
 
 def train_classifier_simple(model, train_loader, val_loader, optimizer, device, num_epochs,
-                            eval_freq, eval_iter, tokenizer, max_steps=None, trainable_token=-1,
+                            eval_freq, eval_iter, tokenizer, max_steps=None, trainable_token_pos=-1,
                             accumulation_steps=1, ignore_index=-100):
     # Initialize lists to track losses and tokens seen
     train_losses, val_losses, train_accs, val_accs = [], [], [], []
@@ -248,7 +248,7 @@ def train_classifier_simple(model, train_loader, val_loader, optimizer, device, 
         for batch_idx, (input_batch, target_batch) in enumerate(train_loader):
             loss = calc_loss_batch(
                 input_batch, target_batch, model, device,
-                trainable_token=trainable_token, ignore_index=ignore_index
+                trainable_token_pos=trainable_token_pos, ignore_index=ignore_index
             )
 
             # Use gradient accumulation if accumulation_steps > 1
@@ -270,7 +270,7 @@ def train_classifier_simple(model, train_loader, val_loader, optimizer, device, 
             if global_step % eval_freq == 0:
                 train_loss, val_loss = evaluate_model(
                     model, train_loader, val_loader, device, eval_iter,
-                    trainable_token=trainable_token, ignore_index=ignore_index
+                    trainable_token_pos=trainable_token_pos, ignore_index=ignore_index
                 )
                 train_losses.append(train_loss)
                 val_losses.append(val_loss)
@@ -281,8 +281,8 @@ def train_classifier_simple(model, train_loader, val_loader, optimizer, device, 
                 break
 
         # New: Calculate accuracy after each epoch
-        train_accuracy = calc_accuracy_loader(train_loader, model, device, num_batches=eval_iter, trainable_token=trainable_token)
-        val_accuracy = calc_accuracy_loader(val_loader, model, device, num_batches=eval_iter, trainable_token=trainable_token)
+        train_accuracy = calc_accuracy_loader(train_loader, model, device, num_batches=eval_iter, trainable_token_pos=trainable_token_pos)
+        val_accuracy = calc_accuracy_loader(val_loader, model, device, num_batches=eval_iter, trainable_token_pos=trainable_token_pos)
         print(f"Training accuracy: {train_accuracy*100:.2f}% | ", end="")
         print(f"Validation accuracy: {val_accuracy*100:.2f}%")
         train_accs.append(train_accuracy)
@@ -333,11 +333,11 @@ if __name__ == "__main__":
         )
     )
     parser.add_argument(
-        "--trainable_token",
+        "--trainable_token_pos",
         type=str,
         default="last",
         help=(
-            "Which token to train. Options: 'first', 'last'."
+            "Which token position to train. Options: 'first', 'last'."
         )
     )
     parser.add_argument(
@@ -424,12 +424,12 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    if args.trainable_token == "first":
-        args.trainable_token = 0
-    elif args.trainable_token == "last":
-        args.trainable_token = -1
+    if args.trainable_token_pos == "first":
+        args.trainable_token_pos = 0
+    elif args.trainable_token_pos == "last":
+        args.trainable_token_pos = -1
     else:
-        raise ValueError("Invalid --trainable_token argument")
+        raise ValueError("Invalid --trainable_token_pos argument")
 
     ###############################
     # Load model
@@ -565,7 +565,7 @@ if __name__ == "__main__":
     train_losses, val_losses, train_accs, val_accs, examples_seen = train_classifier_simple(
         model, train_loader, val_loader, optimizer, device,
         num_epochs=args.num_epochs, eval_freq=50, eval_iter=5,
-        tokenizer=tokenizer, max_steps=None, trainable_token=args.trainable_token,
+        tokenizer=tokenizer, max_steps=None, trainable_token_pos=args.trainable_token_pos,
         accumulation_steps=args.accumulation_steps
     )
 
@@ -577,9 +577,9 @@ if __name__ == "__main__":
     # Evaluate model
     ###############################
 
-    train_accuracy = calc_accuracy_loader(train_loader, model, device, trainable_token=args.trainable_token)
-    val_accuracy = calc_accuracy_loader(val_loader, model, device, trainable_token=args.trainable_token)
-    test_accuracy = calc_accuracy_loader(test_loader, model, device, trainable_token=args.trainable_token)
+    train_accuracy = calc_accuracy_loader(train_loader, model, device, trainable_token_pos=args.trainable_token_pos)
+    val_accuracy = calc_accuracy_loader(val_loader, model, device, trainable_token_pos=args.trainable_token_pos)
+    test_accuracy = calc_accuracy_loader(test_loader, model, device, trainable_token_pos=args.trainable_token_pos)
 
     print(f"Training accuracy: {train_accuracy*100:.2f}%")
     print(f"Validation accuracy: {val_accuracy*100:.2f}%")

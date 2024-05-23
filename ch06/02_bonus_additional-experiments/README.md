@@ -9,23 +9,23 @@ For example,
 
 &nbsp;
 
-|     | Model              | Weights    | Trainable token | Trainable layers | Context length                                         | Training acc | Validation acc | Test acc | Training time | CPU/GPU |
-| --- | ------------------ | ---------- | --------------- | ---------------- | ------------------------------------------------------ | ------------ | -------------- | -------- | ------------- | ------- |
-| 1   | gpt2-small (124M)  | pretrained | last            | last_block       | longest train ex. (120)                                | 96.63%       | 99.33%         | 95.00%   | 0.28 min      | A100    |
-| 2   | gpt2-small (124M)  | pretrained | first           | last_block       | longest train ex. (120)                                | 78.46%       | 80.54%         | 75.00%   | 0.28 min      | A100    |
-| 3   | gpt2-small (124M)  | pretrained | last            | last_layer       | longest train ex. (120)                                | 78.65%       | 79.87%         | 72.00%   | 0.25 min      | A100    |
-| 4   | gpt2-small (124M)  | pretrained | last            | last_two_blocks  | longest train ex. (120)                                | 98.85%       | 98.66%         | 98.33%   | 0.33 min      | A100    |
-| 5   | gpt2-small (124M)  | pretrained | last            | all              | longest train ex. (120)                                | 99.62%       | 96.64%         | 96.67%   | 0.69 min      | A100    |
-| 6   | gpt2-medium (355M) | pretrained | last            | last_block       | longest train ex. (120)                                | 87.50%       | 91.28%         | 84.67%   | 0.75 min      | A100    |
-| 7   | gpt2-large (774M)  | pretrained | last            | last_block       | longest train ex. (120)                                | 99.52%       | 98.66%         | 96.67%   | 1.50 min      | A100    |
-| 8   | gpt2-xl (1558M)    | pretrained | last            | last_block       | longest train ex. (120)                                | 99.81%       | 99.33%         | 98.33%   | 2.83 min      | A100    |
-| 9   | gpt2-small (124M)  | random     | last            | all              | longest train ex. (120)                                | 100%         | 96.64%         | 93.67%   | 0.69 min      | A100    |
-| 10  | gpt2-small (124M)  | pretrained | last            | LoRA             | longest train ex. (120)                                | 100.00%      | 97.32%         | 96.67%   | 0.75 min      | A100    |
-| 11  | gpt2-small (124M)  | pretrained | last            | last_block       | context length (1024)                                  | 83.08%       | 87.92%         | 78.33%   | 2.46 min      | A100    |
-| 12  | gpt2-small (124M)  | pretrained | last            | last_block       | variable: no padding (batch size 1)                    | 100.00%      | 98.66%         | 98.00%   | 1.75 min      | A100    |
-| 13  | gpt2-small (124M)  | pretrained | last            | last_block       | variable: no padding (batch size 8)                    | 99.33%       | 98.66%         | 98.33%   | 1.70 min      | A100    |
-| 14  | gpt2-small (124M)  | pretrained | last            | last_block       | longest train ex. (120); but no causal mask            | 99.23%       | 98.66%         | 95.33%   | 0.29 min      | A100    |
-| 15  | gpt2-small (124M)  | pretrained | last            | last_block       | longest train ex. (120) and `ignore_index` for padding | 96.63%       | 99.33%         | 95.00%   | 0.28 min      | A100    |
+|      | Model              | Weights    | Trainable token position | Trainable layers | Context length                                         | Training acc | Validation acc | Test acc | Training time | CPU/GPU |
+| ---- | ------------------ | ---------- | ------------------------ | ---------------- | ------------------------------------------------------ | ------------ | -------------- | -------- | ------------- | ------- |
+| 1    | gpt2-small (124M)  | pretrained | last                     | last_block       | longest train ex. (120)                                | 96.63%       | 99.33%         | 95.00%   | 0.28 min      | A100    |
+| 2    | gpt2-small (124M)  | pretrained | first                    | last_block       | longest train ex. (120)                                | 78.46%       | 80.54%         | 75.00%   | 0.28 min      | A100    |
+| 3    | gpt2-small (124M)  | pretrained | last                     | last_layer       | longest train ex. (120)                                | 78.65%       | 79.87%         | 72.00%   | 0.25 min      | A100    |
+| 4    | gpt2-small (124M)  | pretrained | last                     | last_two_blocks  | longest train ex. (120)                                | 98.85%       | 98.66%         | 98.33%   | 0.33 min      | A100    |
+| 5    | gpt2-small (124M)  | pretrained | last                     | all              | longest train ex. (120)                                | 99.62%       | 96.64%         | 96.67%   | 0.69 min      | A100    |
+| 6    | gpt2-medium (355M) | pretrained | last                     | last_block       | longest train ex. (120)                                | 87.50%       | 91.28%         | 84.67%   | 0.75 min      | A100    |
+| 7    | gpt2-large (774M)  | pretrained | last                     | last_block       | longest train ex. (120)                                | 99.52%       | 98.66%         | 96.67%   | 1.50 min      | A100    |
+| 8    | gpt2-xl (1558M)    | pretrained | last                     | last_block       | longest train ex. (120)                                | 99.81%       | 99.33%         | 98.33%   | 2.83 min      | A100    |
+| 9    | gpt2-small (124M)  | random     | last                     | all              | longest train ex. (120)                                | 100%         | 96.64%         | 93.67%   | 0.69 min      | A100    |
+| 10   | gpt2-small (124M)  | pretrained | last                     | LoRA             | longest train ex. (120)                                | 100.00%      | 97.32%         | 96.67%   | 0.75 min      | A100    |
+| 11   | gpt2-small (124M)  | pretrained | last                     | last_block       | context length (1024)                                  | 83.08%       | 87.92%         | 78.33%   | 2.46 min      | A100    |
+| 12   | gpt2-small (124M)  | pretrained | last                     | last_block       | variable: no padding (batch size 1)                    | 100.00%      | 98.66%         | 98.00%   | 1.75 min      | A100    |
+| 13   | gpt2-small (124M)  | pretrained | last                     | last_block       | variable: no padding (batch size 8)                    | 99.33%       | 98.66%         | 98.33%   | 1.70 min      | A100    |
+| 14   | gpt2-small (124M)  | pretrained | last                     | last_block       | longest train ex. (120); but no causal mask            | 99.23%       | 98.66%         | 95.33%   | 0.29 min      | A100    |
+| 15   | gpt2-small (124M)  | pretrained | last                     | last_block       | longest train ex. (120) and `ignore_index` for padding | 96.63%       | 99.33%         | 95.00%   | 0.28 min      | A100    |
 
 &nbsp;
 
@@ -34,7 +34,7 @@ For example,
 You can use the following code to reproduce the experiments:
 
 - Row 1: `python additional-experiments.py`
-- Row 2: `python additional-experiments.py --trainable_token first`
+- Row 2: `python additional-experiments.py --trainable_token_pos first`
 - Row 3: `python additional-experiments.py --trainable_layers last_layer`
 - Row 4: `python additional-experiments.py --trainable_layers last_two_blocks`
 - Row 5: `python additional-experiments.py --trainable_layers all`
@@ -55,7 +55,7 @@ I've kept the LLM and dataset small on purpose, so you can run the training on a
 
 ### Interpretation
 
-1. **Training the Last vs. First Output Token (Row 1 vs. 2)**: Training the last output token results in substantially better performance compared to the first. This improvement is expected due to the causal self-attention mask.
+1. **Training the Last vs. First Output Token Position (Row 1 vs. 2)**: Training the last output token position results in substantially better performance compared to the first. This improvement is expected due to the causal self-attention mask.
 2. **Training the Last Transformer Block vs. Last Layer (Row 1 vs. 3)**: Training the entire last transformer block is also results in substantially better results than training only the last layer.
 3. **Training the Last vs. Last Two Last Transformer Blocks (Row 1 vs. 4)**: Training the two last transformer blocks instead of only the last block results in a noticeable 3.33% accuracy boost.
 4. **Training Last Transformer Block vs All Layers (Row 1 vs. 5)**: Training all layers shows a modest improvement of ~2% over just training the last transformer block, but it requires almost three times longer in terms of training duration. Also, it does not perform as well as training only the last two out of 12 transformer blocks.

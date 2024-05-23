@@ -548,6 +548,12 @@ if __name__ == "__main__":
         drop_last=False,
     )
 
+    assert train_dataset.max_length <= model.pos_emb.weight.shape[0], (
+        f"Dataset length {train_dataset.max_length} exceeds model's context "
+        f"length {model.pos_emb.weight.shape[0]}. Reinitialize data sets with "
+        f"`max_length={model.pos_emb.weight.shape[0]}`"
+    )
+
     ###############################
     # Train model
     ###############################

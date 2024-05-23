@@ -373,6 +373,12 @@ if __name__ == "__main__":
 
         BASE_CONFIG.update(model_configs[CHOOSE_MODEL])
 
+        assert train_dataset.max_length <= BASE_CONFIG["context_length"], (
+            f"Dataset length {train_dataset.max_length} exceeds model's context "
+            f"length {BASE_CONFIG['context_length']}. Reinitialize data sets with "
+            f"`max_length={BASE_CONFIG['context_length']}`"
+        )
+
         model_size = CHOOSE_MODEL.split(" ")[-1].lstrip("(").rstrip(")")
         settings, params = download_and_load_gpt2(model_size=model_size, models_dir="gpt2")
 

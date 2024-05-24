@@ -7,7 +7,9 @@ This repository contains the code for coding, pretraining, and finetuning a GPT-
 <br>
 <br>
 
-<a href="http://mng.bz/orYv"><img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/cover.jpg" width="250px"></a>
+<a href="http://mng.bz/orYv"><img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/cover.jpg?123" width="250px"></a>
+
+<br>
 
 In [*Build a Large Language Model (From Scratch)*](http://mng.bz/orYv), you'll discover how LLMs work from the inside out. In this book, I'll guide you step by step through creating your own LLM, explaining each stage with clear text, diagrams, and examples.
 

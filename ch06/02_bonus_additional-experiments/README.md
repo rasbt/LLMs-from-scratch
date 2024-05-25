@@ -1,4 +1,4 @@
-# Additional Experiments
+# Additional Classification Finetuning Experiments
 
 The table below adds experiments to answer additional questions about various design choices. The first row uses the same settings as the main chapter and is used as a reference.
 For example,

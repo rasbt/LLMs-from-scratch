@@ -12,11 +12,19 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 # Sample JSON dataset
 example_data = [
-    {"instruction": "What is the capital of Italy?", "input": "", "output": "The capital of Italy is Rome."},
-    {"instruction": "What's the capital city of Italy?", "input": "", "output": "The capital city is Rome."},
-    {"instruction": "Identify the main verb in the sentence: 'The cat sleeps on the couch.'", "input": "", "output": "The verb is 'sleeps'."},
-    {"instruction": "Identify the verb in the following sentence: The cat sleeps on the couch.", "input": "", "output": "The verb in the sentence is \"sleeps.\""},
-    # Add other entries...
+    {"instruction": "What is the capital of Italy?",
+     "input": "", "output": "The capital of Italy is Rome."
+     },
+    {"instruction": "What's the capital city of Italy?",
+     "input": "", "output": "The capital city is Rome."
+     },
+    {"instruction": "Identify the main verb in the sentence: 'The cat sleeps on the couch.'",
+     "input": "", "output": "The verb is 'sleeps'."
+     },
+    {"instruction": "Identify the verb in the following sentence: The cat sleeps on the couch.",
+     "input": "", "output": "The verb in the sentence is \"sleeps.\""
+     },
+    # ...
 ]
 
 
@@ -48,15 +56,22 @@ def find_near_duplicates(json_data, threshold=0.8, key="instruction"):
 
 
 def find_and_print_new_duplicates(json_data):
+    """
+    Searches each key in the first JSON object for duplicates across a list of JSON objects.
+    Prints the duplicates if found.
+    """
     for key in json_data[0].keys():
         near_duplicates = find_near_duplicates(json_data, key=key)
-        print(f"\n\n{50*'='}\n Searching '{key}' for duplicates ...\n{50*'='}")
+        separator = 50 * '='
+        print(f"\n\n{separator}\nSearching '{key}' for duplicates ...\n{separator}")
         if not near_duplicates:
             print("No duplicates found")
         else:
             for dup in near_duplicates:
-                print(f"Duplicate pair found with similarity {dup[2]:.2f}:\n"
-                      f"1. {dup[0][key]}\n2. {dup[1][key]}\n")
+                print(
+                    f"Duplicate pair found with similarity {dup[2]:.2f}:\n"
+                    f"1. {dup[0][key]}\n2. {dup[1][key]}\n"
+                )
 
 
 if __name__ == "__main__":

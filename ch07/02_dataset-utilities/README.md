@@ -2,6 +2,14 @@
 
 This folder contains utility code that can be used for preparing an instruction dataset.
 
+Install the additional package requirements via:
+
+```bash
+pip install -r requirements-extra.txt
+```
+
+
+
 
 
 ### Finding near duplicates

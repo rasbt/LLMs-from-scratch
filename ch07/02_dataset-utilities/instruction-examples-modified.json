@@ -1,0 +1,1202 @@
+[
+    {
+        "instruction": "Identify the verb in the following sentence: The cat sleeps on the couch.",
+        "input": "",
+        "output": "The verb in the sentence is \"sleeps.\"",
+        "output_2": "The sentence is \"The verb in the sentence is slept.\""
+    },
+    {
+        "instruction": "What is the plural form of \"goose\"?",
+        "input": "",
+        "output": "The plural form of \"goose\" is \"geese.\"",
+        "output_2": "The plural form of \"goose\" is referred to as \"geese.\""
+    },
+    {
+        "instruction": "List three primary colors.",
+        "input": "",
+        "output": "The three primary colors are red, blue, and yellow.",
+        "output_2": "Red, blue, and yellow are the three primary colors."
+    },
+    {
+        "instruction": "Change the following sentence to past perfect tense.",
+        "input": "They finish the game.",
+        "output": "They had finished the game.",
+        "output_2": "The game had been finished by them."
+    },
+    {
+        "instruction": "What is the abbreviation for \"Doctor of Philosophy\"?",
+        "input": "",
+        "output": "The abbreviation for \"Doctor of Philosophy\" is Ph.D.",
+        "output_2": "The abbreviation \"Ph.D.\" is used for \"Doctor of Philosophy\"."
+    },
+    {
+        "instruction": "Correct the misspelled word in the following sentence: I recieved your message.",
+        "input": "",
+        "output": "The misspelled word \"recieved\" should be spelled \"received.\"",
+        "output_2": "The misspelled word \"recieved\" should be spelled \"received\" should be stated."
+    },
+    {
+        "instruction": "Transform the following sentence to include an exclamation mark to show excitement.",
+        "input": "I won the lottery",
+        "output": "I won the lottery!",
+        "output_2": "The lottery was won by me!"
+    },
+    {
+        "instruction": "What is the antonym of \"ancient\"?",
+        "input": "",
+        "output": "The antonym of \"ancient\" is \"modern.\"",
+        "output_2": "The antonym of \"ancient\" is said to be \"modern.\""
+    },
+    {
+        "instruction": "Name a synonym for \"happiness.\"",
+        "input": "",
+        "output": "A synonym for \"happiness\" is \"joy.\"",
+        "output_2": "A synonym for \"happiness\" is referred to as \"joy.\""
+    },
+    {
+        "instruction": "Classify the following items: gold ring, daisy, python.",
+        "input": "",
+        "output": "Animals: Python\nPlants: Daisy\nMinerals: Gold ring",
+        "output_2": "Animals: Python is possessed.\nPlants: Daisy is grown.\nMinerals: Gold ring is made."
+    },
+    {
+        "instruction": "Generate three adjectives to describe a mountain.",
+        "input": "",
+        "output": "1. Majestic\n2. Rugged\n3. Towering",
+        "output_2": "1. Majestic\n2. Rugged\n3. Towering\n\n(Note: The words provided are adjectives and not sentences, hence they cannot be converted into passive voice as they do not contain a verb.)"
+    },
+    {
+        "instruction": "Determine the state of matter for helium at room temperature.",
+        "input": "",
+        "output": "Helium is in a gaseous state at room temperature.",
+        "output_2": "At room temperature, helium is found in a gaseous state."
+    },
+    {
+        "instruction": "Rewrite the following sentence to use a simile: The car raced down the road.",
+        "input": "",
+        "output": "The car raced down the road like a bullet.",
+        "output_2": "Down the road like a bullet, the car was raced."
+    },
+    {
+        "instruction": "What is the symbol for the chemical element iron?",
+        "input": "",
+        "output": "The symbol for the chemical element iron is Fe.",
+        "output_2": "The symbol for the chemical element iron is represented by Fe."
+    },
+    {
+        "instruction": "Convert the sentence into a question by adding a question tag.",
+        "input": "You will help me",
+        "output": "You will help me, won't you?",
+        "output_2": "I will be helped by you, won't I?"
+    },
+    {
+        "instruction": "List two synonyms for \"intelligent.\"",
+        "input": "",
+        "output": "Two synonyms for \"intelligent\" are \"smart\" and \"clever.\"",
+        "output_2": "\"Smart\" and \"clever\" are two synonyms for \"intelligent.\""
+    },
+    {
+        "instruction": "Name the process by which plants lose water vapor through their leaves.",
+        "input": "",
+        "output": "The process by which plants lose water vapor through their leaves is called transpiration.",
+        "output_2": "Transpiration is called the process by which water vapor is lost through the leaves of plants."
+    },
+    {
+        "instruction": "Provide a word that rhymes with \"care.\"",
+        "input": "",
+        "output": "A word that rhymes with \"care\" is \"fare.\"",
+        "output_2": "A word with which \"care\" rhymes is \"fare.\""
+    },
+    {
+        "instruction": "Rewrite this sentence to start with \"Despite\": She managed to finish her work, although she was tired.",
+        "input": "",
+        "output": "Despite being tired, she managed to finish her work.",
+        "output_2": "Despite being tired, the work was managed to be finished by her."
+    },
+    {
+        "instruction": "Convert the following sentence to use a relative clause: The man is a teacher. He lives next door.",
+        "input": "",
+        "output": "The man who lives next door is a teacher.",
+        "output_2": "The man who is lived next door by is a teacher."
+    },
+    {
+        "instruction": "Arrange the following events in chronological order: Invention of the airplane, Fall of the Berlin Wall, Discovery of America.",
+        "input": "",
+        "output": "1. Discovery of America\n2. Invention of the airplane\n3. Fall of the Berlin Wall",
+        "output_2": "1. America was discovered.\n2. The airplane was invented.\n3. The Berlin Wall was fallen."
+    },
+    {
+        "instruction": "Name three types of clouds.",
+        "input": "",
+        "output": "Three types of clouds are cumulus, stratus, and cirrus.",
+        "output_2": "Cumulus, stratus, and cirrus are three types of clouds."
+    },
+    {
+        "instruction": "Create a compound word using \"book.\"",
+        "input": "",
+        "output": "A compound word using \"book\" is \"bookshelf.\"",
+        "output_2": "A compound word using \"book\" is referred to as \"bookshelf.\""
+    },
+    {
+        "instruction": "Identify the main subject in the sentence: The noisy children played in the park.",
+        "input": "",
+        "output": "The main subject in the sentence is \"The noisy children.\"",
+        "output_2": "\"The noisy children\" is the main subject in the sentence."
+    },
+    {
+        "instruction": "Explain what a haiku is.",
+        "input": "",
+        "output": "A haiku is a form of traditional Japanese poetry that consists of three lines with a syllable pattern of 5-7-5.",
+        "output_2": "A form of traditional Japanese poetry known as a haiku consists of three lines with a syllable pattern of 5-7-5."
+    },
+    {
+        "instruction": "Provide the past tense form of the verb \"run.\"",
+        "input": "",
+        "output": "The past tense of the verb \"run\" is \"ran.\"",
+        "output_2": "The past tense of the verb \"run\" is referred to as \"ran.\""
+    },
+    {
+        "instruction": "List the ingredients required to make a basic salad.",
+        "input": "",
+        "output": "Ingredients for a basic salad typically include lettuce, tomatoes, cucumbers, and dressing.",
+        "output_2": "Lettuce, tomatoes, cucumbers, and dressing are typically included as ingredients for a basic salad."
+    },
+    {
+        "instruction": "What is the capital of Australia?",
+        "input": "",
+        "output": "The capital of Australia is Canberra.",
+        "output_2": "Canberra is the capital of Australia."
+    },
+    {
+        "instruction": "Name a punctuation mark used to indicate possession.",
+        "input": "",
+        "output": "A punctuation mark used to indicate possession is the apostrophe (').",
+        "output_2": "A punctuation mark used to indicate possession is indicated by the apostrophe (')."
+    },
+    {
+        "instruction": "Name an antonym for \"joy.\"",
+        "input": "",
+        "output": "An antonym for \"joy\" is \"sorrow.\"",
+        "output_2": "An antonym for \"joy\" is considered to be \"sorrow.\""
+    },
+    {
+        "instruction": "Classify the following items: apple, diamond, fern.",
+        "input": "",
+        "output": "Plants: Fern\nMinerals: Diamond\nFruits: Apple",
+        "output_2": "Plants: Fern is grown.\nMinerals: Diamond is formed.\nFruits: Apple is cultivated."
+    },
+    {
+        "instruction": "Generate three adjectives to describe the ocean.",
+        "input": "",
+        "output": "1. Vast\n2. Mysterious\n3. Serene",
+        "output_2": "1. Vast is remained.\n2. Mysterious is considered.\n3. Serene is felt."
+    },
+    {
+        "instruction": "Determine the state of matter for nitrogen at room temperature.",
+        "input": "",
+        "output": "Nitrogen is in a gaseous state at room temperature.",
+        "output_2": "At room temperature, nitrogen is in a gaseous state."
+    },
+    {
+        "instruction": "Convert the following statement into a question.",
+        "input": "You were at the concert last night.",
+        "output": "Were you at the concert last night?",
+        "output_2": "Was the concert attended by you last night?"
+    },
+    {
+        "instruction": "Arrange these historical periods in chronological order: Renaissance, Roman Empire, Victorian Era.",
+        "input": "",
+        "output": "1. Roman Empire\n2. Renaissance\n3. Victorian Era",
+        "output_2": "1. Roman Empire\n2. Renaissance\n3. Victorian Era"
+    },
+    {
+        "instruction": "Suggest a more formal synonym for \"happy.\"",
+        "input": "",
+        "output": "A more formal synonym for \"happy\" is \"content.\"",
+        "output_2": "A more formal synonym for \"happy\" is considered to be \"content.\""
+    },
+    {
+        "instruction": "Evaluate this sentence for spelling and grammar mistakes.",
+        "input": "I recieved an invitation to an exciting evenement.",
+        "output": "There are two errors in the sentence. The corrected sentence should be: \"I received an invitation to an exciting event.\"",
+        "output_2": "Two errors are found in the sentence. The corrected sentence should be: \"An invitation to an exciting event was received by me.\""
+    },
+    {
+        "instruction": "What is the capital of Germany?",
+        "input": "",
+        "output": "The capital city of Germany is Berlin.",
+        "output_2": "Berlin is the capital city of Germany."
+    },
+    {
+        "instruction": "Classify the following into animals, plants, and metals.",
+        "input": "Rose, gold, cat",
+        "output": "Animals: Cat\nPlants: Rose\nMetals: Gold",
+        "output_2": "Animals: Cat is mentioned.\nPlants: Rose is mentioned.\nMetals: Gold is mentioned."
+    },
+    {
+        "instruction": "Generate three verbs that mean the same as \"to run.\"",
+        "input": "",
+        "output": "1. To sprint\n2. To dash\n3. To jog",
+        "output_2": "1. To be sprinted\n2. To be dashed\n3. To be jogged"
+    },
+    {
+        "instruction": "Look up the melting point of iron.",
+        "input": "",
+        "output": "The melting point of iron is approximately 1538 degrees Celsius or 2800 degrees Fahrenheit.",
+        "output_2": "The melting point of iron is approximately 1538 degrees Celsius or 2800 degrees Fahrenheit."
+    },
+    {
+        "instruction": "Rewrite the following sentence using passive voice.",
+        "input": "The team achieved great results.",
+        "output": "Great results were achieved by the team.",
+        "output_2": "The team achieved great results."
+    },
+    {
+        "instruction": "Edit the following sentence to make it more formal.",
+        "input": "He's got to see it to believe it.",
+        "output": "He must see it to believe it.",
+        "output_2": "It must be seen by him to be believed."
+    },
+    {
+        "instruction": "Arrange the given numbers in descending order.",
+        "input": "7, 10, 3, 6, 9",
+        "output": "10, 9, 7, 6, 3.",
+        "output_2": "10, 9, 7, 6, 3 were counted."
+    },
+    {
+        "instruction": "Given a sentence, convert it into indirect speech.",
+        "input": "She said, \"I am tired.\"",
+        "output": "She said that she was tired.",
+        "output_2": "It was said by her that she was tired."
+    },
+    {
+        "instruction": "Transform the following sentence into the passive voice.",
+        "input": "They will build a new bridge.",
+        "output": "A new bridge will be built by them.",
+        "output_2": "A new bridge will be built by them."
+    },
+    {
+        "instruction": "What is the capital of Italy?",
+        "input": "",
+        "output": "The capital of Italy is Rome.",
+        "output_2": "Rome is the capital of Italy."
+    },
+    {
+        "instruction": "Generate a random alphanumeric code of 10 characters.",
+        "input": "",
+        "output": "Here is a randomly generated 10-character alphanumeric code: 3F8G6H7JQ2.",
+        "output_2": "A randomly generated 10-character alphanumeric code is presented here: 3F8G6H7JQ2."
+    },
+    {
+        "instruction": "Identify the correct spelling of the following word.",
+        "input": "Necesary",
+        "output": "The correct spelling is \"Necessary\".",
+        "output_2": "The correct spelling is said to be \"Necessary\"."
+    },
+    {
+        "instruction": "Change this sentence into the past continuous tense.",
+        "input": "She sings in the choir.",
+        "output": "She was singing in the choir.",
+        "output_2": "Singing in the choir was being done by her."
+    },
+    {
+        "instruction": "Make the first sentence a dependent clause.",
+        "input": "I finished my work. I went home.",
+        "output": "After finishing my work, I went home.",
+        "output_2": "After my work was finished, I was gone home."
+    },
+    {
+        "instruction": "Rewrite the sentence in future perfect tense.",
+        "input": "They will complete the project.",
+        "output": "They will have completed the project.",
+        "output_2": "The project will have been completed by them."
+    },
+    {
+        "instruction": "Convert the given sentence into active voice.",
+        "input": "The law was passed by the government.",
+        "output": "The government passed the law.",
+        "output_2": "The law was passed by the government."
+    },
+    {
+        "instruction": "Transform the following sentence into a question using \"could.\"",
+        "input": "You can help me tomorrow.",
+        "output": "Could you help me tomorrow?",
+        "output_2": "Could I be helped by you tomorrow?"
+    },
+    {
+        "instruction": "Correct the grammatical errors in this sentence.",
+        "input": "He don't know nothing about it.",
+        "output": "He doesn't know anything about it.",
+        "output_2": "Anything about it is not known by him."
+    },
+    {
+        "instruction": "Rewrite the following sentence to remove redundancy.",
+        "input": "The actual fact is that he was late.",
+        "output": "The fact is that he was late.",
+        "output_2": "The fact is that he was late."
+    },
+    {
+        "instruction": "Rewrite the following sentence so that it is in active voice.",
+        "input": "The cookies were eaten by the children.",
+        "output": "The children ate the cookies.",
+        "output_2": "The cookies were eaten by the children."
+    },
+    {
+        "instruction": "What is the contraction for \"will not\"?",
+        "input": "",
+        "output": "The contraction for \"will not\" is \"won't\".",
+        "output_2": "The contraction for \"will not\" is referred to as \"won't\"."
+    },
+    {
+        "instruction": "Generate a sentence that follows the pattern: \"Never have I ever _____ without _____\"",
+        "input": "",
+        "output": "Never have I ever traveled without a map.",
+        "output_2": "Never has a map not been traveled with by me."
+    },
+    {
+        "instruction": "Classify this text as a technical document or a narrative.",
+        "input": "This manual provides instructions for installing the software.",
+        "output": "Technical document",
+        "output_2": "A technical document"
+    },
+    {
+        "instruction": "Sort the following list in alphabetical order.",
+        "input": "Zebra, Elephant, Crocodile",
+        "output": "sorted in alphabetical order: Crocodile, Elephant, Zebra",
+        "output_2": "Sorted in alphabetical order: Crocodile, Elephant, Zebra."
+    },
+    {
+        "instruction": "Name the three main types of rocks.",
+        "input": "",
+        "output": "The three main types of rocks are igneous, sedimentary, and metamorphic.",
+        "output_2": "The three main types of rocks are identified as igneous, sedimentary, and metamorphic."
+    },
+    {
+        "instruction": "Edit the following sentence for grammar.",
+        "input": "We goes to the park every Sunday.",
+        "output": "We go to the park every Sunday.",
+        "output_2": "The park is visited by us every Sunday."
+    },
+    {
+        "instruction": "Find a rhyming word for the word \"care.\"",
+        "input": "",
+        "output": "A rhyming word for the word \"care\" could be \"bare.\"",
+        "output_2": "A rhyming word for the word \"care\" could be \"bare\" by \"bare.\""
+    },
+    {
+        "instruction": "Reword the following sentence to the future tense.",
+        "input": "He is reading a novel inspired by his grandmother.",
+        "output": "He will be reading a novel inspired by his grandmother.",
+        "output_2": "A novel inspired by his grandmother will be being read by him."
+    },
+    {
+        "instruction": "Classify the following fruit according to its type.",
+        "input": "Watermelon",
+        "output": "The fruit \"Watermelon\" is typically classified as a type of melon.",
+        "output_2": "The fruit \"Watermelon\" is typically classified as a type of melon by people."
+    },
+    {
+        "instruction": "Suggest a continuation for the sentence: \"When the sun set,\"",
+        "input": "",
+        "output": "\"the sky turned a brilliant shade of orange, casting a warm glow over the city.\"",
+        "output_2": "A brilliant shade of orange was turned by the sky, casting a warm glow over the city."
+    },
+    {
+        "instruction": "Classify the given sentiment as either positive, negative, or neutral.",
+        "input": "This is a great opportunity!",
+        "output": "Positive",
+        "output_2": "Positive feedback is appreciated."
+    },
+    {
+        "instruction": "Generate a question that could logically follow the statement below.",
+        "input": "I just returned from a vacation in Spain.",
+        "output": "How was your vacation in Spain?",
+        "output_2": "How was your vacation in Spain enjoyed by you?"
+    },
+    {
+        "instruction": "Create a sentence that begins with \"If only,\"",
+        "input": "",
+        "output": "If only I had known the truth earlier...",
+        "output_2": "If only the truth had been known to me earlier..."
+    },
+    {
+        "instruction": "Correct any spelling mistakes in the given sentence.",
+        "input": "I prefer homemade cookies to store boaght.",
+        "output": "I prefer homemade cookies to store bought.",
+        "output_2": "Homemade cookies are preferred by me to store-bought."
+    },
+    {
+        "instruction": "Edit the following sentence for clarity and style.",
+        "input": "He response to the issue was quick.",
+        "output": "His response to the issue was quick.",
+        "output_2": "A quick response was given to the issue by him."
+    },
+    {
+        "instruction": "Name three essential elements found in nature.",
+        "input": "",
+        "output": "1. Carbon\n2. Oxygen\n3. Iron",
+        "output_2": "1. Carbon is converted.\n2. Oxygen is converted.\n3. Iron is converted."
+    },
+    {
+        "instruction": "Name a dwarf planet in our solar system.",
+        "input": "",
+        "output": "One dwarf planet in our solar system is Pluto.",
+        "output_2": "Pluto is one dwarf planet in our solar system."
+    },
+    {
+        "instruction": "Name a dwarf planet in our solar system.",
+        "input": "",
+        "output": "One dwarf planet in our solar system is Pluto.",
+        "output_2": "Pluto is one dwarf planet in our solar system."
+    },
+    {
+        "instruction": "Classify the following words by their grammatical categories: swim, beautiful, quickly",
+        "input": "",
+        "output": "Swim: Verb\nBeautiful: Adjective\nQuickly: Adverb",
+        "output_2": "Swum: Verb\nBeautiful: Adjective\nQuickly: Adverb"
+    },
+    {
+        "instruction": "Pick out the correct verb from the following list.",
+        "input": "run, mountain, quickly",
+        "output": "The correct verb from the list is \"run.\"",
+        "output_2": "The correct verb from the list, \"run,\" is chosen."
+    },
+    {
+        "instruction": "Combine the two sentences into a single coherent sentence.",
+        "input": "She did not attend the meeting. She was ill.",
+        "output": "She did not attend the meeting because she was ill.",
+        "output_2": "The meeting was not attended by her because she was ill."
+    },
+    {
+        "instruction": "Classify the item as either a grain or a fruit.",
+        "input": "Wheat",
+        "output": "Grain",
+        "output_2": "Grain is grown."
+    },
+    {
+        "instruction": "Classify the following statement into one of these labels: [positive, negative, neutral]",
+        "input": "My computer crashed.",
+        "output": "The statement \"My computer crashed\" can be classified as negative.",
+        "output_2": "The statement \"My computer crashed\" can be classified as negative."
+    },
+    {
+        "instruction": "Rewrite the following sentence in the active voice",
+        "input": "The meeting will be held by the board.",
+        "output": "The board will hold the meeting.",
+        "output_2": "The meeting will be held by the board."
+    },
+    {
+        "instruction": "Re-word this sentence using an active voice.",
+        "input": "The decision was made by the team.",
+        "output": "The team made the decision.",
+        "output_2": "The decision was made by the team."
+    },
+    {
+        "instruction": "Change the given verb to its present perfect form.",
+        "input": "go",
+        "output": "Gone.",
+        "output_2": "Gone."
+    },
+    {
+        "instruction": "Perform a sentiment analysis on the given sentence.",
+        "input": "I hate this song!",
+        "output": "The sentiment of the sentence \"I hate this song!\" is negative. This is indicated by the word \"hate\" which shows strong aversion or dislike towards the subject, in this case, the song.",
+        "output_2": "The sentiment of the sentence \"I hate this song!\" is identified as negative. This is indicated by the word \"hate,\" which shows strong aversion or dislike towards the subject, in this case, the song."
+    },
+    {
+        "instruction": "Find the temperature of boiling water under normal atmospheric pressure.",
+        "input": "",
+        "output": "Under normal atmospheric pressure, the temperature of boiling water is 100 degrees Celsius (212 degrees Fahrenheit).",
+        "output_2": "Under normal atmospheric pressure, the boiling point of water is reached at 100 degrees Celsius (212 degrees Fahrenheit)."
+    },
+    {
+        "instruction": "Edit the following sentence to correct any grammar errors.",
+        "input": "They was trying to fix the car all day.",
+        "output": "They were trying to fix the car all day.",
+        "output_2": "The car was being tried to be fixed all day."
+    },
+    {
+        "instruction": "List 5 different types of vegetables",
+        "input": "",
+        "output": "1. Carrot\n2. Broccoli\n3. Cucumber\n4. Tomato (biologically a fruit, but often classified as a vegetable)\n5. Spinach",
+        "output_2": "1. Carrot is grown.\n2. Broccoli is cultivated.\n3. Cucumber is raised.\n4. Tomato is produced (biologically a fruit, but often classified as a vegetable).\n5. Spinach is farmed."
+    },
+    {
+        "instruction": "Turn the following statement into a question.",
+        "input": "The Golden State Warriors are a professional basketball team based in San Francisco.",
+        "output": "Are the Golden State Warriors a professional basketball team based in San Francisco?",
+        "output_2": "Is a professional basketball team based in San Francisco represented by the Golden State Warriors?"
+    },
+    {
+        "instruction": "Fill in the blank to complete the sentence:\nThe most popular fruit in the world is the ____",
+        "input": "",
+        "output": "The most popular fruit in the world is the banana.",
+        "output_2": "The banana is the most popular fruit in the world."
+    },
+    {
+        "instruction": "Generate a question based on the following statement.",
+        "input": "Plants produce oxygen through the process of photosynthesis.",
+        "output": "How do plants produce oxygen?",
+        "output_2": "How is oxygen produced by plants?"
+    },
+    {
+        "instruction": "Correct any mistakes in the following sentence.",
+        "input": "Everyones going to the game tomorrow.",
+        "output": "Everyone's going to the game tomorrow.",
+        "output_2": "The game is going to be attended by everyone tomorrow."
+    },
+    {
+        "instruction": "Rewrite the following sentence by adding one adverb.",
+        "input": "The cat slept on the mat.",
+        "output": "The cat peacefully slept on the mat.",
+        "output_2": "On the mat, the cat was peacefully slept."
+    },
+    {
+        "instruction": "Identify the tense used in the sentence.",
+        "input": "They are watching a movie.",
+        "output": "The tense used in the sentence \"They are watching a movie\" is the present continuous tense.",
+        "output_2": "The tense used in the sentence \"A movie is being watched by them\" is the present continuous tense."
+    },
+    {
+        "instruction": "Categorize the following sentence as either factual or opinion-based.",
+        "input": "Chocolate is the best dessert.",
+        "output": "Opinion-based.",
+        "output_2": "Opinion-based was written."
+    },
+    {
+        "instruction": "Classify each sentence as either declarative, interrogative, imperative, or exclamatory.",
+        "input": "Can you help me?",
+        "output": "The classification of the sentence \"Can you help me?\" is interrogative.",
+        "output_2": "The sentence \"Can you help me?\" is classified as interrogative."
+    },
+    {
+        "instruction": "Reverse this array",
+        "input": "[10, 20, 30, 40, 50]",
+        "output": "Here is the reversed array: [50, 40, 30, 20, 10]",
+        "output_2": "The reversed array is presented here: [50, 40, 30, 20, 10]."
+    },
+    {
+        "instruction": "What is the chemical formula for salt?",
+        "input": "",
+        "output": "The chemical formula for salt (sodium chloride) is NaCl.",
+        "output_2": "The chemical formula for salt (sodium chloride) is given as NaCl."
+    },
+    {
+        "instruction": "Rewrite this sentence in the present continuous tense.",
+        "input": "They play football every Sunday.",
+        "output": "They are playing football.",
+        "output_2": "Football is being played by them."
+    },
+    {
+        "instruction": "Categorize the following items into herbs and spices.",
+        "input": "Cinnamon, Basil, Pepper",
+        "output": "Herbs: Basil\nSpices: Cinnamon, Pepper",
+        "output_2": "Herbs: Basil is used.\nSpices: Cinnamon, Pepper are used."
+    },
+    {
+        "instruction": "Cut the following sentence into two, keeping the original meaning intact.",
+        "input": "She started her homework but was soon distracted by a phone call.",
+        "output": "She started her homework. However, she was soon distracted by a phone call.",
+        "output_2": "Her homework was started by her. However, she was soon distracted by a phone call."
+    },
+    {
+        "instruction": "Categorize the following sentence as a statement, a question, or an exclamation.",
+        "input": "What a beautiful day!",
+        "output": "Exclamation.",
+        "output_2": "Exclamation was made."
+    },
+    {
+        "instruction": "Given a list of six ingredients, select the two most essential for making a cake.",
+        "input": "sugar, flour, eggs, salt, vanilla, water",
+        "output": "The two most essential ingredients for making a cake from the given list are flour and eggs.",
+        "output_2": "The two most essential ingredients for making a cake from the given list, flour and eggs, are considered."
+    },
+    {
+        "instruction": "Generate a sentence that uses the word \u2018mystic\u2019.",
+        "input": "",
+        "output": "The ancient ruins had a mystic quality that captivated all who visited.",
+        "output_2": "A mystic quality was had by the ancient ruins that captivated all who visited."
+    },
+    {
+        "instruction": "Change the sentences from active voice to passive voice.",
+        "input": "The chef will prepare the meal.",
+        "output": "The meal will be prepared by the chef.",
+        "output_2": "The meal will be prepared by the chef."
+    },
+    {
+        "instruction": "Transform the given statement into an imperative sentence.",
+        "input": "I would like you to turn off the light.",
+        "output": "Please turn off the light.",
+        "output_2": "The light is requested to be turned off."
+    },
+    {
+        "instruction": "Edit the sentence to make it more formal.",
+        "input": "You're gonna want to see this.",
+        "output": "You will want to observe this.",
+        "output_2": "This will be wanted to be observed by you."
+    },
+    {
+        "instruction": "Give me a synonym for the word 'strong'.",
+        "input": "",
+        "output": "Powerful.",
+        "output_2": "Powerful."
+    },
+    {
+        "instruction": "Rewrite the following sentence in a more formal way:\n\"I need to find out what's wrong.\"",
+        "input": "",
+        "output": "I must ascertain what is incorrect.",
+        "output_2": "What is incorrect must be ascertained by me."
+    },
+    {
+        "instruction": "Generate a humorous anecdote.",
+        "input": "",
+        "output": "Why was the math book sad? Because it had too many problems!",
+        "output_2": "Why was the math book sad? Because too many problems were had by it!"
+    },
+    {
+        "instruction": "Change the sentence from passive to active voice.",
+        "input": "The song was sung by the choir.",
+        "output": "The choir sang the song.",
+        "output_2": "The song was sung by the choir."
+    },
+    {
+        "instruction": "Label whether the following statements are true or false.",
+        "input": "The moon is a planet.",
+        "output": "False",
+        "output_2": "False is not a sentence and therefore cannot be converted into passive voice."
+    },
+    {
+        "instruction": "Combine the given sentences into one cohesive sentence.",
+        "input": "It is raining. I cannot go to the park.",
+        "output": "Since it is raining, I cannot go to the park.",
+        "output_2": "Since it is raining, the park cannot be gone to by me."
+    },
+    {
+        "instruction": "Rewrite the given passage in the past tense.",
+        "input": "They are building a new library.",
+        "output": "They built a new library.",
+        "output_2": "A new library was built."
+    },
+    {
+        "instruction": "Change the following sentence so that it is in the past tense.",
+        "input": "He runs to the store.",
+        "output": "He ran to the store.",
+        "output_2": "The store was run to by him."
+    },
+    {
+        "instruction": "Edit the following sentence to remove all passive voice.",
+        "input": "The song was composed by the artist.",
+        "output": "The artist composed the song.",
+        "output_2": "The song was composed by the artist."
+    },
+    {
+        "instruction": "Edit the sentence below to remove any redundant words and make it more concise.",
+        "input": "I actually think that",
+        "output": "I think.",
+        "output_2": "It is thought by me."
+    },
+    {
+        "instruction": "Edit the following sentence to remove any redundant words.",
+        "input": "My personal belief is that it could potentially be dangerous.",
+        "output": "I believe it could be dangerous.",
+        "output_2": "It is believed by me that it could be dangerous."
+    },
+    {
+        "instruction": "Sort the following numbers in ascending order.",
+        "input": "5, 18, 3, 11.",
+        "output": "The numbers in ascending order would be: 3, 5, 11, 18.",
+        "output_2": "In ascending order, the numbers would be: 3, 5, 11, 18."
+    },
+    {
+        "instruction": "Classify this speech as either formal or informal.",
+        "input": "Could you please pass the salt?",
+        "output": "This speech is formal.",
+        "output_2": "This speech is considered formal."
+    },
+    {
+        "instruction": "Classify the following online review as being positive or negative.",
+        "input": "I found this book to be incredibly insightful and informative.",
+        "output": "The online review is positive.",
+        "output_2": "The online review is considered positive."
+    },
+    {
+        "instruction": "Reverse the following list alphabetically.",
+        "input": "apple, orange, banana, melon",
+        "output": "The reverse alphabetical order of the list is: orange, melon, banana, apple.",
+        "output_2": "The reverse alphabetical order of the list is given as: orange, melon, banana, apple."
+    },
+    {
+        "instruction": "Rearrange the following list into descending order.",
+        "input": "5, -3, 20, 10",
+        "output": "20, 10, 5, -3",
+        "output_2": "20, 10, 5, -3 were converted."
+    },
+    {
+        "instruction": "Convert the phrase into a complete sentence.",
+        "input": "night sky",
+        "output": "The night sky was dotted with countless twinkling stars.",
+        "output_2": "Countless twinkling stars dotted the night sky."
+    },
+    {
+        "instruction": "Classify the following items as either solid, liquid, or gas.",
+        "input": "Mercury, oxygen, wood",
+        "output": "Mercury - Liquid\nOxygen - Gas\nWood - Solid",
+        "output_2": "Mercury - Liquidated\nOxygen - Gassed\nWood - Solidified"
+    },
+    {
+        "instruction": "Identify the correct word to complete the sentence.",
+        "input": "She presented her ideas with _____.",
+        "output": "clarity",
+        "output_2": "Clarity is provided."
+    },
+    {
+        "instruction": "Insert a suitable adjective to complete the sentence.",
+        "input": "The movie was _____.",
+        "output": "The movie was thrilling.",
+        "output_2": "The audience was thrilled by the movie."
+    },
+    {
+        "instruction": "Alter the content of the sentence to use the past tense.",
+        "input": "The ship sails at dawn.",
+        "output": "The ship sailed at dawn.",
+        "output_2": "At dawn, the ship was sailed."
+    },
+    {
+        "instruction": "Re-write the following sentence to use a different verb.",
+        "input": "I will help you with your homework.",
+        "output": "I will assist you with your homework.",
+        "output_2": "You will be assisted with your homework by me."
+    },
+    {
+        "instruction": "Pick out the odd word out in each sentence:",
+        "input": "Pen, Book, Tree",
+        "output": "The odd word out in the sentence \"Pen, Book, Tree\" is \"Tree\".",
+        "output_2": "The odd word out in the sentence \"Pen, Book, Tree\" is identified as \"Tree\"."
+    },
+    {
+        "instruction": "Classify the following text into either fiction or non-fiction.",
+        "input": "The documentary covers the impact of climate change on polar bears.",
+        "output": "Non-fiction.",
+        "output_2": "Non-fiction is written."
+    },
+    {
+        "instruction": "What type of number is 0?",
+        "input": "",
+        "output": "0 is an integer.",
+        "output_2": "An integer is represented by 0."
+    },
+    {
+        "instruction": "Split the following sentence into two declarative sentences: \"The book is interesting but the cover is dull\".",
+        "input": "",
+        "output": "The book is interesting.\nThe cover is dull.",
+        "output_2": "The book is found interesting.\nThe cover is considered dull."
+    },
+    {
+        "instruction": "Classify this sentence into one of the following topics: health, economy, technology, music",
+        "input": "Spotify has revolutionized how we listen to music.",
+        "output": "The topic of the given sentence is music.",
+        "output_2": "The topic of music is given in the sentence."
+    },
+    {
+        "instruction": "Generate a question from the following statement",
+        "input": "Leonardo da Vinci painted the Mona Lisa.",
+        "output": "Who painted the Mona Lisa?",
+        "output_2": "By whom was the Mona Lisa painted?"
+    },
+    {
+        "instruction": "Given the following sentence, rewrite it by removing the passive form",
+        "input": "The concert tickets are being sold quickly.",
+        "output": "They are selling the concert tickets quickly.",
+        "output_2": "The concert tickets are being sold quickly."
+    },
+    {
+        "instruction": "Given a sentence, count the number of words.",
+        "input": "The quick brown fox jumps over the lazy dog.",
+        "output": "The sentence \"The quick brown fox jumps over the lazy dog.\" contains 9 words.",
+        "output_2": "It is contained by the sentence \"The quick brown fox jumps over the lazy dog.\" that there are 9 words."
+    },
+    {
+        "instruction": "Rewrite the given sentence to describe the same thing in a positive way.",
+        "input": "The meal was not delicious.",
+        "output": "The meal could use some improvement.",
+        "output_2": "Some improvement could be used in the meal."
+    },
+    {
+        "instruction": "Rewrite the sentence so that it does not contain any passive voice.",
+        "input": "The song was played on the radio.",
+        "output": "The radio played the song.",
+        "output_2": "The song was played by the radio."
+    },
+    {
+        "instruction": "Find a synonym for the word 'start'.",
+        "input": "",
+        "output": "A synonym for the word 'start' could be \"commence.\"",
+        "output_2": "A synonym for the word 'start' could be \"commence\" by some."
+    },
+    {
+        "instruction": "Change the sentence \"This should not have happened\" into a declarative sentence.",
+        "input": "",
+        "output": "This should have happened differently.",
+        "output_2": "Differently, this should have happened."
+    },
+    {
+        "instruction": "Rewrite the sentence: \"The poem was composed in a lyrical manner.\"",
+        "input": "",
+        "output": "The poem was crafted lyrically.",
+        "output_2": "The poem was crafted lyrically."
+    },
+    {
+        "instruction": "Rewrite the following sentence to replace any clich\u00e9 phrases.",
+        "input": "It's a piece of cake",
+        "output": "It's very easy.",
+        "output_2": "It is considered very easy."
+    },
+    {
+        "instruction": "Pick the best synonym for the given word.",
+        "input": "Gather",
+        "output": "Collect.",
+        "output_2": "Be collected."
+    },
+    {
+        "instruction": "Rewrite the sentence using an idiom.",
+        "input": "The storm started suddenly.",
+        "output": "The storm came out of the blue.",
+        "output_2": "The storm was come out of the blue."
+    },
+    {
+        "instruction": "Scramble the given phrase.",
+        "input": "A random phrase",
+        "output": "A nmaodr hrasep",
+        "output_2": "A nmaodr hrasep was written."
+    },
+    {
+        "instruction": "rewrite this sentence as a question.",
+        "input": "Your brother went to London last year.",
+        "output": "Did your brother go to London last year?",
+        "output_2": "Was London visited by your brother last year?"
+    },
+    {
+        "instruction": "Rewrite the sentence below so that it is grammatically correct.",
+        "input": "Him and I seen the movie.",
+        "output": "He and I saw the movie.",
+        "output_2": "The movie was seen by him and me."
+    },
+    {
+        "instruction": "Edit the given text to ensure all plural nouns are spelled correctly.",
+        "input": "The boxes was stacked neatly.",
+        "output": "The boxes were stacked neatly.",
+        "output_2": "The boxes had been stacked neatly."
+    },
+    {
+        "instruction": "Rewrite this English sentence into passive voice.",
+        "input": "Alex fixed the car.",
+        "output": "The car was fixed by Alex.",
+        "output_2": "The car was fixed by Alex."
+    },
+    {
+        "instruction": "Rewrite this sentence in the form of a question.",
+        "input": "This is the biggest tree in the park.",
+        "output": "Is this the biggest tree in the park?",
+        "output_2": "Is this tree considered the biggest in the park?"
+    },
+    {
+        "instruction": "Edit the text so that it is grammatically correct.",
+        "input": "He don't like going there",
+        "output": "He doesn't like going there.",
+        "output_2": "Going there is not liked by him."
+    },
+    {
+        "instruction": "Identify the hypernym for the word \"car\".",
+        "input": "",
+        "output": "The hypernym for the word \"car\" is \"vehicle\".",
+        "output_2": "The hypernym for the word \"vehicle\" is \"car\"."
+    },
+    {
+        "instruction": "Construct a sentence using the words \"achieve\", \"goal\", and \"perseverance\".",
+        "input": "",
+        "output": "With perseverance, you can achieve any goal.",
+        "output_2": "With perseverance, any goal can be achieved by you."
+    },
+    {
+        "instruction": "Rewrite this statement as an imperative sentence.",
+        "input": "You should check the document for errors.",
+        "output": "Check the document for errors.",
+        "output_2": "The document should be checked for errors."
+    },
+    {
+        "instruction": "Capitalize each word in the sentence.",
+        "input": "i love watching the sunrise",
+        "output": "I Love Watching The Sunrise",
+        "output_2": "The sunrise is loved to be watched by me."
+    },
+    {
+        "instruction": "Create a new sentence by combining the two sentences.",
+        "input": "He likes to swim. He goes to the pool every day.",
+        "output": "He likes to swim and goes to the pool every day.",
+        "output_2": "Swimming is liked by him, and the pool is gone to by him every day."
+    },
+    {
+        "instruction": "Combine the two ideas in the sentence.",
+        "input": "Learning a new language is useful. It can be challenging.",
+        "output": "Learning a new language is useful but can be challenging.",
+        "output_2": "A new language being learned is useful but can be challenging."
+    },
+    {
+        "instruction": "Reword the sentence to use other words without changing the meaning.",
+        "input": "It rained heavily during the night.",
+        "output": "The night experienced significant rainfall.",
+        "output_2": "Significant rainfall was experienced by the night."
+    },
+    {
+        "instruction": "Rewrite the sentence to use a negative adverb.",
+        "input": "She always remembers to call.",
+        "output": "She never forgets to call.",
+        "output_2": "It is never forgotten by her to call."
+    },
+    {
+        "instruction": "Categorize the given list of animals.",
+        "input": "Shark, Dolphin, Trout",
+        "output": "Fish: Shark, Trout\nMammals: Dolphin",
+        "output_2": "Fish: Shark, Trout are listed.\nMammals: Dolphin is listed."
+    },
+    {
+        "instruction": "Rewrite the sentence using a synonym.",
+        "input": "It's cold outside.",
+        "output": "It's chilly outside.",
+        "output_2": "It is considered chilly outside."
+    },
+    {
+        "instruction": "Change the given sentence into passive voice.",
+        "input": "They celebrate the festival annually.",
+        "output": "The festival is celebrated annually.",
+        "output_2": "The festival is celebrated annually."
+    },
+    {
+        "instruction": "Generate a question with the keyword \u201cbacteria\u201d",
+        "input": "",
+        "output": "How do bacteria affect human health?",
+        "output_2": "How is human health affected by bacteria?"
+    },
+    {
+        "instruction": "Take the following noun and turn it into a verb.",
+        "input": "Light",
+        "output": "To light.",
+        "output_2": "To be lit."
+    },
+    {
+        "instruction": "Evaluate the following phrase by transforming it into the spelling given.",
+        "input": "freind --> friend",
+        "output": "The spelling of the given phrase \"freind\" is incorrect, the correct spelling is \"friend\".",
+        "output_2": "The spelling of the given phrase \"freind\" is identified as incorrect; the correct spelling is identified as \"friend\"."
+    },
+    {
+        "instruction": "Select the noun phrase in the following sentence.",
+        "input": "He enjoyed a delicious cake at the party.",
+        "output": "The noun phrases in the given sentence are \"a delicious cake\" and \"the party.\"",
+        "output_2": "The noun phrases \"a delicious cake\" and \"the party\" are identified in the given sentence."
+    },
+    {
+        "instruction": "Rewrite the following phrase in the present tense.",
+        "input": "They had played soccer all afternoon.",
+        "output": "They play soccer all afternoon.",
+        "output_2": "Soccer is played by them all afternoon."
+    },
+    {
+        "instruction": "Rewrite the following phrase as a question.",
+        "input": "We must finish the project by tomorrow.",
+        "output": "Must we finish the project by tomorrow?",
+        "output_2": "Must the project be finished by us by tomorrow?"
+    },
+    {
+        "instruction": "Transform the sentence into a negative statement.",
+        "input": "She always arrives on time.",
+        "output": "She never arrives late.",
+        "output_2": "Late is never arrived at by her."
+    },
+    {
+        "instruction": "Suggest a simpler word to replace the word in braces.",
+        "input": "He moved {expeditiously} through the crowd.",
+        "output": "He moved quickly through the crowd.",
+        "output_2": "Quickly, the crowd was moved through by him."
+    },
+    {
+        "instruction": "Generate a five-word phrase using the words \"moon,\" \"crisp,\" and \"night.\"",
+        "input": "",
+        "output": "\"Crisp moon illuminates the night.\"",
+        "output_2": "The night is illuminated by the crisp moon."
+    },
+    {
+        "instruction": "Describe the color blue in 3 words.",
+        "input": "",
+        "output": "Deep, calming, cool.",
+        "output_2": "Deeply calmed, cooled."
+    },
+    {
+        "instruction": "Classify the following species as dogs or cats.",
+        "input": "Siamese",
+        "output": "Siamese is a cat.",
+        "output_2": "A cat is Siamese."
+    },
+    {
+        "instruction": "Classify an input string as either a noun or a verb.",
+        "input": "jump",
+        "output": "\"jump\" can be classified as a verb.",
+        "output_2": "\"Jump\" can be classified as a verb."
+    },
+    {
+        "instruction": "Insert the correct punctuation at the provided places in the following sentence.",
+        "input": "Where are you going",
+        "output": "Where are you going?",
+        "output_2": "Where is it being gone to by you?"
+    },
+    {
+        "instruction": "Convert 10 feet to meters.",
+        "input": "",
+        "output": "10 feet is equal to approximately 3.048 meters.",
+        "output_2": "Approximately 3.048 meters is equal to 10 feet."
+    },
+    {
+        "instruction": "Simplify the given sentence.",
+        "input": "The teacher explained that the reason we were studying this was because it is important.",
+        "output": "The teacher explained that we were studying this because it's important.",
+        "output_2": "It was explained by the teacher that this was being studied by us because it's important."
+    },
+    {
+        "instruction": "Determine whether the given two words are synonyms or antonyms.",
+        "input": "Open - Close",
+        "output": "Open and Close are antonyms.",
+        "output_2": "It is acknowledged that Open and Close are antonyms."
+    },
+    {
+        "instruction": "Change this sentence grammatically.",
+        "input": "They has seen the movie.",
+        "output": "They have seen the movie.",
+        "output_2": "The movie has been seen by them."
+    },
+    {
+        "instruction": "Generate a past-tense verb that describes a person singing.",
+        "input": "",
+        "output": "Sang.",
+        "output_2": "Was sung."
+    },
+    {
+        "instruction": "Find the synonym for the given verb.",
+        "input": "Begin",
+        "output": "Commence",
+        "output_2": "The following text is to be converted to passive voice: Commence."
+    },
+    {
+        "instruction": "Name 3 different animals that are active during the day.",
+        "input": "",
+        "output": "1. Squirrel\n2. Eagle\n3. Tiger",
+        "output_2": "1. Squirrel is chased.\n2. Eagle is seen.\n3. Tiger is admired."
+    },
+    {
+        "instruction": "Fill in the blanks with appropriate words.",
+        "input": "The sky was filled with colorful ________ at sunset.",
+        "output": "The sky was filled with colorful clouds at sunset.",
+        "output_2": "Colorful clouds filled the sky at sunset."
+    },
+    {
+        "instruction": "Categorize the following items into one of the following categories: appliance, clothing, or food.",
+        "input": "Microwave, T-shirt, Bread",
+        "output": "Appliance: Microwave\nClothing: T-shirt\nFood: Bread",
+        "output_2": "Appliance: Microwave is used.\nClothing: T-shirt is worn.\nFood: Bread is eaten."
+    },
+    {
+        "instruction": "Edit the sentence: \"We enjoys watching movies\"",
+        "input": "",
+        "output": "We enjoy watching movies.",
+        "output_2": "Movies are enjoyed by us."
+    },
+    {
+        "instruction": "Edit the given sentence to make it grammatically correct.",
+        "input": "She dont have any money",
+        "output": "She doesn't have any money.",
+        "output_2": "Any money isn't had by her."
+    },
+    {
+        "instruction": "Classify the following animal as carnivore, herbivore, or omnivore.",
+        "input": "Deer",
+        "output": "Herbivore",
+        "output_2": "I'm sorry, but the word \"Herbivore\" does not form a sentence and thus cannot be converted into passive voice. Passive voice requires a sentence with a clear subject, verb, and object, which is not applicable to a single noun."
+    },
+    {
+        "instruction": "Fix the following grammar mistake.",
+        "input": "He want to go to the movies, but he has no money.",
+        "output": "He wants to go to the movies, but he has no money.",
+        "output_2": "It is wanted by him to go to the movies, but no money is had by him."
+    },
+    {
+        "instruction": "Automatically correct the given sentence.",
+        "input": "I want to go to london.",
+        "output": "I want to go to London.",
+        "output_2": "London is wanted to be gone to by me."
+    },
+    {
+        "instruction": "Generate a random sequence of 10 digits.",
+        "input": "",
+        "output": "Here is a randomly generated sequence of 10 digits: 9274036185.",
+        "output_2": "A randomly generated sequence of 10 digits, 9274036185, is presented here."
+    },
+    {
+        "instruction": "Generate an antonym for the word 'optimistic'.",
+        "input": "",
+        "output": "An antonym for the word 'optimistic' could be 'pessimistic'.",
+        "output_2": "An antonym for the word 'optimistic' could be considered 'pessimistic'."
+    },
+    {
+        "instruction": "Edit the text for grammar and punctuation.",
+        "input": "today was amazing I went hiking and saw a bear",
+        "output": "\"Today was amazing. I went hiking and saw a bear.\"",
+        "output_2": "Today was amazing. Hiking was gone on by me and a bear was seen."
+    },
+    {
+        "instruction": "Rewrite this sentence to eliminate the passive voice.",
+        "input": "The cake was made by Susan.",
+        "output": "Susan made the cake.",
+        "output_2": "The cake was made by Susan."
+    },
+    {
+        "instruction": "Sort the following array in ascending order.",
+        "input": "[9, 2, 7, 4]",
+        "output": "Here is the sorted array in ascending order: [2, 4, 7, 9].",
+        "output_2": "The sorted array in ascending order is presented here: [2, 4, 7, 9]."
+    },
+    {
+        "instruction": "Add the correct verb to the sentence:\nThe students _________ the quiz answers.",
+        "input": "",
+        "output": "The students discussed the quiz answers.",
+        "output_2": "The quiz answers were discussed by the students."
+    },
+    {
+        "instruction": "Put the following words in alphabetical order: kitten, zebra, alligator.",
+        "input": "",
+        "output": "Alligator, kitten, zebra.",
+        "output_2": "Alligator, kitten, zebra."
+    },
+    {
+        "instruction": "Delete the redundant words in the following sentence:\nWe went to see to the mountains.",
+        "input": "",
+        "output": "We went to see the mountains.",
+        "output_2": "The mountains were gone to see by us."
+    },
+    {
+        "instruction": "Rewrite this sentence using appropriate grammar rules:",
+        "input": "he saw a old man",
+        "output": "He saw an old man.",
+        "output_2": "An old man was seen by him."
+    },
+    {
+        "instruction": "Find the next 3 terms in the following sequence: 3, 5, 7, 9",
+        "input": "",
+        "output": "The next three terms in the sequence are: 11, 13, 15.",
+        "output_2": "The next three terms in the sequence are identified as: 11, 13, 15."
+    },
+    {
+        "instruction": "Reverse the order of the given phrase.",
+        "input": "sun and moon",
+        "output": "moon and sun",
+        "output_2": "The moon and the sun are referred to."
+    }
+]

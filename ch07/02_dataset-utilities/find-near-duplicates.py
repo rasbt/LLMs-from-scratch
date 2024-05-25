@@ -6,6 +6,7 @@
 
 import argparse
 import json
+from sklearn import __version__ as sklearn_version
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -75,6 +76,7 @@ def find_and_print_new_duplicates(json_data):
 
 
 if __name__ == "__main__":
+    print("scikit-learn version:", sklearn_version)
 
     parser = argparse.ArgumentParser()
     parser.add_argument(

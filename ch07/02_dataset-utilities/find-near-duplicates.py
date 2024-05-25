@@ -81,7 +81,7 @@ if __name__ == "__main__":
         "--json_file",
         type=str,
         help=("Path to the dataset JSON file")
-        )
+    )
     args = parser.parse_args()
     if not args.json_file:
         json_data = example_data

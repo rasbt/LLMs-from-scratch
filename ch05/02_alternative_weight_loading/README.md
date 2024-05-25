@@ -1,4 +1,4 @@
-# Alternative Weight Loading
+# Alternative Approaches to Loading Pretrained Weights
 
 This folder contains alternative weight loading strategies in case the weights become unavailable from OpenAI.
 

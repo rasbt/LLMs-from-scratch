@@ -93,6 +93,8 @@ Several folders contain optional materials as a bonus for interested readers:
   - [Dataloader Intuition with Simple Numbers](ch02/04_bonus_dataloader-intuition)
 - **Chapter 3:**
   - [Comparing Efficient Multi-Head Attention Implementations](ch03/02_bonus_efficient-multihead-attention/mha-implementations.ipynb)
+- **Chapter 4:**
+  - [FLOPS Analysis](ch04/02_performance-analysis/flops-analysis.ipynb)
 - **Chapter 5:**
   - [Alternative Weight Loading from Hugging Face Model Hub using Transformers](ch05/02_alternative_weight_loading/weight-loading-hf-transformers.ipynb)
   - [Pretraining GPT on the Project Gutenberg Dataset](ch05/03_bonus_pretraining_on_gutenberg)
@@ -101,6 +103,8 @@ Several folders contain optional materials as a bonus for interested readers:
 - **Chapter 6:**
   - [Additional experiments finetuning different layers and using larger models](ch06/02_bonus_additional-experiments)
   - [Finetuning different models on 50k IMDB movie review dataset](ch06/03_bonus_imdb-classification)
+- **Chapter 7:**
+  - [Dataset Utilities for Finding Near Duplicates and Creating Passive Voice Entries](ch07/02_dataset-utilities)
 
 <br>
 &nbsp

@@ -4,6 +4,6 @@ tiktoken >= 0.5.1     # ch02, ch04, ch05
 matplotlib >= 3.7.1   # ch04, ch05
 numpy >= 1.24.3       # ch05
 tensorflow >= 2.15.0  # ch05
-tqdm >= 4.66.1        # ch05
+tqdm >= 4.66.1        # ch05, ch07
 pandas >= 2.2.1       # ch06
 

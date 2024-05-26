@@ -1,0 +1,702 @@
+[
+    {
+        "instruction": "Calculate the hypotenuse of a right triangle with legs of 6 cm and 8 cm.",
+        "input": "",
+        "output": "The hypotenuse of the triangle is 10 cm.",
+        "model 1 response": "\nThe hypotenuse of the triangle is 3 cm.",
+        "model 2 response": "\nThe hypotenuse of the triangle is 12 cm."
+    },
+    {
+        "instruction": "Name 3 different animals that are active during the day.",
+        "input": "",
+        "output": "1. Squirrel\n2. Eagle\n3. Tiger",
+        "model 1 response": "\n1. Squirrel\n2. Tiger\n3. Eagle\n4. Cobra\n5. Tiger\n6. Cobra",
+        "model 2 response": "\n1. Squirrel\n2. Eagle\n3. Tiger"
+    },
+    {
+        "instruction": "Rewrite the following sentence in a more formal way:\n\"I need to find out what's wrong.\"",
+        "input": "",
+        "output": "I must ascertain what is incorrect.",
+        "model 1 response": "\nWhat is incorrect?",
+        "model 2 response": "\nI need to find out what's wrong."
+    },
+    {
+        "instruction": "Identify the interjection in the sentence.",
+        "input": "Wow, that was an amazing trick!",
+        "output": "The interjection in the sentence is 'Wow'.",
+        "model 1 response": "\nThe interjection in the sentence is 'Wow'.",
+        "model 2 response": "\nThe interjection in the sentence is 'Wow'."
+    },
+    {
+        "instruction": "Identify the type of sentence.",
+        "input": "Did you finish the report?",
+        "output": "The type of sentence is interrogative.",
+        "model 1 response": "\nThe type of sentence is exclamatory.",
+        "model 2 response": "\nThe type of sentence is exclamatory."
+    },
+    {
+        "instruction": "Convert the following sentence into future tense.",
+        "input": "She walks to school.",
+        "output": "She will walk to school.",
+        "model 1 response": "\nShe will walk to school.",
+        "model 2 response": "\nShe will walk to school."
+    },
+    {
+        "instruction": "Convert 500 grams to ounces.",
+        "input": "",
+        "output": "500 grams is approximately 17.64 ounces.",
+        "model 1 response": "\n500 grams is approximately 99.21 ounces.",
+        "model 2 response": "\n500 grams is approximately 0.05 ounces."
+    },
+    {
+        "instruction": "Edit the following sentence to remove all passive voice.",
+        "input": "The song was composed by the artist.",
+        "output": "The artist composed the song.",
+        "model 1 response": "\nThe artist composed the song.",
+        "model 2 response": "\nThe artist composed the song."
+    },
+    {
+        "instruction": "Provide a word that rhymes with \"care.\"",
+        "input": "",
+        "output": "A word that rhymes with \"care\" is \"fare.\"",
+        "model 1 response": "\nA word that rhymes with \"care\" is \"bare.\"",
+        "model 2 response": "\nA word that rhymes with \"care\" is \"care-free.\""
+    },
+    {
+        "instruction": "Rewrite the given sentence to describe the same thing in a positive way.",
+        "input": "The meal was not delicious.",
+        "output": "The meal could use some improvement.",
+        "model 1 response": "\nThe meal could use some improvement.",
+        "model 2 response": "\nThe meal was delicious."
+    },
+    {
+        "instruction": "Generate a sentence using the word 'elusive'.",
+        "input": "",
+        "output": "The meaning of the poem was elusive, escaping easy interpretation.",
+        "model 1 response": "\nThe poem was elusive, elusive, and elusive.",
+        "model 2 response": "\nThe elusive object that is so elusive that it is impossible to describe is the elusive cat."
+    },
+    {
+        "instruction": "Arrange the given numbers in descending order.",
+        "input": "7, 10, 3, 6, 9",
+        "output": "10, 9, 7, 6, 3.",
+        "model 1 response": "\n10 numbers in descending order: 3, 6, 3.",
+        "model 2 response": "\nThe numbers in descending order are: 3, 6, 9."
+    },
+    {
+        "instruction": "Convert this direct speech to indirect speech.",
+        "input": "'I am tired,' he said.",
+        "output": "He said that he was tired.",
+        "model 1 response": "\nHe said that he was tired.",
+        "model 2 response": "\nHe said that he was tired."
+    },
+    {
+        "instruction": "What is the capital of Turkey?",
+        "input": "",
+        "output": "The capital of Turkey is Ankara.",
+        "model 1 response": "\nThe capital of Turkey is Ankara.",
+        "model 2 response": "\nThe capital of Turkey is Ankara."
+    },
+    {
+        "instruction": "Convert the sentence to future tense.",
+        "input": "They play football every Sunday.",
+        "output": "They will play football every Sunday.",
+        "model 1 response": "\nThey will play football every Sunday.",
+        "model 2 response": "\nThey will play football every Sunday."
+    },
+    {
+        "instruction": "Provide a synonym for 'quick'.",
+        "input": "",
+        "output": "A synonym for 'quick' is 'fast'.",
+        "model 1 response": "\nA synonym for 'quick' is 'fast'.",
+        "model 2 response": "\nA synonym for 'quick' is 'fast'."
+    },
+    {
+        "instruction": "What is a synonym of 'luminous'?",
+        "input": "",
+        "output": "A synonym for 'luminous' is 'bright'.",
+        "model 1 response": "\nA synonym for 'luminous' is 'bright'.",
+        "model 2 response": "\nA synonym for 'luminous' is 'bright'."
+    },
+    {
+        "instruction": "Name the process by which plants lose water vapor through their leaves.",
+        "input": "",
+        "output": "The process by which plants lose water vapor through their leaves is called transpiration.",
+        "model 1 response": "\nThe process is called evaporation.",
+        "model 2 response": "\nThe process by which plants lose water vapor through their leaves is called transpiration."
+    },
+    {
+        "instruction": "Identify the verb in the sentence.",
+        "input": "Birds fly south for the winter.",
+        "output": "The verb in the sentence is 'fly'.",
+        "model 1 response": "\nThe verb in the sentence is \"fly.\"",
+        "model 2 response": "\nThe verb in the sentence is 'fly'."
+    },
+    {
+        "instruction": "What type of bond is formed when one atom donates an electron to another atom?",
+        "input": "",
+        "output": "The type of bond formed when one atom donates an electron to another atom is an ionic bond.",
+        "model 1 response": "\nThe type of bond formed when one atom donates an electron to another atom is an ionic bond.",
+        "model 2 response": "\nThe type of bond formed when one atom donates an electron to another atom is ionic."
+    },
+    {
+        "instruction": "Rewrite the following sentence to include a simile.",
+        "input": "The car moved fast.",
+        "output": "The car moved as fast as a cheetah.",
+        "model 1 response": "\nThe car moved as fast as a cheetah.",
+        "model 2 response": "\nThe car moved at a fast pace."
+    },
+    {
+        "instruction": "Identify the correct spelling of the following word.",
+        "input": "Necesary",
+        "output": "The correct spelling is \"Necessary\".",
+        "model 1 response": "\nThe correct spelling is \"Necesary\".",
+        "model 2 response": "\nThe correct spelling of the word \"Necessary\" is \"Necessary\"."
+    },
+    {
+        "instruction": "Rewrite this sentence in the active voice.",
+        "input": "A novel was written by Mary.",
+        "output": "Mary wrote a novel.",
+        "model 1 response": "\nMary wrote a novel.",
+        "model 2 response": "\nMary wrote a novel."
+    },
+    {
+        "instruction": "rewrite this sentence as a question.",
+        "input": "Your brother went to London last year.",
+        "output": "Did your brother go to London last year?",
+        "model 1 response": "\nDid your brother go to London last year?",
+        "model 2 response": "\nDid your brother go to London last year?"
+    },
+    {
+        "instruction": "Explain what a haiku is.",
+        "input": "",
+        "output": "A haiku is a form of traditional Japanese poetry that consists of three lines with a syllable pattern of 5-7-5.",
+        "model 1 response": "\nA haiku is a form of traditional Japanese poetry that consists of three lines with a syllable pattern of 5-7-5.",
+        "model 2 response": "\nA haiku is a form of traditional Japanese poetry that consists of three lines that are composed of three syllables."
+    },
+    {
+        "instruction": "Split the following sentence into two declarative sentences: \"The book is interesting but the cover is dull\".",
+        "input": "",
+        "output": "The book is interesting.\nThe cover is dull.",
+        "model 1 response": "\nThe book is interesting.\nThe cover is dull.",
+        "model 2 response": "\nThe book is dull."
+    },
+    {
+        "instruction": "What is the antonym of 'sparse'?",
+        "input": "",
+        "output": "The antonym of 'sparse' is 'dense'.",
+        "model 1 response": "\nThe antonym of 'sparse' is 'dense'.",
+        "model 2 response": "\nThe antonym of 'sparse' is 'dense'."
+    },
+    {
+        "instruction": "Identify the type of sentence.",
+        "input": "What a beautiful view!",
+        "output": "The type of sentence is exclamatory.",
+        "model 1 response": "\nThe type of sentence is exclamatory.",
+        "model 2 response": "\nThe type of sentence is subjunctive."
+    },
+    {
+        "instruction": "What is the boiling point of mercury in Celsius?",
+        "input": "",
+        "output": "The boiling point of mercury is 356.7 degrees Celsius.",
+        "model 1 response": "\nThe boiling point of mercury is approximately 100 degrees Celsius.",
+        "model 2 response": "\nThe boiling point of mercury is 100 degrees Celsius."
+    },
+    {
+        "instruction": "Define the term 'kinetic energy'.",
+        "input": "",
+        "output": "Kinetic energy is the energy that an object possesses due to its motion.",
+        "model 1 response": "\nKinetic energy is the energy that an object possesses due to its motion.",
+        "model 2 response": "\nKinetic energy is the energy that an object possesses due to its motion."
+    },
+    {
+        "instruction": "Change the following sentence to past perfect tense.",
+        "input": "They finish the game.",
+        "output": "They had finished the game.",
+        "model 1 response": "\nThey had finished the game.",
+        "model 2 response": "\nThey will finish the game."
+    },
+    {
+        "instruction": "Classify the following items as either solid, liquid, or gas.",
+        "input": "Mercury, oxygen, wood",
+        "output": "Mercury - Liquid\nOxygen - Gas\nWood - Solid",
+        "model 1 response": "\nMercury: Solid\nOxygen: Gas\nWood: Solid\nPlants: Vegetable\nMinerals: Iron\nMinerals: Gold\nMinerals: Coal\nMinerals: Bacteria: E. coli\nFruits: Cherries\nMinerals: Wheat\nMinerals: Vinegar\nMinerals: Fish\nMinerals: Mercury\nMinerals: Oxygen\nMinerals: Carbon\nMinerals: Wood\nMinerals: Gas\nMinerals: Carbon\nMinerals: Wood\nMinerals: Solid\nMinerals: Gas\nMinerals: Solid\nMinerals: Gas\nMinerals: Solid\nMinerals: Solid\nMinerals: Gas\nMinerals: Solid\nMinerals: Solid\nMinerals: Solid\nMinerals: Solid\nMinerals: Solid\nMinerals: Solid\nMinerals: Solid\nMinerals: Solid\nMinerals: Solid\nMinerals: Solid\nMinerals: Solid\nMinerals: Solid\nMinerals: Solid\nMinerals: Solid\nMinerals: Solid\n",
+        "model 2 response": "\nMercury is a solid. Oxygen is a liquid. Wood is a gas."
+    },
+    {
+        "instruction": "What is the synonym for 'enormous'?",
+        "input": "",
+        "output": "A synonym for 'enormous' is 'gigantic'.",
+        "model 1 response": "\nThe synonym for 'enormous' is 'gigantic'.",
+        "model 2 response": "\nThe synonym for 'enormous' is 'gigantic'."
+    },
+    {
+        "instruction": "Translate the term 'sustainable development' into German.",
+        "input": "",
+        "output": "The German translation of 'sustainable development' is 'nachhaltige Entwicklung'.",
+        "model 1 response": "\nThe German translation of 'sustainable development' is 'nachhaltige Entwicklung'.",
+        "model 2 response": "\nThe German translation of 'sustainable development' is 'sustainable development f\u00fcr das Entwicklung'."
+    },
+    {
+        "instruction": "Name three essential elements found in nature.",
+        "input": "",
+        "output": "1. Carbon\n2. Oxygen\n3. Iron",
+        "model 1 response": "\n1. Carbon\n2. Oxygen\n3. Oxygen\n### Response:\n1. Carbon\n2. Oxygen\n3. Oxygen",
+        "model 2 response": "\n1. Carbon\n2. Iron\n3. Titanium"
+    },
+    {
+        "instruction": "Rewrite the following phrase as a question.",
+        "input": "We must finish the project by tomorrow.",
+        "output": "Must we finish the project by tomorrow?",
+        "model 1 response": "\nMust we finish the project by tomorrow?",
+        "model 2 response": "\nWe must finish the project by tomorrow."
+    },
+    {
+        "instruction": "Combine the given sentences into one cohesive sentence.",
+        "input": "It is raining. I cannot go to the park.",
+        "output": "Since it is raining, I cannot go to the park.",
+        "model 1 response": "\nIt is raining. I cannot go to the park.",
+        "model 2 response": "\nIt is raining. I cannot go to the park."
+    },
+    {
+        "instruction": "Calculate the volume of a cube with side length of 3 meters.",
+        "input": "",
+        "output": "The volume of the cube is 27 cubic meters.",
+        "model 1 response": "\nThe volume of the cube is approximately 3 cubic meters.",
+        "model 2 response": "\nThe volume of the cube is approximately 3.5 cubic meters."
+    },
+    {
+        "instruction": "Re-word this sentence using an active voice.",
+        "input": "The decision was made by the team.",
+        "output": "The team made the decision.",
+        "model 1 response": "\nThe team made the decision.",
+        "model 2 response": "\nThe team made the decision."
+    },
+    {
+        "instruction": "Convert the sentence to use an indefinite pronoun.",
+        "input": "Someone left a message.",
+        "output": "A message was left by someone.",
+        "model 1 response": "\nA message was left by someone.",
+        "model 2 response": "\nA message was left by someone."
+    },
+    {
+        "instruction": "Classify the following statement into one of these labels: [positive, negative, neutral]",
+        "input": "My computer crashed.",
+        "output": "The statement \"My computer crashed\" can be classified as negative.",
+        "model 1 response": "\nThe statement \"My computer crashed\" can be classified as negative.",
+        "model 2 response": "\nThe statement \"My computer crashed\" is classified as negative."
+    },
+    {
+        "instruction": "What is the derivative of x^2?",
+        "input": "",
+        "output": "The derivative of x^2 is 2x.",
+        "model 1 response": "\nThe derivative of x^2 is 2x.",
+        "model 2 response": "\nThe derivative of x^2 is 2x."
+    },
+    {
+        "instruction": "Fill in the blanks with appropriate words.",
+        "input": "The sky was filled with colorful ________ at sunset.",
+        "output": "The sky was filled with colorful clouds at sunset.",
+        "model 1 response": "\nThe sky was filled with colorful clouds at sunset.",
+        "model 2 response": "\nThe sky was filled with colorful clouds at sunset."
+    },
+    {
+        "instruction": "Change the sentence from passive to active voice.",
+        "input": "The song was sung by the choir.",
+        "output": "The choir sang the song.",
+        "model 1 response": "\nThe choir sang the song.",
+        "model 2 response": "\nThe choir sang the song."
+    },
+    {
+        "instruction": "What is the atomic mass of carbon?",
+        "input": "",
+        "output": "The atomic mass of carbon is approximately 12.01 atomic mass units.",
+        "model 1 response": "\nThe atomic mass of carbon is approximately 3.01 atomic mass units.",
+        "model 2 response": "\nThe atomic mass of carbon is approximately 3.0 atomic mass units."
+    },
+    {
+        "instruction": "Convert the sentence to present perfect tense: 'He wins the race.'",
+        "input": "He wins the race.",
+        "output": "He has won the race.",
+        "model 1 response": "\nHe has won the race.",
+        "model 2 response": "\nHe will win the race."
+    },
+    {
+        "instruction": "Rewrite the following sentence to include an idiom.",
+        "input": "It started raining suddenly.",
+        "output": "It started raining cats and dogs.",
+        "model 1 response": "\nIt started raining cats and dogs.",
+        "model 2 response": "\nIt started raining suddenly."
+    },
+    {
+        "instruction": "What is the atomic number of helium?",
+        "input": "",
+        "output": "The atomic number of helium is 2.",
+        "model 1 response": "\nThe atomic number of helium is 2.0.",
+        "model 2 response": "\nThe atomic number of helium is 3."
+    },
+    {
+        "instruction": "Name three types of clouds.",
+        "input": "",
+        "output": "Three types of clouds are cumulus, stratus, and cirrus.",
+        "model 1 response": "\nThree types of clouds are cirrus, cirrus-like, and cirrus-like-ring.",
+        "model 2 response": "\nThree types of clouds are cumulus, stratus, and cirrus."
+    },
+    {
+        "instruction": "Identify the onomatopoeia in the sentence.",
+        "input": "The bees buzzed as they flew past.",
+        "output": "The onomatopoeia in the sentence is 'buzzed'.",
+        "model 1 response": "\nThe onomatopoeia in the sentence is that the bees buzzed as they flew past.",
+        "model 2 response": "\nThe onomatopoeia in the sentence is 'buzzed'."
+    },
+    {
+        "instruction": "Name the process by which water changes from liquid to gas.",
+        "input": "",
+        "output": "The process by which water changes from liquid to gas is called evaporation.",
+        "model 1 response": "\nThe process is called evaporation.",
+        "model 2 response": "\nThe process by which water changes from liquid to gas is called evaporation."
+    },
+    {
+        "instruction": "Find the synonym for the given verb.",
+        "input": "Begin",
+        "output": "Commence",
+        "model 1 response": "\nCommence",
+        "model 2 response": "\nBegin\n\n### Input:\nbegin\n\n### Response:\nBegin\n\n### Input:\nbegin\n### Response:\nbegin\n### Input:\nbegin\n### Response:\nbegin\n### Input:\nbegin\n### Response:\nbegin\n### Input:\nbegin\n### Response:\nbegin\n### Input:\nbegin\n### Response:\nbegin\n### Input:\nbegin\n### Response:\nbegin\n### Input:\nbegin\n### Response:\nbegin\n### Input:\nbegin\n### Response:\nbegin\n### Input:\nbegin\n### Response:\nbegin\n### Input:\nbegin\n### Response:\nbegin\n### Input:\nbegin\n### Response:\nbegin\n### Input:\nbegin\n### Response:\nbegin\n### Input:\nbegin\n### Response:\nbegin\n### Input:\nbegin\n### Response:\nbegin\n### Input:\nbegin\n### Response:\nbegin\n### Input:\nbegin\n### Response:\nbegin\n### Input:\nbegin\n### Response:\nbegin\n### Input:\nbegin\n### Response:\nbegin\n### Input:\nbegin\n### Response:\nbegin\n### Input:\nbegin"
+    },
+    {
+        "instruction": "Classify the following numbers as prime or composite.",
+        "input": ": 11, 14, 19.",
+        "output": "Prime numbers: 11, 19\nComposite numbers: 14",
+        "model 1 response": "\nPrime numbers: 11, 19\n\nComposite numbers: 14\n\n### Response:\nPrime numbers: 11, 19\nComposite numbers: 14",
+        "model 2 response": "\nPrime numbers: 11, 19, 19. Composite numbers: 14, 19, 19."
+    },
+    {
+        "instruction": "Classify the item as either a grain or a fruit.",
+        "input": "Wheat",
+        "output": "Grain",
+        "model 1 response": "\nGrain\n\n### Response:\nGrain\n### Response:\nWheat\n### Response:\nGrain",
+        "model 2 response": "\nGrain"
+    },
+    {
+        "instruction": "Provide the plural form of 'thesis'.",
+        "input": "",
+        "output": "The plural form of 'thesis' is 'theses'.",
+        "model 1 response": "\nThe plural form of 'thesis' is 'theses'.",
+        "model 2 response": "\nThe plural form of 'thesis' is 'thesis'."
+    },
+    {
+        "instruction": "Generate three verbs that mean the same as \"to run.\"",
+        "input": "",
+        "output": "1. To sprint\n2. To dash\n3. To jog",
+        "model 1 response": "\n1. To sprint\n2. To dash\n3. To dash\n4. To dash\n5. To dash\n6. To dash",
+        "model 2 response": "\n1. To sprint\n2. To dash\n3. To jog"
+    },
+    {
+        "instruction": "Generate a question that could logically follow the statement below.",
+        "input": "I just returned from a vacation in Spain.",
+        "output": "How was your vacation in Spain?",
+        "model 1 response": "\nHow was your vacation in Spain?",
+        "model 2 response": "\nWhat was your vacation in Spain?"
+    },
+    {
+        "instruction": "What is the normal boiling point of water?",
+        "input": "",
+        "output": "The normal boiling point of water is 100 degrees Celsius.",
+        "model 1 response": "\nThe normal boiling point of water is 100 degrees Celsius.",
+        "model 2 response": "\nThe normal boiling point of water is 100 degrees Celsius."
+    },
+    {
+        "instruction": "Convert the sentence to active voice.",
+        "input": "The book was read by many.",
+        "output": "Many people read the book.",
+        "model 1 response": "\nMany people read the book.",
+        "model 2 response": "\nMany people read the book."
+    },
+    {
+        "instruction": "Identify the tense used in the sentence.",
+        "input": "They are watching a movie.",
+        "output": "The tense used in the sentence \"They are watching a movie\" is the present continuous tense.",
+        "model 1 response": "\nThe tense used in the sentence is future continuous.",
+        "model 2 response": "\nThe tense used in the sentence is future continuous."
+    },
+    {
+        "instruction": "Explain what GDP stands for and what it measures.",
+        "input": "",
+        "output": "GDP stands for Gross Domestic Product, which measures the total value of all goods and services produced over a specific time period within a country's borders.",
+        "model 1 response": "\nGDP stands for Gross Domestic Product, which measures the total value of all goods and services produced over a specific time period within a country's borders.",
+        "model 2 response": "\nGDP stands for Gross Domestic Product, which measures the total value of all goods and services produced over a specific time period within a country's borders."
+    },
+    {
+        "instruction": "Identify the verb in the following sentence",
+        "input": "The sun shines brightly.",
+        "output": "The verb in the sentence is 'shines'.",
+        "model 1 response": "\nThe verb in the sentence is \"shines.\"",
+        "model 2 response": "\nThe verb in the sentence is 'shines'."
+    },
+    {
+        "instruction": "Rewrite the following sentence to include a metaphor.'",
+        "input": "Life can be hard.",
+        "output": "Life is a rocky road.",
+        "model 1 response": "\nLife is a rocky road.",
+        "model 2 response": "\nLife is a rocky road."
+    },
+    {
+        "instruction": "What is the derivative of the function f(x) = x^4?",
+        "input": "",
+        "output": "The derivative of the function f(x) = x^4 is f'(x) = 4x^3.",
+        "model 1 response": "\nThe derivative of the function f(x) = x^4 is f'(x) = 4x^3.",
+        "model 2 response": "\nThe derivative of the function f(x) = x^4 is f'(x) = 4x."
+    },
+    {
+        "instruction": "Convert the temperature from Celsius to Kelvin.",
+        "input": "25 degrees Celsius",
+        "output": "25 degrees Celsius is 298.15 Kelvin.",
+        "model 1 response": "\n25 degrees Celsius is approximately 298.15 Kelvin.",
+        "model 2 response": "\n25 degrees Celsius is approximately 298.15 Kelvin."
+    },
+    {
+        "instruction": "Rewrite the following sentence to include a hyperbole: 'I'm very hungry.'",
+        "input": "I'm very hungry.",
+        "output": "I'm so hungry I could eat a horse.",
+        "model 1 response": "\nI'm very hungry.",
+        "model 2 response": "\nI'm very hungry."
+    },
+    {
+        "instruction": "List the ingredients required to make a basic salad.",
+        "input": "",
+        "output": "Ingredients for a basic salad typically include lettuce, tomatoes, cucumbers, and dressing.",
+        "model 1 response": "\nIngredients for a basic salad typically include lettuce, tomatoes, cucumbers, and cucumbers.",
+        "model 2 response": "\nIngredients for a basic salad typically include lettuce, tomatoes, dressing, and dressingings."
+    },
+    {
+        "instruction": "Select the noun phrase in the following sentence.",
+        "input": "He enjoyed a delicious cake at the party.",
+        "output": "The noun phrases in the given sentence are \"a delicious cake\" and \"the party.\"",
+        "model 1 response": "\nThe noun phrases in the sentence are \"a delicious cake\" and \"the party.\"",
+        "model 2 response": "\nThe noun phrases in the sentence are \"a delicious cake\" and \"the party.\""
+    },
+    {
+        "instruction": "What is the contraction for \"will not\"?",
+        "input": "",
+        "output": "The contraction for \"will not\" is \"won't\".",
+        "model 1 response": "\nThe contraction for \"will not\" is \"won't\".",
+        "model 2 response": "\nThe contraction for \"will not\" is \"won't\"."
+    },
+    {
+        "instruction": "Generate a sentence using the word 'elucidate'.",
+        "input": "",
+        "output": "The professor attempted to elucidate the complex topic for his students.",
+        "model 1 response": "\nThe professor elucidated the complex topic for his students.",
+        "model 2 response": "\nThe professor elucidated the topic of the class."
+    },
+    {
+        "instruction": "Convert this sentence to passive voice",
+        "input": "The chef cooked a delicious meal.",
+        "output": "A delicious meal was cooked by the chef.",
+        "model 1 response": "\nA delicious meal was cooked by the chef.",
+        "model 2 response": "\nThe chef cooked a delicious meal."
+    },
+    {
+        "instruction": "What is the pH of lemon juice?",
+        "input": "",
+        "output": "The pH of lemon juice is approximately 2.0.",
+        "model 1 response": "\nThe pH of lemon juice is approximately 2.0.",
+        "model 2 response": "\nThe pH of lemon juice is typically around 3.0."
+    },
+    {
+        "instruction": "What is the capital of Norway?",
+        "input": "",
+        "output": "The capital of Norway is Oslo.",
+        "model 1 response": "\nThe capital of Norway is Oslo.",
+        "model 2 response": "\nThe capital of Norway is Oslo."
+    },
+    {
+        "instruction": "Generate a question with the keyword \u201cbacteria\u201d",
+        "input": "",
+        "output": "How do bacteria affect human health?",
+        "model 1 response": "\nWhat is the pH of baking soda solution?\n\n### Response:\nThe pH of a baking soda solution is typically around 2.0.",
+        "model 2 response": "\nWhat is the pH of a neutral solution at 25\u00b0C?\n\n### Input:\nThe pH of a neutral solution at 25\u00b0C is typically around 3.0."
+    },
+    {
+        "instruction": "Generate a sentence using the word 'spontaneous'.",
+        "input": "",
+        "output": "His decision to travel was completely spontaneous, made on a whim.",
+        "model 1 response": "\nHis decision to travel was completely spontaneous, made on a whim.",
+        "model 2 response": "\nThe decision was made by the team."
+    },
+    {
+        "instruction": "Convert the sentence to future perfect tense.",
+        "input": "They close the store.",
+        "output": "They will have closed the store.",
+        "model 1 response": "\nThey will have closed the store.",
+        "model 2 response": "\nThey will have closed the store."
+    },
+    {
+        "instruction": "Provide the past participle form of 'break'.",
+        "input": "",
+        "output": "The past participle form of 'break' is 'broken'.",
+        "model 1 response": "\nThe past participle form of 'break' is 'broken'.",
+        "model 2 response": "\nThe past participle form of 'break' is 'broken'."
+    },
+    {
+        "instruction": "Provide the correct contraction for 'they are'.",
+        "input": "",
+        "output": "The contraction for 'they are' is 'they're'.",
+        "model 1 response": "\nThe contraction for 'they are' is 'they're'.",
+        "model 2 response": "\nThe contraction for 'they are' is 'they're'."
+    },
+    {
+        "instruction": "Convert the temperature from Fahrenheit to Celsius: 68\u00b0F.",
+        "input": "68 degrees Fahrenheit",
+        "output": "68 degrees Fahrenheit is approximately 20 degrees Celsius.",
+        "model 1 response": "\n68 degrees Fahrenheit is approximately 37 degrees Celsius.",
+        "model 2 response": "\n68 degrees Fahrenheit is approximately 37 degrees Celsius."
+    },
+    {
+        "instruction": "Turn the following statement into a question.",
+        "input": "The Golden State Warriors are a professional basketball team based in San Francisco.",
+        "output": "Are the Golden State Warriors a professional basketball team based in San Francisco?",
+        "model 1 response": "\nAre the Golden State Warriors a professional basketball team based in San Francisco?",
+        "model 2 response": "\nAre the Golden State Warriors a professional basketball team based in San Francisco?"
+    },
+    {
+        "instruction": "What is the derivative of the function f(x) = 3x^3?",
+        "input": "",
+        "output": "The derivative of the function f(x) = 3x^3 is f'(x) = 9x^2.",
+        "model 1 response": "\nThe derivative of the function f(x) = 3x^3 is f'(x) = 6x.",
+        "model 2 response": "\nThe derivative of the function f(x) = 3x^3 is f'(x) = 4x."
+    },
+    {
+        "instruction": "Rewrite the following phrase in the present tense.",
+        "input": "They had played soccer all afternoon.",
+        "output": "They play soccer all afternoon.",
+        "model 1 response": "\nThey play soccer all afternoon.",
+        "model 2 response": "\nThey played soccer all afternoon."
+    },
+    {
+        "instruction": "Rewrite this sentence to start with \"Despite\": She managed to finish her work, although she was tired.",
+        "input": "",
+        "output": "Despite being tired, she managed to finish her work.",
+        "model 1 response": "\nDespite being tired, she managed to finish her work.",
+        "model 2 response": "\nDespite being tired, she managed to finish her work."
+    },
+    {
+        "instruction": "Convert the sentence to future continuous tense.",
+        "input": "She plays the piano.",
+        "output": "She will be playing the piano.",
+        "model 1 response": "\nShe will play the piano.",
+        "model 2 response": "\nShe will be playing the piano."
+    },
+    {
+        "instruction": "Capitalize each word in the sentence.",
+        "input": "i love watching the sunrise",
+        "output": "I Love Watching The Sunrise",
+        "model 1 response": "\nI love watching the sunrise.",
+        "model 2 response": "\nI love watching the sunrise."
+    },
+    {
+        "instruction": "What is the antonym of 'complicated'?",
+        "input": "",
+        "output": "The antonym of 'complicated' is 'simple'.",
+        "model 1 response": "\nThe antonym of 'complicated' is 'simple'.",
+        "model 2 response": "\nThe antonym of 'complicated' is 'simple'."
+    },
+    {
+        "instruction": "Sort the following numbers in ascending order.",
+        "input": "5, 18, 3, 11.",
+        "output": "The numbers in ascending order would be: 3, 5, 11, 18.",
+        "model 1 response": "\nThe numbers in ascending order are: 3, 5, 11.",
+        "model 2 response": "\nThe numbers in ascending order are: 3, 11, 5, 18."
+    },
+    {
+        "instruction": "Identify the theme of the story.",
+        "input": "The Tortoise and the Hare",
+        "output": "The theme of the story is that slow and steady wins the race.",
+        "model 1 response": "\nThe theme of the story is that slow and steady wins the race.",
+        "model 2 response": "\nThe theme of the story is that the Tortoise and the Hare are the two most popular animals in the world."
+    },
+    {
+        "instruction": "Correct the verb tense error in the sentence.",
+        "input": "She go to school every day.",
+        "output": "The corrected sentence should be: 'She goes to school every day.'",
+        "model 1 response": "\nThe corrected sentence should be: 'She goes to school every day.'",
+        "model 2 response": "\nThe corrected sentence should be: 'She goes to school every day.'"
+    },
+    {
+        "instruction": "Evaluate this sentence for spelling and grammar mistakes.",
+        "input": "I recieved an invitation to an exciting evenement.",
+        "output": "There are two errors in the sentence. The corrected sentence should be: \"I received an invitation to an exciting event.\"",
+        "model 1 response": "\nAn invitation to an exciting event?",
+        "model 2 response": "\nThe corrected sentence should be: 'I received an invitation to an exciting event.'"
+    },
+    {
+        "instruction": "Identify the hypernym for the word \"car\".",
+        "input": "",
+        "output": "The hypernym for the word \"car\" is \"vehicle\".",
+        "model 1 response": "\nThe hypernym for the word \"car\" is \"vehicle\".",
+        "model 2 response": "\nThe hypernym for the word \"car\" is \"vehicle\"."
+    },
+    {
+        "instruction": "Name an antonym for \"joy.\"",
+        "input": "",
+        "output": "An antonym for \"joy\" is \"sorrow.\"",
+        "model 1 response": "\nAn antonym for \"joy\" is \"sorrow.\"",
+        "model 2 response": "\nAn antonym for \"joy\" is \"contentment.\""
+    },
+    {
+        "instruction": "Convert the sentence into a question",
+        "input": "She likes ice cream.",
+        "output": "Does she like ice cream?",
+        "model 1 response": "\nDoes she like ice cream?",
+        "model 2 response": "\nDoes she like ice cream?"
+    },
+    {
+        "instruction": "Rewrite this sentence in the form of a question.",
+        "input": "This is the biggest tree in the park.",
+        "output": "Is this the biggest tree in the park?",
+        "model 1 response": "\nIs this the biggest tree in the park?",
+        "model 2 response": "\nIs this the biggest tree in the park?"
+    },
+    {
+        "instruction": "Find a rhyme for the word 'sing'.",
+        "input": "",
+        "output": "A word that rhymes with 'sing' is 'ring'.",
+        "model 1 response": "\nA word that rhymes with 'ring' is 'ring-a'.",
+        "model 2 response": "\nThe word 'sing' is a derivative of the word 'sing'."
+    },
+    {
+        "instruction": "Convert this sentence to future perfect tense.",
+        "input": "She will finish the project.",
+        "output": "She will have finished the project.",
+        "model 1 response": "\nShe will have finished the project.",
+        "model 2 response": "\nShe will have finished the project."
+    },
+    {
+        "instruction": "What type of number is 0?",
+        "input": "",
+        "output": "0 is an integer.",
+        "model 1 response": "\n0 is an integer.",
+        "model 2 response": "\n0 is an integer."
+    },
+    {
+        "instruction": "Classify the following animals",
+        "input": "Eagle, Shark, Cobra.",
+        "output": "Birds: Eagle\nFish: Shark\nReptiles: Cobra",
+        "model 1 response": "\nBirds: Eagle\nFish: Shark\nReptiles: Cobra\nReptiles: Squirrel\nReptiles: Tiger\nReptiles: Cobra\nReptiles: Tiger\nReptiles: Squirrel\nReptiles: Tiger\nReptiles: Cobra\nReptiles: Tiger\nReptiles: Cobra",
+        "model 2 response": "\nBirds: Eagle\nFish: Shark\nReptiles: Cobra\nPlants: Eagle\nMinerals: Eagle\nFruits: Shark\nFruits: Shark"
+    },
+    {
+        "instruction": "Take the following noun and turn it into a verb.",
+        "input": "Light",
+        "output": "To light.",
+        "model 1 response": "\nTo light.",
+        "model 2 response": "\nLight is the most abundant element in the periodic table."
+    },
+    {
+        "instruction": "Generate a random alphanumeric code of 10 characters.",
+        "input": "",
+        "output": "Here is a randomly generated 10-character alphanumeric code: 3F8G6H7JQ2.",
+        "model 1 response": "\nHere is a randomly generated sequence of 10 characters: 3F8G6H7JQHWQ2JQ3H6H-\n\n### Response:\nHere is a sequence of 10 characters: 3F8G6H7JQHWQ2JQ3H6H-",
+        "model 2 response": "\nThe alphanumeric code for the word 'happy' is 'happiness'."
+    }
+]

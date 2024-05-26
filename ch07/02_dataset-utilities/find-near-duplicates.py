@@ -61,7 +61,7 @@ def find_near_duplicates(json_data, threshold=0.75, key="instruction"):
     for i in range(len(cos_sim_matrix)):
         for j in range(i+1, len(cos_sim_matrix)):
             if cos_sim_matrix[i, j] > threshold:
-                if len(json_data[i][key]) <= 1 or len(json_data[j][key]) <=1:
+                if len(json_data[i][key]) <= 1 or len(json_data[j][key]) <= 1:
                     continue
                 near_duplicates.append((json_data[i], json_data[j], cos_sim_matrix[i, j]))
                 if key in ("input", "output"):  # Don't remove duplicates based on the instruction

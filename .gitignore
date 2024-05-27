@@ -59,6 +59,7 @@ ch06/03_bonus_imdb-classification/test.csv
 ch06/03_bonus_imdb-classification/train.csv
 ch06/03_bonus_imdb-classification/validation.csv
 
+ch07/02_dataset-utilities/instruction-examples-modified.json
 
 # Temporary OS-related files
 .DS_Store

@@ -1,3 +1,7 @@
+# Configs and keys
+ch07/02_dataset-utilities/config.json
+ch07/03_model-evaluation/config.json
+
 # Graphics
 appendix-D/01_main-chapter-code/1.pdf
 appendix-D/01_main-chapter-code/2.pdf
@@ -55,6 +59,7 @@ ch06/03_bonus_imdb-classification/test.csv
 ch06/03_bonus_imdb-classification/train.csv
 ch06/03_bonus_imdb-classification/validation.csv
 
+ch07/02_dataset-utilities/instruction-examples-modified.json
 
 # Temporary OS-related files
 .DS_Store

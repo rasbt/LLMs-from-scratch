@@ -3,7 +3,7 @@
         "instruction": "Identify the verb in the following sentence: The cat sleeps on the couch.",
         "input": "",
         "output": "The verb in the sentence is \"sleeps.\"",
-        "output_2": "The sentence is \"The verb in the sentence is slept.\""
+        "output_2": "The sentence is \"sleeps.\""
     },
     {
         "instruction": "What is the plural form of \"goose\"?",
@@ -63,7 +63,7 @@
         "instruction": "Generate three adjectives to describe a mountain.",
         "input": "",
         "output": "1. Majestic\n2. Rugged\n3. Towering",
-        "output_2": "1. Majestic\n2. Rugged\n3. Towering\n\n(Note: The words provided are adjectives and not sentences, hence they cannot be converted into passive voice as they do not contain a verb.)"
+        "output_2": "1. Majestic\n2. Rugged\n3. Towering\n\n(Note: The words provided are adjectives and do not have active or passive voice forms. Adjectives describe nouns and do not imply any action that can be converted between active and passive voice.)"
     },
     {
         "instruction": "Determine the state of matter for helium at room temperature.",
@@ -81,7 +81,7 @@
         "instruction": "What is the symbol for the chemical element iron?",
         "input": "",
         "output": "The symbol for the chemical element iron is Fe.",
-        "output_2": "The symbol for the chemical element iron is represented by Fe."
+        "output_2": "The symbol Fe is used for the chemical element iron."
     },
     {
         "instruction": "Convert the sentence into a question by adding a question tag.",
@@ -105,13 +105,13 @@
         "instruction": "Provide a word that rhymes with \"care.\"",
         "input": "",
         "output": "A word that rhymes with \"care\" is \"fare.\"",
-        "output_2": "A word with which \"care\" rhymes is \"fare.\""
+        "output_2": "A word that \"fare\" rhymes with is \"care.\""
     },
     {
         "instruction": "Rewrite this sentence to start with \"Despite\": She managed to finish her work, although she was tired.",
         "input": "",
         "output": "Despite being tired, she managed to finish her work.",
-        "output_2": "Despite being tired, the work was managed to be finished by her."
+        "output_2": "Despite being tired, her work was managed to be finished by her."
     },
     {
         "instruction": "Convert the following sentence to use a relative clause: The man is a teacher. He lives next door.",
@@ -147,7 +147,7 @@
         "instruction": "Explain what a haiku is.",
         "input": "",
         "output": "A haiku is a form of traditional Japanese poetry that consists of three lines with a syllable pattern of 5-7-5.",
-        "output_2": "A form of traditional Japanese poetry known as a haiku consists of three lines with a syllable pattern of 5-7-5."
+        "output_2": "A form of traditional Japanese poetry that consists of three lines with a syllable pattern of 5-7-5 is known as a haiku."
     },
     {
         "instruction": "Provide the past tense form of the verb \"run.\"",
@@ -177,7 +177,7 @@
         "instruction": "Name an antonym for \"joy.\"",
         "input": "",
         "output": "An antonym for \"joy\" is \"sorrow.\"",
-        "output_2": "An antonym for \"joy\" is considered to be \"sorrow.\""
+        "output_2": "An antonym for \"joy\" is identified as \"sorrow.\""
     },
     {
         "instruction": "Classify the following items: apple, diamond, fern.",
@@ -189,13 +189,13 @@
         "instruction": "Generate three adjectives to describe the ocean.",
         "input": "",
         "output": "1. Vast\n2. Mysterious\n3. Serene",
-        "output_2": "1. Vast is remained.\n2. Mysterious is considered.\n3. Serene is felt."
+        "output_2": "1. Vastness is experienced.\n2. Mysteriousness is perceived.\n3. Serenity is felt."
     },
     {
         "instruction": "Determine the state of matter for nitrogen at room temperature.",
         "input": "",
         "output": "Nitrogen is in a gaseous state at room temperature.",
-        "output_2": "At room temperature, nitrogen is in a gaseous state."
+        "output_2": "At room temperature, nitrogen is found in a gaseous state."
     },
     {
         "instruction": "Convert the following statement into a question.",
@@ -249,7 +249,7 @@
         "instruction": "Rewrite the following sentence using passive voice.",
         "input": "The team achieved great results.",
         "output": "Great results were achieved by the team.",
-        "output_2": "The team achieved great results."
+        "output_2": "Great results were achieved by the team."
     },
     {
         "instruction": "Edit the following sentence to make it more formal.",
@@ -261,7 +261,7 @@
         "instruction": "Arrange the given numbers in descending order.",
         "input": "7, 10, 3, 6, 9",
         "output": "10, 9, 7, 6, 3.",
-        "output_2": "10, 9, 7, 6, 3 were counted."
+        "output_2": "10, 9, 7, 6, 3 were converted to passive voice."
     },
     {
         "instruction": "Given a sentence, convert it into indirect speech.",
@@ -297,7 +297,7 @@
         "instruction": "Change this sentence into the past continuous tense.",
         "input": "She sings in the choir.",
         "output": "She was singing in the choir.",
-        "output_2": "Singing in the choir was being done by her."
+        "output_2": "The choir was being sung in by her."
     },
     {
         "instruction": "Make the first sentence a dependent clause.",
@@ -327,7 +327,7 @@
         "instruction": "Correct the grammatical errors in this sentence.",
         "input": "He don't know nothing about it.",
         "output": "He doesn't know anything about it.",
-        "output_2": "Anything about it is not known by him."
+        "output_2": "Nothing about it is known by him."
     },
     {
         "instruction": "Rewrite the following sentence to remove redundancy.",
@@ -381,13 +381,13 @@
         "instruction": "Find a rhyming word for the word \"care.\"",
         "input": "",
         "output": "A rhyming word for the word \"care\" could be \"bare.\"",
-        "output_2": "A rhyming word for the word \"care\" could be \"bare\" by \"bare.\""
+        "output_2": "A rhyming word for the word \"care\" could be \"bare\" is said."
     },
     {
         "instruction": "Reword the following sentence to the future tense.",
         "input": "He is reading a novel inspired by his grandmother.",
         "output": "He will be reading a novel inspired by his grandmother.",
-        "output_2": "A novel inspired by his grandmother will be being read by him."
+        "output_2": "A novel inspired by his grandmother will be read by him."
     },
     {
         "instruction": "Classify the following fruit according to its type.",
@@ -561,7 +561,7 @@
         "instruction": "Categorize the following sentence as either factual or opinion-based.",
         "input": "Chocolate is the best dessert.",
         "output": "Opinion-based.",
-        "output_2": "Opinion-based was written."
+        "output_2": "Based on opinion."
     },
     {
         "instruction": "Classify each sentence as either declarative, interrogative, imperative, or exclamatory.",
@@ -663,7 +663,7 @@
         "instruction": "Label whether the following statements are true or false.",
         "input": "The moon is a planet.",
         "output": "False",
-        "output_2": "False is not a sentence and therefore cannot be converted into passive voice."
+        "output_2": "False is not a sentence and cannot be converted into passive voice."
     },
     {
         "instruction": "Combine the given sentences into one cohesive sentence.",
@@ -675,13 +675,13 @@
         "instruction": "Rewrite the given passage in the past tense.",
         "input": "They are building a new library.",
         "output": "They built a new library.",
-        "output_2": "A new library was built."
+        "output_2": "A new library was built by them."
     },
     {
         "instruction": "Change the following sentence so that it is in the past tense.",
         "input": "He runs to the store.",
         "output": "He ran to the store.",
-        "output_2": "The store was run to by him."
+        "output_2": "To the store he was run."
     },
     {
         "instruction": "Edit the following sentence to remove all passive voice.",
@@ -717,7 +717,7 @@
         "instruction": "Classify the following online review as being positive or negative.",
         "input": "I found this book to be incredibly insightful and informative.",
         "output": "The online review is positive.",
-        "output_2": "The online review is considered positive."
+        "output_2": "A positive review is given online."
     },
     {
         "instruction": "Reverse the following list alphabetically.",
@@ -831,7 +831,7 @@
         "instruction": "Find a synonym for the word 'start'.",
         "input": "",
         "output": "A synonym for the word 'start' could be \"commence.\"",
-        "output_2": "A synonym for the word 'start' could be \"commence\" by some."
+        "output_2": "A synonym for the word 'start' could be \"commence\" by someone."
     },
     {
         "instruction": "Change the sentence \"This should not have happened\" into a declarative sentence.",
@@ -867,7 +867,7 @@
         "instruction": "Scramble the given phrase.",
         "input": "A random phrase",
         "output": "A nmaodr hrasep",
-        "output_2": "A nmaodr hrasep was written."
+        "output_2": "A nmaodr hrasep was converted."
     },
     {
         "instruction": "rewrite this sentence as a question.",
@@ -951,13 +951,13 @@
         "instruction": "Rewrite the sentence to use a negative adverb.",
         "input": "She always remembers to call.",
         "output": "She never forgets to call.",
-        "output_2": "It is never forgotten by her to call."
+        "output_2": "To call is never forgotten by her."
     },
     {
         "instruction": "Categorize the given list of animals.",
         "input": "Shark, Dolphin, Trout",
         "output": "Fish: Shark, Trout\nMammals: Dolphin",
-        "output_2": "Fish: Shark, Trout are listed.\nMammals: Dolphin is listed."
+        "output_2": "Fish: Shark, Trout\nMammals: Dolphin"
     },
     {
         "instruction": "Rewrite the sentence using a synonym.",
@@ -987,7 +987,7 @@
         "instruction": "Evaluate the following phrase by transforming it into the spelling given.",
         "input": "freind --> friend",
         "output": "The spelling of the given phrase \"freind\" is incorrect, the correct spelling is \"friend\".",
-        "output_2": "The spelling of the given phrase \"freind\" is identified as incorrect; the correct spelling is identified as \"friend\"."
+        "output_2": "The spelling of the given phrase \"freind\" is said to be incorrect; \"friend\" is stated as the correct spelling."
     },
     {
         "instruction": "Select the noun phrase in the following sentence.",
@@ -1053,7 +1053,7 @@
         "instruction": "Convert 10 feet to meters.",
         "input": "",
         "output": "10 feet is equal to approximately 3.048 meters.",
-        "output_2": "Approximately 3.048 meters is equal to 10 feet."
+        "output_2": "Approximately 3.048 meters is equaled by 10 feet."
     },
     {
         "instruction": "Simplify the given sentence.",
@@ -1083,7 +1083,7 @@
         "instruction": "Find the synonym for the given verb.",
         "input": "Begin",
         "output": "Commence",
-        "output_2": "The following text is to be converted to passive voice: Commence."
+        "output_2": "Be commenced."
     },
     {
         "instruction": "Name 3 different animals that are active during the day.",
@@ -1119,7 +1119,7 @@
         "instruction": "Classify the following animal as carnivore, herbivore, or omnivore.",
         "input": "Deer",
         "output": "Herbivore",
-        "output_2": "I'm sorry, but the word \"Herbivore\" does not form a sentence and thus cannot be converted into passive voice. Passive voice requires a sentence with a clear subject, verb, and object, which is not applicable to a single noun."
+        "output_2": "I'm sorry, but the word \"Herbivore\" does not form a sentence and thus cannot be converted into passive voice. Passive voice requires a sentence with a clear subject, verb, and object, which is not present in a single noun."
     },
     {
         "instruction": "Fix the following grammar mistake.",

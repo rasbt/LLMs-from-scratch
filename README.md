@@ -56,7 +56,7 @@ Alternatively, you can view this and other files on GitHub at [https://github.co
 | Ch 4: Implementing a GPT Model from Scratch                | - [ch04.ipynb](ch04/01_main-chapter-code/ch04.ipynb)<br/>- [gpt.py](ch04/01_main-chapter-code/gpt.py) (summary)<br/>- [exercise-solutions.ipynb](ch04/01_main-chapter-code/exercise-solutions.ipynb) | [./ch04](./ch04)           |
 | Ch 5: Pretraining on Unlabeled Data                        | - [ch05.ipynb](ch05/01_main-chapter-code/ch05.ipynb)<br/>- [gpt_train.py](ch05/01_main-chapter-code/gpt_train.py) (summary) <br/>- [gpt_generate.py](ch05/01_main-chapter-code/gpt_generate.py) (summary) <br/>- [exercise-solutions.ipynb](ch05/01_main-chapter-code/exercise-solutions.ipynb) | [./ch05](./ch05)              |
 | Ch 6: Finetuning for Text Classification                   | - [ch06.ipynb](ch06/01_main-chapter-code/ch06.ipynb)  <br/>- [gpt-class-finetune.py](ch06/01_main-chapter-code/gpt-class-finetune.py)  <br/>- [exercise-solutions.ipynb](ch06/01_main-chapter-code/exercise-solutions.ipynb) | [./ch06](./ch06)              |
-| Ch 7: Finetuning with Human Feedback                       | Q2 2024                                                                                                                         | ...                           |
+| Ch 7: Instruction Finetuning | Q2 2024                                                                                                                         | ...                           |
 | Appendix A: Introduction to PyTorch                        | - [code-part1.ipynb](appendix-A/01_main-chapter-code/code-part1.ipynb)<br/>- [code-part2.ipynb](appendix-A/01_main-chapter-code/code-part2.ipynb)<br/>- [DDP-script.py](appendix-A/01_main-chapter-code/DDP-script.py)<br/>- [exercise-solutions.ipynb](appendix-A/01_main-chapter-code/exercise-solutions.ipynb) | [./appendix-A](./appendix-A) |
 | Appendix B: References and Further Reading                 | No code                                                                                                                         | -                             |
 | Appendix C: Exercise Solutions                             | No code                                                                                                                         | -                             |
@@ -105,6 +105,7 @@ Several folders contain optional materials as a bonus for interested readers:
   - [Finetuning different models on 50k IMDB movie review dataset](ch06/03_bonus_imdb-classification)
 - **Chapter 7:**
   - [Dataset Utilities for Finding Near Duplicates and Creating Passive Voice Entries](ch07/02_dataset-utilities)
+  - [Evaluating Instruction Responses Using the OpenAI API and Ollama](ch07/03_model-evaluation)
 
 <br>
 &nbsp

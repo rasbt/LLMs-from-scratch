@@ -4,6 +4,7 @@ RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y rsync && \
     apt-get install -y git && \
+    apt-get install -y curl && \
     rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt requirements.txt

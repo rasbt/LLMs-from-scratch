@@ -1,4 +1,4 @@
-# Chapter 7: Instruction Finetuning
+# Chapter 7: Finetuning to Follow Instructions
 
 This folder contains utility code that can be used for model evaluation.
 

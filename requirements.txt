@@ -6,4 +6,4 @@ numpy >= 1.24.3       # ch05
 tensorflow >= 2.15.0  # ch05
 tqdm >= 4.66.1        # ch05, ch07
 pandas >= 2.2.1       # ch06
-
+psutil >= 5.9.5       # ch07, already installed automatically as dependency of torch

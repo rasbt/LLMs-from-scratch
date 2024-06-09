@@ -84,7 +84,7 @@ def train_model_simple(model, train_loader, val_loader, optimizer, device, num_e
         model.train()  # Set model to training mode
 
         for input_batch, target_batch in train_loader:
-            optimizer.zero_grad()  # Reset loss gradients from previous epoch
+            optimizer.zero_grad()  # Reset loss gradients from previous batch iteration
             loss = calc_loss_batch(input_batch, target_batch, model, device)
             loss.backward()  # Calculate loss gradients
             optimizer.step()  # Update model weights using loss gradients

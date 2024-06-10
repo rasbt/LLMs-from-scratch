@@ -261,7 +261,7 @@ def train_classifier_simple(model, train_loader, val_loader, optimizer, device, 
             # Use gradient accumulation if accumulation_steps > 1
             if batch_idx % accumulation_steps == 0:
                 optimizer.step()  # Update model weights using loss gradients
-                optimizer.zero_grad()  # Reset loss gradients from previous epoch
+                optimizer.zero_grad()  # Reset loss gradients from previous batch iteration
 
             examples_seen += input_batch.shape[0]  # New: track examples instead of tokens
             global_step += 1

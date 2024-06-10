@@ -16,6 +16,8 @@ ch05/01_main-chapter-code/the-verdict.txt
 ch06/01_main-chapter-code/loss-plot.pdf
 ch06/01_main-chapter-code/accuracy-plot.pdf
 
+ch07/01_main-chapter-code/loss-plot.pdf
+
 # Checkpoint files
 appendix-A/01_main-chapter-code/model.pth
 appendix-E/01_main-chapter-code/gpt2
@@ -29,6 +31,8 @@ ch05/03_bonus_pretraining_on_gutenberg/model_checkpoints
 ch06/01_main-chapter-code/gpt2
 ch06/02_bonus_additional-experiments/gpt2
 ch06/03_bonus_imdb-classification/gpt2
+
+ch07/01_main-chapter-code/gpt2-medium355M-sft.pth
 
 # Datasets
 appendix-E/01_main-chapter-code/sms_spam_collection.zip

@@ -20,6 +20,7 @@ ch07/01_main-chapter-code/loss-plot.pdf
 
 # Checkpoint files
 appendix-A/01_main-chapter-code/model.pth
+
 appendix-E/01_main-chapter-code/gpt2
 
 ch05/01_main-chapter-code/gpt2/
@@ -33,6 +34,7 @@ ch06/02_bonus_additional-experiments/gpt2
 ch06/03_bonus_imdb-classification/gpt2
 
 ch07/01_main-chapter-code/gpt2-medium355M-sft.pth
+ch07/01_main-chapter-code/gpt2/
 
 # Datasets
 appendix-E/01_main-chapter-code/sms_spam_collection.zip

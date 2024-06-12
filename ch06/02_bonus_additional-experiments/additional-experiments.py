@@ -235,7 +235,7 @@ def evaluate_model(model, train_loader, val_loader, device,
 
 
 def train_classifier_simple(model, train_loader, val_loader, optimizer, device, num_epochs,
-                            eval_freq, eval_iter, tokenizer, max_steps=None, trainable_token_pos=-1,
+                            eval_freq, eval_iter, max_steps=None, trainable_token_pos=-1,
                             accumulation_steps=1, ignore_index=-100):
     # Initialize lists to track losses and tokens seen
     train_losses, val_losses, train_accs, val_accs = [], [], [], []
@@ -565,7 +565,7 @@ if __name__ == "__main__":
     train_losses, val_losses, train_accs, val_accs, examples_seen = train_classifier_simple(
         model, train_loader, val_loader, optimizer, device,
         num_epochs=args.num_epochs, eval_freq=50, eval_iter=5,
-        tokenizer=tokenizer, max_steps=None, trainable_token_pos=args.trainable_token_pos,
+        max_steps=None, trainable_token_pos=args.trainable_token_pos,
         accumulation_steps=args.accumulation_steps
     )
 

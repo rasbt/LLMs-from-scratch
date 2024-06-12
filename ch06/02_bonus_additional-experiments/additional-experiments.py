@@ -117,7 +117,7 @@ def random_split(df, train_frac, validation_frac):
     return train_df, validation_df, test_df
 
 
-def create_dataset_csvs(data_file_path):
+def create_dataset_csvs(new_file_path):
     df = pd.read_csv(new_file_path, sep="\t", header=None, names=["Label", "Text"])
 
     # Create balanced dataset

@@ -30,7 +30,21 @@ body:
         - "Linux"
         - "Windows"
     validations:
-      required: true
+      required: False
+
+  - type: dropdown
+    id: operating_system
+    attributes:
+      label: Where do you run your code?
+      description: Please select the computing environment where you ran this code.
+      options:
+        - "Unknown"
+        - "Local (laptop, desktop)"
+        - "Lightning AI Studio"
+        - "Google Colab"
+        - "Other cloud environment (AWS, Azure, GCP)"
+    validations:
+      required: False
 
   - type: textarea
     id: environment

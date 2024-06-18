@@ -33,7 +33,7 @@ body:
       required: False
 
   - type: dropdown
-    id: operating_system
+    id: compute_environment
     attributes:
       label: Where do you run your code?
       description: Please select the computing environment where you ran this code.

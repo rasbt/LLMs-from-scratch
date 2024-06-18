@@ -1,14 +1,16 @@
 name: Bug report
-about: Report errors related to the book content or code
-labels: bug
+description: Report errors related to the book content or code
+title: "[BUG] "
+labels: [bug]
 assignees: rasbt
 body:
   - type: markdown
     attributes:
       value: |
-        Thank you for taking the time to report an issue. Please fill out the details below to help us resolve it.
+        Thank you for taking the time to report an issue. Please fill out the details below to help resolve it.
 
   - type: textarea
+    id: bug_description
     attributes:
       label: Bug description
       description: A description of the issue.
@@ -18,11 +20,10 @@ body:
       required: true
 
   - type: dropdown
-    id: versions
+    id: operating_system
     attributes:
       label: What operating system are you using?
       description: If applicable, please select the operating system where you experienced this issue
-      multiple: false
       options:
         - "macOS"
         - "Linux"
@@ -31,6 +32,7 @@ body:
       required: true
 
   - type: textarea
+    id: environment
     attributes:
       label: Environment
       description: |

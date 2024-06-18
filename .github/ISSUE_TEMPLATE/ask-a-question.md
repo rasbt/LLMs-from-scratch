@@ -1,6 +1,6 @@
 ---
 name: Ask a Question
-about: Ask and answer questions related to the book
+about: Ask questions related to the book
 title: ''
 labels: question
 assignees: rasbt

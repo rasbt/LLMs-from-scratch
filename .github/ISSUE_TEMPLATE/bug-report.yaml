@@ -1,7 +1,7 @@
-name: Bug report
+name: Bug Report
 description: Report errors related to the book content or code
-title: "[BUG] "
-labels: [bug]
+title: "Description"
+labels: bug
 assignees: rasbt
 body:
   - type: markdown
@@ -23,8 +23,9 @@ body:
     id: operating_system
     attributes:
       label: What operating system are you using?
-      description: If applicable, please select the operating system where you experienced this issue
+      description: If applicable, please select the operating system where you experienced this issue.
       options:
+        - "Unknown"
         - "macOS"
         - "Linux"
         - "Windows"
@@ -43,25 +44,25 @@ body:
         wget https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/main/setup/02_installing-python-libraries/python_environment_check.py
         python python_environment_check.py
         ```
-
+        The script will print your Python environment information in the following format
+        ```
+        [OK] Your Python version is 3.11.4
+        [OK] torch 2.3.1
+        [OK] jupyterlab 4.2.2
+        [OK] tiktoken 0.7.0
+        [OK] matplotlib 3.9.0
+        [OK] numpy 1.26.4
+        [OK] tensorflow 2.16.1
+        [OK] tqdm 4.66.4
+        [OK] pandas 2.2.2
+        [OK] psutil 5.9.8
+        ```
         You can simply copy and paste the outputs of this script below.
       value: |
-        <details>
-          <summary>Python environment</summary>
-
-        ```
-        # [OK] Your Python version is 3.11.4
-        # [OK] torch 2.3.1
-        # [OK] jupyterlab 4.2.2
-        # [OK] tiktoken 0.7.0
-        # [OK] matplotlib 3.9.0
-        # [OK] numpy 1.26.4
-        # [OK] tensorflow 2.16.1
-        # [OK] tqdm 4.66.4
-        # [OK] pandas 2.2.2
-        # [OK] psutil 5.9.8
         ```
 
-        </details>
+
+
+        ```
     validations:
       required: false

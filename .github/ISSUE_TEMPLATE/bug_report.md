@@ -1,4 +1,3 @@
-
 name: Bug report
 about: Report errors related to the book content or code
 labels: bug

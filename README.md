@@ -121,10 +121,9 @@ If you find this book  or code useful for your research, please consider citing 
   author       = {Sebastian Raschka},
   title        = {Build A Large Language Model (From Scratch)},
   publisher    = {Manning},
-  year         = {2023},
+  year         = {2024},
   isbn         = {978-1633437166},
   url          = {https://www.manning.com/books/build-a-large-language-model-from-scratch},
-  note         = {Work in progress},
   github       = {https://github.com/rasbt/LLMs-from-scratch}
 }
 ```

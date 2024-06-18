@@ -4,14 +4,16 @@ labels: bug
 assignees: rasbt
 body:
   - type: markdown
-
+    attributes:
+      value: |
+        Thank you for taking the time to report an issue. Please fill out the details below to help us resolve it.
 
   - type: textarea
     attributes:
       label: Bug description
       description: A description of the issue.
       placeholder: |
-        Please provide description of what the bug or issue is.
+        Please provide a description of what the bug or issue is.
     validations:
       required: true
 
@@ -20,21 +22,20 @@ body:
     attributes:
       label: What operating system are you using?
       description: If applicable, please select the operating system where you experienced this issue
-      multiple: true
+      multiple: false
       options:
         - "macOS"
         - "Linux"
         - "Windows"
     validations:
-      required: false
-
+      required: true
 
   - type: textarea
     attributes:
       label: Environment
       description: |
         Please provide details about your Python environment via the environment collection script or notebook located at
-        https://github.com/rasbt/LLMs-from-scratch/tree/main/setup/02_installing-python-libraries
+        https://github.com/rasbt/LLMs-from-scratch/tree/main/setup/02_installing-python-libraries.
         You can run the script as follows:
         ```console
         wget https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/main/setup/02_installing-python-libraries/python_environment_check.py

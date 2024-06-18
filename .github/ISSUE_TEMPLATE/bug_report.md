@@ -1,16 +1,18 @@
----
+
 name: Bug report
 about: Report errors related to the book content or code
-title: ''
 labels: bug
 assignees: rasbt
-
----
-
-**Describe the bug**
-Please provide description of what the bug is.
+body:
+  - type: markdown
 
 
+  - type: textarea
+    attributes:
+      label: Bug description
+      description: A description of the issue.
+      placeholder: |
+        Please provide description of what the bug or issue is.
     validations:
       required: true
 
@@ -55,7 +57,7 @@ Please provide description of what the bug is.
         # [OK] tensorflow 2.16.1
         # [OK] tqdm 4.66.4
         # [OK] pandas 2.2.2
-        # [OK] psutil 5.9.8        
+        # [OK] psutil 5.9.8
         ```
 
         </details>

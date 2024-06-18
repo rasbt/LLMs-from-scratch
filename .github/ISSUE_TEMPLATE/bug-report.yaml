@@ -1,7 +1,7 @@
 name: Bug Report
 description: Report errors related to the book content or code
 title: "Description"
-labels: bug
+labels: [bug]
 assignees: rasbt
 body:
   - type: markdown

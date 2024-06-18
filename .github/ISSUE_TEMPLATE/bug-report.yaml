@@ -38,7 +38,6 @@ body:
       label: Where do you run your code?
       description: Please select the computing environment where you ran this code.
       options:
-        - "Unknown"
         - "Local (laptop, desktop)"
         - "Lightning AI Studio"
         - "Google Colab"

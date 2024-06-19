@@ -1,0 +1,85 @@
+name: Bug Report
+description: Report errors related to the book content or code
+title: "Description"
+labels: [bug]
+assignees: rasbt
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to report an issue. Please fill out the details below to help resolve it.
+
+  - type: textarea
+    id: bug_description
+    attributes:
+      label: Bug description
+      description: A description of the issue.
+      placeholder: |
+        Please provide a description of what the bug or issue is.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: operating_system
+    attributes:
+      label: What operating system are you using?
+      description: If applicable, please select the operating system where you experienced this issue.
+      options:
+        - "Unknown"
+        - "macOS"
+        - "Linux"
+        - "Windows"
+    validations:
+      required: False
+
+  - type: dropdown
+    id: compute_environment
+    attributes:
+      label: Where do you run your code?
+      description: Please select the computing environment where you ran this code.
+      options:
+        - "Local (laptop, desktop)"
+        - "Lightning AI Studio"
+        - "Google Colab"
+        - "Other cloud environment (AWS, Azure, GCP)"
+    validations:
+      required: False
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: |
+        Please provide details about your Python environment via the environment collection script or notebook located at
+        https://github.com/rasbt/LLMs-from-scratch/tree/main/setup/02_installing-python-libraries.
+        For your convenience, you can download and run the script from your terminal as follows:
+
+        ```bash
+        curl --ssl-no-revoke -O https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/main/setup/02_installing-python-libraries/python_environment_check.py  \
+        -O https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/main/requirements.txt
+
+        python python_environment_check.py
+        ```
+
+        The script will print your Python environment information in the following format
+        ```console
+        [OK] Your Python version is 3.11.4
+        [OK] torch 2.3.1
+        [OK] jupyterlab 4.2.2
+        [OK] tiktoken 0.7.0
+        [OK] matplotlib 3.9.0
+        [OK] numpy 1.26.4
+        [OK] tensorflow 2.16.1
+        [OK] tqdm 4.66.4
+        [OK] pandas 2.2.2
+        [OK] psutil 5.9.8
+        ```
+        You can simply copy and paste the outputs of this script below.
+      value: |
+        ```
+
+
+
+        ```
+    validations:
+      required: false

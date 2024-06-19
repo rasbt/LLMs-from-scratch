@@ -180,7 +180,7 @@ if __name__ == "__main__":
             "emb_dim": 12,           # Embedding dimension
             "n_heads": 2,            # Number of attention heads
             "n_layers": 2,           # Number of layers
-            "drop_rate": 0.0,        # Dropout rate
+            "drop_rate": 0.0,        # Dropout rate, deactivated via 0.0 as dropout in LLMs is not recommended anymore
             "qkv_bias": False        # Query-key-value bias
         }
 

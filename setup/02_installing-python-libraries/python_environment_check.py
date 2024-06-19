@@ -5,7 +5,7 @@
 
 from importlib.metadata import PackageNotFoundError, import_module
 import importlib.metadata
-from os.path import dirname, join, realpath
+from os.path import dirname, exists, join, realpath
 from packaging.version import parse as version_parse
 import platform
 import sys
@@ -43,6 +43,9 @@ def get_requirements_dict():
     PROJECT_ROOT = dirname(realpath(__file__))
     PROJECT_ROOT_UP_TWO = dirname(dirname(PROJECT_ROOT))
     REQUIREMENTS_FILE = join(PROJECT_ROOT_UP_TWO, "requirements.txt")
+    if not exists(REQUIREMENTS_FILE):
+        REQUIREMENTS_FILE = join(PROJECT_ROOT, "requirements.txt")
+
     d = {}
     with open(REQUIREMENTS_FILE) as f:
         for line in f:

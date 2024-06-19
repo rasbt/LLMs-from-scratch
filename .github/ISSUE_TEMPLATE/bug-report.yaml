@@ -52,13 +52,17 @@ body:
       description: |
         Please provide details about your Python environment via the environment collection script or notebook located at
         https://github.com/rasbt/LLMs-from-scratch/tree/main/setup/02_installing-python-libraries.
-        You can run the script as follows:
-        ```console
-        wget https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/main/setup/02_installing-python-libraries/python_environment_check.py
+        For your convenience, you can download and run the script from your terminal as follows:
+
+        ```bash
+        curl --ssl-no-revoke -O https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/main/setup/02_installing-python-libraries/python_environment_check.py  \
+        -O https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/main/requirements.txt
+
         python python_environment_check.py
         ```
+
         The script will print your Python environment information in the following format
-        ```
+        ```console
         [OK] Your Python version is 3.11.4
         [OK] torch 2.3.1
         [OK] jupyterlab 4.2.2

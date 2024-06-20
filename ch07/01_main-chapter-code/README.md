@@ -8,4 +8,4 @@
 
 ### Optional Code
 
-In progress ...
+- [load-finetuned-model.ipynb](load-finetuned-model.ipynb)  is a standalone Jupyter notebook to load the instruction finetuned model we created in this chapter

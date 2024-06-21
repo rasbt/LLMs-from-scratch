@@ -55,7 +55,7 @@ Responses saved as instruction-data-with-response-standalone.json
 Model saved as gpt2-medium355M-sft-standalone.pth
 ```
 
-- [evaluate.py](evaluate.py) is a standalone Python script to evaluate the responses of the finetuned model as described in the main chapter (think of it as a chapter summary focused on the evaluation parts)
+- [ollama_evaluate.py](ollama_evaluate.py) is a standalone Python script to evaluate the responses of the finetuned model as described in the main chapter (think of it as a chapter summary focused on the evaluation parts)
 
 Usage:
 

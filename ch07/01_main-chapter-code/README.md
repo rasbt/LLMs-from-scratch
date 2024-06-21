@@ -10,12 +10,12 @@
 
 - [load-finetuned-model.ipynb](load-finetuned-model.ipynb)  is a standalone Jupyter notebook to load the instruction finetuned model we created in this chapter
 
-- [gpt-instruction-finetuning.py](gpt-instruction-finetuning.py) is a standalone Python script to instruction finetune the model as described in the main chapter
+- [gpt_instruction_finetuning.py](gpt_instruction_finetuning.py) is a standalone Python script to instruction finetune the model as described in the main chapter (think of it as a chapter summary focused on the finetuning parts)
 
 Usage:
 
 ```bash
-python gpt-instruction-finetuning.py
+python gpt_instruction_finetuning.py
 ```
 
 ```
@@ -53,5 +53,20 @@ Generating responses
 100%|██████████████████████████████████████████████████████████████████████████| 110/110 [06:57<00:00,  3.80s/it]
 Responses saved as instruction-data-with-response-standalone.json
 Model saved as gpt2-medium355M-sft-standalone.pth
+```
+
+- [ollama_evaluate.py](ollama_evaluate.py) is a standalone Python script to evaluate the responses of the finetuned model as described in the main chapter (think of it as a chapter summary focused on the evaluation parts)
+
+Usage:
+
+```bash
+python ollama_evaluate.py --file_path instruction-data-with-response-standalone.json
+```
+
+```
+Ollama running: True
+Scoring entries: 100%|███████████████████████████████████████| 110/110 [01:08<00:00,  1.62it/s]
+Number of scores: 110 of 110
+Average score: 51.75
 ```
 

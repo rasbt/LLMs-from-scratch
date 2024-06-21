@@ -259,6 +259,7 @@ def main():
     optimizer = torch.optim.AdamW(model.parameters(), lr=0.00005, weight_decay=0.1)
     num_epochs = 2
 
+    torch.manual_seed(123)
     train_losses, val_losses, tokens_seen = train_model_simple(
         model, train_loader, val_loader, optimizer, device,
         num_epochs=num_epochs, eval_freq=5, eval_iter=5,
@@ -276,7 +277,7 @@ def main():
     #######################################
     # Saving results
     #######################################
-    print("Evaluating models")
+    print("Generating responses")
     for i, entry in tqdm(enumerate(test_data), total=len(test_data)):
 
         input_text = format_input(entry)

@@ -6,14 +6,14 @@ I used the following libraries listed [here](https://github.com/rasbt/LLMs-from-
 
 To install these requirements most conveniently, you can use the `requirements.txt` file in the root directory for this code repository and execute the following command:
 
-```
+```bash
 pip install -r requirements.txt
 ```
 
 
 Then, after completing the installation, please check if all the packages are installed and are up to date using
 
-```
+```bash
 python python_environment_check.py
 ```
 

@@ -1,4 +1,6 @@
 # Configs and keys
+ch07/01_main-chapter-code/instruction-data-with-response-standalone.json
+ch07/01_main-chapter-code/gpt2-medium355M-sft-standalone.pth
 ch07/02_dataset-utilities/config.json
 ch07/03_model-evaluation/config.json
 
@@ -17,6 +19,7 @@ ch06/01_main-chapter-code/loss-plot.pdf
 ch06/01_main-chapter-code/accuracy-plot.pdf
 
 ch07/01_main-chapter-code/loss-plot.pdf
+ch07/01_main-chapter-code/loss-plot-standalone.pdf
 
 # Checkpoint files
 appendix-A/01_main-chapter-code/model.pth

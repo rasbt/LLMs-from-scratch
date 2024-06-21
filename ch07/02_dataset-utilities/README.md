@@ -18,7 +18,7 @@ The `find-near-duplicates.py` function can be used to identify duplicates and ne
 
 
 
-```python
+```bash
 python find-near-duplicates.py --json_file instruction-examples.json
 ```
 

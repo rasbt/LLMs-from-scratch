@@ -185,6 +185,8 @@ def main():
     tokenizer = tiktoken.get_encoding("gpt2")
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print("Device:", device)
+    print(50*"-")
+
     customized_collate_fn = partial(custom_collate_fn, device=device, allowed_max_length=1024)
 
     num_workers = 0

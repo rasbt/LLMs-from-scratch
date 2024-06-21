@@ -30,6 +30,7 @@ Validation set length: 55
 Test set length: 110
 --------------------------------------------------
 Device: cpu
+--------------------------------------------------
 File already exists and is up-to-date: gpt2/355M/checkpoint
 File already exists and is up-to-date: gpt2/355M/encoder.json
 File already exists and is up-to-date: gpt2/355M/hparams.json
@@ -50,7 +51,7 @@ Training completed in 15.66 minutes.
 Plot saved as loss-plot-standalone.pdf
 --------------------------------------------------
 Generating responses
-100%|██████████████████████████████████████████████████████████████████████████| 110/110 [06:57<00:00,  3.80s/it]
+100%|█████████████████████████████████████████████████████████| 110/110 [06:57<00:00,  3.80s/it]
 Responses saved as instruction-data-with-response-standalone.json
 Model saved as gpt2-medium355M-sft-standalone.pth
 ```

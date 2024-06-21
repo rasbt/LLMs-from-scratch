@@ -9,5 +9,5 @@
 
 ### Optional Code
 
-- [gpt-class-finetune.py](gpt-class-finetune.py) is a standalone Python script file with the code that we implemented in [ch06.ipynb](ch06.ipynb) to finetune the GPT model (you can think of it as a chapter summary)
+- [gpt_class_finetune.py](gpt_class_finetune.py) is a standalone Python script file with the code that we implemented in [ch06.ipynb](ch06.ipynb) to finetune the GPT model (you can think of it as a chapter summary)
 

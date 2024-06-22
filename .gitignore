@@ -1,5 +1,4 @@
 # Configs and keys
-ch07/01_main-chapter-code/gpt2-medium355M-sft-standalone.pth
 ch07/02_dataset-utilities/config.json
 ch07/03_model-evaluation/config.json
 
@@ -36,6 +35,8 @@ ch06/02_bonus_additional-experiments/gpt2
 ch06/03_bonus_imdb-classification/gpt2
 
 ch07/01_main-chapter-code/gpt2-medium355M-sft.pth
+ch07/01_main-chapter-code/gpt2-medium355M-sft-standalone.pth
+ch07/01_main-chapter-code/Smalltestmodel-sft-standalone.pth
 ch07/01_main-chapter-code/gpt2/
 
 # Datasets

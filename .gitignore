@@ -18,6 +18,10 @@ ch06/01_main-chapter-code/accuracy-plot.pdf
 
 ch07/01_main-chapter-code/loss-plot.pdf
 ch07/01_main-chapter-code/loss-plot-standalone.pdf
+ch07/01_main-chapter-code/loss-plot-baseline.pdf
+ch07/01_main-chapter-code/loss-plot-mask-instructions.pdf
+ch07/01_main-chapter-code/loss-plot-phi3-prompt.pdf
+ch07/01_main-chapter-code/loss-plot-alpaca52k.pdf
 
 # Checkpoint files
 appendix-A/01_main-chapter-code/model.pth
@@ -34,6 +38,11 @@ ch06/01_main-chapter-code/gpt2
 ch06/02_bonus_additional-experiments/gpt2
 ch06/03_bonus_imdb-classification/gpt2
 
+ch07/01_main-chapter-code/gpt2-medium355M-sft-baseline.pth
+ch07/01_main-chapter-code/gpt2-medium355M-sft-mask-instructions.pth
+ch07/01_main-chapter-code/gpt2-medium355M-sft-phi3-prompt.pth
+ch07/01_main-chapter-code/gpt2-medium355M-sft-alpaca52k.pth
+ch07/01_main-chapter-code/gpt2-medium355M-sft-lora.pth
 ch07/01_main-chapter-code/gpt2-medium355M-sft.pth
 ch07/01_main-chapter-code/gpt2-medium355M-sft-standalone.pth
 ch07/01_main-chapter-code/Smalltestmodel-sft-standalone.pth
@@ -71,6 +80,10 @@ ch06/03_bonus_imdb-classification/validation.csv
 ch07/01_main-chapter-code/instruction-data-with-response-standalone.json
 ch07/01_main-chapter-code/instruction-data-with-response-baseline.json
 ch07/01_main-chapter-code/instruction-data-with-response-mask-instructions.json
+ch07/01_main-chapter-code/loss-plot-lora.pdf
+ch07/01_main-chapter-code/instruction-data-with-response-alpaca52k.json
+ch07/01_main-chapter-code/instruction-data-with-response-lora.json
+ch07/01_main-chapter-code/instruction-data-with-response-phi3-prompt.json
 ch07/02_dataset-utilities/instruction-examples-modified.json
 
 # Temporary OS-related files

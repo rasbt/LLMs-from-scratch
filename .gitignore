@@ -1,5 +1,4 @@
 # Configs and keys
-ch07/01_main-chapter-code/instruction-data-with-response-standalone.json
 ch07/01_main-chapter-code/gpt2-medium355M-sft-standalone.pth
 ch07/02_dataset-utilities/config.json
 ch07/03_model-evaluation/config.json
@@ -68,6 +67,9 @@ ch06/03_bonus_imdb-classification/test.csv
 ch06/03_bonus_imdb-classification/train.csv
 ch06/03_bonus_imdb-classification/validation.csv
 
+ch07/01_main-chapter-code/instruction-data-with-response-standalone.json
+ch07/01_main-chapter-code/instruction-data-with-response-baseline.json
+ch07/01_main-chapter-code/instruction-data-with-response-mask-instructions.json
 ch07/02_dataset-utilities/instruction-examples-modified.json
 
 # Temporary OS-related files

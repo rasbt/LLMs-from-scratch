@@ -83,19 +83,22 @@ def main(file_path):
 def generate_model_scores(json_data, json_key, model="llama3"):
     scores = []
     for entry in tqdm(json_data, desc="Scoring entries"):
-        prompt = (
-            f"Given the input `{format_input(entry)}` "
-            f"and correct output `{entry['output']}`, "
-            f"score the model response `{entry[json_key]}`"
-            f" on a scale from 0 to 100, where 100 is the best score. "
-            f"Respond with the integer number only."
-        )
-        score = query_model(prompt, model)
-        try:
-            scores.append(int(score))
-        except ValueError:
-            print(f"Could not convert score: {score}")
-            continue
+        if entry[json_key] == "":
+            scores.append(0)
+        else:
+            prompt = (
+                f"Given the input `{format_input(entry)}` "
+                f"and correct output `{entry['output']}`, "
+                f"score the model response `{entry[json_key]}`"
+                f" on a scale from 0 to 100, where 100 is the best score. "
+                f"Respond with the integer number only."
+            )
+            score = query_model(prompt, model)
+            try:
+                scores.append(int(score))
+            except ValueError:
+                print(f"Could not convert score: {score}")
+                continue
 
     return scores
 
@@ -105,7 +108,7 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(
-        description="Instruction finetune a GPT model"
+        description="Evaluate model responses with ollama"
     )
     parser.add_argument(
         "--file_path",

@@ -12,7 +12,7 @@ import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
 import matplotlib.pyplot as plt
-
+from matplotlib.ticker import MaxNLocator
 
 #####################################
 # Chapter 2
@@ -295,6 +295,7 @@ def plot_losses(epochs_seen, tokens_seen, train_losses, val_losses, output_dir):
     ax1.set_xlabel("Epochs")
     ax1.set_ylabel("Loss")
     ax1.legend(loc="upper right")
+    ax1.xaxis.set_major_locator(MaxNLocator(integer=True))
 
     # Create a second x-axis for tokens seen
     ax2 = ax1.twiny()  # Create a second x-axis that shares the same y-axis

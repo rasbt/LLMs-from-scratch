@@ -15,6 +15,7 @@ import time
 import urllib
 
 import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
 import tiktoken
 import torch
 from torch.utils.data import Dataset, DataLoader
@@ -280,6 +281,7 @@ def plot_losses(epochs_seen, tokens_seen, train_losses, val_losses, plot_name):
     ax1.set_xlabel("Epochs")
     ax1.set_ylabel("Loss")
     ax1.legend(loc="upper right")
+    ax1.xaxis.set_major_locator(MaxNLocator(integer=True))  # only show integer labels on x-axis
 
     # Create a second x-axis for tokens seen
     ax2 = ax1.twiny()  # Create a second x-axis that shares the same y-axis

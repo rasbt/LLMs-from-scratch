@@ -115,7 +115,7 @@ Several folders contain optional materials as a bonus for interested readers:
 
 ### Citation
 
-If you find this book  or code useful for your research, please consider citing it:
+If you find this book or code useful for your research, please consider citing it:
 
 ```
 @book{build-llms-from-scratch-book,

@@ -2,7 +2,7 @@
 name: Ask a Question
 about: Ask questions related to the book
 title: ''
-labels: question
+labels: [question]
 assignees: rasbt
 
 ---

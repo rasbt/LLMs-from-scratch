@@ -2,7 +2,6 @@ torch >= 2.0.1        # all
 jupyterlab >= 4.0     # all
 tiktoken >= 0.5.1     # ch02; ch04; ch05
 matplotlib >= 3.7.1   # ch04; ch05
-numpy >= 1.24.3       # ch05
 tensorflow >= 2.15.0  # ch05
 tqdm >= 4.66.1        # ch05; ch07
 numpy >= 1.25, < 2.0  # dependency of several other libraries like torch and pandas

@@ -15,11 +15,14 @@ def query_model(prompt, model="llama3", url="http://localhost:11434/api/chat"):
     # Create the data payload as a dictionary
     data = {
         "model": model,
-        "seed": 123,        # for deterministic responses
-        "temperature": 0,   # for deterministic responses
         "messages": [
             {"role": "user", "content": prompt}
-        ]
+        ],
+        "options": {     # Settings below are required for deterministic responses
+            "seed": 123,
+            "temperature": 0,
+            "num_ctx": 2048
+        }
     }
 
     # Convert the dictionary to a JSON formatted string and encode it to bytes

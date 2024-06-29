@@ -418,7 +418,7 @@ if __name__ == "__main__":
         type=int,
         default=-100,
         help=(
-            "Sets the `ignore_index` in the cross entropy loss."
+            "Sets the `ignore_index` in the cross-entropy loss."
         )
     )
 

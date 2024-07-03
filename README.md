@@ -1,6 +1,6 @@
 # Build a Large Language Model (From Scratch)
 
-This repository contains the code for coding, pretraining, and finetuning a GPT-like LLM and is the official code repository for the book [Build a Large Language Model (From Scratch)](http://mng.bz/orYv).
+This repository contains the code for developing, pretraining, and finetuning a GPT-like LLM and is the official code repository for the book [Build a Large Language Model (From Scratch)](http://mng.bz/orYv).
 
 (If you downloaded the code bundle from the Manning website, please consider visiting the official code repository on GitHub at [https://github.com/rasbt/LLMs-from-scratch](https://github.com/rasbt/LLMs-from-scratch).)
 

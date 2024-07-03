@@ -107,7 +107,7 @@ python train-bert-hf.py --bert_model roberta
 
 ---
 
-A scikit-learn Logistic Regression model as a basline.
+A scikit-learn Logistic Regression model as a baseline.
 
 ```bash
 python train-sklearn-logreg.py

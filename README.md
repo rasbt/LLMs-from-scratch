@@ -13,7 +13,7 @@ This repository contains the code for developing, pretraining, and finetuning a 
 
 In [*Build a Large Language Model (From Scratch)*](http://mng.bz/orYv), you'll learn and understand how large language models (LLMs) work from the inside out by coding them from the ground up, step by step. In this book, I'll guide you through creating your own LLM, explaining each stage with clear text, diagrams, and examples.
 
-The method described in this book for training and developing your own small-but-functional model for educational purposes mirrors the approach used in creating large-scale foundational models such as those behind ChatGPT.
+The method described in this book for training and developing your own small-but-functional model for educational purposes mirrors the approach used in creating large-scale foundational models such as those behind ChatGPT. In addition, this book includes code for loading the weights of larger pretrained modekls for finetuning.
 
 - Link to the official [source code repository](https://github.com/rasbt/LLMs-from-scratch)
 - [Link to the book at Manning](http://mng.bz/orYv)

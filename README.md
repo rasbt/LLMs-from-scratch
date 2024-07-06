@@ -67,7 +67,7 @@ Alternatively, you can view this and other files on GitHub at [https://github.co
 <br>
 &nbsp
 
-Shown below is a mental model summarizing the contents covered in this book.
+The mental model below summarizes the contents covered in this book.
 
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/mental-model.jpg" width="650px">
 

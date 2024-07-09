@@ -9,5 +9,8 @@
 
 ### Optional Code
 
+[load-finetuned-model.ipynb](load-finetuned-model.ipynb) is a standalone Jupyter notebook to load the finetuned model we created in this chapter
+
+
 - [gpt_class_finetune.py](gpt_class_finetune.py) is a standalone Python script file with the code that we implemented in [ch06.ipynb](ch06.ipynb) to finetune the GPT model (you can think of it as a chapter summary)
 

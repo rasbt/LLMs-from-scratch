@@ -1,4 +1,4 @@
-# Installing Libraries Used In This Book
+# Installing Python Packages and Libraries Used In This Book
 
 This document provides more information on double-checking your installed Python version and packages. (Please see the [../01_optional-python-setup-preferences](../01_optional-python-setup-preferences) folder for more information on installing Python and Python packages.)
 

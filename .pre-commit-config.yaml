@@ -1,0 +1,12 @@
+default_stages: [commit]
+
+repos:
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.3.0
+    hooks:
+      - id: codespell
+        name: codespell
+        description: Checks for common misspellings in text files.
+        entry: codespell --skip="*.bpe,*.json" -L "ocassion,occassion,ot,te,tje"
+        language: python
+        types: [text]

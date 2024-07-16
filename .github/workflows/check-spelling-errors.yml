@@ -27,4 +27,4 @@ jobs:
 
       - name: Run codespell
         run: |
-          codespell -L "ocassion,occassion,ot,te,tje" --ignore-regex '\.txt$|\.md$|\.py|\.ipynb$'
+          codespell -L "ocassion,occassion,ot,te,tje" **/*.{txt,md,py,ipynb}

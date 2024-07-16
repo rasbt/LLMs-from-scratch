@@ -370,7 +370,7 @@ if __name__ == "__main__":
         action='store_true',
         default=False,
         help=(
-            "Disable padding, which means each example may have a different lenght."
+            "Disable padding, which means each example may have a different length."
             " This requires setting `--batch_size 1`."
         )
     )

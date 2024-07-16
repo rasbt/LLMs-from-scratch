@@ -1,3 +1,6 @@
+# A tool used by developers to identify spelling errors in text.
+# Readers may ignore this file.
+
 default_stages: [commit]
 
 repos:
@@ -6,7 +9,9 @@ repos:
     hooks:
       - id: codespell
         name: codespell
-        description: Checks for common misspellings in text files.
-        entry: codespell --skip="*.bpe,*.json" -L "ocassion,occassion,ot,te,tje"
+        description: Check for spelling errors in text.
+        entry: codespell
         language: python
-        types: [text]
+        args:
+          - "-L ocassion,occassion,ot,te,tje"
+        files: \.txt$|\.md$|\.py|\.ipynb$

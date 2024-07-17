@@ -19,7 +19,7 @@ python python_environment_check.py
 
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/02_installing-python-libraries/check_1.jpg" width="600px">
 
-It's also recommended to check the versions in JupyterLab by running the `jupyter_environment_check.ipynb` in this directory, which should ideally give you the same results as above.
+It's also recommended to check the versions in JupyterLab by running the `python_environment_check.ipynb` in this directory, which should ideally give you the same results as above.
 
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/02_installing-python-libraries/check_2.jpg" width="500px">
 

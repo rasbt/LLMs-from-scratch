@@ -51,8 +51,8 @@ Alternatively, you can view this and other files on GitHub at [https://github.co
 [![Code tests (Linux)](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/basic-tests-linux.yml/badge.svg)](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/basic-tests-linux.yml)
 [![Code tests (Windows)](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/basic-tests-windows.yml/badge.svg)](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/basic-tests-windows.yml)
 [![Code tests (macOS)](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/basic-tests-macos.yml/badge.svg)](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/basic-tests-macos.yml)
-[![Check Python style](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/pep8-linter.yml/badge.svg)](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/pep8-linter.yml)
-[![Check hyperlinks](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/check-links.yml/badge.svg)](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/check-links.yml)
+
+
 
 <br>
 

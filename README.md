@@ -120,8 +120,17 @@ Several folders contain optional materials as a bonus for interested readers:
 <br>
 &nbsp
 
+### Contributing to This Repository
 
 
+I welcome all sorts of feedback, best shared via the [Discussions](https://github.com/rasbt/LLMs-from-scratch/discussions) forum. Likewise, if you have any questions or just want to bounce ideas off others, please don't hesitate to post these in the forum as well.
+
+If you notice any problems or issues, please do not hesitate to file an [Issue](https://github.com/rasbt/LLMs-from-scratch/issues).
+
+However, since this repository contains the code corresponding to a print book, I currently cannot accept contributions that would extend the contents of the main chapter code, as it would introduce deviations from the physical book.
+
+
+&nbsp;
 ### Citation
 
 If you find this book or code useful for your research, please consider citing it:

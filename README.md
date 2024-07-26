@@ -102,6 +102,7 @@ Several folders contain optional materials as a bonus for interested readers:
   - [Dataloader Intuition with Simple Numbers](ch02/04_bonus_dataloader-intuition)
 - **Chapter 3:**
   - [Comparing Efficient Multi-Head Attention Implementations](ch03/02_bonus_efficient-multihead-attention/mha-implementations.ipynb)
+  - [Understanding PyTorch Buffers](ch03/03_understanding-buffers/understanding-buffers.ipynb)
 - **Chapter 4:**
   - [FLOPS Analysis](ch04/02_performance-analysis/flops-analysis.ipynb)
 - **Chapter 5:**

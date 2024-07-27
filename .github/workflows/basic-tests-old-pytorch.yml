@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        pytorch-version: [ 2.0.0, 2.4.0 ]
+        pytorch-version: [ 2.0.1, 2.4.0 ]
 
     steps:
     - uses: actions/checkout@v4

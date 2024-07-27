@@ -10,6 +10,12 @@ To install these requirements most conveniently, you can use the `requirements.t
 pip install -r requirements.txt
 ```
 
+Alternatively, you can install it via the GitHub URL as follows:
+
+```bash
+pip install -r https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/main/requirements.txt
+```
+
 
 Then, after completing the installation, please check if all the packages are installed and are up to date using
 

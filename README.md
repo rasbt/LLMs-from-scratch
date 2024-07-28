@@ -117,6 +117,7 @@ Several folders contain optional materials as a bonus for interested readers:
   - [Dataset Utilities for Finding Near Duplicates and Creating Passive Voice Entries](ch07/02_dataset-utilities)
   - [Evaluating Instruction Responses Using the OpenAI API and Ollama](ch07/03_model-evaluation)
   - [Generating a Dataset for Instruction Finetuning](ch07/05_dataset-generation)
+  - [Generating a Preference Dataset with Llama 3.1 70B and Ollama](ch07/04_preference-tuning-with-dpo/create-preference-data-ollama.ipynb)
 
 <br>
 &nbsp

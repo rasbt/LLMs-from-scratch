@@ -122,7 +122,7 @@ Several folders contain optional materials as a bonus for interested readers:
 <br>
 &nbsp
 
-### Questions, Feedback, and Contributing to This Repository
+## Questions, Feedback, and Contributing to This Repository
 
 
 I welcome all sorts of feedback, best shared via the [Discussions](https://github.com/rasbt/LLMs-from-scratch/discussions) forum. Likewise, if you have any questions or just want to bounce ideas off others, please don't hesitate to post these in the forum as well.
@@ -133,7 +133,7 @@ However, since this repository contains the code corresponding to a print book, 
 
 
 &nbsp;
-### Citation
+## Citation
 
 If you find this book or code useful for your research, please consider citing it:
 

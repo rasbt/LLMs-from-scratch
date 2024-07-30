@@ -4,7 +4,7 @@
 
 
 <br>
-Below is a video tutorial of me explaining walking through the code:
+Below is a hands-on video tutorial I recorded to explain the code:
 
 <br>
 <br>

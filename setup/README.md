@@ -15,6 +15,11 @@ pip install -r requirements.txt
 
 &nbsp;
 
+# Local Setup
+
+This section provides recommendations for running the code in this book locally. Note that the code in the main chapters of this book is designed to run on conventional laptops within a reasonable timeframe and does not require specialized hardware. I tested all main chapters on an M3 MacBook Air laptop. Additionally, if your laptop or desktop computer has an NVIDIA GPU, the code will automatically take advantage of it.
+
+&nbsp;
 ## Setting up Python
 
 If you don't have Python set up on your machine yet, I have written about my personal Python setup preferences in the following directories:
@@ -43,6 +48,14 @@ There are many good options for code editors. My preferred choice is the popular
 ## VSCode Extensions
 
 If you are using Visual Studio Code (VSCode) as your primary code editor, you can find recommended extensions in the `.vscode` subfolder. To install these, open the `extensions.json` file in VSCode and click the "Install" button in the pop-up menu on the lower right.
+
+&nbsp;
+
+# Cloud Resources
+
+This section describes cloud alternatives for running the code presented in this book.
+
+While the code can run on conventional laptops and desktop computers without a dedicated GPU, cloud platforms with NVIDIA GPUs can substantially improve the runtime of the code, especially in chapters 5 to 7.
 
 &nbsp;
 
@@ -85,6 +98,6 @@ You can optionally run the code on a GPU by changing the *Runtime* as illustrate
 
 &nbsp;
 
-## Questions?
+# Questions?
 
 If you have any questions, please don't hesitate to reach out via the [Discussions](https://github.com/rasbt/LLMs-from-scratch/discussions) forum in this GitHub repository.

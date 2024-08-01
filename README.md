@@ -129,7 +129,7 @@ I welcome all sorts of feedback, best shared via the [Discussions](https://githu
 
 If you notice any problems or issues, please do not hesitate to file an [Issue](https://github.com/rasbt/LLMs-from-scratch/issues).
 
-However, since this repository contains the code corresponding to a print book, I currently cannot accept contributions that would extend the contents of the main chapter code, as it would introduce deviations from the physical book.
+However, since this repository contains the code corresponding to a print book, I currently cannot accept contributions that would extend the contents of the main chapter code, as it would introduce deviations from the physical book. Keeping it consistent helps ensure a smooth experience for everyone.
 
 
 &nbsp;

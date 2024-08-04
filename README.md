@@ -118,6 +118,7 @@ Several folders contain optional materials as a bonus for interested readers:
   - [Evaluating Instruction Responses Using the OpenAI API and Ollama](ch07/03_model-evaluation)
   - [Generating a Dataset for Instruction Finetuning](ch07/05_dataset-generation)
   - [Generating a Preference Dataset with Llama 3.1 70B and Ollama](ch07/04_preference-tuning-with-dpo/create-preference-data-ollama.ipynb)
+  - [Direct Preference Optimization (DPO) for LLM Alignment](ch07/04_preference-tuning-with-dpo/dpo-from-scratch.ipynb)
 
 <br>
 &nbsp

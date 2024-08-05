@@ -259,7 +259,8 @@ def train_classifier_simple(model, train_loader, val_loader, optimizer, device, 
             loss.backward()  # Calculate loss gradients
 
             # Use gradient accumulation if accumulation_steps > 1
-            if batch_idx % accumulation_steps == 0:
+            is_update_step = ((batch_idx + 1) % accumulation_steps == 0) or ((batch_idx + 1) == len(train_loader))
+            if is_update_step:
                 optimizer.step()  # Update model weights using loss gradients
                 optimizer.zero_grad()  # Reset loss gradients from previous batch iteration
 

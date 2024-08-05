@@ -85,6 +85,8 @@ ch07/01_main-chapter-code/instruction-data-with-response-alpaca52k.json
 ch07/01_main-chapter-code/instruction-data-with-response-lora.json
 ch07/01_main-chapter-code/instruction-data-with-response-phi3-prompt.json
 ch07/02_dataset-utilities/instruction-examples-modified.json
+ch07/04_preference-tuning-with-dpo/gpt2-medium355M-sft.pth
+ch07/04_preference-tuning-with-dpo/loss-plot.pdf
 
 # Temporary OS-related files
 .DS_Store

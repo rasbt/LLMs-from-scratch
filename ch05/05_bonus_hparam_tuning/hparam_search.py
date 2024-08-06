@@ -82,7 +82,7 @@ def train_model(model, train_loader, val_loader, optimizer, device,
             global_step += 1
 
             # Warmup: adjust learning rate linearly
-            if global_step < warmup_iters:
+            if global_step <= warmup_iters:
                 lr = initial_lr + global_step * lr_increment
             # Cosine annealing phase
             else:

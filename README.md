@@ -139,7 +139,13 @@ However, since this repository contains the code corresponding to a print book, 
 &nbsp;
 ## Citation
 
-If you find this book or code useful for your research, please consider citing it:
+If you find this book or code useful for your research, please consider citing it.
+
+Chicago-style citation:
+
+> Raschka, Sebastian. *Build A Large Language Model (From Scratch)*. Manning, 2024. ISBN: 978-1633437166.
+
+BibTeX entry:
 
 ```
 @book{build-llms-from-scratch-book,

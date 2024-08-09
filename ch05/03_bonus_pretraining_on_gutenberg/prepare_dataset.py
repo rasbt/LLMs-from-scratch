@@ -10,6 +10,7 @@ Script that processes the Project Gutenberg files into fewer larger files.
 import argparse
 import os
 import re
+from tqdm import tqdm
 from gutenberg.src.cleanup import strip_headers
 
 
@@ -26,18 +27,18 @@ def combine_files(file_paths, target_dir, max_size_mb=500, separator="<|endoftex
     current_size = 0
     file_counter = 1
 
-    for file_path in file_paths:
+    for file_path in tqdm(file_paths):
         try:
             with open(file_path, "r", encoding="utf-8") as file:
                 content = file.read()
         except UnicodeDecodeError:
             # Attempt to read the file with a fallback encoding
-            print(f"Warning: UnicodeDecodeError encountered. Trying fallback encoding for {file_path}")
+            tqdm.write(f"Warning: UnicodeDecodeError encountered. Trying fallback encoding for {file_path}")
             with open(file_path, "r", encoding=fallback_encoding) as file:
                 content = file.read()
 
         if not is_english(content):
-            print(f"Skipping {file_path} as it does not contain primarily English text.")
+            tqdm.write(f"Skipping {file_path} as it does not contain primarily English text.")
             continue
         content = strip_headers(content)
 
@@ -67,7 +68,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Preprocess and combine text files for pretraining")
 
-    parser.add_argument("--data_dir", type=str, default="gutenberg/data/.mirror",
+    parser.add_argument("--data_dir", type=str, default="gutenberg/data/raw",
                         help="Directory containing the downloaded raw training data")
     parser.add_argument("--max_size_mb", type=int, default=500,
                         help="The maximum file size for each concatenated file in megabytes")

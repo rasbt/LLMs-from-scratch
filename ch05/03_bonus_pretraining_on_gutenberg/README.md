@@ -82,7 +82,7 @@ Next, run the `prepare_dataset.py` script, which concatenates the (as of this wr
 
 ```bash
 python prepare_dataset.py \
-  --data_dir gutenberg/data \
+  --data_dir gutenberg/data/raw \
   --max_size_mb 500 \
   --output_dir gutenberg_preprocessed
 ```

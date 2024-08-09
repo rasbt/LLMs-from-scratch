@@ -67,7 +67,7 @@ sudo apt-get update && \
 sudo apt-get upgrade -y && \
 sudo apt-get install -y python3-pip && \
 sudo apt-get install -y python-is-python3 && \
-sudo apt-get install -y rsync && \
+sudo apt-get install -y rsync
 ```
 
 > [!NOTE]

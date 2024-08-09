@@ -82,10 +82,17 @@ Next, run the `prepare_dataset.py` script, which concatenates the (as of this wr
 
 ```bash
 python prepare_dataset.py \
-  --data_dir gutenberg/data \
+  --data_dir gutenberg/data/raw \
   --max_size_mb 500 \
   --output_dir gutenberg_preprocessed
 ```
+
+```
+...
+Skipping gutenberg/data/raw/PG29836_raw.txt as it does not contain primarily English text.                                     Skipping gutenberg/data/raw/PG16527_raw.txt as it does not contain primarily English text.                                     100%|██████████████████████████████████████████████████████████| 57250/57250 [25:04<00:00, 38.05it/s]
+42 file(s) saved in /Users/sebastian/Developer/LLMs-from-scratch/ch05/03_bonus_pretraining_on_gutenberg/gutenberg_preprocessed
+```
+
 
 > [!TIP] 
 > Note that the produced files are stored in plaintext format and are not pre-tokenized for simplicity. However, you may want to update the codes to store the dataset in a pre-tokenized form to save computation time if you are planning to use the dataset more often or train for multiple epochs. See the *Design Decisions and Improvements* at the bottom of this page for more information.

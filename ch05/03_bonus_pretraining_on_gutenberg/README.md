@@ -15,7 +15,7 @@ Please read the [Project Gutenberg Permissions, Licensing and other Common Reque
 
 In this section, we download books from Project Gutenberg using code from the [`pgcorpus/gutenberg`](https://github.com/pgcorpus/gutenberg) GitHub repository.
 
-As of this writing, this will require approximately 50 GB of disk space, but it may be more depending on how much Project Gutenberg grew since then.
+As of this writing, this will require approximately 50 GB of disk space and take about 10-15 hours, but it may be more depending on how much Project Gutenberg grew since then.
 
 &nbsp;
 #### Download instructions for Linux and macOS users

@@ -60,7 +60,7 @@ I've kept the LLM and dataset small on purpose, so you can run the training on a
 ### Interpretation
 
 1. **Training the Last vs. First Output Token Position (Row 1 vs. 2)**: Training the last output token position results in substantially better performance compared to the first. This improvement is expected due to the causal self-attention mask.
-2. **Training the Last Transformer Block vs. Last Layer (Row 1 vs. 3)**: Training the entire last transformer block is also results in substantially better results than training only the last layer.
+2. **Training the Last Transformer Block vs. Last Layer (Row 1 vs. 3)**: Training the entire last transformer block also results in substantially better results than training only the last layer.
 3. **Training the Last vs. Last Two Last Transformer Blocks (Row 1 vs. 4)**: Training the two last transformer blocks instead of only the last block results in a noticeable 3.33% accuracy boost.
 4. **Training Last Transformer Block vs All Layers (Row 1 vs. 5)**: Training all layers shows a modest improvement of ~2% over just training the last transformer block, but it requires almost three times longer in terms of training duration. Also, it does not perform as well as training only the last two out of 12 transformer blocks.
 5. **Using Larger Pretrained Models (Row 1 vs 6, and Row 1 vs. 7 and 8)**: Employing a 3x larger pretrained model leads to worse results. However, using a 5x larger model improves performance compared to the initial model, as was anticipated. Similarly, the 12x larger model improves the predictive performance even further. (The medium model was perhaps not well pretrained or the particular finetuning configuration works not as well for this model.)

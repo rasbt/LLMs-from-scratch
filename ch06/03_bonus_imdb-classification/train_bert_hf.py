@@ -52,7 +52,11 @@ class IMDBDataset(Dataset):
         else:
             attention_mask = torch.ones(self.max_length, dtype=torch.long)
 
-        return torch.tensor(encoded, dtype=torch.long), torch.tensor(attention_mask, dtype=torch.long), torch.tensor(label, dtype=torch.long)
+        return (
+            torch.tensor(encoded, dtype=torch.long),
+            torch.tensor(attention_mask, dtype=torch.long),
+            torch.tensor(label, dtype=torch.long)
+        )
 
     def __len__(self):
         return len(self.data)
@@ -277,9 +281,27 @@ if __name__ == "__main__":
     else:
         raise ValueError("Invalid argument for `use_attention_mask`.")
 
-    train_dataset = IMDBDataset(base_path / "train.csv", max_length=256, tokenizer=tokenizer, pad_token_id=tokenizer.pad_token_id, use_attention_mask=use_attention_mask)
-    val_dataset = IMDBDataset(base_path / "validation.csv", max_length=256, tokenizer=tokenizer, pad_token_id=tokenizer.pad_token_id, use_attention_mask=use_attention_mask)
-    test_dataset = IMDBDataset(base_path / "test.csv", max_length=256, tokenizer=tokenizer, pad_token_id=tokenizer.pad_token_id, use_attention_mask=use_attention_mask)
+    train_dataset = IMDBDataset(
+        base_path / "train.csv",
+        max_length=256,
+        tokenizer=tokenizer,
+        pad_token_id=tokenizer.pad_token_id,
+        use_attention_mask=use_attention_mask
+    )
+    val_dataset = IMDBDataset(
+        base_path / "validation.csv",
+        max_length=256,
+        tokenizer=tokenizer,
+        pad_token_id=tokenizer.pad_token_id,
+        se_attention_mask=use_attention_mask
+    )
+    test_dataset = IMDBDataset(
+        base_path / "test.csv",
+        max_length=256,
+        tokenizer=tokenizer,
+        pad_token_id=tokenizer.pad_token_id,
+        use_attention_mask=use_attention_mask
+    )
 
     num_workers = 0
     batch_size = 8

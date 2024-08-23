@@ -16,29 +16,47 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
 
 class IMDBDataset(Dataset):
-    def __init__(self, csv_file, tokenizer, max_length=None, pad_token_id=50256):
+    def __init__(self, csv_file, tokenizer, max_length=None, pad_token_id=50256, use_attention_mask=False):
         self.data = pd.read_csv(csv_file)
         self.max_length = max_length if max_length is not None else self._longest_encoded_length(tokenizer)
+        self.pad_token_id = pad_token_id
+        self.use_attention_mask = use_attention_mask
 
-        # Pre-tokenize texts
+        # Pre-tokenize texts and create attention masks if required
         self.encoded_texts = [
-            tokenizer.encode(text)[:self.max_length]
+            tokenizer.encode(text, truncation=True, max_length=self.max_length)
             for text in self.data["text"]
         ]
-        # Pad sequences to the longest sequence
-
-        # Debug
-        pad_token_id = 0
-
         self.encoded_texts = [
             et + [pad_token_id] * (self.max_length - len(et))
             for et in self.encoded_texts
         ]
 
+        if self.use_attention_mask:
+            self.attention_masks = [
+                self._create_attention_mask(et)
+                for et in self.encoded_texts
+            ]
+        else:
+            self.attention_masks = None
+
+    def _create_attention_mask(self, encoded_text):
+        return [1 if token_id != self.pad_token_id else 0 for token_id in encoded_text]
+
     def __getitem__(self, index):
         encoded = self.encoded_texts[index]
         label = self.data.iloc[index]["label"]
-        return torch.tensor(encoded, dtype=torch.long), torch.tensor(label, dtype=torch.long)
+
+        if self.use_attention_mask:
+            attention_mask = self.attention_masks[index]
+        else:
+            attention_mask = torch.ones(self.max_length, dtype=torch.long)
+
+        return (
+            torch.tensor(encoded, dtype=torch.long),
+            torch.tensor(attention_mask, dtype=torch.long),
+            torch.tensor(label, dtype=torch.long)
+        )
 
     def __len__(self):
         return len(self.data)
@@ -52,10 +70,11 @@ class IMDBDataset(Dataset):
         return max_length
 
 
-def calc_loss_batch(input_batch, target_batch, model, device):
+def calc_loss_batch(input_batch, attention_mask_batch, target_batch, model, device):
+    attention_mask_batch = attention_mask_batch.to(device)
     input_batch, target_batch = input_batch.to(device), target_batch.to(device)
     # logits = model(input_batch)[:, -1, :]  # Logits of last output token
-    logits = model(input_batch).logits
+    logits = model(input_batch, attention_mask=attention_mask_batch).logits
     loss = torch.nn.functional.cross_entropy(logits, target_batch)
     return loss
 
@@ -69,9 +88,9 @@ def calc_loss_loader(data_loader, model, device, num_batches=None):
         # Reduce the number of batches to match the total number of batches in the data loader
         # if num_batches exceeds the number of batches in the data loader
         num_batches = min(num_batches, len(data_loader))
-    for i, (input_batch, target_batch) in enumerate(data_loader):
+    for i, (input_batch, attention_mask_batch, target_batch) in enumerate(data_loader):
         if i < num_batches:
-            loss = calc_loss_batch(input_batch, target_batch, model, device)
+            loss = calc_loss_batch(input_batch, attention_mask_batch, target_batch, model, device)
             total_loss += loss.item()
         else:
             break
@@ -87,11 +106,12 @@ def calc_accuracy_loader(data_loader, model, device, num_batches=None):
         num_batches = len(data_loader)
     else:
         num_batches = min(num_batches, len(data_loader))
-    for i, (input_batch, target_batch) in enumerate(data_loader):
+    for i, (input_batch, attention_mask_batch, target_batch) in enumerate(data_loader):
         if i < num_batches:
+            attention_mask_batch = attention_mask_batch.to(device)
             input_batch, target_batch = input_batch.to(device), target_batch.to(device)
             # logits = model(input_batch)[:, -1, :]  # Logits of last output token
-            logits = model(input_batch).logits
+            logits = model(input_batch, attention_mask=attention_mask_batch).logits
             predicted_labels = torch.argmax(logits, dim=1)
             num_examples += predicted_labels.shape[0]
             correct_predictions += (predicted_labels == target_batch).sum().item()
@@ -119,9 +139,9 @@ def train_classifier_simple(model, train_loader, val_loader, optimizer, device, 
     for epoch in range(num_epochs):
         model.train()  # Set model to training mode
 
-        for input_batch, target_batch in train_loader:
+        for input_batch, attention_mask_batch, target_batch in train_loader:
             optimizer.zero_grad()  # Reset loss gradients from previous batch iteration
-            loss = calc_loss_batch(input_batch, target_batch, model, device)
+            loss = calc_loss_batch(input_batch, attention_mask_batch, target_batch, model, device)
             loss.backward()  # Calculate loss gradients
             optimizer.step()  # Update model weights using loss gradients
             examples_seen += input_batch.shape[0]  # New: track examples instead of tokens
@@ -159,9 +179,17 @@ if __name__ == "__main__":
     parser.add_argument(
         "--trainable_layers",
         type=str,
-        default="last_block",
+        default="all",
         help=(
             "Which layers to train. Options: 'all', 'last_block', 'last_layer'."
+        )
+    )
+    parser.add_argument(
+        "--use_attention_mask",
+        type=str,
+        default="true",
+        help=(
+            "Whether to use a attention mask for padding tokens. Options: 'true', 'false'"
         )
     )
     parser.add_argument(
@@ -169,7 +197,15 @@ if __name__ == "__main__":
         type=str,
         default="distilbert",
         help=(
-            "Which layers to train. Options: 'all', 'last_block', 'last_layer'."
+            "Which model to train. Options: 'distilbert', 'bert'."
+        )
+    )
+    parser.add_argument(
+        "--num_epochs",
+        type=int,
+        default=1,
+        help=(
+            "Number of epochs."
         )
     )
     args = parser.parse_args()
@@ -201,19 +237,21 @@ if __name__ == "__main__":
 
         tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased")
 
-    elif args.bert_model == "roberta":
+    elif args.bert_model == "bert":
 
         model = AutoModelForSequenceClassification.from_pretrained(
-            "FacebookAI/roberta-large", num_labels=2
+            "bert-base-uncased", num_labels=2
         )
-        model.classifier.out_proj = torch.nn.Linear(in_features=1024, out_features=2)
+        model.classifier = torch.nn.Linear(in_features=768, out_features=2)
 
         if args.trainable_layers == "last_layer":
             pass
         elif args.trainable_layers == "last_block":
             for param in model.classifier.parameters():
                 param.requires_grad = True
-            for param in model.roberta.encoder.layer[-1].parameters():
+            for param in model.bert.pooler.dense.parameters():
+                param.requires_grad = True
+            for param in model.bert.encoder.layer[-1].parameters():
                 param.requires_grad = True
         elif args.trainable_layers == "all":
             for param in model.parameters():
@@ -221,7 +259,7 @@ if __name__ == "__main__":
         else:
             raise ValueError("Invalid --trainable_layers argument.")
 
-        tokenizer = AutoTokenizer.from_pretrained("FacebookAI/roberta-large")
+        tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
 
     else:
         raise ValueError("Selected --bert_model not supported.")
@@ -234,13 +272,36 @@ if __name__ == "__main__":
     # Instantiate dataloaders
     ###############################
 
-    pad_token_id = tokenizer.encode(tokenizer.pad_token)
-
     base_path = Path(".")
 
-    train_dataset = IMDBDataset(base_path / "train.csv", max_length=256, tokenizer=tokenizer, pad_token_id=pad_token_id)
-    val_dataset = IMDBDataset(base_path / "validation.csv", max_length=256, tokenizer=tokenizer, pad_token_id=pad_token_id)
-    test_dataset = IMDBDataset(base_path / "test.csv", max_length=256, tokenizer=tokenizer, pad_token_id=pad_token_id)
+    if args.use_attention_mask.lower() == "true":
+        use_attention_mask = True
+    elif args.use_attention_mask.lower() == "false":
+        use_attention_mask = False
+    else:
+        raise ValueError("Invalid argument for `use_attention_mask`.")
+
+    train_dataset = IMDBDataset(
+        base_path / "train.csv",
+        max_length=256,
+        tokenizer=tokenizer,
+        pad_token_id=tokenizer.pad_token_id,
+        use_attention_mask=use_attention_mask
+    )
+    val_dataset = IMDBDataset(
+        base_path / "validation.csv",
+        max_length=256,
+        tokenizer=tokenizer,
+        pad_token_id=tokenizer.pad_token_id,
+        se_attention_mask=use_attention_mask
+    )
+    test_dataset = IMDBDataset(
+        base_path / "test.csv",
+        max_length=256,
+        tokenizer=tokenizer,
+        pad_token_id=tokenizer.pad_token_id,
+        use_attention_mask=use_attention_mask
+    )
 
     num_workers = 0
     batch_size = 8
@@ -275,10 +336,9 @@ if __name__ == "__main__":
     torch.manual_seed(123)
     optimizer = torch.optim.AdamW(model.parameters(), lr=5e-5, weight_decay=0.1)
 
-    num_epochs = 3
     train_losses, val_losses, train_accs, val_accs, examples_seen = train_classifier_simple(
         model, train_loader, val_loader, optimizer, device,
-        num_epochs=num_epochs, eval_freq=50, eval_iter=20,
+        num_epochs=args.num_epochs, eval_freq=50, eval_iter=20,
         max_steps=None
     )
 

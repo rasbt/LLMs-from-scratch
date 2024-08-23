@@ -227,6 +227,14 @@ if __name__ == "__main__":
             "Options: 'longest_training_example', 'model_context_length' or integer value."
         )
     )
+    parser.add_argument(
+        "--num_epochs",
+        type=int,
+        default=1,
+        help=(
+            "Number of epochs."
+        )
+    )
 
     args = parser.parse_args()
 
@@ -340,10 +348,9 @@ if __name__ == "__main__":
     torch.manual_seed(123)
     optimizer = torch.optim.AdamW(model.parameters(), lr=5e-5, weight_decay=0.1)
 
-    num_epochs = 3
     train_losses, val_losses, train_accs, val_accs, examples_seen = train_classifier_simple(
         model, train_loader, val_loader, optimizer, device,
-        num_epochs=num_epochs, eval_freq=50, eval_iter=20,
+        num_epochs=args.num_epochs, eval_freq=50, eval_iter=20,
         max_steps=None, trainable_token=args.trainable_token
     )
 

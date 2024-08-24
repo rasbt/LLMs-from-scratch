@@ -30,6 +30,8 @@ To download a copy of this repository, click on the [Download ZIP](https://githu
 git clone --depth 1 https://github.com/rasbt/LLMs-from-scratch.git
 ```
 
+<br>
+
 (If you downloaded the code bundle from the Manning website, please consider visiting the official code repository on GitHub at [https://github.com/rasbt/LLMs-from-scratch](https://github.com/rasbt/LLMs-from-scratch) for the latest updates.)
 
 <br>
@@ -59,7 +61,7 @@ You can alternatively view this and other files on GitHub at [https://github.com
 
 <br>
 
-| Chapter Title                                              | Main Code (for quick access)                                                                                                    | All Code + Supplementary      |
+| Chapter Title                                              | Main Code (for Quick Access)                                                                                                    | All Code + Supplementary      |
 |------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|-------------------------------|
 | [Setup recommendations](setup)                             | -                                                                                                                               | -                             |
 | Ch 1: Understanding Large Language Models                  | No code                                                                                                                         | -                             |
@@ -129,11 +131,9 @@ Several folders contain optional materials as a bonus for interested readers:
 ## Questions, Feedback, and Contributing to This Repository
 
 
-I welcome all sorts of feedback, best shared via the [Discussions](https://github.com/rasbt/LLMs-from-scratch/discussions) forum. Likewise, if you have any questions or just want to bounce ideas off others, please don't hesitate to post these in the forum as well.
+I welcome all sorts of feedback, best shared via the [Manning Forum](https://livebook.manning.com/forum?product=raschka&page=1) or [GitHub Discussions](https://github.com/rasbt/LLMs-from-scratch/discussions). Likewise, if you have any questions or just want to bounce ideas off others, please don't hesitate to post these in the forum as well.
 
-If you notice any problems or issues, please do not hesitate to file an [Issue](https://github.com/rasbt/LLMs-from-scratch/issues).
-
-However, since this repository contains the code corresponding to a print book, I currently cannot accept contributions that would extend the contents of the main chapter code, as it would introduce deviations from the physical book. Keeping it consistent helps ensure a smooth experience for everyone.
+Please note that since this repository contains the code corresponding to a print book, I currently cannot accept contributions that would extend the contents of the main chapter code, as it would introduce deviations from the physical book. Keeping it consistent helps ensure a smooth experience for everyone.
 
 
 &nbsp;

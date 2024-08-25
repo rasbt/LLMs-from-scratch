@@ -312,9 +312,11 @@ if __name__ == "__main__":
             "distilbert-base-uncased", num_labels=2
         )
         model.out_head = torch.nn.Linear(in_features=768, out_features=2)
-
+        for param in model.parameters():
+            param.requires_grad = False
         if args.trainable_layers == "last_layer":
-            pass
+            for param in model.out_head.parameters():
+                param.requires_grad = True
         elif args.trainable_layers == "last_block":
             for param in model.pre_classifier.parameters():
                 param.requires_grad = True
@@ -334,9 +336,11 @@ if __name__ == "__main__":
             "bert-base-uncased", num_labels=2
         )
         model.classifier = torch.nn.Linear(in_features=768, out_features=2)
-
+        for param in model.parameters():
+            param.requires_grad = False
         if args.trainable_layers == "last_layer":
-            pass
+            for param in model.classifier.parameters():
+                param.requires_grad = True
         elif args.trainable_layers == "last_block":
             for param in model.classifier.parameters():
                 param.requires_grad = True
@@ -351,7 +355,29 @@ if __name__ == "__main__":
             raise ValueError("Invalid --trainable_layers argument.")
 
         tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
+    elif args.bert_model == "roberta":
 
+        model = AutoModelForSequenceClassification.from_pretrained(
+            "FacebookAI/roberta-large", num_labels=2
+        )
+        model.classifier.out_proj = torch.nn.Linear(in_features=1024, out_features=2)
+        for param in model.parameters():
+            param.requires_grad = False
+        if args.trainable_layers == "last_layer":
+            for param in model.classifier.parameters():
+                param.requires_grad = True
+        elif args.trainable_layers == "last_block":
+            for param in model.classifier.parameters():
+                param.requires_grad = True
+            for param in model.roberta.encoder.layer[-1].parameters():
+                param.requires_grad = True
+        elif args.trainable_layers == "all":
+            for param in model.parameters():
+                param.requires_grad = True
+        else:
+            raise ValueError("Invalid --trainable_layers argument.")
+
+        tokenizer = AutoTokenizer.from_pretrained("FacebookAI/roberta-large")
     else:
         raise ValueError("Selected --bert_model not supported.")
 

@@ -114,7 +114,7 @@ A 355M parameter encoder-style [RoBERTa](https://arxiv.org/abs/1907.11692) model
 
 
 ```bash
-!python train_bert_hf.py --trainable_layers "last_block" --num_epochs 1 --bert_model "roberta" 
+python train_bert_hf.py --trainable_layers "last_block" --num_epochs 1 --bert_model "roberta" 
 ```
 
 ```
@@ -132,9 +132,3 @@ Training accuracy: 93.44%
 Validation accuracy: 93.02%
 Test accuracy: 92.95%
 ```
-
-<br>
-
----
-
-<br>

@@ -327,7 +327,7 @@ if __name__ == "__main__":
         max_length=256,
         tokenizer=tokenizer,
         pad_token_id=tokenizer.pad_token_id,
-        se_attention_mask=use_attention_mask
+        use_attention_mask=use_attention_mask
     )
     test_dataset = IMDBDataset(
         base_path / "test.csv",

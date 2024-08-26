@@ -56,7 +56,7 @@ Test accuracy: 91.88%
 A 340M parameter encoder-style [BERT](https://arxiv.org/abs/1810.04805) model:
 
 ```bash
-!python train_bert_hf --trainable_layers "all" --num_epochs 1 --model "bert"
+python train_bert_hf --trainable_layers "all" --num_epochs 1 --model "bert"
 ```
 
 ```
@@ -86,7 +86,7 @@ A 66M parameter encoder-style [DistilBERT](https://arxiv.org/abs/1910.01108) mod
 
 
 ```bash
-!python train_bert_hf.py --trainable_layers "all" --num_epochs 1 --model "distilbert"
+python train_bert_hf.py --trainable_layers "all" --num_epochs 1 --model "distilbert"
 ```
 
 ```
@@ -104,4 +104,31 @@ Training accuracy: 95.30%
 Validation accuracy: 91.12%
 Test accuracy: 91.40%
 ```
+<br>
 
+---
+
+<br>
+
+A 355M parameter encoder-style [RoBERTa](https://arxiv.org/abs/1907.11692) model, starting for the pretrained weights and only training the last transformer block plus output layers:
+
+
+```bash
+python train_bert_hf.py --trainable_layers "last_block" --num_epochs 1 --bert_model "roberta" 
+```
+
+```
+Ep 1 (Step 000000): Train loss 0.695, Val loss 0.698
+Ep 1 (Step 000050): Train loss 0.670, Val loss 0.690
+...
+Ep 1 (Step 004300): Train loss 0.126, Val loss 0.149
+Ep 1 (Step 004350): Train loss 0.211, Val loss 0.138
+Training accuracy: 92.50% | Validation accuracy: 94.38%
+Training completed in 7.20 minutes.
+
+Evaluating on the full datasets ...
+
+Training accuracy: 93.44%
+Validation accuracy: 93.02%
+Test accuracy: 92.95%
+```

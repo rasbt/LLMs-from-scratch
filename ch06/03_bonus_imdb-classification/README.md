@@ -132,3 +132,25 @@ Training accuracy: 93.44%
 Validation accuracy: 93.02%
 Test accuracy: 92.95%
 ```
+
+
+<br>
+
+---
+
+<br>
+
+A scikit-learn logistic regression classifier as a baseline.
+
+```
+Dummy classifier:
+Training Accuracy: 50.01%
+Validation Accuracy: 50.14%
+Test Accuracy: 49.91%
+
+
+Logistic regression classifier:
+Training Accuracy: 99.80%
+Validation Accuracy: 88.62%
+Test Accuracy: 88.85%
+```

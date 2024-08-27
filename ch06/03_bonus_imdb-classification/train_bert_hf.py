@@ -189,15 +189,15 @@ if __name__ == "__main__":
         type=str,
         default="true",
         help=(
-            "Whether to use a attention mask for padding tokens. Options: 'true', 'false'"
+            "Whether to use a attention mask for padding tokens. Options: 'true', 'false'."
         )
     )
     parser.add_argument(
-        "--bert_model",
+        "--model",
         type=str,
         default="distilbert",
         help=(
-            "Which model to train. Options: 'distilbert', 'bert'."
+            "Which model to train. Options: 'distilbert', 'bert', 'roberta'."
         )
     )
     parser.add_argument(
@@ -223,7 +223,7 @@ if __name__ == "__main__":
     ###############################
 
     torch.manual_seed(123)
-    if args.bert_model == "distilbert":
+    if args.model == "distilbert":
 
         model = AutoModelForSequenceClassification.from_pretrained(
             "distilbert-base-uncased", num_labels=2
@@ -247,7 +247,7 @@ if __name__ == "__main__":
 
         tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased")
 
-    elif args.bert_model == "bert":
+    elif args.model == "bert":
 
         model = AutoModelForSequenceClassification.from_pretrained(
             "bert-base-uncased", num_labels=2
@@ -272,7 +272,7 @@ if __name__ == "__main__":
             raise ValueError("Invalid --trainable_layers argument.")
 
         tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
-    elif args.bert_model == "roberta":
+    elif args.model == "roberta":
 
         model = AutoModelForSequenceClassification.from_pretrained(
             "FacebookAI/roberta-large", num_labels=2
@@ -296,7 +296,7 @@ if __name__ == "__main__":
 
         tokenizer = AutoTokenizer.from_pretrained("FacebookAI/roberta-large")
     else:
-        raise ValueError("Selected --bert_model not supported.")
+        raise ValueError("Selected --model {args.model} not supported.")
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)

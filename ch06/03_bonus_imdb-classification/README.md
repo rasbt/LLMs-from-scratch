@@ -140,7 +140,12 @@ Test accuracy: 92.95%
 
 <br>
 
-A scikit-learn logistic regression classifier as a baseline.
+A scikit-learn logistic regression classifier as a baseline:
+
+
+```bash
+python train_sklearn_logreg.py
+```
 
 ```
 Dummy classifier:

@@ -56,7 +56,7 @@ Test accuracy: 91.88%
 A 340M parameter encoder-style [BERT](https://arxiv.org/abs/1810.04805) model:
 
 ```bash
-python train_bert_hf.py --trainable_layers "all" --num_epochs 1 --bert_model "bert"
+python train_bert_hf.py --trainable_layers "all" --num_epochs 1 --model "bert"
 ```
 
 ```
@@ -86,7 +86,7 @@ A 66M parameter encoder-style [DistilBERT](https://arxiv.org/abs/1910.01108) mod
 
 
 ```bash
-python train_bert_hf.py --trainable_layers "all" --num_epochs 1 --bert_model "distilbert"
+python train_bert_hf.py --trainable_layers "all" --num_epochs 1 --model "distilbert"
 ```
 
 ```
@@ -114,7 +114,7 @@ A 355M parameter encoder-style [RoBERTa](https://arxiv.org/abs/1907.11692) model
 
 
 ```bash
-python train_bert_hf.py --trainable_layers "last_block" --num_epochs 1 --bert_model "roberta" 
+python train_bert_hf.py --trainable_layers "last_block" --num_epochs 1 --model "roberta" 
 ```
 
 ```

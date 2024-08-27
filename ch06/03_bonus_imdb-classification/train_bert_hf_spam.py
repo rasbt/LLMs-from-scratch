@@ -280,7 +280,7 @@ if __name__ == "__main__":
         type=str,
         default="true",
         help=(
-            "Whether to use a attention mask for padding tokens. Options: 'true', 'false'"
+            "Whether to use a attention mask for padding tokens. Options: 'true', 'false'."
         )
     )
     parser.add_argument(
@@ -288,7 +288,7 @@ if __name__ == "__main__":
         type=str,
         default="distilbert",
         help=(
-            "Which model to train. Options: 'distilbert', 'bert'."
+            "Which model to train. Options: 'distilbert', 'bert', 'roberta'."
         )
     )
     parser.add_argument(

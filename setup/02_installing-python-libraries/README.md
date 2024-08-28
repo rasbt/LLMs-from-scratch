@@ -23,19 +23,19 @@ Then, after completing the installation, please check if all the packages are in
 python python_environment_check.py
 ```
 
-<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/02_installing-python-libraries/check_1.jpg" width="600px">
+<img src="https://llms-from-scratch.s3.us-east-2.amazonaws.com/setup/02_installing-python-libraries/check_1.jpg" width="600px">
 
 It's also recommended to check the versions in JupyterLab by running the `python_environment_check.ipynb` in this directory, which should ideally give you the same results as above.
 
-<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/02_installing-python-libraries/check_2.jpg" width="500px">
+<img src="https://llms-from-scratch.s3.us-east-2.amazonaws.com/setup/02_installing-python-libraries/check_2.jpg" width="500px">
 
 If you see the following issues, it's likely that your JupyterLab instance is connected to wrong conda environment:
 
-<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/02_installing-python-libraries/jupyter-issues.jpg" width="450px">
+<img src="https://llms-from-scratch.s3.us-east-2.amazonaws.com/setup/02_installing-python-libraries/jupyter-issues.jpg" width="450px">
 
 In this case, you may want to use `watermark` to check if you opened the JupyterLab instance in the right conda environment using the `--conda` flag:
 
-<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/02_installing-python-libraries/watermark.jpg" width="350px">
+<img src="https://llms-from-scratch.s3.us-east-2.amazonaws.com/setup/02_installing-python-libraries/watermark.jpg" width="350px">
 
 
 <br>
@@ -54,7 +54,7 @@ However, since PyTorch is a comprehensive library featuring CPU- and GPU-compati
 
 It's also highly recommended to consult the installation guide menu on the official PyTorch website at [https://pytorch.org](https://pytorch.org).
 
-<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/02_installing-python-libraries/pytorch-installer.jpg" width="600px">
+<img src="https://llms-from-scratch.s3.us-east-2.amazonaws.com/setup/02_installing-python-libraries/pytorch-installer.jpg" width="600px">
 
 
 

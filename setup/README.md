@@ -75,7 +75,7 @@ pip install -r requirements.txt
 
 Then, navigate to the Python script or Jupyter Notebook you want to run. Optionally, you can also easily connect a GPU to accelerate the code's runtime, for example, when you are pretraining the LLM in chapter 5 or finetuning it in chapters 6 and 7.
 
-<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/README/studio.webp" alt="1" width="700">
+<img src="https://llms-from-scratch.s3.us-east-2.amazonaws.com/setup/README/studio.webp" alt="1" width="700">
 
 &nbsp;
 
@@ -83,17 +83,17 @@ Then, navigate to the Python script or Jupyter Notebook you want to run. Optiona
 
 To use a Google Colab environment in the cloud, head over to [https://colab.research.google.com/](https://colab.research.google.com/) and open the respective chapter notebook from the GitHub menu or by dragging the notebook into the *Upload* field as shown in the figure below.
 
-<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/README/colab_1.webp" alt="1" width="700">
+<img src="https://llms-from-scratch.s3.us-east-2.amazonaws.com/setup/README/colab_1.webp" alt="1" width="700">
 
 
 Also make sure you upload the relevant files (dataset files and .py files the notebook is importing from) to the Colab environment as well, as shown below.
 
-<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/README/colab_2.webp" alt="2" width="700">
+<img src="https://llms-from-scratch.s3.us-east-2.amazonaws.com/setup/README/colab_2.webp" alt="2" width="700">
 
 
 You can optionally run the code on a GPU by changing the *Runtime* as illustrated in the figure below.
 
-<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/README/colab_3.webp" alt="3" width="700">
+<img src="https://llms-from-scratch.s3.us-east-2.amazonaws.com/setup/README/colab_3.webp" alt="3" width="700">
 
 
 &nbsp;

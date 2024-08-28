@@ -5,7 +5,7 @@ This repository contains the code for developing, pretraining, and finetuning a 
 <br>
 <br>
 
-<a href="http://mng.bz/orYv"><img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/cover.jpg?123" width="250px"></a>
+<a href="http://mng.bz/orYv"><img src="https://llms-from-scratch.s3.us-east-2.amazonaws.com/cover.jpg?123" width="250px"></a>
 
 <br>
 
@@ -83,7 +83,7 @@ You can alternatively view this and other files on GitHub at [https://github.com
 
 The mental model below summarizes the contents covered in this book.
 
-<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/mental-model.jpg" width="650px">
+<img src="https://llms-from-scratch.s3.us-east-2.amazonaws.com/mental-model.jpg" width="650px">
 
 <br>
 &nbsp

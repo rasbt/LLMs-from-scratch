@@ -103,28 +103,28 @@ Several folders contain optional materials as a bonus for interested readers:
   - [Installing Python Packages and Libraries Used In This Book](setup/02_installing-python-libraries)
   - [Docker Environment Setup Guide](setup/03_optional-docker-environment)
 - **Chapter 2:**
-  - [Comparing Various Byte Pair Encoding (BPE) Implementations](https://nbviewer.org/github/rasbt/LLMs-from-scratch/blob/main/ch02/02_bonus_bytepair-encoder)
-  - [Understanding the Difference Between Embedding Layers and Linear Layers](https://nbviewer.org/github/rasbt/LLMs-from-scratch/blob/main/ch02/03_bonus_embedding-vs-matmul)
-  - [Dataloader Intuition with Simple Numbers](https://nbviewer.org/github/rasbt/LLMs-from-scratch/blob/main/ch02/04_bonus_dataloader-intuition)
+  - [Comparing Various Byte Pair Encoding (BPE) Implementations](ch02/02_bonus_bytepair-encoder)
+  - [Understanding the Difference Between Embedding Layers and Linear Layers](ch02/03_bonus_embedding-vs-matmul)
+  - [Dataloader Intuition with Simple Numbers](ch02/04_bonus_dataloader-intuition)
 - **Chapter 3:**
-  - [Comparing Efficient Multi-Head Attention Implementations](https://nbviewer.org/github/rasbt/LLMs-from-scratch/blob/main/ch03/02_bonus_efficient-multihead-attention/mha-implementations.ipynb)
-  - [Understanding PyTorch Buffers](https://nbviewer.org/github/rasbt/LLMs-from-scratch/blob/main/ch03/03_understanding-buffers/understanding-buffers.ipynb)
+  - [Comparing Efficient Multi-Head Attention Implementations](ch03/02_bonus_efficient-multihead-attention/mha-implementations.ipynb)
+  - [Understanding PyTorch Buffers](ch03/03_understanding-buffers/understanding-buffers.ipynb)
 - **Chapter 4:**
-  - [FLOPS Analysis](https://nbviewer.org/github/rasbt/LLMs-from-scratch/blob/main/ch04/02_performance-analysis/flops-analysis.ipynb)
+  - [FLOPS Analysis](ch04/02_performance-analysis/flops-analysis.ipynb)
 - **Chapter 5:**
-  - [Alternative Weight Loading from Hugging Face Model Hub using Transformers](https://nbviewer.org/github/rasbt/LLMs-from-scratch/blob/main/ch05/02_alternative_weight_loading/weight-loading-hf-transformers.ipynb)
-  - [Pretraining GPT on the Project Gutenberg Dataset](https://nbviewer.org/github/rasbt/LLMs-from-scratch/blob/main/ch05/03_bonus_pretraining_on_gutenberg)
-  - [Adding Bells and Whistles to the Training Loop](https://nbviewer.org/github/rasbt/LLMs-from-scratch/blob/main/ch05/04_learning_rate_schedulers)
-  - [Optimizing Hyperparameters for Pretraining](https://nbviewer.org/github/rasbt/LLMs-from-scratch/blob/main/ch05/05_bonus_hparam_tuning)
+  - [Alternative Weight Loading from Hugging Face Model Hub using Transformers](ch05/02_alternative_weight_loading/weight-loading-hf-transformers.ipynb)
+  - [Pretraining GPT on the Project Gutenberg Dataset](ch05/03_bonus_pretraining_on_gutenberg)
+  - [Adding Bells and Whistles to the Training Loop](ch05/04_learning_rate_schedulers)
+  - [Optimizing Hyperparameters for Pretraining](ch05/05_bonus_hparam_tuning)
 - **Chapter 6:**
-  - [Additional experiments finetuning different layers and using larger models](https://nbviewer.org/github/rasbt/LLMs-from-scratch/blob/main/ch06/02_bonus_additional-experiments)
-  - [Finetuning different models on 50k IMDB movie review dataset](https://nbviewer.org/github/rasbt/LLMs-from-scratch/blob/main/ch06/03_bonus_imdb-classification)
+  - [Additional experiments finetuning different layers and using larger models](ch06/02_bonus_additional-experiments)
+  - [Finetuning different models on 50k IMDB movie review dataset](ch06/03_bonus_imdb-classification)
 - **Chapter 7:**
-  - [Dataset Utilities for Finding Near Duplicates and Creating Passive Voice Entries](https://nbviewer.org/github/rasbt/LLMs-from-scratch/blob/main/ch07/02_dataset-utilities)
-  - [Evaluating Instruction Responses Using the OpenAI API and Ollama](https://nbviewer.org/github/rasbt/LLMs-from-scratch/blob/main/ch07/03_model-evaluation)
-  - [Generating a Dataset for Instruction Finetuning](https://nbviewer.org/github/rasbt/LLMs-from-scratch/blob/main/ch07/05_dataset-generation)
-  - [Generating a Preference Dataset with Llama 3.1 70B and Ollama](https://nbviewer.org/github/rasbt/LLMs-from-scratch/blob/main/ch07/04_preference-tuning-with-dpo/create-preference-data-ollama.ipynb)
-  - [Direct Preference Optimization (DPO) for LLM Alignment](https://nbviewer.org/github/rasbt/LLMs-from-scratch/blob/main/ch07/04_preference-tuning-with-dpo/dpo-from-scratch.ipynb)
+  - [Dataset Utilities for Finding Near Duplicates and Creating Passive Voice Entries](ch07/02_dataset-utilities)
+  - [Evaluating Instruction Responses Using the OpenAI API and Ollama](ch07/03_model-evaluation)
+  - [Generating a Dataset for Instruction Finetuning](ch07/05_dataset-generation)
+  - [Generating a Preference Dataset with Llama 3.1 70B and Ollama](ch07/04_preference-tuning-with-dpo/create-preference-data-ollama.ipynb)
+  - [Direct Preference Optimization (DPO) for LLM Alignment](ch07/04_preference-tuning-with-dpo/dpo-from-scratch.ipynb)
 
 <br>
 &nbsp

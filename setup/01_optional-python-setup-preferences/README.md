@@ -32,13 +32,6 @@ where `Desktop/` is the folder where the Miniforge installer was downloaded to. 
 Next, step through the download instructions, confirming with "Enter".
 
 
-
-If you work with many packages, Conda can be slow because of its thorough but complex dependency resolution process and the handling of large package indexes and metadata. To speed up Conda, you can use the following setting, which switches to a more efficient Rust reimplementation for solving dependencies:
-
-```
-conda config --set solver libmamba
-```
-
 <br>
 <br>
 

@@ -55,7 +55,7 @@ mv setup/.vscode ./
 
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/README/vs-code-extensions.webp?1" alt="1" width="700">
 
-Then VSCode automatically checks if the recommended extensions are already installed on your system everytime you open the project. You can then choose to install them or not. Those extensions provide enhanced functionality and tools helful for this repositoy.
+Then VSCode automatically checks if the recommended extensions are already installed on your system every time you open the project. You can then choose to install them or not. Those extensions provide enhanced functionality and tools helful for this repositoy.
 
 &nbsp;
 

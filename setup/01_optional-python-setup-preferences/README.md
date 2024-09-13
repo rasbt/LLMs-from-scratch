@@ -92,7 +92,7 @@ You can also still use `pip` to install libraries. By default, `pip` should be l
 PyTorch can be installed just like any other Python library or package using pip. For example:
 
 ```bash
-pip install torch==2.0.1
+pip install torch
 ```
 
 However, since PyTorch is a comprehensive library featuring CPU- and GPU-compatible codes, the installation may require additional settings and explanation (see the *A.1.3 Installing PyTorch in the book for more information*).
@@ -102,6 +102,11 @@ It's also highly recommended to consult the installation guide menu on the offic
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/01_optional-python-setup-preferences/pytorch-installer.jpg" width="600px">
 
 
+## 5. Installing Python packages and libraries used in this book
+
+Please refer to the [Installing Python packages and libraries used in this book](../02_installing-python-libraries/README.md) document for instructions on how to install the required libraries.
+
+<br>
 
 ---
 

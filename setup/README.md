@@ -47,9 +47,15 @@ There are many good options for code editors. My preferred choice is the popular
 
 ## VSCode Extensions
 
-If you are using Visual Studio Code (VSCode) as your primary code editor, you can find recommended extensions in the `.vscode` subfolder. To install these, open this "setup" folder in VSCode (File -> Open Folder...) and then click the "Install" button in the pop-up menu on the lower right.
+If you are using Visual Studio Code (VSCode) as your primary code editor, you can find recommended extensions in the `.vscode` subfolder of your project. To ensure these extensions are recognized by VSCode, move the `.vscode` folder from `setup/` to the current directory (project root).
+
+```bash
+mv setup/.vscode ./
+```
 
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/README/vs-code-extensions.webp?1" alt="1" width="700">
+
+Then VSCode automatically checks if the recommended extensions are already installed on your system everytime you open the project. You can then choose to install them or not. Those extensions provide enhanced functionality and tools helful for this repositoy.
 
 &nbsp;
 

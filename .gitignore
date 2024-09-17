@@ -33,6 +33,7 @@ ch05/02_alternative_weight_loading/checkpoints
 ch05/01_main-chapter-code/model.pth
 ch05/01_main-chapter-code/model_and_optimizer.pth
 ch05/03_bonus_pretraining_on_gutenberg/model_checkpoints
+ch05/06_user_interface/gpt2
 
 ch06/01_main-chapter-code/gpt2
 ch06/02_bonus_additional-experiments/gpt2
@@ -87,6 +88,10 @@ ch07/01_main-chapter-code/instruction-data-with-response-phi3-prompt.json
 ch07/02_dataset-utilities/instruction-examples-modified.json
 ch07/04_preference-tuning-with-dpo/gpt2-medium355M-sft.pth
 ch07/04_preference-tuning-with-dpo/loss-plot.pdf
+
+# Other
+ch05/06_user_interface/chainlit.md
+ch05/06_user_interface/.chainlit
 
 # Temporary OS-related files
 .DS_Store

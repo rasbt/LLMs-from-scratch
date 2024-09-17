@@ -25,13 +25,13 @@ def get_model_and_tokenizer():
     """
 
     GPT_CONFIG_124M = {
-        "vocab_size": 50257,   # Vocabulary size
-        "context_length": 256, # Shortened context length (orig: 1024)
-        "emb_dim": 768,        # Embedding dimension
-        "n_heads": 12,         # Number of attention heads
-        "n_layers": 12,        # Number of layers
-        "drop_rate": 0.1,      # Dropout rate
-        "qkv_bias": False      # Query-key-value bias
+        "vocab_size": 50257,    # Vocabulary size
+        "context_length": 256,  # Shortened context length (orig: 1024)
+        "emb_dim": 768,         # Embedding dimension
+        "n_heads": 12,          # Number of attention heads
+        "n_layers": 12,         # Number of layers
+        "drop_rate": 0.1,       # Dropout rate
+        "qkv_bias": False       # Query-key-value bias
     }
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -40,7 +40,7 @@ def get_model_and_tokenizer():
 
     model_path = Path("..") / "01_main-chapter-code" / "model.pth"
     if not model_path.exists():
-        print(f"Could not find the {model.path} file. Please run the chapter 5 code (ch05.ipynb) to generate the model.pth file.")
+        print(f"Could not find the {model_path} file. Please run the chapter 5 code (ch05.ipynb) to generate the model.pth file.")
         sys.exit()
 
     checkpoint = torch.load("model.pth", weights_only=True)

@@ -68,7 +68,7 @@ async def main(message: chainlit.Message):
     """
     token_ids = generate(
         model=model,
-        idx=torch.tensor(text_to_token_ids(message.content, tokenizer)).to(device),  # The user text is provided via as `message.content`
+        idx=text_to_token_ids(message.content, tokenizer).clone().detach().to(device),  # The user text is provided via as `message.content`
         max_new_tokens=50,
         context_size=model_config["context_length"],
         top_k=1,

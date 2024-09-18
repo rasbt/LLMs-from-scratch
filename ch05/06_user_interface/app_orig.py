@@ -67,7 +67,7 @@ async def main(message: chainlit.Message):
     """
     The main Chainlit function.
     """
-    token_ids = generate(
+    token_ids = generate(  # function uses `with torch.no_grad()` internally already
         model=model,
         idx=text_to_token_ids(message.content, tokenizer).to(device),  # The user text is provided via as `message.content`
         max_new_tokens=50,

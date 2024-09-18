@@ -42,7 +42,7 @@ def get_model_and_tokenizer():
         print(f"Could not find the {model_path} file. Please run the chapter 5 code (ch05.ipynb) to generate the model.pth file.")
         sys.exit()
 
-    checkpoint = torch.load("model.pth", weights_only=True)
+    checkpoint = torch.load(model_path, weights_only=True)
     model = GPTModel(GPT_CONFIG_124M)
     model.load_state_dict(checkpoint)
     model.to(device)

@@ -17,7 +17,7 @@ To implement this user interface, we use the open-source [Chainlit Python packag
 
 First, we install the `chainlit` package via
 
-```python
+```bash
 pip install chainlit
 ```
 

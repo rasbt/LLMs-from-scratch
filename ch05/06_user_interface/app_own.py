@@ -19,6 +19,7 @@ from previous_chapters import (
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+
 def get_model_and_tokenizer():
     """
     Code to loads a GPT-2 model with pretrained weights generated in chapter 5.

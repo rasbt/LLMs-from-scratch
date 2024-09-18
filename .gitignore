@@ -92,6 +92,7 @@ ch07/04_preference-tuning-with-dpo/loss-plot.pdf
 # Other
 ch05/06_user_interface/chainlit.md
 ch05/06_user_interface/.chainlit
+ch05/06_user_interface/.files
 
 # Temporary OS-related files
 .DS_Store

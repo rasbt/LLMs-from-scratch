@@ -38,7 +38,10 @@ def get_model_and_tokenizer():
 
     model_path = Path("..") / "01_main-chapter-code" / "review_classifier.pth"
     if not model_path.exists():
-        print(f"Could not find the {model_path} file. Please run the chapter 6 code (ch06.ipynb) to generate the review_classifier.pth file.")
+        print(
+            f"Could not find the {model_path} file. Please run the chapter 6 code"
+            " (ch06.ipynb) to generate the review_classifier.pth file."
+        )
         sys.exit()
 
     # Instantiate model

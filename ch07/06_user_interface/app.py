@@ -40,7 +40,10 @@ def get_model_and_tokenizer():
 
     model_path = Path("..") / "01_main-chapter-code" / "gpt2-medium355M-sft.pth"
     if not model_path.exists():
-        print(f"Could not find the {model_path} file. Please run the chapter 7 code (ch07.ipynb) to generate the gpt2-medium355M-sft.pt file.")
+        print(
+            f"Could not find the {model_path} file. Please run the chapter 7 code "
+            " (ch07.ipynb) to generate the gpt2-medium355M-sft.pt file."
+        )
         sys.exit()
 
     checkpoint = torch.load(model_path, weights_only=True)

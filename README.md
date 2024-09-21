@@ -127,7 +127,7 @@ Several folders contain optional materials as a bonus for interested readers:
   - [Improving a Dataset for Instruction Finetuning](ch07/05_dataset-generation/reflection-gpt4.ipynb)
   - [Generating a Preference Dataset with Llama 3.1 70B and Ollama](ch07/04_preference-tuning-with-dpo/create-preference-data-ollama.ipynb)
   - [Direct Preference Optimization (DPO) for LLM Alignment](ch07/04_preference-tuning-with-dpo/dpo-from-scratch.ipynb)
-  - [Building a User Interface to Interact With the Instruction Finetuned GPT Model](ch06/06_user_interface)
+  - [Building a User Interface to Interact With the Instruction Finetuned GPT Model](ch07/06_user_interface)
 
 <br>
 &nbsp;

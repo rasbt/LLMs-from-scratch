@@ -90,9 +90,9 @@ ch07/04_preference-tuning-with-dpo/gpt2-medium355M-sft.pth
 ch07/04_preference-tuning-with-dpo/loss-plot.pdf
 
 # Other
-ch05/06_user_interface/chainlit.md
-ch05/06_user_interface/.chainlit
-ch05/06_user_interface/.files
+ch0?/0?_user_interface/.chainlit/
+ch0?/0?_user_interface/chainlit.md
+ch0?/0?_user_interface/.files
 
 # Temporary OS-related files
 .DS_Store

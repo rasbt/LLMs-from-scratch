@@ -21,7 +21,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def get_model_and_tokenizer():
     """
-    Code to loads a GPT-2 model with pretrained weights from OpenAI.
+    Code to load a GPT-2 model with pretrained weights from OpenAI.
     The code is similar to chapter 5.
     The model will be downloaded automatically if it doesn't exist in the current folder, yet.
     """

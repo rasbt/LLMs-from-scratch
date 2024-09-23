@@ -1,0 +1,2 @@
+huggingface_hub>=0.24.7
+sentencepiece>=0.1.99

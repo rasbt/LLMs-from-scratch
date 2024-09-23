@@ -11,3 +11,4 @@
 - [04_learning_rate_schedulers](04_learning_rate_schedulers) contains code implementing a more sophisticated training function including learning rate schedulers and gradient clipping
 - [05_bonus_hparam_tuning](05_bonus_hparam_tuning) contains an optional hyperparameter tuning script
 - [06_user_interface](06_user_interface) implements an interactive user interface to interact with the pretrained LLM
+- [07_gpt_to_llama](07_gpt_to_llama) contains a step-by-step guide for converting a GPT architecture implementation to Llama and loads pretrained weights from Meta AI

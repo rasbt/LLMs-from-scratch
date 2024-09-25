@@ -41,6 +41,7 @@ jobs:
         pytest setup/02_installing-python-libraries/tests.py
         pytest ch04/01_main-chapter-code/tests.py
         pytest ch05/01_main-chapter-code/tests.py
+        pytest ch05/07_gpt_to_llama/tests.py
         pytest ch06/01_main-chapter-code/tests.py
 
     - name: Validate Selected Jupyter Notebooks

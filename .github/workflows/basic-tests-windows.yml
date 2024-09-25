@@ -38,7 +38,7 @@ jobs:
           pip install pytest nbval
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           pip install matplotlib==3.9.0
-          pip install -r pytest ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
+          pip install pytest ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
 
       - name: Test Selected Python Scripts
         shell: bash

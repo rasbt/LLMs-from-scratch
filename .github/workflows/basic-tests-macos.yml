@@ -35,6 +35,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install pytest nbval
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        pip install transformers  # for ch05/07_gpt_to_llama/tests.py
 
     - name: Test Selected Python Scripts
       run: |

@@ -1,4 +1,5 @@
 import io
+import os
 import sys
 import types
 import nbformat
@@ -7,11 +8,21 @@ import pytest
 from transformers.models.llama.modeling_llama import LlamaRotaryEmbedding, apply_rotary_pos_emb
 
 
+# Copyright (c) Sebastian Raschka under Apache License 2.0 (see LICENSE.txt).
+# Source for "Build a Large Language Model From Scratch"
+#   - https://www.manning.com/books/build-a-large-language-model-from-scratch
+# Code: https://github.com/rasbt/LLMs-from-scratch
+
+# File for internal use (unit tests)
+
+
 @pytest.fixture(scope="module")
 def notebook():
     def import_definitions_from_notebook(fullname, names):
         # Load the notebook
-        path = fullname + ".ipynb"
+        current_dir = os.path.dirname(__file__)
+        path = os.path.join(current_dir, fullname + ".ipynb")
+
         with io.open(path, "r", encoding="utf-8") as f:
             nb = nbformat.read(f, as_version=4)
 

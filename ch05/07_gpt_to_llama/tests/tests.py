@@ -19,9 +19,14 @@ from transformers.models.llama.modeling_llama import LlamaRotaryEmbedding, apply
 @pytest.fixture(scope="module")
 def notebook():
     def import_definitions_from_notebook(fullname, names):
-        # Load the notebook
+        # Get the directory of the current test file
         current_dir = os.path.dirname(__file__)
-        path = os.path.join(current_dir, fullname + ".ipynb")
+        path = os.path.join(current_dir, "..", fullname + ".ipynb")
+        path = os.path.normpath(path)
+
+        # Load the notebook
+        if not os.path.exists(path):
+            raise FileNotFoundError(f"Notebook file not found at: {path}")
 
         with io.open(path, "r", encoding="utf-8") as f:
             nb = nbformat.read(f, as_version=4)
@@ -40,8 +45,11 @@ def notebook():
                         exec(cell_code, mod.__dict__)
         return mod
 
+    # Specify the notebook name and functions/classes to import
     fullname = "converting-gpt-to-llama2"
     names = ["precompute_rope_params", "compute_rope", "SiLU", "RMSNorm"]
+
+    # Import the required functions and classes from the notebook
     return import_definitions_from_notebook(fullname, names)
 
 

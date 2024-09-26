@@ -105,6 +105,7 @@ def test_silu(notebook):
     assert torch.allclose(silu(example_batch), torch.nn.functional.silu(example_batch))
 
 
+@pytest.mark.skipif(torch.__version__ < "2.4", reason="Requires PyTorch 2.4 or newer")
 def test_rmsnorm(notebook):
     example_batch = torch.randn(2, 3, 4)
     rms_norm = notebook.RMSNorm(emb_dim=example_batch.shape[-1])

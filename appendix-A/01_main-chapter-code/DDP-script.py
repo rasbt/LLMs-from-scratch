@@ -30,10 +30,13 @@ def ddp_setup(rank, world_size):
     os.environ["MASTER_ADDR"] = "localhost"
     # any free port on the machine
     os.environ["MASTER_PORT"] = "12345"
+    # Disable libuv because PyTorch for Windows  isn't built with support
+    os.environ["USE_LIBUV"] = "0"
 
     # initialize process group
     # Windows users may have to use "gloo" instead of "nccl" as backend
     # nccl: NVIDIA Collective Communication Library
+    # gloo: Facebook Collective Communication Library
     init_process_group(backend="nccl", rank=rank, world_size=world_size)
     torch.cuda.set_device(rank)
 

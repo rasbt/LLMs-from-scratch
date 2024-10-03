@@ -35,8 +35,9 @@ ch05/01_main-chapter-code/model.pth
 ch05/01_main-chapter-code/model_and_optimizer.pth
 ch05/03_bonus_pretraining_on_gutenberg/model_checkpoints
 ch05/06_user_interface/gpt2
-ch05/07_gpt_to_llama/models--meta-llama--Llama-2-7b
-ch05/07_gpt_to_llama/models--meta-llama--Llama-2-7b-chat
+ch05/07_gpt_to_llama/Llama-2-7b
+ch05/07_gpt_to_llama/Llama-2-7b-chat
+ch05/07_gpt_to_llama/.cache
 
 ch06/01_main-chapter-code/gpt2
 ch06/02_bonus_additional-experiments/gpt2

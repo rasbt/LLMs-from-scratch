@@ -117,6 +117,7 @@ Several folders contain optional materials as a bonus for interested readers:
   - [Optimizing Hyperparameters for Pretraining](ch05/05_bonus_hparam_tuning)
   - [Building a User Interface to Interact With the Pretrained LLM](ch05/06_user_interface)
   - [Converting GPT to Llama](ch05/07_gpt_to_llama)
+  - [Llama 3.2 From Scratch](ch05/07_gpt_to_llama/standalone-llama32.ipynb)
 - **Chapter 6:**
   - [Additional experiments finetuning different layers and using larger models](ch06/02_bonus_additional-experiments)
   - [Finetuning different models on 50k IMDB movie review dataset](ch06/03_bonus_imdb-classification)

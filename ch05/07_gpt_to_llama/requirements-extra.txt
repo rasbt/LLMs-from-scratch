@@ -1,2 +1,12 @@
-huggingface_hub>=0.24.7
-sentencepiece>=0.1.99
+	modified:   ../../README.md
+	modified:   README.md
+	modified:   converting-gpt-to-llama2.ipynb
+	modified:   requirements-extra.txt
+	modified:   ../README.md
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	converting-llama2-to-llama3.ipynb
+	llama3-files/
+	llama32-files/
+	standalone-llama32.ipynb

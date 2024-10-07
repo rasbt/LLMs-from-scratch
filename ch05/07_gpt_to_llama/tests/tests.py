@@ -108,6 +108,7 @@ def test_rope_llama3(notebook):
     )
 
     # Dummy query and key tensors
+    torch.manual_seed(123)
     queries = torch.randn(batch_size, num_heads, context_len, head_dim)
     keys = torch.randn(batch_size, num_heads, context_len, head_dim)
 
@@ -121,6 +122,69 @@ def test_rope_llama3(notebook):
         base=theta_base
     )
 
+    position_ids = torch.arange(context_len, dtype=torch.long).unsqueeze(0)
+    ref_cos, ref_sin = rot_emb(queries, position_ids)
+    ref_queries_rot, ref_keys_rot = apply_rotary_pos_emb(queries, keys, ref_cos, ref_sin)
+
+    torch.testing.assert_close(sin, ref_sin.squeeze(0))
+    torch.testing.assert_close(cos, ref_cos.squeeze(0))
+    torch.testing.assert_close(keys_rot, ref_keys_rot)
+    torch.testing.assert_close(queries_rot, ref_queries_rot)
+
+
+def test_rope_llama3_12():
+    # Settings
+    batch_size = 1
+    context_len = 8192
+    num_heads = 4
+    head_dim = 16
+    rope_theta = 50_000
+
+    rope_config = {
+        "factor": 8.0,
+        "low_freq_factor": 1.0,
+        "high_freq_factor": 4.0,
+        "original_context_length": 8192,
+    }
+
+    # Instantiate RoPE parameters
+    cos, sin = notebook.compute_rope(
+        head_dim=head_dim,
+        base=rope_theta,
+        context_length=context_len,
+        config=rope_config,
+    )
+
+    # Dummy query and key tensors
+    torch.manual_seed(123)
+    queries = torch.randn(batch_size, num_heads, context_len, head_dim)
+    keys = torch.randn(batch_size, num_heads, context_len, head_dim)
+
+    # Apply rotary position embeddings
+    queries_rot = notebook.compute_rope(queries, cos, sin)
+    keys_rot = notebook.compute_rope(keys, cos, sin)
+
+    hf_rope_params = {
+        "factor": 8.0,
+        "low_freq_factor": 1.0,
+        "high_freq_factor": 4.0,
+        "original_max_position_embeddings": 8192,
+        "rope_type": "llama3"
+    }
+
+    class RoPEConfig:
+        rope_type = "llama3"
+        rope_scaling = hf_rope_params
+        factor = 1.0
+        dim: int = head_dim
+        rope_theta = 50_000
+        max_position_embeddings: int = 8192
+        hidden_size = head_dim * num_heads
+        num_attention_heads = num_heads
+
+    config = RoPEConfig()
+
+    rot_emb = LlamaRotaryEmbedding(config=config)
     position_ids = torch.arange(context_len, dtype=torch.long).unsqueeze(0)
     ref_cos, ref_sin = rot_emb(queries, position_ids)
     ref_queries_rot, ref_keys_rot = apply_rotary_pos_emb(queries, keys, ref_cos, ref_sin)

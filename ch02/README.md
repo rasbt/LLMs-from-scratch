@@ -1,10 +1,11 @@
 # Chapter 2: Working with Text Data
 
-
+&nbsp;
 ## Main Chapter Code
 
 - [01_main-chapter-code](01_main-chapter-code) contains the main chapter code and exercise solutions
 
+&nbsp;
 ## Bonus Materials
 
 - [02_bonus_bytepair-encoder](02_bonus_bytepair-encoder) contains optional code to benchmark different byte pair encoder implementations

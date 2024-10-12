@@ -1,9 +1,11 @@
 # Chapter 5: Pretraining on Unlabeled Data
 
+&nbsp;
 ## Main Chapter Code
 
 - [01_main-chapter-code](01_main-chapter-code) contains the main chapter code
 
+&nbsp;
 ## Bonus Materials
 
 - [02_alternative_weight_loading](02_alternative_weight_loading) contains code to load the GPT model weights from alternative places in case the model weights become unavailable from OpenAI

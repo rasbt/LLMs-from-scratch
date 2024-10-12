@@ -1,9 +1,11 @@
 # Chapter 7: Finetuning to Follow Instructions
 
+&nbsp;
 ## Main Chapter Code
 
 - [01_main-chapter-code](01_main-chapter-code) contains the main chapter code and exercise solutions
 
+&nbsp;
 ## Bonus Materials
 
 - [02_dataset-utilities](02_dataset-utilities) contains utility code that can be used for preparing an instruction dataset

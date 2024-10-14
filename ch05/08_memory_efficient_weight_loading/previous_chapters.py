@@ -6,20 +6,15 @@
 # This file collects all the relevant code that we covered thus far
 # throughout Chapters 2-5.
 
-import json
-import os
-import urllib
 
-import numpy as np
-import tensorflow as tf
 import torch
 import torch.nn as nn
-from tqdm import tqdm
-
 
 #####################################
 # Chapter 3
 #####################################
+
+
 class MultiHeadAttention(nn.Module):
     def __init__(self, d_in, d_out, context_length, dropout, num_heads, qkv_bias=False):
         super().__init__()

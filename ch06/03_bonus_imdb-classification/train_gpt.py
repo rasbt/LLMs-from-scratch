@@ -183,8 +183,7 @@ def train_classifier_simple(model, train_loader, val_loader, optimizer, device, 
         for input_batch, target_batch in train_loader:
             optimizer.zero_grad()  # Reset loss gradients from previous batch iteration
             loss = calc_loss_batch(input_batch, target_batch, model, device,
-                                   trainable_token_pos=trainable_token_pos, average_embeddings=average_embeddings
-            )
+                                   trainable_token_pos=trainable_token_pos, average_embeddings=average_embeddings)
             loss.backward()  # Calculate loss gradients
             optimizer.step()  # Update model weights using loss gradients
             examples_seen += input_batch.shape[0]  # New: track examples instead of tokens

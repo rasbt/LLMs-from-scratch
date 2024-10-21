@@ -133,6 +133,8 @@ def main(rank, world_size, num_epochs):
     # the core model is now accessible as model.module
 
     for epoch in range(num_epochs):
+        # NEW: Set sampler to ensure each epoch has a different shuffle order
+        train_loader.sampler.set_epoch(epoch)
 
         model.train()
         for features, labels in train_loader:

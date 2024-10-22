@@ -111,7 +111,7 @@ def test_rope_llama3(notebook):
     context_len = 8192
     num_heads = 4
     head_dim = 16
-    theta_base = 50_000
+    theta_base = 500_000
 
     # Instantiate RoPE parameters
     cos, sin = nb2.precompute_rope_params(
@@ -155,7 +155,7 @@ def test_rope_llama3_12(notebook):
     context_len = 8192
     num_heads = 4
     head_dim = 16
-    rope_theta = 50_000
+    rope_theta = 500_000
 
     rope_config = {
         "factor": 8.0,
@@ -194,7 +194,7 @@ def test_rope_llama3_12(notebook):
         rope_scaling = hf_rope_params
         factor = 1.0
         dim: int = head_dim
-        rope_theta = 50_000
+        rope_theta = 500_000
         max_position_embeddings: int = 8192
         hidden_size = head_dim * num_heads
         num_attention_heads = num_heads

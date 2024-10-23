@@ -73,7 +73,7 @@ def litgpt_build_rope_cache(
 def litgpt_apply_rope(x: torch.Tensor, cos: torch.Tensor, sin: torch.Tensor) -> torch.Tensor:
     head_size = x.size(-1)
     x1 = x[..., : head_size // 2]  # (B, nh, T, hs/2)
-    x2 = x[..., head_size // 2 :]  # (B, nh, T, hs/2)
+    x2 = x[..., head_size // 2:]  # (B, nh, T, hs/2)
     rotated = torch.cat((-x2, x1), dim=-1)  # (B, nh, T, hs)
     if cos.dim() > 1:
         # batch dimensions must align
@@ -168,7 +168,7 @@ def test_rope_llama2(notebook):
     torch.testing.assert_close(cos, ref_cos.squeeze(0))
     torch.testing.assert_close(keys_rot, ref_keys_rot)
     torch.testing.assert_close(queries_rot, ref_queries_rot)
-    
+
     # Generate reference RoPE via LitGPT
     litgpt_cos, litgpt_sin = litgpt_build_rope_cache(context_len, n_elem=head_dim, base=10_000)
     litgpt_queries_rot = litgpt_apply_rope(queries, litgpt_cos, litgpt_sin)
@@ -178,7 +178,7 @@ def test_rope_llama2(notebook):
     torch.testing.assert_close(cos, litgpt_cos)
     torch.testing.assert_close(keys_rot, litgpt_keys_rot)
     torch.testing.assert_close(queries_rot, litgpt_queries_rot)
-    
+
 
 def test_rope_llama3(notebook):
 
@@ -223,7 +223,7 @@ def test_rope_llama3(notebook):
     torch.testing.assert_close(cos, ref_cos.squeeze(0))
     torch.testing.assert_close(keys_rot, ref_keys_rot)
     torch.testing.assert_close(queries_rot, ref_queries_rot)
-    
+
     # Generate reference RoPE via LitGPT
     litgpt_cos, litgpt_sin = litgpt_build_rope_cache(context_len, n_elem=head_dim, base=theta_base)
     litgpt_queries_rot = litgpt_apply_rope(queries, litgpt_cos, litgpt_sin)
@@ -233,7 +233,7 @@ def test_rope_llama3(notebook):
     torch.testing.assert_close(cos, litgpt_cos)
     torch.testing.assert_close(keys_rot, litgpt_keys_rot)
     torch.testing.assert_close(queries_rot, litgpt_queries_rot)
-    
+
 
 
 def test_rope_llama3_12(notebook):
@@ -302,7 +302,7 @@ def test_rope_llama3_12(notebook):
     torch.testing.assert_close(cos, ref_cos.squeeze(0))
     torch.testing.assert_close(keys_rot, ref_keys_rot)
     torch.testing.assert_close(queries_rot, ref_queries_rot)
-    
+
     # Generate reference RoPE via LitGPT
     litgpt_rope_config = {
         "factor": 8.0,
@@ -310,7 +310,7 @@ def test_rope_llama3_12(notebook):
         "high_freq_factor": 4.0,
         "original_max_seq_len": 8192
      }
-    
+
     litgpt_cos, litgpt_sin = litgpt_build_rope_cache(
         context_len, n_elem=head_dim, base=rope_theta, extra_config=litgpt_rope_config
     )

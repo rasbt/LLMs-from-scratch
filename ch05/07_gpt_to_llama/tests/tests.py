@@ -308,7 +308,7 @@ def test_rope_llama3_12(notebook):
         "low_freq_factor": 1.0,
         "high_freq_factor": 4.0,
         "original_max_seq_len": 8192
-     }
+    }
 
     litgpt_cos, litgpt_sin = litgpt_build_rope_cache(
         context_len,

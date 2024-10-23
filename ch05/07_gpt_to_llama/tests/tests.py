@@ -161,11 +161,9 @@ def test_rope_llama2(notebook):
         max_position_embeddings=context_len,
         base=10_000
     )
-    
     position_ids = torch.arange(context_len, dtype=torch.long).unsqueeze(0)
     ref_cos, ref_sin = rot_emb(queries, position_ids)
     ref_queries_rot, ref_keys_rot = apply_rotary_pos_emb(queries, keys, ref_cos, ref_sin)
-    
     torch.testing.assert_close(sin, ref_sin.squeeze(0))
     torch.testing.assert_close(cos, ref_cos.squeeze(0))
     torch.testing.assert_close(keys_rot, ref_keys_rot)

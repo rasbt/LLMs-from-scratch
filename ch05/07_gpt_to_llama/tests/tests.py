@@ -235,7 +235,6 @@ def test_rope_llama3(notebook):
     torch.testing.assert_close(queries_rot, litgpt_queries_rot)
 
 
-
 def test_rope_llama3_12(notebook):
 
     nb1 = notebook["converting-gpt-to-llama2"]
@@ -312,7 +311,10 @@ def test_rope_llama3_12(notebook):
      }
 
     litgpt_cos, litgpt_sin = litgpt_build_rope_cache(
-        context_len, n_elem=head_dim, base=rope_theta, extra_config=litgpt_rope_config
+        context_len,
+        n_elem=head_dim,
+        base=rope_theta,
+        extra_config=litgpt_rope_config
     )
     litgpt_queries_rot = litgpt_apply_rope(queries, litgpt_cos, litgpt_sin)
     litgpt_keys_rot = litgpt_apply_rope(keys, litgpt_cos, litgpt_sin)

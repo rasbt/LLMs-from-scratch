@@ -1,2 +1,2 @@
+pytest>=8.1.1
 transformers>=4.44.2
-litgpt>=0.5.0

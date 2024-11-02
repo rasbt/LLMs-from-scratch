@@ -17,6 +17,12 @@ keywords:
   - machine learning
   - deep learning
 type: book
-publisher: "Manning"
-isbn: "978-1633437166"
-year: 2024
+references:
+  - title: "Build A Large Language Model (From Scratch)"
+    date-released: 2024-09-12
+    authors:
+      - family-names: "Raschka"
+        given-names: "Sebastian"
+    publisher: "Manning"
+    type: book
+    isbn: "978-1633437166"

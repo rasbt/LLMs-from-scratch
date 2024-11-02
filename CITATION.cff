@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this book or its accompanying code, please cite it as follows."
-title: "Build A Large Language Model (From Scratch)"
+title: "Build A Large Language Model (From Scratch), Published by Manning, ISBN 978-1633437166"
 abstract: "This book provides a comprehensive, step-by-step guide to implementing a ChatGPT-like large language model from scratch in PyTorch."
 date-released: 2024-09-12
 authors:
@@ -16,13 +16,3 @@ keywords:
   - PyTorch
   - machine learning
   - deep learning
-type: book
-references:
-  - title: "Build A Large Language Model (From Scratch)"
-    date-released: 2024-09-12
-    authors:
-      - family-names: "Raschka"
-        given-names: "Sebastian"
-    publisher: "Manning"
-    type: book
-    isbn: "978-1633437166"

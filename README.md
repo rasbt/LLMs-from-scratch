@@ -101,16 +101,16 @@ Several folders contain optional materials as a bonus for interested readers:
   - [Python Setup Tips](setup/01_optional-python-setup-preferences)
   - [Installing Python Packages and Libraries Used In This Book](setup/02_installing-python-libraries)
   - [Docker Environment Setup Guide](setup/03_optional-docker-environment)
-- **Chapter 2:**
+- **Chapter 2: Working with text data**
   - [Comparing Various Byte Pair Encoding (BPE) Implementations](ch02/02_bonus_bytepair-encoder)
   - [Understanding the Difference Between Embedding Layers and Linear Layers](ch02/03_bonus_embedding-vs-matmul)
   - [Dataloader Intuition with Simple Numbers](ch02/04_bonus_dataloader-intuition)
-- **Chapter 3:**
+- **Chapter 3: Coding attention mechanisms**
   - [Comparing Efficient Multi-Head Attention Implementations](ch03/02_bonus_efficient-multihead-attention/mha-implementations.ipynb)
   - [Understanding PyTorch Buffers](ch03/03_understanding-buffers/understanding-buffers.ipynb)
-- **Chapter 4:**
+- **Chapter 4: Implementing a GPT model from scratch**
   - [FLOPS Analysis](ch04/02_performance-analysis/flops-analysis.ipynb)
-- **Chapter 5:**
+- **Chapter 5: Pretraining on unlabeled data:**
   - [Alternative Weight Loading from Hugging Face Model Hub using Transformers](ch05/02_alternative_weight_loading/weight-loading-hf-transformers.ipynb)
   - [Pretraining GPT on the Project Gutenberg Dataset](ch05/03_bonus_pretraining_on_gutenberg)
   - [Adding Bells and Whistles to the Training Loop](ch05/04_learning_rate_schedulers)
@@ -119,11 +119,11 @@ Several folders contain optional materials as a bonus for interested readers:
   - [Converting GPT to Llama](ch05/07_gpt_to_llama)
   - [Llama 3.2 From Scratch](ch05/07_gpt_to_llama/standalone-llama32.ipynb)
   - [Memory-efficient Model Weight Loading](ch05/08_memory_efficient_weight_loading/memory-efficient-state-dict.ipynb)
-- **Chapter 6:**
+- **Chapter 6: Finetuning for classification**
   - [Additional experiments finetuning different layers and using larger models](ch06/02_bonus_additional-experiments)
   - [Finetuning different models on 50k IMDB movie review dataset](ch06/03_bonus_imdb-classification)
   - [Building a User Interface to Interact With the GPT-based Spam Classifier](ch06/04_user_interface)
-- **Chapter 7:**
+- **Chapter 7: Finetuning to follow instructions**
   - [Dataset Utilities for Finding Near Duplicates and Creating Passive Voice Entries](ch07/02_dataset-utilities)
   - [Evaluating Instruction Responses Using the OpenAI API and Ollama](ch07/03_model-evaluation)
   - [Generating a Dataset for Instruction Finetuning](ch07/05_dataset-generation/llama3-ollama.ipynb)

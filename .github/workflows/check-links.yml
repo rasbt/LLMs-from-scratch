@@ -29,6 +29,6 @@ jobs:
 
     - name: Check links
       run: |
-        pytest --check-links ./ --check-links-ignore "https://platform.openai.com/*" --check-links-ignore "https://openai.com/*" --check-links-ignore "https://arena.lmsys.org" --check-links-ignore "https://www.reddit.com/r/*" --check-links-ignore "https://code.visualstudio.com/*" --check-links-ignore https://arxiv.org/* --check-links-ignore "https://ai.stanford.edu/~amaas/data/sentiment/"
+        pytest --check-links ./ --check-links-ignore "https://platform.openai.com/*" --check-links-ignore "https://openai.com/*" --check-links-ignore "https://arena.lmsys.org" --check-links-ignore https://unsloth.ai/blog/gradient --check-links-ignore "https://www.reddit.com/r/*" --check-links-ignore "https://code.visualstudio.com/*" --check-links-ignore https://arxiv.org/* --check-links-ignore "https://ai.stanford.edu/~amaas/data/sentiment/"
         # pytest --check-links ./ --check-links-ignore "https://platform.openai.com/*" --check-links-ignore "https://arena.lmsys.org" --retries 2 --retry-delay 5
 

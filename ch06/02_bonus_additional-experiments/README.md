@@ -52,7 +52,7 @@ You can use the following code to reproduce the experiments:
 - Row 13: `python additional_experiments.py --context_length "model_context_length"`
 - Row 14: `python additional_experiments.py --no_padding --batch_size 1`
 - Row 15: `python additional_experiments.py --no_padding --batch_size 1 --accumulation_steps 8`
-- Row 16: `python additional_experiments.py --last_token_pos "flexible"`
+- Row 16: `python additional_experiments.py --trainable_token_pos "flexible"`
 - Row 17: `python additional_experiments.py --disable_causal_mask`
 - Row 18: `python additional_experiments.py --ignore_index 50256`
 - Row 19: `python additional_experiments.py --average embeddings`

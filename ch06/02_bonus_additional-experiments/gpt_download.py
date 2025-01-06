@@ -23,6 +23,7 @@ def download_and_load_gpt2(model_size, models_dir):
     # Define paths
     model_dir = os.path.join(models_dir, model_size)
     base_url = "https://openaipublic.blob.core.windows.net/gpt-2/models"
+    backup_base_url = "https://f001.backblazeb2.com/file/LLMs-from-scratch/gpt2"
     filenames = [
         "checkpoint", "encoder.json", "hparams.json",
         "model.ckpt.data-00000-of-00001", "model.ckpt.index",
@@ -33,8 +34,9 @@ def download_and_load_gpt2(model_size, models_dir):
     os.makedirs(model_dir, exist_ok=True)
     for filename in filenames:
         file_url = os.path.join(base_url, model_size, filename)
+        backup_url = os.path.join(backup_base_url, model_size, filename)
         file_path = os.path.join(model_dir, filename)
-        download_file(file_url, file_path)
+        download_file(file_url, file_path, backup_url)
 
     # Load settings and params
     tf_ckpt_path = tf.train.latest_checkpoint(model_dir)
@@ -44,11 +46,9 @@ def download_and_load_gpt2(model_size, models_dir):
     return settings, params
 
 
-def download_file(url, destination):
-    # Send a GET request to download the file
-
-    try:
-        with urllib.request.urlopen(url) as response:
+def download_file(url, destination, backup_url=None):
+    def _attempt_download(download_url):
+        with urllib.request.urlopen(download_url) as response:
             # Get the total file size from headers, defaulting to 0 if not present
             file_size = int(response.headers.get("Content-Length", 0))
 
@@ -57,29 +57,44 @@ def download_file(url, destination):
                 file_size_local = os.path.getsize(destination)
                 if file_size == file_size_local:
                     print(f"File already exists and is up-to-date: {destination}")
-                    return
+                    return True  # Indicate success without re-downloading
 
-            # Define the block size for reading the file
             block_size = 1024  # 1 Kilobyte
 
             # Initialize the progress bar with total file size
-            progress_bar_description = os.path.basename(url)  # Extract filename from URL
+            progress_bar_description = os.path.basename(download_url)
             with tqdm(total=file_size, unit="iB", unit_scale=True, desc=progress_bar_description) as progress_bar:
-                # Open the destination file in binary write mode
                 with open(destination, "wb") as file:
-                    # Read the file in chunks and write to destination
                     while True:
                         chunk = response.read(block_size)
                         if not chunk:
                             break
                         file.write(chunk)
-                        progress_bar.update(len(chunk))  # Update progress bar
-    except urllib.error.HTTPError:
-        s = (
-            f"The specified URL ({url}) is incorrect, the internet connection cannot be established,"
-            "\nor the requested file is temporarily unavailable.\nPlease visit the following website"
-            " for help: https://github.com/rasbt/LLMs-from-scratch/discussions/273")
-        print(s)
+                        progress_bar.update(len(chunk))
+            return True
+
+    try:
+        if _attempt_download(url):
+            return
+    except (urllib.error.HTTPError, urllib.error.URLError):
+        if backup_url is not None:
+            print(f"Primary URL ({url}) failed. Attempting backup URL: {backup_url}")
+            try:
+                if _attempt_download(backup_url):
+                    return
+            except urllib.error.HTTPError:
+                pass
+
+        # If we reach here, both attempts have failed
+        error_message = (
+            f"Failed to download from both primary URL ({url})"
+            f"{' and backup URL (' + backup_url + ')' if backup_url else ''}."
+            "\nCheck your internet connection or the file availability.\n"
+            "For help, visit: https://github.com/rasbt/LLMs-from-scratch/discussions/273"
+        )
+        print(error_message)
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
 
 
 # Alternative way using `requests`

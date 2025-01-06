@@ -63,36 +63,39 @@ def check_file_size(url, expected_size):
 
 
 def test_model_files():
-    base_url = "https://openaipublic.blob.core.windows.net/gpt-2/models"
+    def check_model_files(base_url):
 
-    model_size = "124M"
-    files = {
-        "checkpoint": 77,
-        "encoder.json": 1042301,
-        "hparams.json": 90,
-        "model.ckpt.data-00000-of-00001": 497759232,
-        "model.ckpt.index": 5215,
-        "model.ckpt.meta": 471155,
-        "vocab.bpe": 456318
-    }
+        model_size = "124M"
+        files = {
+            "checkpoint": 77,
+            "encoder.json": 1042301,
+            "hparams.json": 90,
+            "model.ckpt.data-00000-of-00001": 497759232,
+            "model.ckpt.index": 5215,
+            "model.ckpt.meta": 471155,
+            "vocab.bpe": 456318
+        }
 
-    for file_name, expected_size in files.items():
-        url = f"{base_url}/{model_size}/{file_name}"
-        valid, message = check_file_size(url, expected_size)
-        assert valid, message
+        for file_name, expected_size in files.items():
+            url = f"{base_url}/{model_size}/{file_name}"
+            valid, message = check_file_size(url, expected_size)
+            assert valid, message
 
-    model_size = "355M"
-    files = {
-        "checkpoint": 77,
-        "encoder.json": 1042301,
-        "hparams.json": 91,
-        "model.ckpt.data-00000-of-00001": 1419292672,
-        "model.ckpt.index": 10399,
-        "model.ckpt.meta": 926519,
-        "vocab.bpe": 456318
-    }
+        model_size = "355M"
+        files = {
+            "checkpoint": 77,
+            "encoder.json": 1042301,
+            "hparams.json": 91,
+            "model.ckpt.data-00000-of-00001": 1419292672,
+            "model.ckpt.index": 10399,
+            "model.ckpt.meta": 926519,
+            "vocab.bpe": 456318
+        }
 
-    for file_name, expected_size in files.items():
-        url = f"{base_url}/{model_size}/{file_name}"
-        valid, message = check_file_size(url, expected_size)
-        assert valid, message
+        for file_name, expected_size in files.items():
+            url = f"{base_url}/{model_size}/{file_name}"
+            valid, message = check_file_size(url, expected_size)
+            assert valid, message
+
+    check_model_files(base_url="https://openaipublic.blob.core.windows.net/gpt-2/models")
+    check_model_files(base_url="https://f001.backblazeb2.com/file/LLMs-from-scratch/gpt2")

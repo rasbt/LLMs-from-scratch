@@ -20,8 +20,10 @@ from transformers.models.llama.modeling_llama import LlamaRotaryEmbedding, apply
 
 transformers_version = transformers.__version__
 
-# LitGPT code from https://github.com/Lightning-AI/litgpt/blob/main/litgpt/model.py
+# LitGPT code function `litgpt_build_rope_cache` from https://github.com/Lightning-AI/litgpt/blob/main/litgpt/model.py
 # LitGPT is licensed under Apache v2: https://github.com/Lightning-AI/litgpt/blob/main/LICENSE
+
+
 def litgpt_build_rope_cache(
     seq_len: int,
     n_elem: int,

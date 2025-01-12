@@ -10,14 +10,20 @@ import os
 import sys
 import types
 import nbformat
+from packaging import version
 from typing import Optional, Tuple
 import torch
 import pytest
+import transformers
 from transformers.models.llama.modeling_llama import LlamaRotaryEmbedding, apply_rotary_pos_emb
 
 
-# LitGPT code from https://github.com/Lightning-AI/litgpt/blob/main/litgpt/model.py
+transformers_version = transformers.__version__
+
+# LitGPT code function `litgpt_build_rope_cache` from https://github.com/Lightning-AI/litgpt/blob/main/litgpt/model.py
 # LitGPT is licensed under Apache v2: https://github.com/Lightning-AI/litgpt/blob/main/LICENSE
+
+
 def litgpt_build_rope_cache(
     seq_len: int,
     n_elem: int,
@@ -143,6 +149,7 @@ def test_rope_llama2(notebook):
     context_len = 4096
     num_heads = 4
     head_dim = 16
+    theta_base = 10_000
 
     # Instantiate RoPE parameters
     cos, sin = this_nb.precompute_rope_params(head_dim=head_dim, context_length=context_len)
@@ -156,11 +163,24 @@ def test_rope_llama2(notebook):
     keys_rot = this_nb.compute_rope(keys, cos, sin)
 
     # Generate reference RoPE via HF
-    rot_emb = LlamaRotaryEmbedding(
-        dim=head_dim,
-        max_position_embeddings=context_len,
-        base=10_000
-    )
+
+    if version.parse(transformers_version) < version.parse("4.48"):
+        rot_emb = LlamaRotaryEmbedding(
+            dim=head_dim,
+            max_position_embeddings=context_len,
+            base=theta_base
+        )
+    else:
+        class RoPEConfig:
+            dim: int = head_dim
+            rope_theta = theta_base
+            max_position_embeddings: int = 8192
+            hidden_size = head_dim * num_heads
+            num_attention_heads = num_heads
+
+        config = RoPEConfig()
+        rot_emb = LlamaRotaryEmbedding(config=config)
+
     position_ids = torch.arange(context_len, dtype=torch.long).unsqueeze(0)
     ref_cos, ref_sin = rot_emb(queries, position_ids)
     ref_queries_rot, ref_keys_rot = apply_rotary_pos_emb(queries, keys, ref_cos, ref_sin)
@@ -209,11 +229,22 @@ def test_rope_llama3(notebook):
     keys_rot = nb1.compute_rope(keys, cos, sin)
 
     # Generate reference RoPE via HF
-    rot_emb = LlamaRotaryEmbedding(
-        dim=head_dim,
-        max_position_embeddings=context_len,
-        base=theta_base
-    )
+    if version.parse(transformers_version) < version.parse("4.48"):
+        rot_emb = LlamaRotaryEmbedding(
+            dim=head_dim,
+            max_position_embeddings=context_len,
+            base=theta_base
+        )
+    else:
+        class RoPEConfig:
+            dim: int = head_dim
+            rope_theta = theta_base
+            max_position_embeddings: int = 8192
+            hidden_size = head_dim * num_heads
+            num_attention_heads = num_heads
+
+        config = RoPEConfig()
+        rot_emb = LlamaRotaryEmbedding(config=config)
 
     position_ids = torch.arange(context_len, dtype=torch.long).unsqueeze(0)
     ref_cos, ref_sin = rot_emb(queries, position_ids)

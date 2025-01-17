@@ -102,6 +102,7 @@ Several folders contain optional materials as a bonus for interested readers:
   - [Installing Python Packages and Libraries Used In This Book](setup/02_installing-python-libraries)
   - [Docker Environment Setup Guide](setup/03_optional-docker-environment)
 - **Chapter 2: Working with text data**
+  - [Byte Pair Encoding (BPE) Tokenizer From Scratch](ch02/05_bpe-from-scratch/bpe-from-scratch.ipynb)
   - [Comparing Various Byte Pair Encoding (BPE) Implementations](ch02/02_bonus_bytepair-encoder)
   - [Understanding the Difference Between Embedding Layers and Linear Layers](ch02/03_bonus_embedding-vs-matmul)
   - [Dataloader Intuition with Simple Numbers](ch02/04_bonus_dataloader-intuition)

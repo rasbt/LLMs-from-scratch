@@ -25,7 +25,7 @@ This CloudFormation template creates a GPU-enabled Jupyter notebook in Amazon Sa
 
 ## Key Points:
 
-- The template creates a GPU-enabled (ml.g4dn.xlarge) notebook instance with 50GB of storage.
+- The template creates a GPU-enabled (`ml.g4dn.xlarge`) notebook instance with 50GB of storage.
 - It sets up a custom Miniconda environment with TensorFlow 2.15.0 and PyTorch 2.1.0, both with CUDA support.
 - The custom environment is registered as a Jupyter kernel, making it available for use in the notebook.
 - The template also creates a KMS key for encrypting the notebook instance and an IAM role with the necessary permissions.

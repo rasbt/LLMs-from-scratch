@@ -1,0 +1,167 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'CloudFormation template to create a GPU-enabled Jupyter notebook in SageMaker with an execution role and 
+LLMs-from-scratch Repo'
+
+Parameters:
+  NotebookName:
+    Type: String
+    Default: 'LLMsFromScratchNotebook'
+  DefaultRepoUrl:
+    Type: String
+    Default: 'https://github.com/rasbt/LLMs-from-scratch.git'
+
+Resources:
+  SageMakerExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - sagemaker.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSageMakerFullAccess
+        - arn:aws:iam::aws:policy/AmazonBedrockFullAccess
+
+  KmsKey:
+    Type: AWS::KMS::Key
+    Properties:
+      Description: 'KMS key for SageMaker notebook'
+      KeyPolicy:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: !Sub 'arn:aws:iam::${AWS::AccountId}:root'
+            Action: 'kms:*'
+            Resource: '*'
+      EnableKeyRotation: true
+
+  KmsKeyAlias:
+    Type: AWS::KMS::Alias
+    Properties:
+      AliasName: !Sub 'alias/${NotebookName}-kms-key'
+      TargetKeyId: !Ref KmsKey
+
+  TensorConfigLifecycle:
+    Type: AWS::SageMaker::NotebookInstanceLifecycleConfig
+    Properties:
+      NotebookInstanceLifecycleConfigName: "TensorConfigv241128"
+      OnCreate:
+        - Content: !Base64 |
+            #!/bin/bash
+            set -e
+
+            # Create a startup script that will run in the background
+            cat << 'EOF' > /home/ec2-user/SageMaker/setup-environment.sh
+            #!/bin/bash
+            
+            sudo -u ec2-user -i <<'INNEREOF'
+            unset SUDO_UID
+
+            # Install a separate conda installation via Miniconda
+            WORKING_DIR=/home/ec2-user/SageMaker/custom-miniconda
+            mkdir -p "$WORKING_DIR"
+            wget https://repo.anaconda.com/miniconda/Miniconda3-4.7.12.1-Linux-x86_64.sh -O "$WORKING_DIR/miniconda.sh"
+            bash "$WORKING_DIR/miniconda.sh" -b -u -p "$WORKING_DIR/miniconda" 
+            rm -rf "$WORKING_DIR/miniconda.sh"
+
+            # Ensure we're using the Miniconda conda
+            export PATH="$WORKING_DIR/miniconda/bin:$PATH"
+
+            # Initialize conda
+            "$WORKING_DIR/miniconda/bin/conda" init bash
+            source ~/.bashrc
+
+            # Create and activate environment
+            KERNEL_NAME="tensorflow2_p39"
+            PYTHON="3.9"
+            "$WORKING_DIR/miniconda/bin/conda" create --yes --name "$KERNEL_NAME" python="$PYTHON"
+            eval "$("$WORKING_DIR/miniconda/bin/conda" shell.bash activate "$KERNEL_NAME")"
+
+            # Install CUDA toolkit and cuDNN
+            "$WORKING_DIR/miniconda/bin/conda" install --yes cudatoolkit=11.8 cudnn
+
+            # Install ipykernel
+            "$WORKING_DIR/miniconda/envs/$KERNEL_NAME/bin/pip" install --quiet ipykernel
+
+            # Install PyTorch with CUDA support
+            "$WORKING_DIR/miniconda/envs/$KERNEL_NAME/bin/pip3" install torch==2.1.0 torchvision==0.16.0 torchaudio==2.1.0 --index-url https://download.pytorch.org/whl/cu118
+
+            # Install other packages
+            "$WORKING_DIR/miniconda/envs/tensorflow2_p39/bin/pip" install tensorflow[gpu]
+            "$WORKING_DIR/miniconda/bin/conda" install --yes tensorflow-gpu
+            "$WORKING_DIR/miniconda/envs/tensorflow2_p39/bin/pip" install tensorflow==2.15.0
+            "$WORKING_DIR/miniconda/bin/conda" install --yes setuptools tiktoken tqdm numpy pandas psutil
+
+            "$WORKING_DIR/miniconda/bin/conda" install -y jupyterlab==4.0
+            "$WORKING_DIR/miniconda/envs/tensorflow2_p39/bin/pip" install matplotlib==3.7.1
+
+            # Create a flag file to indicate setup is complete
+            touch /home/ec2-user/SageMaker/setup-complete
+
+            INNEREOF
+            EOF
+
+            # Make the script executable and run it in the background
+            chmod +x /home/ec2-user/SageMaker/setup-environment.sh
+            sudo -u ec2-user nohup /home/ec2-user/SageMaker/setup-environment.sh > /home/ec2-user/SageMaker/setup.log 2>&1 &
+
+      OnStart:
+        - Content: !Base64 |
+            #!/bin/bash
+            set -e
+
+            # Check if setup is still running or not started
+            if ! [ -f /home/ec2-user/SageMaker/setup-complete ]; then
+                echo "Setup still in progress or not started. Check setup.log for details."
+                exit 0
+            fi
+
+            sudo -u ec2-user -i <<'EOF'
+            unset SUDO_UID
+
+            WORKING_DIR=/home/ec2-user/SageMaker/custom-miniconda
+            source "$WORKING_DIR/miniconda/bin/activate"
+
+            for env in $WORKING_DIR/miniconda/envs/*; do
+                BASENAME=$(basename "$env")
+                source activate "$BASENAME"
+                python -m ipykernel install --user --name "$BASENAME" --display-name "Custom ($BASENAME)"
+            done
+            EOF
+
+            echo "Restarting the Jupyter server.."
+            CURR_VERSION=$(cat /etc/os-release)
+            if [[ $CURR_VERSION == *$"http://aws.amazon.com/amazon-linux-ami/"* ]]; then
+                sudo initctl restart jupyter-server --no-wait
+            else
+                sudo systemctl --no-block restart jupyter-server.service
+            fi
+
+  SageMakerNotebookInstance:
+    Type: AWS::SageMaker::NotebookInstance
+    Properties:
+      InstanceType: ml.g4dn.xlarge
+      NotebookInstanceName: !Ref NotebookName
+      RoleArn: !GetAtt SageMakerExecutionRole.Arn
+      DefaultCodeRepository: !Ref DefaultRepoUrl
+      KmsKeyId: !GetAtt KmsKey.Arn
+      PlatformIdentifier: notebook-al2-v2
+      VolumeSizeInGB: 50
+      LifecycleConfigName: !GetAtt TensorConfigLifecycle.NotebookInstanceLifecycleConfigName
+
+Outputs:
+  NotebookInstanceName:
+    Description: The name of the created SageMaker Notebook Instance
+    Value: !Ref SageMakerNotebookInstance
+  ExecutionRoleArn:
+    Description: The ARN of the created SageMaker Execution Role
+    Value: !GetAtt SageMakerExecutionRole.Arn
+  KmsKeyArn:
+    Description: The ARN of the created KMS Key for the notebook
+    Value: !GetAtt KmsKey.Arn

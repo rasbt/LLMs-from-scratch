@@ -101,6 +101,13 @@ ch07/02_dataset-utilities/instruction-examples-modified.json
 ch07/04_preference-tuning-with-dpo/gpt2-medium355M-sft.pth
 ch07/04_preference-tuning-with-dpo/loss-plot.pdf
 
+# Tokenizer files
+ch02/05_bpe-from-scratch/bpe_merges.txt
+ch02/05_bpe-from-scratch/encoder.json
+ch02/05_bpe-from-scratch/vocab.bpe
+ch02/05_bpe-from-scratch/vocab.json
+
+
 # Other
 ch0?/0?_user_interface/.chainlit/
 ch0?/0?_user_interface/chainlit.md

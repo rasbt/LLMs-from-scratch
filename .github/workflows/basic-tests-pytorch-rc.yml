@@ -1,5 +1,4 @@
-name: Code tests (PyTorch RC)
-
+name: Test latest PyTorch release candidate
 on:
   push:
     branches: [ main ]

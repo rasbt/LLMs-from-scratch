@@ -1,4 +1,4 @@
-name: Code tests (Linux)
+name: Code tests (PyTorch RC)
 
 on:
   push:
@@ -36,6 +36,7 @@ jobs:
         pip install pytest nbval
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
+        pip install torch==2.6.0 torchvision --index-url https://download.pytorch.org/whl/test/cpu
 
     - name: Test Selected Python Scripts
       run: |

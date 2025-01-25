@@ -541,7 +541,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--exercise_solution",
         type=str,
-        default="last_block",
+        default="baseline",
         help=(
             f"Which experiment to run. Options: {options}."
         )

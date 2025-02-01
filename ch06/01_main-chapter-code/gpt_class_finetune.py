@@ -132,6 +132,9 @@ class SpamDataset(Dataset):
             if encoded_length > max_length:
                 max_length = encoded_length
         return max_length
+        # Note: A more pythonic version to implement this method
+        # is the following, which is also used in the next chapter:
+        # return max(len(encoded_text) for encoded_text in self.encoded_texts)
 
 
 def calc_accuracy_loader(data_loader, model, device, num_batches=None):

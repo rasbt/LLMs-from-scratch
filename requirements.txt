@@ -1,4 +1,4 @@
-torch >= 2.1.0        # all
+torch >= 2.2.0        # all
 jupyterlab >= 4.0     # all
 tiktoken >= 0.5.1     # ch02; ch04; ch05
 matplotlib >= 3.7.1   # ch04; ch05

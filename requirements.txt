@@ -4,6 +4,5 @@ tiktoken >= 0.5.1     # ch02; ch04; ch05
 matplotlib >= 3.7.1   # ch04; ch05
 tensorflow >= 2.18.0  # ch05
 tqdm >= 4.66.1        # ch05; ch07
-numpy >= 2.0.2        # dependency of several other libraries like torch and pandas
 pandas >= 2.2.1       # ch06
 psutil >= 5.9.5       # ch07; already installed automatically as dependency of torch

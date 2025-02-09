@@ -38,7 +38,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install pytest nbval
         pip install torch==${{ matrix.pytorch-version }}
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        pip install -r requirements.txt
         pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
 
     - name: Test Selected Python Scripts

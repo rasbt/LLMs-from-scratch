@@ -12,7 +12,6 @@ from torch.utils.data import Dataset, DataLoader
 # NEW imports:
 import os
 import platform
-import torch.multiprocessing as mp
 from torch.utils.data.distributed import DistributedSampler
 from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.distributed import init_process_group, destroy_process_group
@@ -26,11 +25,11 @@ def ddp_setup(rank, world_size):
         rank: a unique process ID
         world_size: total number of processes in the group
     """
-    # rank of machine running rank:0 process
-    # here, we assume all GPUs are on the same machine
-    os.environ["MASTER_ADDR"] = "localhost"
-    # any free port on the machine
-    os.environ["MASTER_PORT"] = "12345"
+    # Only set MASTER_ADDR and MASTER_PORT if not already defined by torchrun
+    if "MASTER_ADDR" not in os.environ:
+        os.environ["MASTER_ADDR"] = "localhost"
+    if "MASTER_PORT" not in os.environ:
+        os.environ["MASTER_PORT"] = "12345"
 
     # initialize process group
     if platform.system() == "Windows":
@@ -171,7 +170,7 @@ def main(rank, world_size, num_epochs):
     except ZeroDivisionError as e:
         raise ZeroDivisionError(
             f"{e}\n\nThis script is designed for 2 GPUs. You can run it as:\n"
-            "CUDA_VISIBLE_DEVICES=0,1 python DDP-script.py\n"
+            "torchrun --nproc_per_node=2 DDP-script-torchrun.py\n"
             f"Or, to run it on {torch.cuda.device_count()} GPUs, uncomment the code on lines 103 to 107."
         )
     ####################################################
@@ -197,16 +196,25 @@ def compute_accuracy(model, dataloader, device):
 
 
 if __name__ == "__main__":
-    # This script may not work for GPUs > 2 due to the small dataset
-    # Run `CUDA_VISIBLE_DEVICES=0,1 python DDP-script.py` if you have GPUs > 2
-    print("PyTorch version:", torch.__version__)
-    print("CUDA available:", torch.cuda.is_available())
-    print("Number of GPUs available:", torch.cuda.device_count())
-    torch.manual_seed(123)
+    # NEW: Use environment variables set by torchrun if available, otherwise default to single-process.
+    if "WORLD_SIZE" in os.environ:
+        world_size = int(os.environ["WORLD_SIZE"])
+    else:
+        world_size = 1
 
-    # NEW: spawn new processes
-    # note that spawn will automatically pass the rank
+    if "LOCAL_RANK" in os.environ:
+        rank = int(os.environ["LOCAL_RANK"])
+    elif "RANK" in os.environ:
+        rank = int(os.environ["RANK"])
+    else:
+        rank = 0
+
+    # Only print on rank 0 to avoid duplicate prints from each GPU process
+    if rank == 0:
+        print("PyTorch version:", torch.__version__)
+        print("CUDA available:", torch.cuda.is_available())
+        print("Number of GPUs available:", torch.cuda.device_count())
+
+    torch.manual_seed(123)
     num_epochs = 3
-    world_size = torch.cuda.device_count()
-    mp.spawn(main, args=(world_size, num_epochs), nprocs=world_size)
-    # nprocs=world_size spawns one process per GPU
+    main(rank, world_size, num_epochs)

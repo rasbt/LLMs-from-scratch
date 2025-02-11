@@ -179,6 +179,8 @@ def compute_accuracy(model, dataloader, device):
 
 
 if __name__ == "__main__":
+    # This script may not work for GPUs > 2 due to the small dataset
+    # Run `CUDA_VISIBLE_DEVICES=0,1 python DDP-script.py` if you have GPUs > 2
     print("PyTorch version:", torch.__version__)
     print("CUDA available:", torch.cuda.is_available())
     print("Number of GPUs available:", torch.cuda.device_count())

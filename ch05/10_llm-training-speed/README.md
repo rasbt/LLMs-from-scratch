@@ -17,12 +17,13 @@ I plan to expand on the differences in a more detailed write-up sometime in the 
 ![VS compare](https://sebastianraschka.com/images/LLMs-from-scratch-images/bonus/llm-training-speed/vs-code-compare.png)
 
 
-
+&nbsp;
 ## Single GPU speed comparisons
 
 As mentioned above, I plan to elaborate more on the changes in the future. For now, this section contains a simple performance overview in terms of tokens/second for each modification. All experiments were run on A100 GPUs.
 
-#### Baseline
+&nbsp;
+### Baseline
 
 Note that `00_orig.py` servers as the baseline and contains no significant modification and uses the code from Chapter 5 as is besides the following:
 
@@ -59,8 +60,8 @@ Note that `01_opt_single_gpu.py` contains all the modifications listed sequentia
 
 The comparison is always based on the average tok/sec and allocated memory after the first epoch from the previous section.
 
-
-#### 1. Create causal mask on the fly
+&nbsp;
+### 1. Create causal mask on the fly
 
 - Instead of saving the causal mask, this creates the causal mask on the fly to reduce memory usage (here it has minimal effect, but it can add up in long-context size models like Llama 3.2 with 131k-input-tokens support)
 
@@ -72,7 +73,8 @@ After:
 - `Avg tok/sec: 12526`
 - `Reserved memory: 26.2422 GB`
 
-#### 2. Use  tensor cores
+&nbsp;
+### 2. Use  tensor cores
 
 - Uses tensor cores (only works for Ampere GPUs like A100 and newer)
 
@@ -84,7 +86,8 @@ After:
 - `Avg tok/sec: 27648`
 - `Reserved memory: 26.2422 GB`
 
-#### 3. Fused AdamW optimizer
+&nbsp;
+### 3. Fused AdamW optimizer
 
 - Uses the fused kernels for `AdamW` by setting `fused=True`
 
@@ -96,7 +99,8 @@ After:
 - `Avg tok/sec: 28399`
 - `Reserved memory: 26.2422 GB`
 
-#### 4. Pinned memory in the data loader
+&nbsp;
+### 4. Pinned memory in the data loader
 
 - Uses `pin_memory=True` in the data loaders to pre-allocate and re-use GPU memory
 
@@ -108,7 +112,8 @@ After:
 - `Avg tok/sec: 28402`
 - `Reserved memory: 26.2422 GB`
 
-#### 5. Using bfloat16 precision
+&nbsp;
+### 5. Using bfloat16 precision
 
 - Switches from 32-bit float to 16-bit brain float (bfloat16) precision (for more on this topic, see my [article here](https://magazine.sebastianraschka.com/p/the-missing-bits-llama-2-weights))
 
@@ -120,7 +125,8 @@ After:
 - `Avg tok/sec: 45486`
 - `Reserved memory: 13.7871 GB`
 
-#### 6. Replacing from-scratch code by PyTorch classes
+&nbsp;
+### 6. Replacing from-scratch code by PyTorch classes
 
 - Replaces the LayerNorm and GeLU from-scratch implementation by PyTorch's native implementations
 
@@ -132,7 +138,8 @@ After:
 - `Avg tok/sec: 55256`
 - `Reserved memory: 11.5645 GB`
 
-#### 7. Using FlashAttention
+&nbsp;
+### 7. Using FlashAttention
 
 - Uses PyTorch's self-attention function with FlashAttention instead of our from-scratch multi-head attention implementation.
 
@@ -145,7 +152,8 @@ After:
 - `Avg tok/sec: 91901`
 - `Reserved memory: 5.9004 GB`
 
-#### 8. Using `pytorch.compile`
+&nbsp;
+### 8. Using `pytorch.compile`
 
 - Uses `torch.compile(model)`. Note that the first iterations are always slow before it picks up speed. Since the `Avg tok/sec` measurement only includes the first row from the average calculation, we now use the `Step tok/sec` at the end of epoch 1.
 
@@ -158,7 +166,8 @@ After:
 - `Step tok/sec: 112046`
 - `Reserved memory: 6.1875 GB`
 
-#### 9. Using a nicer vocab size value
+&nbsp;
+### 9. Using a nicer vocab size value
 
 - This is a tip suggested to me by my former colleague Carlos Moccholi, who mentioned that this tip comes from Andrej Karpathy (I suspect it's from the [nanoGPT](https://github.com/karpathy/nanoGPT/blob/93a43d9a5c22450bbf06e78da2cb6eeef084b717/model.py#L111) repository)
 
@@ -170,7 +179,8 @@ After:
 - `Step tok/sec: 127345`
 - `Reserved memory: 5.8906 GB`
 
-#### 10. Increasing the batch size
+&nbsp;
+### 10. Increasing the batch size
 
 - Lastly, we increase the batch size to the largest power of 2 supported by the GPU
 
@@ -183,8 +193,8 @@ After:
 - `Reserved memory: 22.5078 GB`
 
 
-
-##Multi-GPU speed comparisons
+&nbsp;
+## Multi-GPU speed comparisons
 
 This may not be an entirely fair comparison as we now use 4 GPUs instead of 1, but using distributed data parallelism, the fastest multi-GPU technique that can be used if the training is not bottle-necked by limited GPU memory, can, of course, result in noticeable speed-ups:
 

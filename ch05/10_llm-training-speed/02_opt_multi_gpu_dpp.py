@@ -15,7 +15,6 @@ from torch.utils.data import Dataset, DataLoader
 import tiktoken
 
 # NEW imports (see Appendix A):
-import os
 import platform
 from torch.utils.data.distributed import DistributedSampler
 from torch.nn.parallel import DistributedDataParallel as DDP
@@ -319,8 +318,7 @@ def train_model_simple_with_timing(model, train_loader, val_loader, optimizer, d
 
     # NEW: Determine the current rank (default to 0 if not distributed)
     rank = torch.distributed.get_rank() if torch.distributed.is_initialized() else 0
-    world_size = torch.distributed.get_world_size() if torch.distributed.is_initialized() else 1
-
+    # world_size = torch.distributed.get_world_size() if torch.distributed.is_initialized() else 1
 
     # Variables for cumulative average tokens/sec
     cumulative_tokens, cumulative_time = 0.0, 0.0
@@ -541,7 +539,6 @@ def main(gpt_config, settings, rank, world_size):
         tokenizer=tokenizer
     )
 
-
     # NEW: Clean up distributed processes
     destroy_process_group()
 
@@ -564,7 +561,7 @@ if __name__ == "__main__":
         rank = 0
 
     GPT_CONFIG_124M = {
-        "vocab_size":  50304,    # Vocabulary size
+        "vocab_size": 50304,     # Vocabulary size
         "context_length": 1024,  # Input tokens per training example
         "emb_dim": 768,          # Embedding dimension
         "n_heads": 12,           # Number of attention heads

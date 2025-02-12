@@ -470,13 +470,13 @@ def main(gpt_config, settings):
 if __name__ == "__main__":
 
     GPT_CONFIG_124M = {
-        "vocab_size":  50304,   # Vocabulary size
-        "context_length": 1024, # Input tokens per training example
-        "emb_dim": 768,         # Embedding dimension
-        "n_heads": 12,          # Number of attention heads
-        "n_layers": 12,         # Number of layers
-        "drop_rate": 0.1,       # Dropout rate
-        "qkv_bias": False       # Query-key-value bias
+        "vocab_size": 50304,     # Vocabulary size
+        "context_length": 1024,  # Input tokens per training example
+        "emb_dim": 768,          # Embedding dimension
+        "n_heads": 12,           # Number of attention heads
+        "n_layers": 12,          # Number of layers
+        "drop_rate": 0.1,        # Dropout rate
+        "qkv_bias": False        # Query-key-value bias
     }
 
     OTHER_SETTINGS = {

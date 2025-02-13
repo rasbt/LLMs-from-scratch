@@ -169,7 +169,7 @@ After:
 &nbsp;
 ### 9. Using a nicer vocab size value
 
-- This is a tip suggested to me by my former colleague Carlos Moccholi, who mentioned that this tip comes from Andrej Karpathy (I suspect it's from the [nanoGPT](https://github.com/karpathy/nanoGPT/blob/93a43d9a5c22450bbf06e78da2cb6eeef084b717/model.py#L111) repository)
+- Here, we increase the vocab size sligly from 50,257 to 50,304, which is a nearest multiple of 64; this is a tip suggested to me by my former colleague Carlos Mocholi, who mentioned that this tip originally came from Andrej Karpathy (likely attributed to his post [here](https://x.com/karpathy/status/1621578354024677377)).
 
 Before:
 - `Step tok/sec: 112046`

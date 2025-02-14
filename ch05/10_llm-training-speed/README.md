@@ -169,7 +169,7 @@ After:
 &nbsp;
 ### 9. Using a nicer vocab size value
 
-- Here, we increase the vocab size slightly from 50,257 to 50,304, which is a nearest multiple of 64; this is a tip suggested to me by my former colleague Carlos Mocholi, who mentioned that this tip originally came from Andrej Karpathy (likely attributed to his post [here](https://x.com/karpathy/status/1621578354024677377)).
+- Here, we slightly increase the vocabulary size from 50,257 to 50,304, which is the nearest multiple of 64. This tip was suggested to me by my former colleague Carlos Mocholi, who mentioned that it originally came from Andrej Karpathy (likely from [this post](https://x.com/karpathy/status/1621578354024677377)). Karpathy's recommendation is based on [NVIDIA's guidelines on tensor shapes](https://docs.nvidia.com/deeplearning/performance/mixed-precision-training/index.html#tensor-core-shape), where batch sizes and linear layer dimensions are commonly chosen as multiples of certain values.
 
 Before:
 - `Step tok/sec: 112046`

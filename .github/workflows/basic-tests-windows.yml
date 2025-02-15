@@ -37,7 +37,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install uv
           uv venv --python=python3.10
-          source .venv/bin/activate
+          source .venv/Scripts/activate
           uv pip install pytest nbval
           if [ -f requirements.txt ]; then uv pip install -r requirements.txt; fi
           uv pip install matplotlib==3.9.0
@@ -47,7 +47,7 @@ jobs:
       - name: Test Selected Python Scripts
         shell: bash
         run: |
-          source .venv/bin/activate
+          source .venv/Scripts/activate
           pytest setup/02_installing-python-libraries/tests.py
           pytest ch04/01_main-chapter-code/tests.py
           pytest ch05/01_main-chapter-code/tests.py
@@ -57,7 +57,7 @@ jobs:
       - name: Validate Selected Jupyter Notebooks
         shell: bash
         run: |
-          source .venv/bin/activate
+          source .venv/Scripts/activate
           pytest --nbval ch02/01_main-chapter-code/dataloader.ipynb
           pytest --nbval ch03/01_main-chapter-code/multihead-attention.ipynb
           pytest --nbval ch02/04_bonus_dataloader-intuition/dataloader-intuition.ipynb

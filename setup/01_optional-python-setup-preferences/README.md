@@ -6,7 +6,9 @@ There are several ways to install Python and set up your computing environment. 
 
 I have been a long-time user of [Conda](https://anaconda.org/anaconda/conda) and [pip](https://pypi.org/project/pip/), but recently, the [uv](https://github.com/astral-sh/uv) package has gained significant traction as it provides a faster and more efficient way to install packages and resolve dependencies.
 
+
 I recommend starting with *Option 1: Using uv* as it is the more modern approach in 2025. If you encounter problems with *Option 1*, consider *Option 2: Using Conda*.
+
 
 
 &nbsp;
@@ -99,12 +101,15 @@ uv venv --python=python3.10
 source .venv/bin/activate
 ```
 
+<<<<<<< HEAD
 &nbsp;
 > [!NOTE]
 > If you are using Windows, you may have to replace the command above by `source .venv/Scripts/activate`
 
 
 
+=======
+>>>>>>> 7a54a18 (Replace pip by more modern uv)
 Note that you need to activate the virtual environment each time you start a new terminal session. For example, if you restart your terminal or computer and want to continue working on the project the next day, simply run source `.venv/bin/activate` in the project folder to reactivate your virtual environment.
 
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/uv-setup/venv-activate-1.png" width="600" height="auto" alt="Venv activated">

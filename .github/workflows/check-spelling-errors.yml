@@ -23,7 +23,8 @@ jobs:
       - name: Install codespell
         run: |
           python -m pip install --upgrade pip
-          pip install codespell
+          pip install uv
+          uv pip install codespell
 
       - name: Run codespell
         run: |

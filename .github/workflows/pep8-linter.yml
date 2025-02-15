@@ -16,6 +16,10 @@ jobs:
       with:
         python-version: '3.10'
     - name: Install flake8
-      run: pip install flake8
+      run: |
+        python -m pip install --upgrade pip
+        pip install uv
+        uv pip install flake8
+
     - name: Run flake8 with exceptions
       run: flake8 . --max-line-length=140 --ignore=W504,E402,E731,C406,E741,E722,E226

@@ -35,10 +35,11 @@ jobs:
         shell: bash
         run: |
           python -m pip install --upgrade pip
-          pip install pytest nbval
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          pip install matplotlib==3.9.0
-          pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
+          pip install uv
+          uv pip install pytest nbval
+          if [ -f requirements.txt ]; then uv pip install -r requirements.txt; fi
+          uv pip install matplotlib==3.9.0
+          uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
 
       - name: Test Selected Python Scripts
         shell: bash

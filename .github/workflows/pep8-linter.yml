@@ -26,4 +26,4 @@ jobs:
     - name: Run flake8 with exceptions
       run: |
         source .venv/bin/activate
-        flake8 . --max-line-length=140 --ignore=W504,E402,E731,C406,E741,E722,E226
+        flake8 . --max-line-length=140 --ignore=W504,E402,E731,C406,E741,E722,E226 --exclude .venv

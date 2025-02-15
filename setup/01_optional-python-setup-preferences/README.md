@@ -2,15 +2,190 @@
 
 
 
-There are several different ways you can install Python and set up your computing environment. Here, I am illustrating my personal preference.
+There are several ways to install Python and set up your computing environment. Here, I share my personal preferences. 
 
-(I am using computers running macOS, but this workflow is similar for Linux machines and may work for other operating systems as well.)
+I have been a long-time user of [Conda](https://anaconda.org/anaconda/conda) and [pip](https://pypi.org/project/pip/), but recently, the [uv](https://github.com/astral-sh/uv) package has gained significant traction as it provides a faster and more efficient way to install packages and resolve dependencies.
+
+I recommend starting with *Option 1: Using uv* as it is the more modern approach in 2025. If you encounter problems with *Option 1*, consider *Option 2: Option 2: Using Conda*.
 
 
+&nbsp;
+# Option 1: Using uv
+
+&nbsp;
+
+This section guides you through the Python setup and package installation procedure using `uv`. 
+
+In this tutorial, I am using a computer running macOS, but this workflow is similar for Linux machines and may work for other operating systems as well.
+
+
+
+## 1. Install Python (if not installed)
+
+First, check if you have a modern version of Python installed (I recommend 3.10 or newer) by executing the following code in the terminal:
+
+```bash
+python --version
+```
+If it returns 3.10 or newer, no further action is required. 
+
+> [!NOTE]  
+> I recommend installing a Python version that is at least 2 versions older than the most recent release to ensure PyTorch compatibility. For example, if the most recent version is Python 3.13, I recommend installing version 3.10 or 3.11.
+
+Otherwise, if Python is not installed or is an older version, you can install it for your operating system as described below.
+
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/uv-setup/python-not-found.png" width="500" height="auto" alt="No Python Found">
+
+&nbsp;
+**Linux (Ubuntu/Debian)**
+
+```bash
+sudo apt update
+sudo apt install python3.10 python3.10-venv python3.10-dev
+```
+
+&nbsp;
+**macOS**
+
+If you use Homebrew, install Python with:
+
+```bash
+brew install python@3.10
+```
+
+Alternatively, download and run the installer from the official website: [https://www.python.org/downloads/](https://www.python.org/downloads/).
+
+I recommend installing a Python version that is at least two versions older than the latest release to ensure PyTorch compatibility.
+
+
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/uv-setup/python-version.png" width="700" height="auto" alt="Python version">
+
+&nbsp;
+**Windows**
+
+Download and run the installer from the official website: [https://www.python.org/downloads/](https://www.python.org/downloads/).
+
+
+Obtain and execute the installer from the official website: https://www.python.org/downloads/.
+
+I recommend installing a Python version that is at least 2 versions older than the most recent release to ensure PyTorch compatibility. For example, if the most recent version is Python 3.13, I recommend installing version 3.10 or 3.11.
+
+
+
+&nbsp;
+
+## 2. Create a virtual environment
+
+I highly recommend installing Python packages in a separate virtual environment to avoid modifying system-wide packages that your OS may depend on. To create a virtual environment in the current folder, follow the three steps below.
+
+&nbsp;
+**1. Install uv**
+
+```bash
+pip install uv
+```
+
+&nbsp;
+**2. Create the virtual environment**
+
+```bash
+uv venv --python=python3.10
+```
+
+&nbsp;
+**3. Activate the virtual environment**
+
+```bash
+source .venv/bin/activate
+```
+
+&nbsp;
+> [!NOTE]
+> If you are using Windows, you may have to replace the command above by `source .venv/Scripts/activate`
+
+
+
+Note that you need to activate the virtual environment each time you start a new terminal session. For example, if you restart your terminal or computer and want to continue working on the project the next day, simply run source `.venv/bin/activate` in the project folder to reactivate your virtual environment.
+
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/uv-setup/venv-activate-1.png" width="600" height="auto" alt="Venv activated">
+
+Optionally, you can deactivate the environment it by executing the command `deactivate`.
+
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/uv-setup/venv-activate-2.png" width="800" height="auto" alt="Venv deactivated">
+
+&nbsp;
+## 3. Install packages
+
+After activating your virtual environment, you can install Python packages using `uv`. For example: 
+
+```bash
+uv pip install packaging
+```
+
+To install all required packages from a `requirements.txt` file (such as the one located at the top level of this GitHub repository) run the following command, assuming the file is in the same directory as your terminal session:
+
+```bash
+uv pip install -U -r requirements.txt
+```
+
+Alternatively, install the latest dependencies directly from the repository:
+
+```bash
+uv pip install -U -r https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/refs/heads/main/requirements.txt
+```
+
+
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/uv-setup/uv-install.png" width="700" height="auto" alt="Uv install">
+
+&nbsp;
+**Finalizing the setup**
+
+That’s it! Your environment should now be ready for running the code in the repository.
+
+Optionally, you can run an environment check by executing the `python_environment_check.py` script in this repostiory: 
+
+```bash
+python setup/02_installing-python-libraries/python_environment_check.py
+```
+
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/uv-setup/env-check.png" width="700" height="auto" alt="Environment check">
+
+If you encounter any issues with specific packages, try reinstalling them using:
+
+```bash
+uv pip install packagename
+```
+
+(Here, `packagename` is a placeholder name that needs to be replaced with the package name you are having problems with.)
+
+If problems persist, consider [opening a discussion](https://github.com/rasbt/LLMs-from-scratch/discussions) on GitHub or working through the *Option 2: Using Conda* section below.
+
+&nbsp;
+**Start working with the code**
+
+Once everything is set up, you can start working with the code files. For instance, launch [JupyterLab](https://jupyterlab.readthedocs.io/en/latest/) by running:
+
+```bash
+jupyterlab
+```
+
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/uv-setup/jupyter.png" width="900" height="auto" alt="Uv install">
+
+&nbsp;
 <br>
 <br>
+&nbsp;
+
+# Option 2: Using Conda
 
 
+
+This section guides you through the Python setup and package installation procedure using `uv`. 
+
+In this tutorial, I am using a computer running macOS, but this workflow is similar for Linux machines and may work for other operating systems as well.
+
+
+&nbsp;
 ## 1. Download and install Miniforge
 
 Download miniforge from the GitHub repository [here](https://github.com/conda-forge/miniforge).
@@ -32,10 +207,7 @@ where `Desktop/` is the folder where the Miniforge installer was downloaded to. 
 Next, step through the download instructions, confirming with "Enter".
 
 
-<br>
-<br>
-
-
+&nbsp;
 ## 2. Create a new virtual environment
 
 After the installation was successfully completed, I recommend creating a new virtual environment called `LLMs`, which you can do by executing
@@ -56,16 +228,13 @@ conda activate LLMs
 
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/01_optional-python-setup-preferences/activate-env.png" alt="activate-env" width="600px">
 
-<br>
-<br>
 
+&nbsp;
 ## Optional: styling your terminal
 
 If you want to style your terminal similar to mine so that you can see which virtual environment is active,  check out the [Oh My Zsh](https://github.com/ohmyzsh/ohmyzsh) project.
 
-<br>
-<br>
-
+&nbsp;
 ## 3. Install new Python libraries
 
 
@@ -84,9 +253,7 @@ You can also still use `pip` to install libraries. By default, `pip` should be l
 
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/01_optional-python-setup-preferences/check-pip.png" alt="check-pip" width="600px">
 
-<br>
-<br>
-
+&nbsp;
 ## 4. Install PyTorch
 
 PyTorch can be installed just like any other Python library or package using pip. For example:
@@ -101,7 +268,7 @@ It's also highly recommended to consult the installation guide menu on the offic
 
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/01_optional-python-setup-preferences/pytorch-installer.jpg" width="600px">
 
-
+&nbsp;
 ## 5. Installing Python packages and libraries used in this book
 
 Please refer to the [Installing Python packages and libraries used in this book](../02_installing-python-libraries/README.md) document for instructions on how to install the required libraries.

@@ -43,6 +43,7 @@ jobs:
         uv pip install torch==${{ matrix.pytorch-version }}
         uv pip install -r requirements.txt
         uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
+        uv pip install pytest
 
     - name: Test Selected Python Scripts
       run: |

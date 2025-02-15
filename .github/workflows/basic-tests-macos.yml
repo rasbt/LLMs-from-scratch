@@ -39,6 +39,7 @@ jobs:
         uv pip install pytest nbval
         if [ -f requirements.txt ]; then uv pip install -r requirements.txt; fi
         uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
+        uv pip install pytest
 
     - name: Test Selected Python Scripts
       run: |

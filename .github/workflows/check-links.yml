@@ -29,6 +29,7 @@ jobs:
         uv pip install pytest pytest-check-links
         # Current version of retry doesn't work well if there are broken non-URL links
         # pip install pytest pytest-check-links pytest-retry
+        uv pip install pytest
 
     - name: Check links
       run: |

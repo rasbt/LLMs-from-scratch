@@ -40,7 +40,7 @@ jobs:
           source .venv/Scripts/activate
           uv pip install pytest nbval
           if [ -f requirements.txt ]; then uv pip install -r requirements.txt; fi
-          uv pip install numpy==1.26.0 matplotlib==3.9.0
+          uv pip install numpy==1.26.0 matplotlib>=3.9.3
           uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
           uv pip install pytest
 

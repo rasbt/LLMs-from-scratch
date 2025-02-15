@@ -30,4 +30,5 @@ jobs:
 
       - name: Run codespell
         run: |
+          source .venv/bin/activate
           codespell -L "ocassion,occassion,ot,te,tje" **/*.{txt,md,py,ipynb}

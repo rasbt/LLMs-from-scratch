@@ -42,7 +42,7 @@ jobs:
           if [ -f requirements.txt ]; then uv pip install -r requirements.txt; fi
           uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
           uv pip install --no-cache-dir --force-reinstall matplotlib
-          uv pip install --no-cache-dir --force-reinstall numpy==2.0.3
+          uv pip install --no-cache-dir --force-reinstall numpy==2.0.2
           uv pip install pytest
 
       - name: Test Selected Python Scripts

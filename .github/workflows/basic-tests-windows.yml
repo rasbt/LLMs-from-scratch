@@ -26,46 +26,20 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Remove references to tensorflow-io-gcs-filesystem on Windows
-        if: runner.os == 'Windows'
-        shell: bash
-        run: |
-          echo "Removing uv.lock if it exists (stale resolution)..."
-          rm -f uv.lock
-
-          echo "Scrubbing 'tensorflow-io-gcs-filesystem' from any .toml or .txt files..."
-          # Adjust the find command if your repo structure is unusual.
-          find . -type f \( -name '*.toml' -o -name '*.txt' \) -exec sed -i.bak '/tensorflow-io-gcs-filesystem/d' {} +
-
-          echo "Listing relevant files for debugging:"
-          find . -type f \( -name '*.toml' -o -name '*.txt' \) -exec grep -H 'tensorflow-io-gcs-filesystem' {} \; || echo "No references found."
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
-      - name: Install dependencies
+      - name: Install uv and dependencies from requirements.txt
         shell: bash
         run: |
           curl -LsSf https://astral.sh/uv/install.sh | sh
           export PATH="$HOME/.local/bin:$PATH"
-
           uv python install 3.10
+          uv pip install -r requirements.txt
 
-          # Add your project (which should no longer contain any mention of tensorflow-io-gcs-filesystem)
-          uv add . --dev
-          uv add pytest nbval
-
-          # If you have a test-requirements-extra.txt that has other dependencies
-          # (now scrubbed of tensorflow-io-gcs-filesystem):
-          if [ -f "ch05/07_gpt_to_llama/tests/test-requirements-extra.txt" ]; then
-            uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
-          fi
-
-          uv add pytest-ruff
-
-      - name: Test Selected Python Scripts
+      - name: Run Tests
         shell: bash
         run: |
           if [[ "$RUNNER_OS" == "Windows" ]]; then

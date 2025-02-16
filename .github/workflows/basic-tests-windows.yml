@@ -45,9 +45,9 @@ jobs:
           uv python install 3.10
           uv add pip
           uv run python -m pip install -U -r requirements.txt
-          uv run python -m pip -U -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
+          uv run python -m pip install -U -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
 
-          uv add pytest-ruff nbval
+          uv run python -m pip install pytest-ruff nbval
 
       - name: Test Selected Python Scripts
         shell: pwsh

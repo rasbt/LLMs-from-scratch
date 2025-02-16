@@ -1,0 +1,57 @@
+name: Code tests (Windows pip)
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '**/*.py'
+      - '**/*.ipynb'
+      - '**/*.yaml'
+      - '**/*.yml'
+      - '**/*.sh'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - '**/*.py'
+      - '**/*.ipynb'
+      - '**/*.yaml'
+      - '**/*.yml'
+      - '**/*.sh'
+
+jobs:
+  test:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        shell: pwsh
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install tensorflow-io-gcs-filesystem==0.31.0  # Explicit for Windows
+          pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
+          pip install pytest-ruff nbval
+
+      - name: Run Python Tests
+        shell: pwsh
+        run: |
+          pytest --ruff setup/02_installing-python-libraries/tests.py
+          pytest --ruff ch04/01_main-chapter-code/tests.py
+          pytest --ruff ch05/01_main-chapter-code/tests.py
+          pytest --ruff ch05/07_gpt_to_llama/tests/tests.py
+          pytest --ruff ch06/01_main-chapter-code/tests.py
+
+      - name: Run Jupyter Notebook Tests
+        shell: pwsh
+        run: |
+          pytest --ruff --nbval ch02/01_main-chapter-code/dataloader.ipynb
+          pytest --ruff --nbval ch03/01_main-chapter-code/multihead-attention.ipynb
+          pytest --ruff --nbval ch02/04_bonus_dataloader-intuition/dataloader-intuition.ipynb

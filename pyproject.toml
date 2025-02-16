@@ -1,7 +1,7 @@
 [project]
 name = "llms-from-scratch"
 version = "0.1.0"
-description = "mplement a ChatGPT-like LLM in PyTorch from scratch, step by step"
+description = "Implement a ChatGPT-like LLM in PyTorch from scratch, step by step"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [

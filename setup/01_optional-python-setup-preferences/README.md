@@ -18,7 +18,7 @@ This section guides you through the Python setup and package installation proced
 
 &nbsp;
 > [!NOTE]
-> There are alternative ways to install Python and use `uv`. For example, you can install Python directly via `uv` and use `uv add` instead of `uv pip install` for faster package management.
+> There are alternative ways to install Python and use `uv`. For example, you can install Python directly via `uv` and use `uv add` instead of `uv pip install` for even faster package management.
 >
 > If you prefer the native `uv` commands, refer to the [./native-uv.md tutorial](./native-uv.md). I also recommend checking the official [`uv` documentation](https://docs.astral.sh/uv/).
 >
@@ -68,8 +68,6 @@ brew install python@3.10
 
 Alternatively, download and run the installer from the official website: [https://www.python.org/downloads/](https://www.python.org/downloads/).
 
-I recommend installing a Python version that is at least two versions older than the latest release to ensure PyTorch compatibility.
-
 
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/uv-setup/python-version.png" width="700" height="auto" alt="Python version">
 
@@ -78,9 +76,6 @@ I recommend installing a Python version that is at least two versions older than
 **Windows**
 
 Download and run the installer from the official website: [https://www.python.org/downloads/](https://www.python.org/downloads/).
-
-I recommend installing a Python version that is at least 2 versions older than the most recent release to ensure PyTorch compatibility. For example, if the most recent version is Python 3.13, I recommend installing version 3.10 or 3.11.
-
 
 
 &nbsp;
@@ -115,11 +110,11 @@ source .venv/bin/activate
 
 &nbsp;
 > [!NOTE]
-> If you are using Windows, you may have to replace the command above by `source .venv/Scripts/activate`
+> If you are using Windows, you may have to replace the command above by `source .venv/Scripts/activate` or `.venv/Scripts/activate`.
 
 
 
-Note that you need to activate the virtual environment each time you start a new terminal session. For example, if you restart your terminal or computer and want to continue working on the project the next day, simply run source `.venv/bin/activate` in the project folder to reactivate your virtual environment.
+Note that you need to activate the virtual environment each time you start a new terminal session. For example, if you restart your terminal or computer and want to continue working on the project the next day, simply run `source .venv/bin/activate` in the project folder to reactivate your virtual environment.
 
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/uv-setup/venv-activate-1.png" width="600" height="auto" alt="Venv activated">
 
@@ -196,7 +191,7 @@ jupyterlab
 
 
 
-This section guides you through the Python setup and package installation procedure using `uv`.
+This section guides you through the Python setup and package installation procedure using [`conda`](https://www.google.com/search?client=safari&rls=en&q=conda&ie=UTF-8&oe=UTF-8) via [miniforge](https://github.com/conda-forge/miniforge).
 
 In this tutorial, I am using a computer running macOS, but this workflow is similar for Linux machines and may work for other operating systems as well.
 

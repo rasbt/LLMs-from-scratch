@@ -244,6 +244,8 @@ celerybeat.pid
 # Environments
 .env
 .venv
+.python-version
+uv.lock
 env/
 venv/
 ENV/

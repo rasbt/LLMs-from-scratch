@@ -26,6 +26,16 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      - name: Patch pyproject.toml for Windows
+        if: runner.os == 'Windows'
+        shell: bash
+        run: |
+          # This sed command adds an environment marker so that
+          # tensorflow-io-gcs-filesystem is only installed on non-Windows platforms.
+          sed -i.bak 's/tensorflow-io-gcs-filesystem==0.37.1/tensorflow-io-gcs-filesystem==0.37.1; sys_platform != '\''win32'\''/' pyproject.toml
+          echo "Patched pyproject.toml:"
+          cat pyproject.toml
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -40,7 +50,7 @@ jobs:
           uv add . --dev
           uv add pytest nbval
 
-          # Install requirements, skipping tensorflow-io-gcs-filesystem
+          # Install extra requirements, filtering out tensorflow-io-gcs-filesystem
           grep -v 'tensorflow-io-gcs-filesystem' ch05/07_gpt_to_llama/tests/test-requirements-extra.txt > temp-requirements.txt
           uv pip install -r temp-requirements.txt
           rm temp-requirements.txt
@@ -50,6 +60,7 @@ jobs:
       - name: Test Selected Python Scripts
         shell: bash
         run: |
+          # Activate the virtual environment appropriately for Windows
           if [[ "$RUNNER_OS" == "Windows" ]]; then
             source .venv/Scripts/activate
           else

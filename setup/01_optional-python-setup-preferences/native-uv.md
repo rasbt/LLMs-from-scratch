@@ -74,6 +74,12 @@ To install all required packages from a `pyproject.toml` file (such as the one l
 uv add . --dev
 ```
 
+> [!NOTE]
+> If you have problems with the following commands above due to certain dependencies (for example, if you are using Windows), you can always fall back to regular pip:
+> `uv add pip`
+> `uv run python -m pip install -U -r requirements.txt`
+
+
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/uv-setup/uv-add.png?1" width="700" height="auto" alt="Uv install">
 
 Note that the `uv add` command above will create a separate virtual environment via the `.venv` subfolder. (In case you want to delete your virtual environment to start from scratch, you can simply delete the `.venv` folder.)

@@ -43,7 +43,7 @@ jobs:
 
           # Install Python version and dependencies using uv
           uv python install 3.10
-          uv add . --dev
+          uv sync
           uv add pytest nbval
           uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
           uv add pytest-ruff

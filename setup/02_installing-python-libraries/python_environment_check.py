@@ -85,6 +85,9 @@ def check_packages(reqs):
         if actual_ver == "N/A":
             continue
         actual_ver_parsed = version_parse(actual_ver)
+        # If the installed version is a pre-release, allow pre-releases in the specifier.
+        if actual_ver_parsed.is_prerelease:
+            spec_set.prereleases = True
         if actual_ver_parsed not in spec_set:
             print(f"[FAIL] {pkg_name} {actual_ver_parsed}, please install a version matching {spec_set}")
         else:

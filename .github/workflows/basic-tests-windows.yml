@@ -37,6 +37,8 @@ jobs:
           curl -LsSf https://astral.sh/uv/install.sh | sh
           export PATH="$HOME/.local/bin:$PATH"
           uv python install 3.10
+          # Create a virtual environment with uv
+          uv venv
           uv pip install -r requirements.txt
 
       - name: Run Tests

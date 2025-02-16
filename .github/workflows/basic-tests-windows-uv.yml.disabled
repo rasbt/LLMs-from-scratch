@@ -1,0 +1,57 @@
+name: Code tests (Windows)
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '**/*.py'
+      - '**/*.ipynb'
+      - '**/*.yaml'
+      - '**/*.yml'
+      - '**/*.sh'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - '**/*.py'
+      - '**/*.ipynb'
+      - '**/*.yaml'
+      - '**/*.yml'
+      - '**/*.sh'
+
+jobs:
+  test:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        shell: pwsh
+        run: |
+          Invoke-WebRequest -Uri "https://astral.sh/uv/install.ps1" -OutFile "uv_install.ps1"
+          & .\uv_install.ps1
+
+      - name: Install dependencies with uv
+        shell: pwsh
+        run: |
+          uv venv --python=python3.10
+          uv pip install tensorflow-io-gcs-filesystem==0.31.0  # Explicit for Windows
+          uv pip install -r requirements.txt
+          uv pip install pytest-ruff
+
+      - name: Run Python Tests
+        shell: pwsh
+        run: |
+          uv run pytest --ruff setup/02_installing-python-libraries/tests.py
+          uv run pytest --ruff ch04/01_main-chapter-code/tests.py
+          uv run pytest --ruff ch05/01_main-chapter-code/tests.py
+          uv run pytest --ruff ch05/07_gpt_to_llama/tests/tests.py
+          uv run pytest --ruff ch06/01_main-chapter-code/tests.py
+
+      - name: Run Jupyter Notebook Tests
+        shell: pwsh
+        run: |
+          uv run pytest --ruff --nbval ch02/01_main-chapter-code/dataloader.ipynb
+          uv run pytest --ruff --nbval ch03/01_main-chapter-code/multihead-attention.ipynb
+          uv run pytest --ruff --nbval ch02/04_bonus_dataloader-intuition/dataloader-intuition.ipynb

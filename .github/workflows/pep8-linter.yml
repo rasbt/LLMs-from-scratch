@@ -15,15 +15,14 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: '3.10'
-    - name: Install flake8
+    - name: Install ruff (a faster flake 8 equivalent)
       run: |
-        python -m pip install --upgrade pip
-        pip install uv
-        uv venv --python=python3.10
-        source .venv/bin/activate
-        uv pip install flake8
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          uv python install 3.10
+          uv add . --dev
+          uv add ruff
 
-    - name: Run flake8 with exceptions
+    - name: Run ruff with exceptions
       run: |
         source .venv/bin/activate
-        flake8 . --max-line-length=140 --ignore=W504,E402,E731,C406,E741,E722,E226 --exclude .venv
+        ruff check .

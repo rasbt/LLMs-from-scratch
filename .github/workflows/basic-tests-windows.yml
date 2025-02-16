@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main ]
     paths:
-      - '**/*.py'    # Run workflow for changes in Python files
+      - '**/*.py'
       - '**/*.ipynb'
       - '**/*.yaml'
       - '**/*.yml'
@@ -43,13 +43,18 @@ jobs:
           # Install requirements, skipping tensorflow-io-gcs-filesystem
           grep -v 'tensorflow-io-gcs-filesystem' ch05/07_gpt_to_llama/tests/test-requirements-extra.txt > temp-requirements.txt
           uv pip install -r temp-requirements.txt
+          rm temp-requirements.txt
 
           uv add pytest-ruff
 
       - name: Test Selected Python Scripts
         shell: bash
         run: |
-          source .venv/bin/activate
+          if [[ "$RUNNER_OS" == "Windows" ]]; then
+            source .venv/Scripts/activate
+          else
+            source .venv/bin/activate
+          fi
           pytest --ruff setup/02_installing-python-libraries/tests.py
           pytest --ruff ch04/01_main-chapter-code/tests.py
           pytest --ruff ch05/01_main-chapter-code/tests.py
@@ -59,7 +64,11 @@ jobs:
       - name: Validate Selected Jupyter Notebooks
         shell: bash
         run: |
-          source .venv/bin/activate
+          if [[ "$RUNNER_OS" == "Windows" ]]; then
+            source .venv/Scripts/activate
+          else
+            source .venv/bin/activate
+          fi
           pytest --ruff --nbval ch02/01_main-chapter-code/dataloader.ipynb
           pytest --ruff --nbval ch03/01_main-chapter-code/multihead-attention.ipynb
-          pytest ---ruff -nbval ch02/04_bonus_dataloader-intuition/dataloader-intuition.ipynb
+          pytest --ruff --nbval ch02/04_bonus_dataloader-intuition/dataloader-intuition.ipynb

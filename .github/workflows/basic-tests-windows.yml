@@ -26,17 +26,19 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Remove tensorflow-io-gcs-filesystem dependency from pyproject.toml
+      - name: Remove references to tensorflow-io-gcs-filesystem on Windows
         if: runner.os == 'Windows'
         shell: bash
         run: |
-          echo "Original pyproject.toml:"
-          cat pyproject.toml
-          # Remove any line containing tensorflow-io-gcs-filesystem.
-          # (If your dependency is in a list on a single line, you may need a more advanced sed command.)
-          sed -i.bak '/tensorflow-io-gcs-filesystem/d' pyproject.toml
-          echo "Modified pyproject.toml:"
-          cat pyproject.toml
+          echo "Removing uv.lock if it exists (stale resolution)..."
+          rm -f uv.lock
+
+          echo "Scrubbing 'tensorflow-io-gcs-filesystem' from any .toml or .txt files..."
+          # Adjust the find command if your repo structure is unusual.
+          find . -type f \( -name '*.toml' -o -name '*.txt' \) -exec sed -i.bak '/tensorflow-io-gcs-filesystem/d' {} +
+
+          echo "Listing relevant files for debugging:"
+          find . -type f \( -name '*.toml' -o -name '*.txt' \) -exec grep -H 'tensorflow-io-gcs-filesystem' {} \; || echo "No references found."
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -48,14 +50,18 @@ jobs:
         run: |
           curl -LsSf https://astral.sh/uv/install.sh | sh
           export PATH="$HOME/.local/bin:$PATH"
+
           uv python install 3.10
+
+          # Add your project (which should no longer contain any mention of tensorflow-io-gcs-filesystem)
           uv add . --dev
           uv add pytest nbval
 
-          # Install extra requirements, filtering out tensorflow-io-gcs-filesystem
-          grep -v 'tensorflow-io-gcs-filesystem' ch05/07_gpt_to_llama/tests/test-requirements-extra.txt > temp-requirements.txt
-          uv pip install -r temp-requirements.txt
-          rm temp-requirements.txt
+          # If you have a test-requirements-extra.txt that has other dependencies
+          # (now scrubbed of tensorflow-io-gcs-filesystem):
+          if [ -f "ch05/07_gpt_to_llama/tests/test-requirements-extra.txt" ]; then
+            uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
+          fi
 
           uv add pytest-ruff
 

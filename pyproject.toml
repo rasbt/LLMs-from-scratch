@@ -11,7 +11,6 @@ dependencies = [
     "matplotlib>=3.7.1",
     "tensorflow>=2.18.0; sys_platform != \"win32\"",
     "tensorflow-cpu>=2.18.0; sys_platform == \"win32\"",
-    "tensorflow-io-gcs-filesystem==0.31.0; sys_platform == \"win32\"",
     "tqdm>=4.66.1",
     "numpy>=1.26,<2.1",
     "pandas>=2.2.1",

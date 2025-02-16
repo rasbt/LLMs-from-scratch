@@ -34,49 +34,23 @@ jobs:
       - name: Install dependencies
         shell: pwsh
         run: |
-          # Download and run the PowerShell installer for uv
-          Invoke-WebRequest -Uri "https://astral.sh/uv/install.ps1" -OutFile "uv_install.ps1"
-          & .\uv_install.ps1
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+          python -m pip install pytest-ruff
+          python -m pip install tensorflow-io-gcs-filesystem==0.31.0  # Explicit for Windows
 
-          # Update PATH so uv can be found
-          $env:PATH = "$HOME\.local\bin;" + $env:PATH
-
-          # Install Python version and initialize the environment using uv
-          uv python install 3.10
-          uv add pip
-
-          # On Windows, replace 'tensorflow>=2.18.0' with 'tensorflow-cpu>=2.18.0'
-          # in the main requirements file, saving as a temporary file.
-          (Get-Content requirements.txt) -replace "tensorflow\s*>=\s*2\.18\.0", "tensorflow-cpu>=2.18.0" | Set-Content requirements-windows.txt
-
-          # (Optionally, patch the extra requirements file similarly)
-          (Get-Content ch05/07_gpt_to_llama/tests/test-requirements-extra.txt) -replace "tensorflow\s*>=\s*2\.18\.0", "tensorflow-cpu>=2.18.0" | Set-Content ch05/07_gpt_to_llama/tests/test-requirements-windows.txt
-
-          # Install dependencies from the patched files
-          uv run python -m pip install -U -r requirements-windows.txt
-          uv run python -m pip install -U -r ch05/07_gpt_to_llama/tests/test-requirements-windows.txt
-
-          # Install additional test dependencies
-          uv run python -m pip install pytest-ruff nbval
-
-      - name: Test Selected Python Scripts
+      - name: Run Python Tests
         shell: pwsh
         run: |
-          # Activate the virtual environment (Windows version)
-          . .\.venv\Scripts\Activate.ps1
-
           pytest --ruff setup/02_installing-python-libraries/tests.py
           pytest --ruff ch04/01_main-chapter-code/tests.py
           pytest --ruff ch05/01_main-chapter-code/tests.py
           pytest --ruff ch05/07_gpt_to_llama/tests/tests.py
           pytest --ruff ch06/01_main-chapter-code/tests.py
 
-      - name: Validate Selected Jupyter Notebooks
+      - name: Run Jupyter Notebook Tests
         shell: pwsh
         run: |
-          # Activate the virtual environment
-          . .\.venv\Scripts\Activate.ps1
-
           pytest --ruff --nbval ch02/01_main-chapter-code/dataloader.ipynb
           pytest --ruff --nbval ch03/01_main-chapter-code/multihead-attention.ipynb
           pytest --ruff --nbval ch02/04_bonus_dataloader-intuition/dataloader-intuition.ipynb

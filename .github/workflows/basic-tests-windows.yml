@@ -31,25 +31,26 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install uv and dependencies from requirements.txt
+      - name: Install dependencies
         shell: bash
         run: |
           curl -LsSf https://astral.sh/uv/install.sh | sh
           export PATH="$HOME/.local/bin:$PATH"
           uv python install 3.10
-          # Create a virtual environment with uv
-          uv venv
-          uv pip install -r requirements.txt
-          uv add pytest-ruff nbval
+          uv add . --dev
+          uv add pytest nbval
 
-      - name: Run Tests
+          # Install requirements, explicitly excluding tensorflow-io-gcs-filesystem
+          grep -v 'tensorflow-io-gcs-filesystem' ch05/07_gpt_to_llama/tests/test-requirements-extra.txt > temp-requirements.txt
+          uv pip install -r temp-requirements.txt --exclude tensorflow-io-gcs-filesystem
+          rm temp-requirements.txt
+
+          uv add pytest-ruff
+
+      - name: Test Selected Python Scripts
         shell: bash
         run: |
-          if [[ "$RUNNER_OS" == "Windows" ]]; then
-            source .venv/Scripts/activate
-          else
-            source .venv/bin/activate
-          fi
+          source .venv/bin/activate
           pytest --ruff setup/02_installing-python-libraries/tests.py
           pytest --ruff ch04/01_main-chapter-code/tests.py
           pytest --ruff ch05/01_main-chapter-code/tests.py
@@ -59,11 +60,7 @@ jobs:
       - name: Validate Selected Jupyter Notebooks
         shell: bash
         run: |
-          if [[ "$RUNNER_OS" == "Windows" ]]; then
-            source .venv/Scripts/activate
-          else
-            source .venv/bin/activate
-          fi
+          source .venv/bin/activate
           pytest --ruff --nbval ch02/01_main-chapter-code/dataloader.ipynb
           pytest --ruff --nbval ch03/01_main-chapter-code/multihead-attention.ipynb
           pytest --ruff --nbval ch02/04_bonus_dataloader-intuition/dataloader-intuition.ipynb

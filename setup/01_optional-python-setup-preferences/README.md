@@ -2,7 +2,7 @@
 
 
 
-There are several ways to install Python and set up your computing environment. Here, I share my personal preferences. 
+There are several ways to install Python and set up your computing environment. Here, I share my personal preferences.
 
 I have been a long-time user of [Conda](https://anaconda.org/anaconda/conda) and [pip](https://pypi.org/project/pip/), but recently, the [uv](https://github.com/astral-sh/uv) package has gained significant traction as it provides a faster and more efficient way to install packages and resolve dependencies.
 
@@ -18,9 +18,9 @@ This section guides you through the Python setup and package installation proced
 
 &nbsp;
 > [!NOTE]
-> There are alternative ways to install Python and use `uv`. For example, you can install Python directly via `uv` and use `uv add` instead of `uv pip install` for faster package management. 
+> There are alternative ways to install Python and use `uv`. For example, you can install Python directly via `uv` and use `uv add` instead of `uv pip install` for faster package management.
 >
-> If you prefer the native `uv` commands, refer to the [./native-uv.md tutorial](./native-uv.md). I also recommend checking the official [`uv` documentation](https://docs.astral.sh/uv/). 
+> If you prefer the native `uv` commands, refer to the [./native-uv.md tutorial](./native-uv.md). I also recommend checking the official [`uv` documentation](https://docs.astral.sh/uv/).
 >
 > While `uv add` offers speed advantages, I find `uv pip` slightly more user-friendly, making it a good starting point for beginners. However, if you're new to Python package management, the native `uv` interface is also a great way to learn.
 
@@ -30,23 +30,24 @@ This section guides you through the Python setup and package installation proced
 &nbsp;
 ## 1. Install Python (if not installed)
 
+If you haven't manually installed Python on your system before, I highly recommend doing so. This helps prevent potential conflicts with your operating system's built-in Python installation, which could lead to issues.
 
-First, check if you have a modern version of Python installed (I recommend 3.10 or newer) by executing the following code in the terminal:
+However, even if you have installed Python on your system before, check if you have a modern version of Python installed (I recommend 3.10 or newer) by executing the following code in the terminal:
 
 ```bash
 python --version
 ```
-If it returns 3.10 or newer, no further action is required. 
+If it returns 3.10 or newer, no further action is required.
 
 &nbsp;
-> [!NOTE]  
+> [!NOTE]
 > I recommend installing a Python version that is at least 2 versions older than the most recent release to ensure PyTorch compatibility. For example, if the most recent version is Python 3.13, I recommend installing version 3.10 or 3.11.
 
 Otherwise, if Python is not installed or is an older version, you can install it for your operating system as described below.
 
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/uv-setup/python-not-found.png" width="500" height="auto" alt="No Python Found">
 
-&nbsp;
+<br>
 **Linux (Ubuntu/Debian)**
 
 ```bash
@@ -54,7 +55,7 @@ sudo apt update
 sudo apt install python3.10 python3.10-venv python3.10-dev
 ```
 
-&nbsp;
+<br>
 **macOS**
 
 If you use Homebrew, install Python with:
@@ -70,13 +71,10 @@ I recommend installing a Python version that is at least two versions older than
 
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/uv-setup/python-version.png" width="700" height="auto" alt="Python version">
 
-&nbsp;
+<br>
 **Windows**
 
 Download and run the installer from the official website: [https://www.python.org/downloads/](https://www.python.org/downloads/).
-
-
-Obtain and execute the installer from the official website: https://www.python.org/downloads/.
 
 I recommend installing a Python version that is at least 2 versions older than the most recent release to ensure PyTorch compatibility. For example, if the most recent version is Python 3.13, I recommend installing version 3.10 or 3.11.
 
@@ -88,21 +86,21 @@ I recommend installing a Python version that is at least 2 versions older than t
 
 I highly recommend installing Python packages in a separate virtual environment to avoid modifying system-wide packages that your OS may depend on. To create a virtual environment in the current folder, follow the three steps below.
 
-&nbsp;
+<br>
 **1. Install uv**
 
 ```bash
 pip install uv
 ```
 
-&nbsp;
+<br>
 **2. Create the virtual environment**
 
 ```bash
 uv venv --python=python3.10
 ```
 
-&nbsp;
+<br>
 **3. Activate the virtual environment**
 
 ```bash
@@ -126,7 +124,7 @@ Optionally, you can deactivate the environment it by executing the command `deac
 &nbsp;
 ## 3. Install packages
 
-After activating your virtual environment, you can install Python packages using `uv`. For example: 
+After activating your virtual environment, you can install Python packages using `uv`. For example:
 
 ```bash
 uv pip install packaging
@@ -147,12 +145,12 @@ uv pip install -U -r https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/r
 
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/uv-setup/uv-install.png" width="700" height="auto" alt="Uv install">
 
-&nbsp;
+<br>
 **Finalizing the setup**
 
 That’s it! Your environment should now be ready for running the code in the repository.
 
-Optionally, you can run an environment check by executing the `python_environment_check.py` script in this repostiory: 
+Optionally, you can run an environment check by executing the `python_environment_check.py` script in this repostiory:
 
 ```bash
 python setup/02_installing-python-libraries/python_environment_check.py
@@ -170,7 +168,7 @@ uv pip install packagename
 
 If problems persist, consider [opening a discussion](https://github.com/rasbt/LLMs-from-scratch/discussions) on GitHub or working through the *Option 2: Using Conda* section below.
 
-&nbsp;
+<br>
 **Start working with the code**
 
 Once everything is set up, you can start working with the code files. For instance, launch [JupyterLab](https://jupyterlab.readthedocs.io/en/latest/) by running:
@@ -190,7 +188,7 @@ jupyterlab
 
 
 
-This section guides you through the Python setup and package installation procedure using `uv`. 
+This section guides you through the Python setup and package installation procedure using `uv`.
 
 In this tutorial, I am using a computer running macOS, but this workflow is similar for Linux machines and may work for other operating systems as well.
 

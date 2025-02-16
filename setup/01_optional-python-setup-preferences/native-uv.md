@@ -2,7 +2,7 @@
 
 This tutorial is an alternative to *Option 1: Using uv* in the [README.md](./README.md) document for those who prefer `uv`'s native commands over the `uv pip` interface. While `uv pip` is faster than pure `pip`, `uv`'s native interface is even faster than `uv pip` as it has less overhead and doesn't have to handle legacy support for PyPy package dependency management.
 
-Otherwise, similar to *Option 1: Using uv* in the [README.md](./README.md) , this section guides you through the Python setup and package installation procedure using `uv`. 
+Otherwise, similar to *Option 1: Using uv* in the [README.md](./README.md) , this section guides you through the Python setup and package installation procedure using `uv`.
 
 In this tutorial, I am using a computer running macOS, but this workflow is similar for Linux machines and may work for other operating systems as well.
 
@@ -12,7 +12,7 @@ In this tutorial, I am using a computer running macOS, but this workflow is simi
 
 Uv can be installed as follows, depending on your operating system.
 
-&nbsp;
+<br>
 **macOS and Linux**
 
 ```bash
@@ -25,7 +25,7 @@ or
 wget -qO- https://astral.sh/uv/install.sh | sh
 ```
 
-&nbsp;
+<br>
 **Windows**
 
 ```bash
@@ -47,7 +47,7 @@ uv python install 3.10
 ```
 
 &nbsp;
-> [!NOTE]  
+> [!NOTE]
 > I recommend installing a Python version that is at least 2 versions older than the most recent release to ensure PyTorch compatibility. For example, if the most recent version is Python 3.13, I recommend installing version 3.10 or 3.11. You can find out the most recent Python version by visiting [python.org](https://www.python.org/downloads/).
 
 &nbsp;
@@ -74,7 +74,7 @@ uv add packaging
 
 Alternatively, you can still install the dependencies directly from the repository using `uv pip install`. Note that this requires creating and activating the virtual environment manually:
 
-&nbsp;
+<br>
 **1. Create a new virtual environment**
 
 Run the following command to manually create a new virtual environment, which will be saved via a new `.venv` subfolder:
@@ -83,7 +83,7 @@ Run the following command to manually create a new virtual environment, which wi
 uv venv --python=python3.10
 ```
 
-&nbsp;
+<br>
 **2. Activate virtual environment**
 
 Next, we need to activate this new virtual environment.
@@ -100,7 +100,7 @@ On Windows (PowerShell):
 .venv\Scripts\activate
 ```
 
-&nbsp;
+<br>
 **3. Install dependencies**
 
 Finally, we can install dependencies from a remote location using the `uv pip` interface:
@@ -114,12 +114,12 @@ uv pip install -U -r https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/r
 &nbsp;
 ## 4. Run Python code
 
-&nbsp;
+<br>
 **Finalizing the setup**
 
 Your environment should now be ready to run the code in the repository.
 
-Optionally, you can run an environment check by executing the `python_environment_check.py` script in this repository: 
+Optionally, you can run an environment check by executing the `python_environment_check.py` script in this repository:
 
 ```bash
 uv run python setup/02_installing-python-libraries/python_environment_check.py
@@ -131,7 +131,7 @@ uv run python setup/02_installing-python-libraries/python_environment_check.py
 
 
 
-Or, if you don't want to type `uv run python` ever time you execute code, manually activate the virtual environment first. 
+Or, if you don't want to type `uv run python` ever time you execute code, manually activate the virtual environment first.
 
 On macOS/Linux:
 
@@ -152,7 +152,7 @@ Then, run:
 python setup/02_installing-python-libraries/python_environment_check.py
 ```
 
-&nbsp;
+<br>
 **Launching JupyterLab**
 
 You can launch a JupyterLab instance via:

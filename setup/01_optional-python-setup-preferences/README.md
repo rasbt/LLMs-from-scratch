@@ -8,19 +8,28 @@ I have been a long-time user of [Conda](https://anaconda.org/anaconda/conda) and
 
 I recommend starting with *Option 1: Using uv* as it is the more modern approach in 2025. If you encounter problems with *Option 1*, consider *Option 2: Using Conda*.
 
+In this tutorial, I am using a computer running macOS, but this workflow is similar for Linux machines and may work for other operating systems as well.
+
 
 &nbsp;
 # Option 1: Using uv
 
+This section guides you through the Python setup and package installation procedure using `uv` via its `uv pip` interface. The `uv pip` interface may feel more familiar to most Python users who have used pip before than the native `uv` commands.
+
 &nbsp;
+> [!NOTE]
+> There are alternative ways to install Python and use `uv`. For example, you can install Python directly via `uv` and use `uv add` instead of `uv pip install` for faster package management. 
+>
+> If you prefer the native `uv` commands, refer to the [./native-uv.md tutorial](./native-uv.md). I also recommend checking the official [`uv` documentation](https://docs.astral.sh/uv/). 
+>
+> While `uv add` offers speed advantages, I find `uv pip` slightly more user-friendly, making it a good starting point for beginners. However, if you're new to Python package management, the native `uv` interface is also a great way to learn.
 
-This section guides you through the Python setup and package installation procedure using `uv`. 
-
-In this tutorial, I am using a computer running macOS, but this workflow is similar for Linux machines and may work for other operating systems as well.
 
 
 
+&nbsp;
 ## 1. Install Python (if not installed)
+
 
 First, check if you have a modern version of Python installed (I recommend 3.10 or newer) by executing the following code in the terminal:
 
@@ -29,6 +38,7 @@ python --version
 ```
 If it returns 3.10 or newer, no further action is required. 
 
+&nbsp;
 > [!NOTE]  
 > I recommend installing a Python version that is at least 2 versions older than the most recent release to ensure PyTorch compatibility. For example, if the most recent version is Python 3.13, I recommend installing version 3.10 or 3.11.
 

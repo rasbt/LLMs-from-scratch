@@ -1,0 +1,29 @@
+[project]
+name = "llms-from-scratch"
+version = "0.1.0"
+description = "mplement a ChatGPT-like LLM in PyTorch from scratch, step by step"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "torch>=2.3.0",
+    "jupyterlab>=4.0",
+    "tiktoken>=0.5.1",
+    "matplotlib>=3.7.1",
+    "tensorflow>=2.18.0",
+    "tqdm>=4.66.1",
+    "numpy>=1.26,<2.1",
+    "pandas>=2.2.1",
+    "psutil>=5.9.5",
+    "packaging>=24.2",
+]
+
+[tool.setuptools.packages]
+find = {}
+
+[tool.uv.sources]
+llms-from-scratch = { workspace = true }
+
+[dependency-groups]
+dev = [
+    "llms-from-scratch",
+]

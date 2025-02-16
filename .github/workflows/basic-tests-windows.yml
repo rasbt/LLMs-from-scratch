@@ -34,24 +34,27 @@ jobs:
       - name: Install dependencies
         shell: bash
         run: |
-          python -m pip install --upgrade pip
-          pip install pytest nbval
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          pip install matplotlib==3.9.0
-          pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          uv python install 3.10
+          uv add . --dev
+          uv add pytest nbval
+          uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
+          uv add pytest-ruff
 
       - name: Test Selected Python Scripts
         shell: bash
         run: |
-          pytest setup/02_installing-python-libraries/tests.py
-          pytest ch04/01_main-chapter-code/tests.py
-          pytest ch05/01_main-chapter-code/tests.py
-          pytest ch05/07_gpt_to_llama/tests/tests.py
-          pytest ch06/01_main-chapter-code/tests.py
+          source .venv/bin/activate
+          pytest --ruff setup/02_installing-python-libraries/tests.py
+          pytest --ruff ch04/01_main-chapter-code/tests.py
+          pytest --ruff ch05/01_main-chapter-code/tests.py
+          pytest --ruff ch05/07_gpt_to_llama/tests/tests.py
+          pytest --ruff ch06/01_main-chapter-code/tests.py
 
       - name: Validate Selected Jupyter Notebooks
         shell: bash
         run: |
-          pytest --nbval ch02/01_main-chapter-code/dataloader.ipynb
-          pytest --nbval ch03/01_main-chapter-code/multihead-attention.ipynb
-          pytest --nbval ch02/04_bonus_dataloader-intuition/dataloader-intuition.ipynb
+          source .venv/bin/activate
+          pytest --ruff --nbval ch02/01_main-chapter-code/dataloader.ipynb
+          pytest --ruff --nbval ch03/01_main-chapter-code/multihead-attention.ipynb
+          pytest ---ruff -nbval ch02/04_bonus_dataloader-intuition/dataloader-intuition.ipynb

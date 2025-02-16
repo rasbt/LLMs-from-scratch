@@ -76,7 +76,7 @@ uv add . --dev
 
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/uv-setup/uv-add.png?1" width="700" height="auto" alt="Uv install">
 
-Note that the `uv add` command above will create a separate virtual environment via the `.venv` subfolder.
+Note that the `uv add` command above will create a separate virtual environment via the `.venv` subfolder. (In case you want to delete your virtual environment to start from scratch, you can simply delete the `.venv` folder.)
 
 You can install new packages, that are not specified in the `pyproject.toml` via `uv add`, for example:
 
@@ -84,57 +84,18 @@ You can install new packages, that are not specified in the `pyproject.toml` via
 uv add packaging
 ```
 
-&nbsp;
-## Optional: Manage virtual environments manually
-
-Alternatively, you can still install the dependencies directly from the repository using `uv pip install`. Note that this requires creating and activating the virtual environment manually:
-
-<br>
-
-**1. Create a new virtual environment**
-
-Run the following command to manually create a new virtual environment, which will be saved via a new `.venv` subfolder:
+And you can remove packages via `uv remove`, for example,	
 
 ```bash
-uv venv --python=python3.10
-```
-
-<br>
-
-**2. Activate virtual environment**
-
-Next, we need to activate this new virtual environment.
-
-On macOS/Linux:
-
-```bash
-source .venv/bin/activate
-```
-
-On Windows (PowerShell):
-
-```bash
-.venv\Scripts\activate
-```
-
-<br>
-
-**3. Install dependencies**
-
-Finally, we can install dependencies from a remote location using the `uv pip` interface:
-
-```bash
-uv pip install -U -r https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/refs/heads/main/requirements.txt
+uv remove packaging
 ```
 
 
 
 &nbsp;
-## 4. Run Python code
+## 3. Run Python code
 
 <br>
-
-**Finalizing the setup**
 
 Your environment should now be ready to run the code in the repository.
 
@@ -181,9 +142,80 @@ You can launch a JupyterLab instance via:
 uv run jupyter lab
 ```
 
-Or, if you manually activated the environment as described earlier, you can drop the `uv run` prefix.
+**Skipping the `uv run` command**
+
+If you find typing `uv run` cumbersome and want to run scripts via 
+
+```bash
+python script.py
+```
+
+and launch JupyterLab via 
+
+```bash
+juputer lab
+```
+
+instead, you can activated the environment manually.
+
+On macOS/Linux:
+
+```bash
+source .venv/bin/activate
+```
+
+On Windows (PowerShell):
+
+```bash
+.venv\Scripts\activate
+```
+
 
 &nbsp;
+
+## Optional: Manage virtual environments manually
+
+Alternatively, you can still install the dependencies directly from the repository using `uv pip install`. But note that this doesn't record dependencies in a `uv.lock` file as `uv add` does. Also, it requires creating and activating the virtual environment manually:
+
+<br>
+
+**1. Create a new virtual environment**
+
+Run the following command to manually create a new virtual environment, which will be saved via a new `.venv` subfolder:
+
+```bash
+uv venv --python=python3.10
+```
+
+<br>
+
+**2. Activate virtual environment**
+
+Next, we need to activate this new virtual environment.
+
+On macOS/Linux:
+
+```bash
+source .venv/bin/activate
+```
+
+On Windows (PowerShell):
+
+```bash
+.venv\Scripts\activate
+```
+
+<br>
+
+**3. Install dependencies**
+
+Finally, we can install dependencies from a remote location using the `uv pip` interface:
+
+```bash
+uv pip install -U -r https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/refs/heads/main/requirements.txt
+```
+
+
 
 ---
 

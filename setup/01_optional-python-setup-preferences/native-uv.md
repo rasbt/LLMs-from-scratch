@@ -2,7 +2,20 @@
 
 This tutorial is an alternative to *Option 1: Using uv* in the [README.md](./README.md) document for those who prefer `uv`'s native commands over the `uv pip` interface. While `uv pip` is faster than pure `pip`, `uv`'s native interface is even faster than `uv pip` as it has less overhead and doesn't have to handle legacy support for PyPy package dependency management.
 
-Otherwise, similar to *Option 1: Using uv* in the [README.md](./README.md) , this section guides you through the Python setup and package installation procedure using `uv`.
+The table below provides a comparison of the speeds of different dependency and package management approaches. The speed comparison specifically refers to package dependency resolution during installation, not the runtime performance of the installed packages. Note that ackage installation is a one-time process for this project, so it is reasonable to choose the preferred approach by overall convenience, not just installation speed.
+
+
+| Command               | Speed Comparison |
+|-----------------------|-----------------|
+| `conda install <pkg>` | Slowest (Baseline) |
+| `pip install <pkg>`   | 2-10× faster than above |
+| `uv pip install <pkg>`| 5-10× faster than above |
+| `uv add <pkg>`        | 2-5× faster than above |
+
+This tutorial focuses on `uv add`.
+
+
+Otherwise, similar to *Option 1: Using uv* in the [README.md](./README.md) , this tutorial guides you through the Python setup and package installation procedure using `uv`.
 
 In this tutorial, I am using a computer running macOS, but this workflow is similar for Linux machines and may work for other operating systems as well.
 

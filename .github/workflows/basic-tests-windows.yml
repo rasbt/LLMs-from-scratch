@@ -39,7 +39,11 @@ jobs:
           uv python install 3.10
           uv add . --dev
           uv add pytest nbval
-          uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
+
+          # Install requirements, skipping tensorflow-io-gcs-filesystem
+          grep -v 'tensorflow-io-gcs-filesystem' ch05/07_gpt_to_llama/tests/test-requirements-extra.txt > temp-requirements.txt
+          uv pip install -r temp-requirements.txt
+
           uv add pytest-ruff
 
       - name: Test Selected Python Scripts

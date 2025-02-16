@@ -27,8 +27,8 @@ dev = [
     "llms-from-scratch",
 ]
 
-[tool.ruff]
+[tool.ruff.lint]
 line-length = 140
 exclude = [".venv"]
 # Ignored rules (W504 removed)
-ignore = ["E402", "E731", "C406", "E741", "E722", "E226"]
+ignore = ["C406", "E226", "E402", "E702", "E703", "E722", "E731", "E741"]

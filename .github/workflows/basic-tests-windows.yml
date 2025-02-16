@@ -45,12 +45,16 @@ jobs:
           uv python install 3.10
           uv add pip
 
-          # Create a constraints file to override tensorflow-io-gcs-filesystem on Windows
-          "tensorflow-io-gcs-filesystem==0" | Out-File -Encoding utf8 constraints-windows.txt
+          # On Windows, replace 'tensorflow>=2.18.0' with 'tensorflow-cpu>=2.18.0'
+          # in the main requirements file, saving as a temporary file.
+          (Get-Content requirements.txt) -replace "tensorflow\s*>=\s*2\.18\.0", "tensorflow-cpu>=2.18.0" | Set-Content requirements-windows.txt
 
-          # Install requirements with the constraints file
-          uv run python -m pip install --constraint constraints-windows.txt -U -r requirements.txt
-          uv run python -m pip install --constraint constraints-windows.txt -U -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
+          # (Optionally, patch the extra requirements file similarly)
+          (Get-Content ch05/07_gpt_to_llama/tests/test-requirements-extra.txt) -replace "tensorflow\s*>=\s*2\.18\.0", "tensorflow-cpu>=2.18.0" | Set-Content ch05/07_gpt_to_llama/tests/test-requirements-windows.txt
+
+          # Install dependencies from the patched files
+          uv run python -m pip install -U -r requirements-windows.txt
+          uv run python -m pip install -U -r ch05/07_gpt_to_llama/tests/test-requirements-windows.txt
 
           # Install additional test dependencies
           uv run python -m pip install pytest-ruff nbval

@@ -36,7 +36,7 @@ jobs:
         uv python install 3.10
         uv add . --dev
         uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
-        uv add pytest-ruff uv add pytest nbval
+        uv add pytest-ruff nbval
 
     - name: Test Selected Python Scripts
       run: |

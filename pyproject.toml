@@ -9,12 +9,12 @@ dependencies = [
     "jupyterlab>=4.0",
     "tiktoken>=0.5.1",
     "matplotlib>=3.7.1",
-    "tensorflow>=2.18.0",
+    "tensorflow>=2.18.0; sys_platform != \"win32\"",
+    "tensorflow-cpu>=2.18.0; sys_platform == \"win32\"",
     "tqdm>=4.66.1",
     "numpy>=1.26,<2.1",
     "pandas>=2.2.1",
-    "psutil>=5.9.5",
-    "packaging>=24.2",
+    "pip>=25.0.1",
 ]
 
 [tool.setuptools.packages]
@@ -26,4 +26,15 @@ llms-from-scratch = { workspace = true }
 [dependency-groups]
 dev = [
     "llms-from-scratch",
+]
+
+[tool.ruff]
+line-length = 140
+
+[tool.ruff.lint]
+exclude = [".venv"]
+# Ignored rules (W504 removed)
+ignore = [
+    "C406", "E226", "E402", "E702", "E703",
+    "E722", "E731", "E741"
 ]

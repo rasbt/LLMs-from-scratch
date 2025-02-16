@@ -34,9 +34,8 @@ jobs:
         curl -LsSf https://astral.sh/uv/install.sh | sh
         uv python install 3.10
         uv add . --dev
-        uv add pytest nbval
         uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
-        uv add pytest-ruff
+        uv add pytest-ruff nbval
         uv pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cpu
 
     - name: Test Selected Python Scripts

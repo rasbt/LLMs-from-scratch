@@ -40,6 +40,7 @@ jobs:
           # Create a virtual environment with uv
           uv venv
           uv pip install -r requirements.txt
+          uv add pytest-ruff nbval
 
       - name: Run Tests
         shell: bash

@@ -35,9 +35,8 @@ jobs:
         curl -LsSf https://astral.sh/uv/install.sh | sh
         uv python install 3.10
         uv add . --dev
-        uv add pytest nbval
         uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
-        uv add pytest-ruff
+        uv add pytest-ruff uv add pytest nbval
 
     - name: Test Selected Python Scripts
       run: |

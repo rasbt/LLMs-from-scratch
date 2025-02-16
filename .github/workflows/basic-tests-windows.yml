@@ -32,25 +32,28 @@ jobs:
           python-version: '3.10'
 
       - name: Install dependencies
-        shell: bash
+        shell: pwsh
         run: |
-          curl -LsSf https://astral.sh/uv/install.sh | sh
-          export PATH="$HOME/.local/bin:$PATH"
+          # Download and run the PowerShell installer for uv
+          Invoke-WebRequest -Uri "https://astral.sh/uv/install.ps1" -OutFile "uv_install.ps1"
+          & .\uv_install.ps1
+
+          # Update PATH so uv can be found
+          $env:PATH = "$HOME\.local\bin;" + $env:PATH
+
+          # Install Python version and dependencies using uv
           uv python install 3.10
           uv add . --dev
           uv add pytest nbval
-
-          # Install requirements, explicitly excluding tensorflow-io-gcs-filesystem
-          grep -v 'tensorflow-io-gcs-filesystem' ch05/07_gpt_to_llama/tests/test-requirements-extra.txt > temp-requirements.txt
-          uv pip install -r temp-requirements.txt --exclude tensorflow-io-gcs-filesystem
-          rm temp-requirements.txt
-
+          uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
           uv add pytest-ruff
 
       - name: Test Selected Python Scripts
-        shell: bash
+        shell: pwsh
         run: |
-          source .venv/bin/activate
+          # Activate the virtual environment (Windows version)
+          . .\.venv\Scripts\Activate.ps1
+
           pytest --ruff setup/02_installing-python-libraries/tests.py
           pytest --ruff ch04/01_main-chapter-code/tests.py
           pytest --ruff ch05/01_main-chapter-code/tests.py
@@ -58,9 +61,11 @@ jobs:
           pytest --ruff ch06/01_main-chapter-code/tests.py
 
       - name: Validate Selected Jupyter Notebooks
-        shell: bash
+        shell: pwsh
         run: |
-          source .venv/bin/activate
+          # Activate the virtual environment
+          . .\.venv\Scripts\Activate.ps1
+
           pytest --ruff --nbval ch02/01_main-chapter-code/dataloader.ipynb
           pytest --ruff --nbval ch03/01_main-chapter-code/multihead-attention.ipynb
-          pytest --ruff --nbval ch02/04_bonus_dataloader-intuition/dataloader-intuition.ipynb
+          pytest ---ruff -nbval ch02/04_bonus_dataloader-intuition/dataloader-intuition.ipynb

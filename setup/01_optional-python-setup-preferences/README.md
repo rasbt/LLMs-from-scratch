@@ -147,8 +147,8 @@ uv pip install -U -r https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/r
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/uv-setup/uv-install.png" width="700" height="auto" alt="Uv install">
 
 > [!NOTE]
-> If you have problems with the following commands above due to certain dependencies (for example, if you are using Windows), you can always fall back to regular pip:
-> `pip install -U -r requirements.txt`
+> If you have problems with the following commands above due to certain dependencies (for example, if you are using Windows), you can always fall back to using regular pip:
+> `pip install -r requirements.txt`
 
 <br>
 

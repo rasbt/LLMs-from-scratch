@@ -34,10 +34,11 @@ jobs:
       - name: Install dependencies
         shell: pwsh
         run: |
-          python -m pip install --upgrade pip
-          python -m pip install -r requirements.txt
-          python -m pip install tensorflow-io-gcs-filesystem==0.31.0  # Explicit for Windows
-          python -m pip install pytest-ruff
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install tensorflow-io-gcs-filesystem==0.31.0  # Explicit for Windows
+          pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
+          pip install pytest-ruff nbval
 
       - name: Run Python Tests
         shell: pwsh

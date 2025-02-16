@@ -22,7 +22,7 @@ This section guides you through the Python setup and package installation proced
 >
 > If you prefer the native `uv` commands, refer to the [./native-uv.md tutorial](./native-uv.md). I also recommend checking the official [`uv` documentation](https://docs.astral.sh/uv/).
 >
-> While `uv add` offers speed advantages, I find `uv pip` slightly more user-friendly, making it a good starting point for beginners. However, if you're new to Python package management, the native `uv` interface is also a great way to learn.
+> While `uv add` offers additional speed advantages, I think that `uv pip` is slightly more user-friendly, making it a good starting point for beginners. However, if you're new to Python package management, the native `uv` interface is also a great opportunity to learn it from the start. It's also how I use `uv` now, but I realize it the barrier to entry is a bit higher if you are coming from `pip` and `conda`.
 
 
 

@@ -26,14 +26,16 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Patch pyproject.toml for Windows
+      - name: Remove tensorflow-io-gcs-filesystem dependency from pyproject.toml
         if: runner.os == 'Windows'
         shell: bash
         run: |
-          # This sed command adds an environment marker so that
-          # tensorflow-io-gcs-filesystem is only installed on non-Windows platforms.
-          sed -i.bak 's/tensorflow-io-gcs-filesystem==0.37.1/tensorflow-io-gcs-filesystem==0.37.1; sys_platform != '\''win32'\''/' pyproject.toml
-          echo "Patched pyproject.toml:"
+          echo "Original pyproject.toml:"
+          cat pyproject.toml
+          # Remove any line containing tensorflow-io-gcs-filesystem.
+          # (If your dependency is in a list on a single line, you may need a more advanced sed command.)
+          sed -i.bak '/tensorflow-io-gcs-filesystem/d' pyproject.toml
+          echo "Modified pyproject.toml:"
           cat pyproject.toml
 
       - name: Set up Python
@@ -60,7 +62,6 @@ jobs:
       - name: Test Selected Python Scripts
         shell: bash
         run: |
-          # Activate the virtual environment appropriately for Windows
           if [[ "$RUNNER_OS" == "Windows" ]]; then
             source .venv/Scripts/activate
           else

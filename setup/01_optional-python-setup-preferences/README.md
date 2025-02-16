@@ -48,6 +48,7 @@ Otherwise, if Python is not installed or is an older version, you can install it
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/uv-setup/python-not-found.png" width="500" height="auto" alt="No Python Found">
 
 <br>
+
 **Linux (Ubuntu/Debian)**
 
 ```bash
@@ -56,6 +57,7 @@ sudo apt install python3.10 python3.10-venv python3.10-dev
 ```
 
 <br>
+
 **macOS**
 
 If you use Homebrew, install Python with:
@@ -72,6 +74,7 @@ I recommend installing a Python version that is at least two versions older than
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/uv-setup/python-version.png" width="700" height="auto" alt="Python version">
 
 <br>
+
 **Windows**
 
 Download and run the installer from the official website: [https://www.python.org/downloads/](https://www.python.org/downloads/).
@@ -87,6 +90,7 @@ I recommend installing a Python version that is at least 2 versions older than t
 I highly recommend installing Python packages in a separate virtual environment to avoid modifying system-wide packages that your OS may depend on. To create a virtual environment in the current folder, follow the three steps below.
 
 <br>
+
 **1. Install uv**
 
 ```bash
@@ -94,6 +98,7 @@ pip install uv
 ```
 
 <br>
+
 **2. Create the virtual environment**
 
 ```bash
@@ -101,6 +106,7 @@ uv venv --python=python3.10
 ```
 
 <br>
+
 **3. Activate the virtual environment**
 
 ```bash
@@ -146,6 +152,7 @@ uv pip install -U -r https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/r
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/uv-setup/uv-install.png" width="700" height="auto" alt="Uv install">
 
 <br>
+
 **Finalizing the setup**
 
 That’s it! Your environment should now be ready for running the code in the repository.
@@ -169,6 +176,7 @@ uv pip install packagename
 If problems persist, consider [opening a discussion](https://github.com/rasbt/LLMs-from-scratch/discussions) on GitHub or working through the *Option 2: Using Conda* section below.
 
 <br>
+
 **Start working with the code**
 
 Once everything is set up, you can start working with the code files. For instance, launch [JupyterLab](https://jupyterlab.readthedocs.io/en/latest/) by running:

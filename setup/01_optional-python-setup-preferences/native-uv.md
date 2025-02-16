@@ -13,6 +13,7 @@ In this tutorial, I am using a computer running macOS, but this workflow is simi
 Uv can be installed as follows, depending on your operating system.
 
 <br>
+
 **macOS and Linux**
 
 ```bash
@@ -26,6 +27,7 @@ wget -qO- https://astral.sh/uv/install.sh | sh
 ```
 
 <br>
+
 **Windows**
 
 ```bash
@@ -75,6 +77,7 @@ uv add packaging
 Alternatively, you can still install the dependencies directly from the repository using `uv pip install`. Note that this requires creating and activating the virtual environment manually:
 
 <br>
+
 **1. Create a new virtual environment**
 
 Run the following command to manually create a new virtual environment, which will be saved via a new `.venv` subfolder:
@@ -84,6 +87,7 @@ uv venv --python=python3.10
 ```
 
 <br>
+
 **2. Activate virtual environment**
 
 Next, we need to activate this new virtual environment.
@@ -101,6 +105,7 @@ On Windows (PowerShell):
 ```
 
 <br>
+
 **3. Install dependencies**
 
 Finally, we can install dependencies from a remote location using the `uv pip` interface:
@@ -115,6 +120,7 @@ uv pip install -U -r https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/r
 ## 4. Run Python code
 
 <br>
+
 **Finalizing the setup**
 
 Your environment should now be ready to run the code in the repository.
@@ -153,6 +159,7 @@ python setup/02_installing-python-libraries/python_environment_check.py
 ```
 
 <br>
+
 **Launching JupyterLab**
 
 You can launch a JupyterLab instance via:

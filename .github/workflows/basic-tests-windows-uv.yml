@@ -36,8 +36,8 @@ jobs:
         shell: pwsh
         run: |
           uv venv --python=python3.10
-          uv pip install -r requirements.txt
           uv pip install tensorflow-io-gcs-filesystem==0.31.0  # Explicit for Windows
+          uv pip install -r requirements.txt
           uv pip install pytest-ruff
 
       - name: Run Python Tests

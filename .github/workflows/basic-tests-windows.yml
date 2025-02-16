@@ -35,6 +35,7 @@ jobs:
         shell: bash
         run: |
           curl -LsSf https://astral.sh/uv/install.sh | sh
+          export PATH="$HOME/.local/bin:$PATH"
           uv python install 3.10
           uv add . --dev
           uv add pytest nbval

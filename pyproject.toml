@@ -14,7 +14,6 @@ dependencies = [
     "numpy>=1.26,<2.1",
     "pandas>=2.2.1",
     "psutil>=5.9.5",
-    "packaging>=24.2",
 ]
 
 [tool.setuptools.packages]
@@ -27,3 +26,9 @@ llms-from-scratch = { workspace = true }
 dev = [
     "llms-from-scratch",
 ]
+
+[tool.ruff]
+line-length = 140
+exclude = [".venv"]
+# Ignored rules (W504 removed)
+ignore = ["E402", "E731", "C406", "E741", "E722", "E226"]

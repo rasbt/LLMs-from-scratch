@@ -1,4 +1,4 @@
-name: Code tests (Windows pip)
+name: Code tests (plain pip)
 
 on:
   push:
@@ -17,41 +17,45 @@ on:
       - '**/*.yaml'
       - '**/*.yml'
       - '**/*.sh'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  test:
-    runs-on: windows-latest
-
+  pip-tests:
+    name: Pip Tests (Ubuntu Only)
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: "3.10"
 
-      - name: Install dependencies
-        shell: pwsh
+      - name: Create Virtual Environment and Install Dependencies
         run: |
+          python -m venv .venv
+          source .venv/bin/activate
           pip install --upgrade pip
           pip install -r requirements.txt
-          pip install tensorflow-io-gcs-filesystem==0.31.0  # Explicit for Windows
           pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
-          pip install pytest-ruff nbval
+          pip install pytest pytest-ruff nbval
 
-      - name: Run Python Tests
-        shell: pwsh
+      - name: Test Selected Python Scripts
         run: |
+          source .venv/bin/activate
           pytest --ruff setup/02_installing-python-libraries/tests.py
           pytest --ruff ch04/01_main-chapter-code/tests.py
           pytest --ruff ch05/01_main-chapter-code/tests.py
           pytest --ruff ch05/07_gpt_to_llama/tests/tests.py
           pytest --ruff ch06/01_main-chapter-code/tests.py
 
-      - name: Run Jupyter Notebook Tests
-        shell: pwsh
+      - name: Validate Selected Jupyter Notebooks
         run: |
+          source .venv/bin/activate
           pytest --ruff --nbval ch02/01_main-chapter-code/dataloader.ipynb
           pytest --ruff --nbval ch03/01_main-chapter-code/multihead-attention.ipynb
           pytest --ruff --nbval ch02/04_bonus_dataloader-intuition/dataloader-intuition.ipynb

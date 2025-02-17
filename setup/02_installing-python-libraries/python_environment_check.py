@@ -3,7 +3,6 @@
 #   - https://www.manning.com/books/build-a-large-language-model-from-scratch
 # Code: https://github.com/rasbt/LLMs-from-scratch
 
-
 from importlib.metadata import PackageNotFoundError, import_module, version as get_version
 from os.path import dirname, exists, join, realpath
 from packaging.version import parse as version_parse
@@ -22,20 +21,45 @@ def get_packages(pkgs):
     """
     Returns a dictionary mapping package names (in lowercase) to their installed version.
     """
+    PACKAGE_MODULE_OVERRIDES = {
+        "tensorflow-cpu": ["tensorflow", "tensorflow_cpu"],
+    }
     result = {}
     for p in pkgs:
-        try:
-            # Try to import the package
-            imported = import_module(p)
+        # Determine possible module names to try.
+        module_names = PACKAGE_MODULE_OVERRIDES.get(p.lower(), [p])
+        version_found = None
+        for module_name in module_names:
             try:
-                version = getattr(imported, "__version__", None)
-                if version is None:
-                    version = get_version(p)
-                result[p.lower()] = version
-            except PackageNotFoundError:
-                result[p.lower()] = "0.0"
-        except ImportError:
-            result[p.lower()] = "0.0"
+                imported = import_module(module_name)
+                version_found = getattr(imported, "__version__", None)
+                if version_found is None:
+                    try:
+                        version_found = get_version(module_name)
+                    except PackageNotFoundError:
+                        version_found = None
+                if version_found is not None:
+                    break  # Stop if we successfully got a version.
+            except ImportError:
+                # Also try replacing hyphens with underscores as a fallback.
+                alt_module = module_name.replace("-", "_")
+                if alt_module != module_name:
+                    try:
+                        imported = import_module(alt_module)
+                        version_found = getattr(imported, "__version__", None)
+                        if version_found is None:
+                            try:
+                                version_found = get_version(alt_module)
+                            except PackageNotFoundError:
+                                version_found = None
+                        if version_found is not None:
+                            break
+                    except ImportError:
+                        continue
+                continue
+        if version_found is None:
+            version_found = "0.0"
+        result[p.lower()] = version_found
     return result
 
 

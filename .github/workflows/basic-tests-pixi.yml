@@ -1,0 +1,60 @@
+name: Code tests (pixi)
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '**/*.py'
+      - '**/*.ipynb'
+      - '**/*.yaml'
+      - '**/*.yml'
+      - '**/*.sh'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - '**/*.py'
+      - '**/*.ipynb'
+      - '**/*.yaml'
+      - '**/*.yml'
+      - '**/*.sh'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up pixi (without caching)
+        uses: prefix-dev/setup-pixi@v0.8.2
+        with:
+          environments: tests
+          cache: false
+
+      - name: List installed packages
+        run: |
+          pixi list --environment tests
+
+      - name: Test Selected Python Scripts
+        shell: pixi run --environment tests bash -e {0}
+        run: |
+          pytest --ruff setup/02_installing-python-libraries/tests.py
+          pytest --ruff ch04/01_main-chapter-code/tests.py
+          pytest --ruff ch05/01_main-chapter-code/tests.py
+          pytest --ruff ch05/07_gpt_to_llama/tests/tests.py
+          pytest --ruff ch06/01_main-chapter-code/tests.py
+
+      - name: Validate Selected Jupyter Notebooks
+        shell: pixi run --environment tests bash -e {0}
+        run: |
+          pytest --ruff --nbval ch02/01_main-chapter-code/dataloader.ipynb
+          pytest --ruff --nbval ch03/01_main-chapter-code/multihead-attention.ipynb
+          pytest --ruff --nbval ch02/04_bonus_dataloader-intuition/dataloader-intuition.ipynb

@@ -285,3 +285,7 @@ cython_debug/
 
 # vscode
 .vscode/
+
+# pixi environments
+.pixi
+*.egg-info

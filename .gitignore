@@ -246,6 +246,7 @@ celerybeat.pid
 .venv
 .python-version
 uv.lock
+pixi.lock
 env/
 venv/
 ENV/

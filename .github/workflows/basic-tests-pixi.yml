@@ -1,4 +1,4 @@
-name: Code tests
+name: Code tests (pixi)
 
 on:
   push:

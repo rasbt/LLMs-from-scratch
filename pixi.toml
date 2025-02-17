@@ -24,6 +24,9 @@ psutil = ">=5.9.5,<7"
 tensorflow = ">=2.18.0, <3"
 llms-from-scratch = { path = ".", editable = true }
 
+[target.win-64.pypi-dependencies]
+tensorflow-cpu = ">=2.18.0, <3"
+
 [feature.tests.dependencies]
 blobfile = ">=3.0.0,<4"
 huggingface_hub = ">=0.24.7,<0.29"

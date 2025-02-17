@@ -32,7 +32,7 @@ jobs:
           python-version: '3.10'
 
       - name: Install dependencies
-        shell: pwsh
+        shell: bash
         run: |
           export PATH="$HOME/.local/bin:$PATH"
           pip install --upgrade pip

@@ -24,18 +24,23 @@ def get_packages(pkgs):
     """
     result = {}
     for p in pkgs:
+        version_found = None
         try:
-            # Try to import the package
+            # Try to import the package using its given name
             imported = import_module(p)
-            try:
-                version = getattr(imported, "__version__", None)
-                if version is None:
-                    version = get_version(p)
-                result[p.lower()] = version
-            except PackageNotFoundError:
-                result[p.lower()] = "0.0"
+            version_found = getattr(imported, "__version__", None)
+            if version_found is None:
+                version_found = get_version(p)
         except ImportError:
-            result[p.lower()] = "0.0"
+            alt_p = p.replace("-", "_")
+            try:
+                imported = import_module(alt_p)
+                version_found = getattr(imported, "__version__", None)
+                if version_found is None:
+                    version_found = get_version(alt_p)
+            except ImportError:
+                version_found = "0.0"
+        result[p.lower()] = version_found if version_found is not None else "0.0"
     return result
 
 

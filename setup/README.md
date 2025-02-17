@@ -13,6 +13,12 @@ If you already have a Python installation on your machine, the quickest way to g
 pip install -r requirements.txt
 ```
 
+<br>
+
+> [!NOTE] If you are running any of the notebooks on Google Colab and want to install the dependencies, simply run the following code in a new cell at the top of the notebook:
+> `pip install uv && uv pip install --system -r https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/refs/heads/main/requirements.txt`
+
+
 &nbsp;
 
 # Local Setup

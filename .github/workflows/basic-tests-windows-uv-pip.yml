@@ -38,25 +38,16 @@ jobs:
           pip install --upgrade pip
           pip install uv
           uv venv --python=python3.10
-          if [[ "$RUNNER_OS" == "Windows" ]]; then
-            source .venv/Scripts/activate
-            pip install -r requirements.txt  # workaround because of wheels issue on Windows
-            pip install tensorflow-io-gcs-filesystem==0.31.0  # Explicit for Windows
-          else
-            source .venv/bin/activate
-            uv pip install -r requirements.txt
-          fi
+          source .venv/Scripts/activate
+          pip install -r requirements.txt
+          pip install tensorflow-io-gcs-filesystem==0.31.0  # Explicit for Windows
           uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
           uv pip install pytest-ruff nbval
 
       - name: Run Python Tests
         shell: bash
         run: |
-          if [[ "$RUNNER_OS" == "Windows" ]]; then
-            source .venv/Scripts/activate
-          else
-            source .venv/bin/activate
-          fi
+          source .venv/Scripts/activate
           pytest --ruff setup/02_installing-python-libraries/tests.py
           pytest --ruff ch04/01_main-chapter-code/tests.py
           pytest --ruff ch05/01_main-chapter-code/tests.py
@@ -66,11 +57,7 @@ jobs:
       - name: Run Jupyter Notebook Tests
         shell: bash
         run: |
-          if [[ "$RUNNER_OS" == "Windows" ]]; then
-            source .venv/Scripts/activate
-          else
-            source .venv/bin/activate
-          fi
+          source .venv/Scripts/activate
           pytest --ruff --nbval ch02/01_main-chapter-code/dataloader.ipynb
           pytest --ruff --nbval ch03/01_main-chapter-code/multihead-attention.ipynb
           pytest --ruff --nbval ch02/04_bonus_dataloader-intuition/dataloader-intuition.ipynb

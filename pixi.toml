@@ -1,0 +1,47 @@
+[project]
+authors = ["Matthew Feickert <matthew.feickert@cern.ch>"]
+channels = ["conda-forge"]
+name = "LLMs-from-scratch"
+platforms = ["linux-64", "osx-arm64", "win-64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+python = "3.10.*"
+pytorch-cpu = ">=2.6.0,<3"
+jupyterlab = ">=4.3.5,<5"
+tiktoken = ">=0.9.0,<0.10"
+matplotlib = ">=3.10.0,<4"
+tqdm = ">=4.67.1,<5"
+pandas = ">=2.2.3,<3"
+numpy = ">=1.26,<2.1"
+psutil = ">=5.9.5,<7"
+
+[pypi-dependencies]
+# The TensorFlow team unfortunately does not maintain the conda-forge
+# feedstock and it is currently broken for TensorFlow v2.18.0
+tensorflow = ">=2.18.0, <3"
+llms-from-scratch = { path = ".", editable = true }
+
+[target.win-64.pypi-dependencies]
+tensorflow-cpu = ">=2.18.0, <3"
+
+[feature.tests.dependencies]
+blobfile = ">=3.0.0,<4"
+huggingface_hub = ">=0.24.7,<0.29"
+ipywidgets = ">=8.1.2,<9"
+safetensors = ">=0.4.4,<0.6"
+sentencepiece = ">=0.1.99,<0.3"
+transformers = ">=4.33.2,<5"
+pytest = ">=8.3.4,<9"
+nbval = ">=0.11.0,<0.12"
+
+[feature.tests.pypi-dependencies]
+pytest-ruff = ">=0.4.1, <0.5"
+
+[feature.tests.target.win-64.pypi-dependencies]
+tensorflow-io-gcs-filesystem = "==0.31.0"
+
+[environments]
+tests = ["tests"]

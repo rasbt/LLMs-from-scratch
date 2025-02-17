@@ -116,28 +116,6 @@ uv run python setup/02_installing-python-libraries/python_environment_check.py
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/uv-setup/uv-run-check.png?1" width="700" height="auto" alt="Uv install">
 
 
-
-Or, if you don't want to type `uv run python` ever time you execute code, manually activate the virtual environment first.
-
-On macOS/Linux:
-
-```bash
-source .venv/bin/activate
-```
-
-On Windows (PowerShell):
-
-```bash
-.venv\Scripts\activate
-```
-
-Then, run:
-
-
-```bash
-python setup/02_installing-python-libraries/python_environment_check.py
-```
-
 <br>
 
 **Launching JupyterLab**
@@ -150,19 +128,7 @@ uv run jupyter lab
 
 **Skipping the `uv run` command**
 
-If you find typing `uv run` cumbersome and want to run scripts via 
-
-```bash
-python script.py
-```
-
-and launch JupyterLab via 
-
-```bash
-juputer lab
-```
-
-instead, you can activated the environment manually.
+If you find typing `uv run` cumbersome, you can manually activate the virtual environment as described below.
 
 On macOS/Linux:
 
@@ -175,6 +141,20 @@ On Windows (PowerShell):
 ```bash
 .venv\Scripts\activate
 ```
+
+Then, you can run scripts via 
+
+```bash
+python script.py
+```
+
+and launch JupyterLab via 
+
+```bash
+juputer lab
+```
+
+
 
 
 &nbsp;

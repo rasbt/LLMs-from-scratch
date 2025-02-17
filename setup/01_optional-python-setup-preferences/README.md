@@ -27,9 +27,11 @@ This section guides you through the Python setup and package installation proced
 > [!NOTE]
 > There are alternative ways to install Python and use `uv`. For example, you can install Python directly via `uv` and use `uv add` instead of `uv pip install` for even faster package management.
 >
-> If you prefer the native `uv` commands, refer to the [./native-uv.md tutorial](./native-uv.md). I also recommend checking the official [`uv` documentation](https://docs.astral.sh/uv/).
+> If you are a macOS or Linux user and prefer the native `uv` commands, refer to the [./native-uv.md tutorial](./native-uv.md). I also recommend checking the official [`uv` documentation](https://docs.astral.sh/uv/).
 >
-> While `uv add` offers additional speed advantages, I think that `uv pip` is slightly more user-friendly, making it a good starting point for beginners. However, if you're new to Python package management, the native `uv` interface is also a great opportunity to learn it from the start. It's also how I use `uv` now, but I realize it the barrier to entry is a bit higher if you are coming from `pip` and `conda`.
+> The `uv add` syntax also applies to Windows users. However, I found that some dependencies in the `pyproject.toml` cause problems on Windows. So, for Windows users, I recommend `pix` instead, which has a similar `pixi add` workflow like `uv add`. For more information, see the [./native-pixi.md tutorial](./native-pixi.md).
+>
+> While `uv add` and `pixi add` offer additional speed advantages, I think that `uv pip` is slightly more user-friendly, making it a good starting point for beginners. However, if you're new to Python package management, the native `uv` interface is also a great opportunity to learn it from the start. It's also how I use `uv` now, but I realize it the barrier to entry is a bit higher if you are coming from `pip` and `conda`.
 
 
 
@@ -153,9 +155,13 @@ uv pip install -U -r https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/r
 
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/uv-setup/uv-install.png" width="700" height="auto" alt="Uv install">
 
+&nbsp;
+
 > [!NOTE]
 > If you have problems with the following commands above due to certain dependencies (for example, if you are using Windows), you can always fall back to using regular pip:
 > `pip install -r requirements.txt`
+> or
+> `pip install -U -r https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/refs/heads/main/requirements.txt`
 
 <br>
 

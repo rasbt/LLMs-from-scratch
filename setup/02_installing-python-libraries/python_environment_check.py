@@ -4,7 +4,7 @@
 # Code: https://github.com/rasbt/LLMs-from-scratch
 
 
-from importlib.metadata import PackageNotFoundError, import_module, version as get_version
+from importlib.metadata import import_module, version as get_version
 from os.path import dirname, exists, join, realpath
 from packaging.version import parse as version_parse
 from packaging.requirements import Requirement

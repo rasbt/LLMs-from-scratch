@@ -50,7 +50,7 @@ If it returns 3.10 or newer, no further action is required.
 
 &nbsp;
 > [!NOTE]
-> I recommend installing a Python version that is at least 2 versions older than the most recent release to ensure PyTorch compatibility. For example, if the most recent version is Python 3.13, I recommend installing version 3.10 or 3.11.
+> I recommend installing a Python version that is at least 1-3 versions older than the most recent release to ensure PyTorch compatibility. For example, if the most recent version is Python 3.13, I recommend installing version 3.10, 3.11, or 3.12.
 
 Otherwise, if Python is not installed or is an older version, you can install it for your operating system as described below.
 
@@ -62,7 +62,7 @@ Otherwise, if Python is not installed or is an older version, you can install it
 
 ```bash
 sudo apt update
-sudo apt install python3.10 python3.10-venv python3.10-dev
+sudo apt install python3.11 python3.11-venv python3.11-dev
 ```
 
 <br>
@@ -246,7 +246,7 @@ conda create -n LLMs python=3.10
 
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/01_optional-python-setup-preferences/new-env.png" alt="new-env" width="600px">
 
-> Many scientific computing libraries do not immediately support the newest version of Python. Therefore, when installing PyTorch, it's advisable to use a version of Python that is one or two releases older. For instance, if the latest version of Python is 3.13, using Python 3.10 or 3.11 is recommended.
+> Many scientific computing libraries do not immediately support the newest version of Python. Therefore, when installing PyTorch, it's advisable to use a version of Python that is one to three releases older. For instance, if the latest version of Python is 3.13, using Python 3.10, 3.11, or 3.12 is recommended.
 
 Next, activate your new virtual environment (you have to do it every time you open a new terminal window or tab):
 

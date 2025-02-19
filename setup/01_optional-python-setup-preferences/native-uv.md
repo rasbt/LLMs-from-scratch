@@ -64,7 +64,7 @@ uv sync --dev --python 3.11
 > [!NOTE]
 > If you do not have Python 3.11 available on your system, uv will download and install it for you.
 > 
-> I recommend using a Python version that is at least 2 versions older than the most recent release to ensure PyTorch compatibility. For example, if the most recent version is Python 3.13, I recommend using version 3.10 or 3.11. You can find out the most recent Python version by visiting [python.org](https://www.python.org/downloads/).
+> I recommend using a Python version that is at least 1-3 versions older than the most recent release to ensure PyTorch compatibility. For example, if the most recent version is Python 3.13, I recommend using version 3.10, 3.11, 3.12. You can find out the most recent Python version by visiting [python.org](https://www.python.org/downloads/).
 
 > [!NOTE]
 > If you have problems with the following commands above due to certain dependencies (for example, if you are using Windows), you can always fall back to regular pip:
@@ -72,7 +72,7 @@ uv sync --dev --python 3.11
 > `uv run python -m pip install -U -r requirements.txt`
 
 
-<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/uv-setup/uv-add.png?1" width="700" height="auto" alt="Uv install">
+
 
 Note that the `uv sync` command above will create a separate virtual environment via the `.venv` subfolder. (In case you want to delete your virtual environment to start from scratch, you can simply delete the `.venv` folder.)
 

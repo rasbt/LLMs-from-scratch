@@ -31,12 +31,12 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: "3.10"
+        python-version: "3.11"
 
     - name: Install dependencies
       run: |
         curl -LsSf https://astral.sh/uv/install.sh | sh
-        uv python install 3.10
+        uv python install 3.11
         uv add . --dev
         uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
         uv add torch==${{ matrix.pytorch-version }}

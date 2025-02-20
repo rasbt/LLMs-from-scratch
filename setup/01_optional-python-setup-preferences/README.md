@@ -143,13 +143,13 @@ uv pip install packaging
 To install all required packages from a `requirements.txt` file (such as the one located at the top level of this GitHub repository) run the following command, assuming the file is in the same directory as your terminal session:
 
 ```bash
-uv pip install -U -r requirements.txt
+uv pip install -r requirements.txt
 ```
 
 Alternatively, install the latest dependencies directly from the repository:
 
 ```bash
-uv pip install -U -r https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/refs/heads/main/requirements.txt
+uv pip install -r https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/refs/heads/main/requirements.txt
 ```
 
 
@@ -158,10 +158,18 @@ uv pip install -U -r https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/r
 &nbsp;
 
 > [!NOTE]
-> If you have problems with the following commands above due to certain dependencies (for example, if you are using Windows), you can always fall back to using regular pip:
+> If you have problems with the following commands above due to certain dependencies (for example, if you are using Windows), you may have to use the following command in PowerShell:
+>
+> `$env:UV_PIP_OPTS="--no-binary tensorflow-io-gcs-filesystem"; uv pip install -r requirements.txt`
+>
+> or bash:
+>
+> `export UV_PIP_OPTS="--no-binary tensorflow-io-gcs-filesystem" && uv pip install -r requirements.txt`
+>
+> If this still does not work, you can always fall back to using regular pip:
 > `pip install -r requirements.txt`
 > or
-> `pip install -U -r https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/refs/heads/main/requirements.txt`
+> `pip install -r https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/refs/heads/main/requirements.txt`
 
 <br>
 

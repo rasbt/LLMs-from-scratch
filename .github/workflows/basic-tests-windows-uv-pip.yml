@@ -43,12 +43,13 @@ jobs:
           uv pip install -r requirements.txt
           uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
           uv pip install pytest-ruff nbval
-          uv pip install matplotlib  # for some reason Windows requires this
 
       - name: Run Python Tests
         shell: bash
         run: |
           source .venv/Scripts/activate
+          export PYTHONPATH=".venv/lib/python3.11/site-packages:$PYTHONPATH"
+          export PATH="$(pwd)/.venv/bin:$PATH"
           pytest --ruff setup/02_installing-python-libraries/tests.py
           pytest --ruff ch04/01_main-chapter-code/tests.py
           pytest --ruff ch05/01_main-chapter-code/tests.py
@@ -59,6 +60,8 @@ jobs:
         shell: bash
         run: |
           source .venv/Scripts/activate
+          export PYTHONPATH=".venv/lib/python3.11/site-packages:$PYTHONPATH"
+          export PATH="$(pwd)/.venv/bin:$PATH"
           pytest --ruff --nbval ch02/01_main-chapter-code/dataloader.ipynb
           pytest --ruff --nbval ch03/01_main-chapter-code/multihead-attention.ipynb
           pytest --ruff --nbval ch02/04_bonus_dataloader-intuition/dataloader-intuition.ipynb

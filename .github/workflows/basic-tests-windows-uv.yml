@@ -38,7 +38,7 @@ jobs:
           powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
           $env:Path = "C:\Users\runneradmin\.local\bin;$env:Path"
           uv sync --dev --python=3.10
-          export UV_PIP_OPTS="--no-binary tensorflow-io-gcs-filesystem"
+          export UV_PIP_OPTS="--no-binary tensorflow-io-gcs-filesystem==0.31.0"
           uv pip install -r requirements.txt
           uv add matplotlib  # for some reason Windows requires this
           uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt

@@ -27,13 +27,12 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: "3.11"
+        python-version: "3.13"
 
     - name: Install dependencies
       run: |
         curl -LsSf https://astral.sh/uv/install.sh | sh
-        uv python install 3.11
-        uv add . --dev
+        uv sync --dev --python=3.10  # tests for backwards compatibility
         uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
         uv add pytest-ruff nbval
         uv pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cpu

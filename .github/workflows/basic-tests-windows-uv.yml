@@ -37,7 +37,8 @@ jobs:
           # Prepend local bin directory to PATH
           powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
           $env:Path = "C:\Users\runneradmin\.local\bin;$env:Path"
-          $env:UV_PIP_OPTS="--no-binary tensorflow-io-gcs-filesystem"; uv sync --dev --python=3.10
+          $env:UV_NO_BINARY="tensorflow-io-gcs-filesystem"
+          uv sync --dev --python=3.10
           uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
           uv add pytest-ruff nbval
 

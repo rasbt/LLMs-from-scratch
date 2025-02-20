@@ -43,7 +43,7 @@ jobs:
           uv pip install -r requirements.txt
           uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
           uv pip install pytest-ruff nbval
-          uv pip install --force-reinstall matplotlib
+          uv pip install --force-reinstall matplotlib numpy<2.1
 
       - name: Run Python Tests
         shell: bash

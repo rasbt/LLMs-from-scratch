@@ -1,4 +1,4 @@
-name: Code tests Linux
+name: Code tests Windows (uv/pip)
 
 on:
   push:
@@ -17,46 +17,50 @@ on:
       - '**/*.yaml'
       - '**/*.yml'
       - '**/*.sh'
-  workflow_dispatch:
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
 
 jobs:
-  uv-tests:
-    name: Code tests (Linux)
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+  test:
+    runs-on: windows-latest
 
-      - name: Set up Python (uv)
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.13"
 
-      - name: Install uv and dependencies
-        shell: bash
+      - name: Install dependencies
+        shell: pwsh
         run: |
-          curl -LsSf https://astral.sh/uv/install.sh | sh
-          uv sync --dev --python=3.10  # tests for backwards compatibility
+          $env:Path = "C:\Users\runneradmin\.local\bin;$env:Path"
+          python -m pip install --upgrade pip
+          python -m pip install uv
+          uv venv --python=python3.11
+          . .\.venv\Scripts\Activate.ps1
+          $env:UV_PIP_OPTS="--no-binary tensorflow-io-gcs-filesystem"
+          uv pip install -r requirements.txt
           uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
-          uv add pytest-ruff nbval
+          uv pip install pytest-ruff nbval
+          uv pip install --force-reinstall matplotlib "numpy<2.1"
 
-      - name: Test Selected Python Scripts (uv)
-        shell: bash
+      - name: Run Python Tests
+        shell: pwsh
         run: |
-          source .venv/bin/activate
+          $env:Path = "C:\Users\runneradmin\.local\bin;$env:Path"
+          . .\.venv\Scripts\Activate.ps1
           pytest --ruff setup/02_installing-python-libraries/tests.py
           pytest --ruff ch04/01_main-chapter-code/tests.py
           pytest --ruff ch05/01_main-chapter-code/tests.py
           pytest --ruff ch05/07_gpt_to_llama/tests/tests.py
           pytest --ruff ch06/01_main-chapter-code/tests.py
 
-      - name: Validate Selected Jupyter Notebooks (uv)
-        shell: bash
+      - name: Run Jupyter Notebook Tests
+        shell: pwsh
         run: |
-          source .venv/bin/activate
+          $env:Path = "C:\Users\runneradmin\.local\bin;$env:Path"
+          . .\.venv\Scripts\Activate.ps1
           pytest --ruff --nbval ch02/01_main-chapter-code/dataloader.ipynb
           pytest --ruff --nbval ch03/01_main-chapter-code/multihead-attention.ipynb
           pytest --ruff --nbval ch02/04_bonus_dataloader-intuition/dataloader-intuition.ipynb

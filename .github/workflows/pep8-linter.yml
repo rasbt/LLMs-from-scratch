@@ -14,12 +14,11 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.11'
+        python-version: "3.13"
     - name: Install ruff (a faster flake 8 equivalent)
       run: |
           curl -LsSf https://astral.sh/uv/install.sh | sh
-          uv python install 3.11
-          uv add . --dev
+          uv sync --dev --python=3.10
           uv add ruff
 
     - name: Run ruff with exceptions

@@ -18,13 +18,11 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.11'
+        python-version: "3.10"
 
     - name: Install dependencies
       run: |
         curl -LsSf https://astral.sh/uv/install.sh | sh
-        uv python install 3.11
-        uv add . --dev
         uv add pytest-ruff pytest-check-links
         # Current version of retry doesn't work well if there are broken non-URL links
         # pip install pytest pytest-check-links pytest-retry

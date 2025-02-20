@@ -23,7 +23,6 @@ jobs:
     - name: Install dependencies
       run: |
         curl -LsSf https://astral.sh/uv/install.sh | sh
-        uv sync --dev --python=3.10
         uv add pytest-ruff pytest-check-links
         # Current version of retry doesn't work well if there are broken non-URL links
         # pip install pytest pytest-check-links pytest-retry

@@ -23,8 +23,7 @@ jobs:
       - name: Install codespell
         run: |
           curl -LsSf https://astral.sh/uv/install.sh | sh
-          uv python install 3.10
-          uv add . --dev
+          uv sync --dev --python=3.10
           uv add codespell
 
       - name: Run codespell

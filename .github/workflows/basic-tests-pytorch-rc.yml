@@ -32,8 +32,7 @@ jobs:
     - name: Install dependencies
       run: |
         curl -LsSf https://astral.sh/uv/install.sh | sh
-        uv python install 3.10
-        uv add . --dev
+        uv sync --dev --python=3.10
         uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
         uv add pytest-ruff nbval
         uv pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cpu

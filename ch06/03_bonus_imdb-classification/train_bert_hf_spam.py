@@ -410,7 +410,11 @@ if __name__ == "__main__":
     all_exist = all((base_path / file_name).exists() for file_name in file_names)
 
     if not all_exist:
-        download_and_unzip(url, zip_path, extract_to, new_file_path)
+        try:
+            download_and_unzip(url, zip_path, extract_to, new_file_path)
+        except urllib.error.HTTPError:
+            backup_url = "https://f001.backblazeb2.com/file/LLMs-from-scratch/sms%2Bspam%2Bcollection.zip"
+            download_and_unzip(backup_url, zip_path, extract_to, new_file_path)
         create_dataset_csvs(new_file_path)
 
     if args.use_attention_mask.lower() == "true":

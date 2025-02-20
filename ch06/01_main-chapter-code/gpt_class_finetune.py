@@ -276,7 +276,16 @@ if __name__ == "__main__":
     extracted_path = "sms_spam_collection"
     data_file_path = Path(extracted_path) / "SMSSpamCollection.tsv"
 
-    download_and_unzip_spam_data(url, zip_path, extracted_path, data_file_path, test_mode=args.test_mode)
+    try:
+        download_and_unzip_spam_data(
+            url, zip_path, extracted_path, data_file_path, test_mode=args.test_mode
+        )
+    except urllib.error.HTTPError:
+        backup_url = "https://f001.backblazeb2.com/file/LLMs-from-scratch/sms%2Bspam%2Bcollection.zip"
+        download_and_unzip_spam_data(
+            backup_url, zip_path, extracted_path, data_file_path, test_mode=args.test_mode
+        )
+
     df = pd.read_csv(data_file_path, sep="\t", header=None, names=["Label", "Text"])
     balanced_df = create_balanced_dataset(df)
     balanced_df["Label"] = balanced_df["Label"].map({"ham": 0, "spam": 1})

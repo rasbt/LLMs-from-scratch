@@ -29,7 +29,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.13"
 
       - name: Install dependencies
         shell: bash
@@ -39,10 +39,10 @@ jobs:
           pip install uv
           uv venv --python=python3.11
           source .venv/Scripts/activate
-          pip install -r requirements.txt  # because of dependency issue on Windows when using `uv pip`
-          pip install tensorflow-io-gcs-filesystem==0.31.0  # Explicit for Windows
-          pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
-          pip install pytest-ruff nbval
+          export UV_PIP_OPTS="--no-binary tensorflow-io-gcs-filesystem"
+          uv pip install -r requirements.txt  # because of dependency issue on Windows when using `uv pip`
+          uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
+          uv pip install pytest-ruff nbval
 
       - name: Run Python Tests
         shell: bash

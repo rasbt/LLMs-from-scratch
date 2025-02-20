@@ -412,7 +412,8 @@ if __name__ == "__main__":
     if not all_exist:
         try:
             download_and_unzip(url, zip_path, extract_to, new_file_path)
-        except urllib.error.HTTPError:
+        except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError) as e:
+            print(f"Primary URL failed: {e}. Trying backup URL...")
             backup_url = "https://f001.backblazeb2.com/file/LLMs-from-scratch/sms%2Bspam%2Bcollection.zip"
             download_and_unzip(backup_url, zip_path, extract_to, new_file_path)
         create_dataset_csvs(new_file_path)

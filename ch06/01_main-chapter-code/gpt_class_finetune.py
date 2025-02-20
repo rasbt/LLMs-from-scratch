@@ -280,7 +280,8 @@ if __name__ == "__main__":
         download_and_unzip_spam_data(
             url, zip_path, extracted_path, data_file_path, test_mode=args.test_mode
         )
-    except urllib.error.HTTPError:
+    except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError) as e:
+        print(f"Primary URL failed: {e}. Trying backup URL...")
         backup_url = "https://f001.backblazeb2.com/file/LLMs-from-scratch/sms%2Bspam%2Bcollection.zip"
         download_and_unzip_spam_data(
             backup_url, zip_path, extracted_path, data_file_path, test_mode=args.test_mode

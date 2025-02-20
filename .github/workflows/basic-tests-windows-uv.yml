@@ -32,28 +32,30 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        shell: pwsh
+        shell: bash
         run: |
-          powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
-          $env:Path = "C:\Users\runneradmin\.local\bin;$env:Path"
+          curl -fsSL https://astral.sh/uv/install.sh | bash
+          export PATH=$HOME/.local/bin:$PATH
           uv python install 3.11
-          $env:UV_PIP_OPTS="--no-binary tensorflow-io-gcs-filesystem"
+          export UV_PIP_OPTS="--no-binary tensorflow-io-gcs-filesystem"
           uv sync --dev
           uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
           uv pip install pytest-ruff nbval
 
-      - name: Run Python Tests
-        shell: pwsh
+      - name: Test Selected Python Scripts (uv)
+        shell: bash
         run: |
-          .venv\Scripts\python -m pytest --ruff setup/02_installing-python-libraries/tests.py
-          .venv\Scripts\python -m pytest --ruff ch04/01_main-chapter-code/tests.py
-          .venv\Scripts\python -m pytest --ruff ch05/01_main-chapter-code/tests.py
-          .venv\Scripts\python -m pytest --ruff ch05/07_gpt_to_llama/tests/tests.py
-          .venv\Scripts\python -m pytest --ruff ch06/01_main-chapter-code/tests.py
+          source .venv/bin/activate
+          pytest --ruff setup/02_installing-python-libraries/tests.py
+          pytest --ruff ch04/01_main-chapter-code/tests.py
+          pytest --ruff ch05/01_main-chapter-code/tests.py
+          pytest --ruff ch05/07_gpt_to_llama/tests/tests.py
+          pytest --ruff ch06/01_main-chapter-code/tests.py
 
-      - name: Run Jupyter Notebook Tests
-        shell: pwsh
+      - name: Validate Selected Jupyter Notebooks (uv)
+        shell: bash
         run: |
-          .venv\Scripts\python -m pytest --ruff --nbval ch02/01_main-chapter-code/dataloader.ipynb
-          .venv\Scripts\python -m pytest --ruff --nbval ch03/01_main-chapter-code/multihead-attention.ipynb
-          .venv\Scripts\python -m pytest --ruff --nbval ch02/04_bonus_dataloader-intuition/dataloader-intuition.ipynb
+          source .venv/bin/activate
+          pytest --ruff --nbval ch02/01_main-chapter-code/dataloader.ipynb
+          pytest --ruff --nbval ch03/01_main-chapter-code/multihead-attention.ipynb
+          pytest --ruff --nbval ch02/04_bonus_dataloader-intuition/dataloader-intuition.ipynb

@@ -39,10 +39,10 @@ jobs:
           pip install uv
           uv venv --python=python3.11
           source .venv/Scripts/activate
-          pip install -r requirements.txt  # because of dependency issue on Windows when using `uv pip`
-          pip install tensorflow-io-gcs-filesystem==0.31.0  # Explicit for Windows
-          pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
-          pip install pytest-ruff nbval
+          uv pip install --no-binary tensorflow-io-gcs-filesystem
+          uv pip install -r requirements.txt
+          uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
+          uv pip install pytest-ruff nbval
 
       - name: Run Python Tests
         shell: bash

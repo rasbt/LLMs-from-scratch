@@ -35,6 +35,7 @@ jobs:
         shell: pwsh
         run: |
           powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+          $env:Path = "C:\Users\runneradmin\.local\bin;$env:Path"
           uv python install 3.11
           $env:UV_PIP_OPTS="--no-binary tensorflow-io-gcs-filesystem"
           uv sync --dev

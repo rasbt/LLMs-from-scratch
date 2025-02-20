@@ -29,14 +29,14 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.12'
 
       - name: Install dependencies
         shell: bash
         run: |
           curl -fsSL https://astral.sh/uv/install.sh | bash
           export PATH=$HOME/.local/bin:$PATH
-          uv python install 3.11
+          uv python install 3.12
           export UV_PIP_OPTS="--no-binary tensorflow-io-gcs-filesystem"
           uv sync --dev
           uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt

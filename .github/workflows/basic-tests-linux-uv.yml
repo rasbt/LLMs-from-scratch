@@ -33,13 +33,13 @@ jobs:
       - name: Set up Python (uv)
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.12"
 
       - name: Install uv and dependencies
         shell: bash
         run: |
           curl -LsSf https://astral.sh/uv/install.sh | sh
-          uv sync --dev --python 3.11
+          uv sync --dev --python 3.12
           uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
           uv add pytest-ruff nbval
 

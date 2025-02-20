@@ -39,7 +39,7 @@ jobs:
           pip install uv
           uv venv --python=python3.11
           source .venv/Scripts/activate
-          uv pip install --no-binary tensorflow-io-gcs-filesystem
+          export UV_PIP_OPTS="--no-binary tensorflow-io-gcs-filesystem"
           uv pip install -r requirements.txt
           uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
           uv pip install pytest-ruff nbval

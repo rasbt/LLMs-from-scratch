@@ -86,7 +86,7 @@ The entire process is automated and might take a few minutes, depending on your 
 
 Once completed, VS Code will automatically connect to the container and reopen the project within the newly created Docker development environment. You will be able to write, execute, and debug code as if it were running on your local machine, but with the added benefits of Docker's isolation and consistency.
 
-> [!WARNING]
+> **Warning:**
 > If you are encountering an error during the build process, this is likely because your machine does not support NVIDIA container toolkit because your machine doesn't have a compatible GPU. In this case, edit the `devcontainer.json` file to remove the `"runArgs": ["--runtime=nvidia", "--gpus=all"],` line and run the "Reopen Dev Container" procedure again.
 
 9. Finished.

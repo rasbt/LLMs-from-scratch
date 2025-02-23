@@ -153,7 +153,7 @@ python -u pretraining_simple.py | tee log.txt
 ```
 
 &nbsp;
-> [!WARNING]
+> **Warning:**
 > Note that training on 1 of the ~500 Mb text files in the `gutenberg_preprocessed` folder will take approximately 4 hours on a V100 GPU.
 > The folder contains 47 files and will take approximately 200 hours (more than 1 week) to complete. You may want to run it on a smaller number of files.
 

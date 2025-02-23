@@ -63,7 +63,6 @@ uv sync --dev --python 3.11
 
 > **Note:**
 > If you do not have Python 3.11 available on your system, uv will download and install it for you.
->
 > I recommend using a Python version that is at least 1-3 versions older than the most recent release to ensure PyTorch compatibility. For example, if the most recent version is Python 3.13, I recommend using version 3.10, 3.11, 3.12. You can find out the most recent Python version by visiting [python.org](https://www.python.org/downloads/).
 
 > **Note:**

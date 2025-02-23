@@ -1,10 +1,10 @@
 # Native pixi Python and package management
 
-This tutorial is an alternative to the [`./native-uv.md`](native-uv.md) document for those who prefer `pixi`'s native commands over traditional environment and package managers like `conda` and `pip`. 
+This tutorial is an alternative to the [`./native-uv.md`](native-uv.md) document for those who prefer `pixi`'s native commands over traditional environment and package managers like `conda` and `pip`.
 
-Note that pixi uses `uv add` under the hood, as described in [`./native-uv.md`](native-uv.md). 
+Note that pixi uses `uv add` under the hood, as described in [`./native-uv.md`](native-uv.md).
 
-Pixi and uv are both modern package and environment management tools for Python, but pixi is a polyglot package manager designed for managing not just Python but also other languages (similar to conda), while uv is a Python-specific tool optimized for ultra-fast dependency resolution and package installation. 
+Pixi and uv are both modern package and environment management tools for Python, but pixi is a polyglot package manager designed for managing not just Python but also other languages (similar to conda), while uv is a Python-specific tool optimized for ultra-fast dependency resolution and package installation.
 
 Someone might choose pixi over uv if they need a polyglot package manager that supports multiple languages (not just Python) or prefer a declarative environment management approach similar to conda. For more information, please visit the official [pixi documentation](https://pixi.sh/latest/).
 
@@ -37,7 +37,7 @@ wget -qO- https://pixi.sh/install.sh | sh
 powershell -ExecutionPolicy ByPass -c "irm -useb https://pixi.sh/install.ps1 | iex"
 ```
 
-> [!NOTE] 
+> **Note:**
 > For more installation options, please refer to the official [pixi documentation](https://pixi.sh/latest/).
 
 
@@ -50,7 +50,7 @@ You can install Python using pixi:
 pixi add python=3.10
 ```
 
-> [!NOTE] 
+> **Note:**
 > I recommend installing a Python version that is at least 2 versions older than the most recent release to ensure PyTorch compatibility. For example, if the most recent version is Python 3.13, I recommend installing version 3.10 or 3.11. You can find out the most recent Python version by visiting [python.org](https://www.python.org).
 
 &nbsp;
@@ -62,7 +62,7 @@ To install all required packages from a `pixi.toml` file (such as the one locate
 pixi install
 ```
 
-> [!NOTE] 
+> **Note:**
 > If you encounter issues with dependencies (for example, if you are using Windows), you can always fall back to pip: `pixi run pip install -U -r requirements.txt`
 
 By default, `pixi install` will create a separate virtual environment specific to the project.

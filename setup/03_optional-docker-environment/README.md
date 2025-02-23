@@ -89,7 +89,7 @@ Once completed, VS Code will automatically connect to the container and reopen t
 > **Warning:**
 > If you are encountering an error during the build process, this is likely because your machine does not support NVIDIA container toolkit because your machine doesn't have a compatible GPU. In this case, edit the `devcontainer.json` file to remove the `"runArgs": ["--runtime=nvidia", "--gpus=all"],` line and run the "Reopen Dev Container" procedure again.
 
-1. Finished.
+9. Finished.
 
 Once the image has been pulled and built, you should have your project mounted inside the container with all the packages installed, ready for development.
 

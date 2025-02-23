@@ -49,7 +49,7 @@ powershell -c "irm https://astral.sh/uv/install.ps1 | more"
 
 &nbsp;
 
-> [!NOTE]
+> **Note:**
 > For more installation options, please refer to the official [uv documentation](https://docs.astral.sh/uv/getting-started/installation/#standalone-installer).
 
 &nbsp;
@@ -61,12 +61,11 @@ To install all required packages from a `pyproject.toml` file (such as the one l
 uv sync --dev --python 3.11
 ```
 
-> [!NOTE]
+> **Note:**
 > If you do not have Python 3.11 available on your system, uv will download and install it for you.
-> 
 > I recommend using a Python version that is at least 1-3 versions older than the most recent release to ensure PyTorch compatibility. For example, if the most recent version is Python 3.13, I recommend using version 3.10, 3.11, 3.12. You can find out the most recent Python version by visiting [python.org](https://www.python.org/downloads/).
 
-> [!NOTE]
+> **Note:**
 > If you have problems with the following commands above due to certain dependencies (for example, if you are using Windows), you can always fall back to regular pip:
 > `uv add pip`
 > `uv run python -m pip install -U -r requirements.txt`
@@ -84,7 +83,7 @@ You can install new packages, that are not specified in the `pyproject.toml` via
 uv add packaging
 ```
 
-And you can remove packages via `uv remove`, for example,	
+And you can remove packages via `uv remove`, for example,
 
 ```bash
 uv remove packaging
@@ -136,13 +135,13 @@ On Windows (PowerShell):
 .venv\Scripts\activate
 ```
 
-Then, you can run scripts via 
+Then, you can run scripts via
 
 ```bash
 python script.py
 ```
 
-and launch JupyterLab via 
+and launch JupyterLab via
 
 ```bash
 juputer lab

@@ -2,9 +2,9 @@
 
 The code in this directory contains code for training a small GPT model on the free books provided by Project Gutenberg.
 
-As the Project Gutenberg website states, "the vast majority of Project Gutenberg eBooks are in the public domain in the US." 
+As the Project Gutenberg website states, "the vast majority of Project Gutenberg eBooks are in the public domain in the US."
 
-Please read the [Project Gutenberg Permissions, Licensing and other Common Requests](https://www.gutenberg.org/policy/permission.html) page for more information about using the resources provided by Project Gutenberg. 
+Please read the [Project Gutenberg Permissions, Licensing and other Common Requests](https://www.gutenberg.org/policy/permission.html) page for more information about using the resources provided by Project Gutenberg.
 
 &nbsp;
 ## How to Use This Code
@@ -56,9 +56,9 @@ cd ..
 &nbsp;
 #### Special instructions for Windows users
 
-The [`pgcorpus/gutenberg`](https://github.com/pgcorpus/gutenberg) code is compatible with both Linux and macOS. However, Windows users would have to make small adjustments, such as adding `shell=True` to the `subprocess` calls and replacing `rsync`. 
+The [`pgcorpus/gutenberg`](https://github.com/pgcorpus/gutenberg) code is compatible with both Linux and macOS. However, Windows users would have to make small adjustments, such as adding `shell=True` to the `subprocess` calls and replacing `rsync`.
 
-Alternatively, an easier way to run this code on Windows is by using the "Windows Subsystem for Linux" (WSL) feature, which allows users to run a Linux environment using Ubuntu in Windows. For more information, please read [Microsoft's official installation instruction](https://learn.microsoft.com/en-us/windows/wsl/install) and [tutorial](https://learn.microsoft.com/en-us/training/modules/wsl-introduction/). 
+Alternatively, an easier way to run this code on Windows is by using the "Windows Subsystem for Linux" (WSL) feature, which allows users to run a Linux environment using Ubuntu in Windows. For more information, please read [Microsoft's official installation instruction](https://learn.microsoft.com/en-us/windows/wsl/install) and [tutorial](https://learn.microsoft.com/en-us/training/modules/wsl-introduction/).
 
 When using WSL, please make sure you have Python 3 installed (check via `python3 --version`, or install it for instance with `sudo apt-get install -y python3.10` for Python 3.10) and install following packages there:
 
@@ -70,7 +70,7 @@ sudo apt-get install -y python-is-python3 && \
 sudo apt-get install -y rsync
 ```
 
-> [!NOTE]
+> **Note:**
 > Instructions about how to set up Python and installing packages can be found in [Optional Python Setup Preferences](../../setup/01_optional-python-setup-preferences/README.md) and [Installing Python Libraries](../../setup/02_installing-python-libraries/README.md).
 >
 > Optionally, a Docker image running Ubuntu is provided with this repository. Instructions about how to run a container with the provided Docker image can be found in [Optional Docker Environment](../../setup/03_optional-docker-environment/README.md).
@@ -94,10 +94,10 @@ Skipping gutenberg/data/raw/PG29836_raw.txt as it does not contain primarily Eng
 ```
 
 
-> [!TIP] 
+> **Tip:**
 > Note that the produced files are stored in plaintext format and are not pre-tokenized for simplicity. However, you may want to update the codes to store the dataset in a pre-tokenized form to save computation time if you are planning to use the dataset more often or train for multiple epochs. See the *Design Decisions and Improvements* at the bottom of this page for more information.
 
-> [!TIP]
+> **Tip:**
 > You can choose smaller file sizes, for example, 50 MB. This will result in more files but might be useful for quicker pretraining runs on a small number of files for testing purposes.
 
 
@@ -116,36 +116,36 @@ python pretraining_simple.py \
 
 The output will be formatted in the following way:
 
-> Total files: 3  
-> Tokenizing file 1 of 3: data_small/combined_1.txt  
-> Training ...  
-> Ep 1 (Step 0): Train loss 9.694, Val loss 9.724  
-> Ep 1 (Step 100): Train loss 6.672, Val loss 6.683  
-> Ep 1 (Step 200): Train loss 6.543, Val loss 6.434  
-> Ep 1 (Step 300): Train loss 5.772, Val loss 6.313  
-> Ep 1 (Step 400): Train loss 5.547, Val loss 6.249  
-> Ep 1 (Step 500): Train loss 6.182, Val loss 6.155  
-> Ep 1 (Step 600): Train loss 5.742, Val loss 6.122  
-> Ep 1 (Step 700): Train loss 6.309, Val loss 5.984  
-> Ep 1 (Step 800): Train loss 5.435, Val loss 5.975  
-> Ep 1 (Step 900): Train loss 5.582, Val loss 5.935  
-> ...  
-> Ep 1 (Step 31900): Train loss 3.664, Val loss 3.946  
-> Ep 1 (Step 32000): Train loss 3.493, Val loss 3.939  
-> Ep 1 (Step 32100): Train loss 3.940, Val loss 3.961  
-> Saved model_checkpoints/model_pg_32188.pth  
-> Book processed 3h 46m 55s   
-> Total time elapsed 3h 46m 55s   
-> ETA for remaining books: 7h 33m 50s  
-> Tokenizing file 2 of 3: data_small/combined_2.txt  
-> Training ...  
-> Ep 1 (Step 32200): Train loss 2.982, Val loss 4.094  
-> Ep 1 (Step 32300): Train loss 3.920, Val loss 4.097  
+> Total files: 3
+> Tokenizing file 1 of 3: data_small/combined_1.txt
+> Training ...
+> Ep 1 (Step 0): Train loss 9.694, Val loss 9.724
+> Ep 1 (Step 100): Train loss 6.672, Val loss 6.683
+> Ep 1 (Step 200): Train loss 6.543, Val loss 6.434
+> Ep 1 (Step 300): Train loss 5.772, Val loss 6.313
+> Ep 1 (Step 400): Train loss 5.547, Val loss 6.249
+> Ep 1 (Step 500): Train loss 6.182, Val loss 6.155
+> Ep 1 (Step 600): Train loss 5.742, Val loss 6.122
+> Ep 1 (Step 700): Train loss 6.309, Val loss 5.984
+> Ep 1 (Step 800): Train loss 5.435, Val loss 5.975
+> Ep 1 (Step 900): Train loss 5.582, Val loss 5.935
+> ...
+> Ep 1 (Step 31900): Train loss 3.664, Val loss 3.946
+> Ep 1 (Step 32000): Train loss 3.493, Val loss 3.939
+> Ep 1 (Step 32100): Train loss 3.940, Val loss 3.961
+> Saved model_checkpoints/model_pg_32188.pth
+> Book processed 3h 46m 55s
+> Total time elapsed 3h 46m 55s
+> ETA for remaining books: 7h 33m 50s
+> Tokenizing file 2 of 3: data_small/combined_2.txt
+> Training ...
+> Ep 1 (Step 32200): Train loss 2.982, Val loss 4.094
+> Ep 1 (Step 32300): Train loss 3.920, Val loss 4.097
 > ...
 
 
 &nbsp;
-> [!TIP] 
+> **Tip:**
 > In practice, if you are using macOS or Linux, I recommend using the `tee` command to save the log outputs to a `log.txt` file in addition to printing them on the terminal:
 
 ```bash
@@ -153,8 +153,8 @@ python -u pretraining_simple.py | tee log.txt
 ```
 
 &nbsp;
-> [!WARNING]  
-> Note that training on 1 of the ~500 Mb text files in the `gutenberg_preprocessed` folder will take approximately 4 hours on a V100 GPU. 
+> **Warning:**
+> Note that training on 1 of the ~500 Mb text files in the `gutenberg_preprocessed` folder will take approximately 4 hours on a V100 GPU.
 > The folder contains 47 files and will take approximately 200 hours (more than 1 week) to complete. You may want to run it on a smaller number of files.
 
 

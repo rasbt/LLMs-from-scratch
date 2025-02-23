@@ -6,7 +6,8 @@ There are several ways to install Python and set up your computing environment. 
 
 <br>
 
-> [!NOTE] If you are running any of the notebooks on Google Colab and want to install the dependencies, simply run the following code in a new cell at the top of the notebook and skip the rest of this tutorial:
+> **Note:** 
+> If you are running any of the notebooks on Google Colab and want to install the dependencies, simply run the following code in a new cell at the top of the notebook and skip the rest of this tutorial:
 > `pip install uv && uv pip install --system -r https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/refs/heads/main/requirements.txt`
 
 The remaining sections below describe how you can manage your Python environment and packages on your local machine.
@@ -24,7 +25,7 @@ In this tutorial, I am using a computer running macOS, but this workflow is simi
 This section guides you through the Python setup and package installation procedure using `uv` via its `uv pip` interface. The `uv pip` interface may feel more familiar to most Python users who have used pip before than the native `uv` commands.
 
 &nbsp;
-> [!NOTE]
+> **Note:**
 > There are alternative ways to install Python and use `uv`. For example, you can install Python directly via `uv` and use `uv add` instead of `uv pip install` for even faster package management.
 >
 > If you are a macOS or Linux user and prefer the native `uv` commands, refer to the [./native-uv.md tutorial](./native-uv.md). I also recommend checking the official [`uv` documentation](https://docs.astral.sh/uv/).
@@ -49,7 +50,11 @@ python --version
 If it returns 3.10 or newer, no further action is required.
 
 &nbsp;
-> [!NOTE]
+> **Note:**
+> If `python --version` indicates that no Python version is installed, you may also want to check `python3 --version` since your system might be configured to use the `python3` command instead.
+
+&nbsp;
+> **Note:**
 > I recommend installing a Python version that is at least 2 versions older than the most recent release to ensure PyTorch compatibility. For example, if the most recent version is Python 3.13, I recommend installing version 3.10 or 3.11.
 
 Otherwise, if Python is not installed or is an older version, you can install it for your operating system as described below.
@@ -118,7 +123,7 @@ source .venv/bin/activate
 ```
 
 &nbsp;
-> [!NOTE]
+> **Note:**
 > If you are using Windows, you may have to replace the command above by `source .venv/Scripts/activate` or `.venv/Scripts/activate`.
 
 
@@ -157,7 +162,7 @@ uv pip install -r https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/refs
 
 &nbsp;
 
-> [!NOTE]
+> **Note:**
 > If you have problems with the following commands above due to certain dependencies (for example, if you are using Windows), you can always fall back to using regular pip:
 > `pip install -r requirements.txt`
 > or

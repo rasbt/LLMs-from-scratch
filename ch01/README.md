@@ -10,7 +10,17 @@ There is no code in this chapter.
 &nbsp;
 ## Bonus Materials
 
-As optional bonus material, below is a video tutorial where I explain the LLM development lifecycle covered in this book:
+In the video below, I share my personal approach to setting up a Python environment on my computer:
+
+<br>
+<br>
+
+[![Link to the video](https://img.youtube.com/vi/yAcWnfsZhzo/0.jpg)](https://www.youtube.com/watch?v=yAcWnfsZhzo)
+
+<br>
+<br>
+
+As an optional bonus, the following video tutorial provides an overview of the LLM development lifecycle covered in this book:
 
 <br>
 <br>

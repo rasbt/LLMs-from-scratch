@@ -39,6 +39,6 @@ jobs:
           --check-links-ignore "https://code.visualstudio.com/*" \
           --check-links-ignore "https://arxiv.org/*" \
           --check-links-ignore "https://ai.stanford.edu/~amaas/data/sentiment/" \
-          --check-links-ignore
+          --check-links-ignore "https://x.com/*"
         # pytest --check-links ./ --check-links-ignore "https://platform.openai.com/*" --check-links-ignore "https://arena.lmsys.org" --retries 2 --retry-delay 5
 

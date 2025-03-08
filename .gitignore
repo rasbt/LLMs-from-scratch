@@ -1,3 +1,4 @@
+
 # Configs and keys
 ch05/07_gpt_to_llama/config.json
 ch07/02_dataset-utilities/config.json
@@ -70,6 +71,7 @@ appendix-E/01_main-chapter-code/test.csv
 appendix-E/01_main-chapter-code/validation.csv
 
 ch02/01_main-chapter-code/number-data.txt
+ch02/05_bpe-from-scratch/the-verdict.txt
 
 ch05/03_bonus_pretraining_on_gutenberg/gutenberg
 ch05/03_bonus_pretraining_on_gutenberg/gutenberg_preprocessed

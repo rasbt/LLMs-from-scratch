@@ -117,7 +117,8 @@ def test_gpt2_tokenizer_openai_edgecases(imported_module, gpt2_files):
 
     test_cases = [
         ("Hello,", [15496, 11]),
-        ("Implementations", [3546, 26908, 602])
+        ("Implementations", [3546, 26908, 602]),
+        ("asdf asdfasdf a!!, @aba 9asdf90asdfk", [292, 7568, 355, 7568, 292, 7568, 257, 3228, 11, 2488, 15498, 860, 292, 7568, 3829, 292, 7568, 74])
     ]
 
     errors = []

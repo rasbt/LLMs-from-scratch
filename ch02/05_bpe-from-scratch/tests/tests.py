@@ -9,8 +9,8 @@ import tiktoken
 
 
 def import_definitions_from_notebook(fullname, names):
-    current_dir = os.getcwd()
-    path = os.path.join(current_dir, fullname + ".ipynb")
+    """Loads function definitions from a Jupyter notebook file into a module."""
+    path = os.path.join(os.path.dirname(__file__), "..", fullname + ".ipynb")
     path = os.path.normpath(path)
 
     if not os.path.exists(path):
@@ -22,12 +22,16 @@ def import_definitions_from_notebook(fullname, names):
     mod = types.ModuleType(fullname)
     sys.modules[fullname] = mod
 
+    # Execute all code cells to capture dependencies
     for cell in nb.cells:
         if cell.cell_type == "code":
-            cell_code = cell.source
-            for name in names:
-                if f"def {name}" in cell_code or f"class {name}" in cell_code:
-                    exec(cell_code, mod.__dict__)
+            exec(cell.source, mod.__dict__)
+
+    # Ensure required names are in module
+    missing_names = [name for name in names if name not in mod.__dict__]
+    if missing_names:
+        raise ImportError(f"Missing definitions in notebook: {missing_names}")
+
     return mod
 
 
@@ -59,20 +63,17 @@ def test_tokenizer_training(imported_module, gpt2_files):
     download_file_if_absent = getattr(imported_module, "download_file_if_absent", None)
 
     tokenizer = BPETokenizerSimple()
-
-    filename = "the-verdict.txt"
-
-    download_file_if_absent(
+    verdict_path = download_file_if_absent(
         url=(
-             "https://raw.githubusercontent.com/rasbt/"
-             "LLMs-from-scratch/main/ch02/01_main-chapter-code/"
-             "the-verdict.txt"
+            "https://raw.githubusercontent.com/rasbt/"
+            "LLMs-from-scratch/main/ch02/01_main-chapter-code/"
+            "the-verdict.txt"
         ),
-        filename=filename,
+        filename="the-verdict.txt",
         search_dirs="."
     )
 
-    with open(filename, "r", encoding="utf-8") as f:
+    with open(verdict_path, "r", encoding="utf-8") as f: # added ../01_main-chapter-code/
         text = f.read()
 
     tokenizer.train(text, vocab_size=1000, allowed_special={"<|endoftext|>"})

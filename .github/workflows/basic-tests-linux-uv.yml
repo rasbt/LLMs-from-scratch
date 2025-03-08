@@ -65,4 +65,4 @@ jobs:
         shell: bash
         run: |
           source .venv/bin/activate
-          pytest ch02/05_bpe-from-scratch/tests.py
+          pytest ch02/05_bpe-from-scratch/tests/tests.py

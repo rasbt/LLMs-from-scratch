@@ -64,6 +64,8 @@ ch07/01_main-chapter-code/Smalltestmodel-sft-standalone.pth
 ch07/01_main-chapter-code/gpt2/
 
 # Datasets
+the-verdict.txt
+
 appendix-E/01_main-chapter-code/sms_spam_collection.zip
 appendix-E/01_main-chapter-code/sms_spam_collection
 appendix-E/01_main-chapter-code/train.csv
@@ -109,7 +111,9 @@ ch02/05_bpe-from-scratch/bpe_merges.txt
 ch02/05_bpe-from-scratch/encoder.json
 ch02/05_bpe-from-scratch/vocab.bpe
 ch02/05_bpe-from-scratch/vocab.json
-
+encoder.json
+vocab.bpe
+vocab.json
 
 # Other
 ch0?/0?_user_interface/.chainlit/

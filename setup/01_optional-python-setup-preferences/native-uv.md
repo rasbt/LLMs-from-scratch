@@ -147,7 +147,11 @@ and launch JupyterLab via
 juputer lab
 ```
 
+&nbsp;
+> **Note:**
+> If you encounter problems with the jupyter lab command, you can also start it using the full path inside your virtual environment. For example, use `.venv/bin/jupyter lab` on Linux/macOS or `.venv\Scripts\jupyter-lab` on Windows.
 
+&nbsp;
 
 
 &nbsp;

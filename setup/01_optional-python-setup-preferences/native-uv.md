@@ -144,7 +144,7 @@ python script.py
 and launch JupyterLab via
 
 ```bash
-juputer lab
+jupyter lab
 ```
 
 &nbsp;

@@ -12,7 +12,7 @@ This directory contains instructions for running inference part from [Chapter 6]
    The SynapseAI SDK includes the compiler, runtime, and various libraries needed to compile and run models on Gaudi hardware.
 
 ### Note
-If you're using environment with Gaudi HPU instances - this environment probably already have PyTorch version preinstalled (eg. version 2.4.0a0+git74cd574) and this version is optimized for Habana Gaudi processors, so it is important that you do not install another version of PyTorch. Hence, in this folder you'll find another `requirements.txt` file that does not include PyTorch.
+If you're using environment with Gaudi HPU instances - this environment probably already has PyTorch version preinstalled (eg. version 2.4.0a0+git74cd574) and this version is optimized for Habana Gaudi processors, so it is important that you do not install another version of PyTorch. Hence, in this folder you'll find another `requirements.txt` file that does not include PyTorch.
 
 
 ## Getting Started

@@ -60,3 +60,9 @@ jobs:
           pytest --ruff --nbval ch02/01_main-chapter-code/dataloader.ipynb
           pytest --ruff --nbval ch03/01_main-chapter-code/multihead-attention.ipynb
           pytest --ruff --nbval ch02/04_bonus_dataloader-intuition/dataloader-intuition.ipynb
+
+      - name: Test Selected Bonus Materials
+        shell: bash
+        run: |
+          source .venv/bin/activate
+          pytest ch02/05_bpe-from-scratch/tests/tests.py

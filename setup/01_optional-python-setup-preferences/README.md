@@ -199,8 +199,14 @@ If problems persist, consider [opening a discussion](https://github.com/rasbt/LL
 Once everything is set up, you can start working with the code files. For instance, launch [JupyterLab](https://jupyterlab.readthedocs.io/en/latest/) by running:
 
 ```bash
-jupyterlab
+jupyter lab
 ```
+
+&nbsp;
+> **Note:**
+> If you encounter problems with the jupyter lab command, you can also start it using the full path inside your virtual environment. For example, use `.venv/bin/jupyter lab` on Linux/macOS or `.venv\Scripts\jupyter-lab` on Windows.
+
+&nbsp;
 
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/uv-setup/jupyter.png" width="900" height="auto" alt="Uv install">
 

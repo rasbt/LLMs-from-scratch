@@ -11,6 +11,10 @@ This directory contains instructions for running inference part from [Chapter 6]
 2. **SynapseAI SDK**  
    The SynapseAI SDK includes the compiler, runtime, and various libraries needed to compile and run models on Gaudi hardware.
 
+### Note
+If you're using environment with Gaudi HPU instances - this environment probably already have PyTorch version preinstalled (eg. version 2.4.0a0+git74cd574) and this version is optimized for Habana Gaudi processors, so it is important that you do not install another version of PyTorch. Hence, in this folder you'll find another `requirements.txt` file that does not include PyTorch.
+
+
 ## Getting Started
 1. **Model Configuration**  
    The code supports various GPT-2 model sizes:
@@ -19,7 +23,9 @@ This directory contains instructions for running inference part from [Chapter 6]
    - GPT-2 Large (774M parameters)
    - GPT-2 XL (1558M parameters)
 
-2. **Running the Code**  
+2. **Running the Code**
+
+   *Note: We assume that you have already downloaded the model weights and placed them in the `gpt2` directory inside this folder. Additionally, we use `review_classifier.pth` weights created in [Chapter 6](../../../ch06/01_main-chapter-code/ch06.ipynb), so you don't need to download them separately. Just copy and paste the `review_classifier.pth` file into this folder.*
    - Open the `inference_on_gaudi.ipynb` notebook
    - Follow the cells to:
      - Initialize the HPU device
@@ -32,7 +38,6 @@ This directory contains instructions for running inference part from [Chapter 6]
 ## Code Structure
 
 - `inference_on_gaudi.ipynb`: Main notebook for running inference on Gaudi
-- `gpt_download.py`: Utilities for downloading GPT-2 models
 - `previous_chapters.py`: Supporting code from Chapter 6
 
 ## Troubleshooting

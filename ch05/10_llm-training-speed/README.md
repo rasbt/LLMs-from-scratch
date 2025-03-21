@@ -16,6 +16,8 @@ I plan to expand on the differences in a more detailed write-up sometime in the 
 
 ![VS compare](https://sebastianraschka.com/images/LLMs-from-scratch-images/bonus/llm-training-speed/vs-code-compare.png)
 
+![PyTorch Tips](https://sebastianraschka.com/images/LLMs-from-scratch-images/bonus/pytorch-tips/pytorch-tips.webp?1)
+
 
 &nbsp;
 ## Single GPU speed comparisons

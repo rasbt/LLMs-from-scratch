@@ -21,6 +21,14 @@ from gpt_download import download_and_load_gpt2
 from previous_chapters import GPTModel, load_weights_into_gpt
 
 
+# If the `previous_chapters.py` file is not available locally,
+# you can import it from the `llms-from-scratch` PyPI package.
+# For details, see: https://github.com/rasbt/LLMs-from-scratch/tree/main/pkg
+# E.g.,
+# from llms_from_scratch.ch04 import GPTModel
+# from llms_from_scratch.ch05 import download_and_load_gpt2, load_weights_into_gpt
+
+
 class LoRALayer(torch.nn.Module):
     def __init__(self, in_dim, out_dim, rank, alpha):
         super().__init__()

@@ -17,14 +17,12 @@ from pathlib import Path
 import time
 import tiktoken
 import torch
-from previous_chapters import (
-    create_dataloader_v1,
-    GPTModel,
-    generate_and_print_sample,
-    calc_loss_batch,
-    evaluate_model,
-    plot_losses
-)
+
+# For llms_from_scratch installation instructions, see:
+# https://github.com/rasbt/LLMs-from-scratch/tree/main/pkg
+from llms_from_scratch.ch02 import create_dataloader_v1
+from llms_from_scratch.ch04 import GPTModel, generate_and_print_sample
+from llms_from_scratch.ch05 import calc_loss_batch, evaluate_model, plot_losses
 
 
 def read_text_file(file_path):

@@ -55,7 +55,7 @@ You can use the following code to reproduce the experiments:
 - Row 16: `python additional_experiments.py --trainable_token_pos "flexible"`
 - Row 17: `python additional_experiments.py --disable_causal_mask`
 - Row 18: `python additional_experiments.py --ignore_index 50256`
-- Row 19: `python additional_experiments.py --average embeddings`
+- Row 19: `python additional_experiments.py --average_embeddings`
 
 I've kept the LLM and dataset small on purpose, so you can run the training on a regular laptop like a MacBook Air M3 in about 15 minutes (for the default setting) in case you don't have access to a GPU.
 

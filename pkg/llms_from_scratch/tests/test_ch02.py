@@ -8,10 +8,12 @@ from llms_from_scratch.ch02 import create_dataloader_v1
 import os
 import urllib.request
 
+import pytest
 import torch
 
 
-def test_dataloader():
+@pytest.mark.parametrize("file_name", ["the-verdict.txt"])
+def test_dataloader(tmp_path, file_name):
 
     if not os.path.exists("the-verdict.txt"):
         url = ("https://raw.githubusercontent.com/rasbt/"

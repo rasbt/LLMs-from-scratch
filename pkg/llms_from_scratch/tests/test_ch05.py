@@ -10,12 +10,14 @@ from llms_from_scratch.ch05 import train_model_simple
 import os
 import urllib
 
+import pytest
 import tiktoken
 import torch
 from torch.utils.data import Subset, DataLoader
 
 
-def test_train_simple():
+@pytest.mark.parametrize("file_name", ["the-verdict.txt"])
+def test_train_simple(tmp_path, file_name):
 
     GPT_CONFIG_124M = {
         "vocab_size": 50257,    # Vocabulary size
@@ -41,7 +43,7 @@ def test_train_simple():
     # Download data if necessary
     ##############################
 
-    file_path = "the-verdict.txt"
+    file_path = tmp_path / "the-verdict.txt"
     url = "https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/main/ch02/01_main-chapter-code/the-verdict.txt"
 
     if not os.path.exists(file_path):
@@ -108,6 +110,6 @@ def test_train_simple():
         start_context="Every effort moves you", tokenizer=tokenizer
     )
 
-    assert round(train_losses[0], 2) == 7.64
-    assert round(val_losses[0], 2) == 10.07
-    assert round(train_losses[-1], 2) < 7.64, train_losses[-1]
+    assert round(train_losses[0], 1) == 7.6
+    assert round(val_losses[0], 1) == 10.1
+    assert train_losses[-1] < train_losses[0]

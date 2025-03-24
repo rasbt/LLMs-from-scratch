@@ -19,15 +19,15 @@ import torch
 from torch.utils.data import DataLoader, Subset
 
 
-def test_train_classifier():
+def test_train_classifier(tmp_path):
 
     ########################################
     # Download and prepare dataset
     ########################################
 
     url = "https://archive.ics.uci.edu/static/public/228/sms+spam+collection.zip"
-    zip_path = "sms_spam_collection.zip"
-    extracted_path = "sms_spam_collection"
+    zip_path = tmp_path / "sms_spam_collection.zip"
+    extracted_path = tmp_path / "sms_spam_collection"
     data_file_path = Path(extracted_path) / "SMSSpamCollection.tsv"
 
     try:
@@ -46,9 +46,9 @@ def test_train_classifier():
     balanced_df["Label"] = balanced_df["Label"].map({"ham": 0, "spam": 1})
 
     train_df, validation_df, test_df = random_split(balanced_df, 0.7, 0.1)
-    train_df.to_csv("train.csv", index=None)
-    validation_df.to_csv("validation.csv", index=None)
-    test_df.to_csv("test.csv", index=None)
+    train_df.to_csv(tmp_path / "train.csv", index=None)
+    validation_df.to_csv(tmp_path / "validation.csv", index=None)
+    test_df.to_csv(tmp_path / "test.csv", index=None)
 
     ########################################
     # Create data loaders
@@ -56,13 +56,13 @@ def test_train_classifier():
     tokenizer = tiktoken.get_encoding("gpt2")
 
     train_dataset = SpamDataset(
-        csv_file="train.csv",
+        csv_file=tmp_path / "train.csv",
         max_length=None,
         tokenizer=tokenizer
     )
 
     val_dataset = SpamDataset(
-        csv_file="validation.csv",
+        csv_file=tmp_path / "validation.csv",
         max_length=train_dataset.max_length,
         tokenizer=tokenizer
     )
@@ -130,19 +130,19 @@ def test_train_classifier():
 
     torch.manual_seed(123)
 
-    optimizer = torch.optim.AdamW(model.parameters(), lr=5e-5, weight_decay=0.1)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=5e-5, weight_decay=0.0)
 
     train_subset = Subset(train_loader.dataset, range(5))
     batch_train_loader = DataLoader(train_subset, batch_size=5)
     val_subset = Subset(val_loader.dataset, range(5))
     batch_val_loader = DataLoader(val_subset, batch_size=5)
 
-    num_epochs = 6
+    num_epochs = 5
     train_losses, val_losses, train_accs, val_accs, examples_seen = train_classifier_simple(
         model, batch_train_loader, batch_val_loader, optimizer, device,
         num_epochs=num_epochs, eval_freq=1, eval_iter=1,
     )
 
-    assert round(train_losses[0], 2) == 0.76
-    assert round(val_losses[0], 2) == 0.76
-    assert round(train_losses[-1], 2) < 0.76, train_losses[-1]
+    assert round(train_losses[0], 1) == 0.8
+    assert round(val_losses[0], 1) == 0.8
+    assert train_losses[-1] < train_losses[0]

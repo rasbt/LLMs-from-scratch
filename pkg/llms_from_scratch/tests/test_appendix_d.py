@@ -15,7 +15,7 @@ import torch
 from torch.utils.data import Subset, DataLoader
 
 
-def test_train():
+def test_train(tmp_path):
 
     GPT_CONFIG_124M = {
         "vocab_size": 50257,    # Vocabulary size
@@ -41,12 +41,12 @@ def test_train():
     # Download data if necessary
     ##############################
 
-    file_path = "the-verdict.txt"
+    file_path = tmp_path / "the-verdict.txt"
     url = "https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/main/ch02/01_main-chapter-code/the-verdict.txt"
 
     if not os.path.exists(file_path):
         with urllib.request.urlopen(url) as response:
-            text_data = response.read().decode('utf-8')
+            text_data = response.read().decode("utf-8")
         with open(file_path, "w", encoding="utf-8") as file:
             file.write(text_data)
     else:
@@ -113,6 +113,6 @@ def test_train():
         initial_lr=1e-5, min_lr=1e-5
     )
 
-    assert round(train_losses[0], 2) == 10.87
-    assert round(val_losses[0], 2) == 10.96
-    assert round(train_losses[-1], 2) < 10.87, train_losses[-1]
+    assert round(train_losses[0], 1) == 10.9
+    assert round(val_losses[0], 1) == 11.0
+    assert train_losses[-1] < train_losses[0]

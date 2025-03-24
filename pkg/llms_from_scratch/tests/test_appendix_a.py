@@ -46,13 +46,12 @@ def test_dataset():
 
             logits = model(features)
 
-            loss = F.cross_entropy(logits, labels) # Loss function
+            loss = F.cross_entropy(logits, labels)
 
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
 
-            ### LOGGING
             print(f"Epoch: {epoch+1:03d}/{num_epochs:03d}"
                   f" | Batch {batch_idx:03d}/{len(train_loader):03d}"
                   f" | Train/Val Loss: {loss:.2f}")

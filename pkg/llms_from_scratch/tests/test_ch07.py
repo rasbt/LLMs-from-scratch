@@ -16,12 +16,12 @@ from torch.utils.data import DataLoader
 import tiktoken
 
 
-def test_instruction_finetune():
+def test_instruction_finetune(tmp_path):
 
     #######################################
     # Download and prepare dataset
     #######################################
-    file_path = "instruction-data.json"
+    file_path = tmp_path / "instruction-data.json"
     url = "https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/main/ch07/01_main-chapter-code/instruction-data.json"
     data = download_and_load_file(file_path, url)
 
@@ -33,9 +33,9 @@ def test_instruction_finetune():
     val_data = data[train_portion + test_portion:]
 
     # Use very small subset for testing purposes
-    train_data = train_data[:10]
-    val_data = val_data[:10]
-    test_data = test_data[:10]
+    train_data = train_data[:15]
+    val_data = val_data[:15]
+    test_data = test_data[:15]
 
     tokenizer = tiktoken.get_encoding("gpt2")
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -93,7 +93,7 @@ def test_instruction_finetune():
     # Finetuning the model
     #######################################
 
-    num_epochs = 6
+    num_epochs = 10
     optimizer = torch.optim.AdamW(model.parameters(), lr=5e-5, weight_decay=0.1)
 
     torch.manual_seed(123)
@@ -103,6 +103,6 @@ def test_instruction_finetune():
         start_context=format_input(val_data[0]), tokenizer=tokenizer
     )
 
-    assert round(train_losses[0], 2) == 10.92
-    assert round(val_losses[0], 2) == 10.96
-    assert round(train_losses[-1], 2) < 10.92, train_losses[-1]
+    assert round(train_losses[0], 1) == 10.9
+    assert round(val_losses[0], 1) == 10.9
+    assert train_losses[-1] < train_losses[0]

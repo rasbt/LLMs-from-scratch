@@ -8,7 +8,11 @@ import math
 import os
 import tiktoken
 import torch
-from previous_chapters import GPTModel, create_dataloader_v1
+
+# For llms_from_scratch installation instructions, see:
+# https://github.com/rasbt/LLMs-from-scratch/tree/main/pkg
+from llms_from_scratch.ch02 import create_dataloader_v1
+from llms_from_scratch.ch04 import GPTModel
 
 
 # Define a grid of hyperparameters to search over

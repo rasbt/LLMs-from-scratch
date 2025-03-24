@@ -1,6 +1,10 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "llms-from-scratch"
-version = "0.1.0"
+version = "1.0.0"
 description = "Implement a ChatGPT-like LLM in PyTorch from scratch, step by step"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -14,17 +18,17 @@ dependencies = [
     "numpy>=1.26,<2.1",
     "pandas>=2.2.1",
     "pip>=25.0.1",
+    "pytest>=8.3.5",
 ]
-
-[tool.setuptools.packages]
-find = {}
 
 [tool.uv.sources]
 llms-from-scratch = { workspace = true }
 
 [dependency-groups]
 dev = [
+    "build>=1.2.2.post1",
     "llms-from-scratch",
+    "twine>=6.1.0",
 ]
 
 [tool.ruff]
@@ -37,3 +41,12 @@ ignore = [
     "C406", "E226", "E402", "E702", "E703",
     "E722", "E731", "E741"
 ]
+
+
+# `llms_from_scratch` PyPI package
+
+[tool.setuptools]
+package-dir = {"" = "pkg"}
+
+[tool.setuptools.packages.find]
+where = ["pkg"]

@@ -7,10 +7,12 @@ import tiktoken
 import torch
 import chainlit
 
-from previous_chapters import (
+# For llms_from_scratch installation instructions, see:
+# https://github.com/rasbt/LLMs-from-scratch/tree/main/pkg
+from llms_from_scratch.ch04 import GPTModel
+from llms_from_scratch.ch05 import (
     download_and_load_gpt2,
     generate,
-    GPTModel,
     load_weights_into_gpt,
     text_to_token_ids,
     token_ids_to_text,

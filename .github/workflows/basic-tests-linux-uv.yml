@@ -66,3 +66,9 @@ jobs:
         run: |
           source .venv/bin/activate
           pytest ch02/05_bpe-from-scratch/tests/tests.py
+
+      - name: Test Selected Bonus Materials
+        shell: bash
+        run: |
+          source .venv/bin/activate
+          pytest pkg/llms_from_scratch/tests/

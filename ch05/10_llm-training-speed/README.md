@@ -4,11 +4,17 @@
 
 Note that the book is written for education purposes, meaning the original code is kept purposefully simple. This is to aid readability and ensure compatibility across different hardware, including CPUs and GPUs. However, you might be curious about some more advanced PyTorch and GPU features to make the LLM training more performant.
 
-This folder contains 3 code files to showcase PyTorch tips to improve the performance of the LLM and LLM training function in Chapter 5. 
+This folder contains three code files that demonstrate performance optimizations for the LLM and the training function introduced in Chapter 5:
 
-1. [`00_orig.py`](00_orig.py): The original code from Chapter 5 for CPU and single-GPU training; run it via `python 00_orig.py`
-2. [`01_opt_single_gpu.py`](01_opt_single_gpu.py): The optimized code for single-GPU training; run it via `python 01_opt_single_gpu.py`
-3. [`02_opt_multi_gpu_dpp.py`](02_opt_multi_gpu_dpp.py): The optimized code for multi-GPU training via distributed data parallelism; run it via `torchrun --nproc_per_node=4 02_opt_multi_gpu_dpp.py`
+1. [`00_orig.py`](00_orig.py): The original Chapter 5 code for CPU and single-GPU training.  
+   ➤ Run via: `python 00_orig.py`
+
+2. [`01_opt_single_gpu.py`](01_opt_single_gpu.py): An optimized version for single-GPU training.  
+   ➤ Run via: `python 01_opt_single_gpu.py`
+
+3. [`02_opt_multi_gpu_ddp.py`](02_opt_multi_gpu_ddp.py): An optimized version for multi-GPU training using Distributed Data Parallel (DDP).  
+   ➤ Run via: `torchrun --nproc_per_node=4 02_opt_multi_gpu_ddp.py`  
+   (**Note:** To keep the changes minimal compared to `01_opt_single_gpu.py`, this script supports multi-processing only via `torchrun` as shown above. This means multi-GPU support is **not** supported via `python 02_opt_multi_gpu_ddp.py`)
 
 **Note that these modifications take the training speed from 12,525 tokens per second (single A100) to 142,156 tokens per second (single A100) and 419,259 tokens per second (4x A100s).**
 

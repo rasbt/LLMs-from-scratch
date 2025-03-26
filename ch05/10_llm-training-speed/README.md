@@ -175,9 +175,9 @@ After:
 - `Reserved memory: 6.1875 GB`
 
 &nbsp;
-### 9. Using a nicer vocab size value
+### 9. Vocabulary padding
 
-- Here, we slightly increase the vocabulary size from 50,257 to 50,304, which is the nearest multiple of 64. This tip was suggested to me by my former colleague Carlos Mocholi, who mentioned that it originally came from Andrej Karpathy (likely from [this post](https://x.com/karpathy/status/1621578354024677377)). Karpathy's recommendation is based on [NVIDIA's guidelines on tensor shapes](https://docs.nvidia.com/deeplearning/performance/mixed-precision-training/index.html#tensor-core-shape), where batch sizes and linear layer dimensions are commonly chosen as multiples of certain values.
+- Here, we slightly increase the vocabulary size from 50,257 to 50,304, which is the nearest multiple of 64. This tip was suggested to me by my former colleague Carlos Mocholi, who mentioned that it originally came from Andrej Karpathy (likely from [this post](https://x.com/karpathy/status/1621578354024677377)). Karpathy's recommendation is based on an interaction with the PyTorch team, who gave advice on `torch.compile` as mentioned by [Bertrand Maher](https://www.linkedin.com/feed/update/urn:li:activity:7309569006057795584?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7309569006057795584%2C7309754284185669632%29&dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287309754284185669632%2Curn%3Ali%3Aactivity%3A7309569006057795584%29). A good resource for this are [NVIDIA's guidelines on tensor shapes](https://docs.nvidia.com/deeplearning/performance/mixed-precision-training/index.html#tensor-core-shape), where batch sizes and linear layer dimensions are commonly chosen as multiples of certain values. Furthermore, the vocab-padding trick was described by NVIDIA's Megatron team a long time ago (see the 2019 [Megatron-LM: Training Multi-Billion Parameter Language Models Using Model Parallelism](https://arxiv.org/abs/1909.08053) paper).
 
 Before:
 - `Step tok/sec: 112046`

@@ -48,6 +48,9 @@ ch05/07_gpt_to_llama/Llama-3.2-1B
 ch05/07_gpt_to_llama/Llama-3.2-1B-Instruct
 ch05/07_gpt_to_llama/Llama-3.2-3B
 ch05/07_gpt_to_llama/Llama-3.2-3B-Instruct
+ch05/10_llm-training-speed/middlemarch.txt
+ch05/10_llm-training-speed/loss.pdf
+ch05/10_llm-training-speed/model.pth
 
 ch06/01_main-chapter-code/gpt2
 ch06/02_bonus_additional-experiments/gpt2

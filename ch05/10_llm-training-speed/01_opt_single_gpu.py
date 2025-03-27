@@ -502,6 +502,12 @@ if __name__ == "__main__":
     plt.savefig("loss.pdf")
 
     # Save and load model
-    # torch.save(model.state_dict(), "model.pth")
+    #
+    # compiled = hasattr(model, "_orig_mod")
+    # if compiled:
+    #     torch.save(model._orig_mod.state_dict(), "model.pth")
+    # else:
+    #     torch.save(model.state_dict(), "model.pth")
+    #
     # model = GPTModel(GPT_CONFIG_124M)
     # model.load_state_dict(torch.load("model.pth", weights_only=True))

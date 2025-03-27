@@ -3,26 +3,29 @@
 #   - https://www.manning.com/books/build-a-large-language-model-from-scratch
 # Code: https://github.com/rasbt/LLMs-from-scratch
 
-from llms_from_scratch.ch04 import GPTModel
+from llms_from_scratch.ch04 import GPTModel, GPTModelFast
 from llms_from_scratch.ch04 import generate_text_simple
 
+import pytest
 import torch
 import tiktoken
 
 
-def test_GPTModel():
-    GPT_CONFIG_124M = {
-        "vocab_size": 50257,     # Vocabulary size
-        "context_length": 1024,  # Context length
-        "emb_dim": 768,          # Embedding dimension
-        "n_heads": 12,           # Number of attention heads
-        "n_layers": 12,          # Number of layers
-        "drop_rate": 0.1,        # Dropout rate
-        "qkv_bias": False        # Query-Key-Value bias
-    }
+GPT_CONFIG_124M = {
+    "vocab_size": 50257,     # Vocabulary size
+    "context_length": 1024,  # Context length
+    "emb_dim": 768,          # Embedding dimension
+    "n_heads": 12,           # Number of attention heads
+    "n_layers": 12,          # Number of layers
+    "drop_rate": 0.1,        # Dropout rate
+    "qkv_bias": False        # Query-Key-Value bias
+}
 
+
+@pytest.mark.parametrize("ModelClass", [GPTModel, GPTModelFast])
+def test_gpt_model_variants(ModelClass):
     torch.manual_seed(123)
-    model = GPTModel(GPT_CONFIG_124M)
+    model = ModelClass(GPT_CONFIG_124M)
     model.eval()  # disable dropout
 
     start_context = "Hello, I am"
@@ -47,4 +50,4 @@ def test_GPTModel():
         [15496,   11,   314,   716, 27018, 24086, 47843, 30961, 42348,  7267,
          49706, 43231, 47062, 34657]
     ])
-    torch.equal(expect, out)
+    assert torch.equal(expect, out), "Generated output does not match expected output"

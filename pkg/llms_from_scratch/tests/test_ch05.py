@@ -4,20 +4,18 @@
 # Code: https://github.com/rasbt/LLMs-from-scratch
 
 from llms_from_scratch.ch02 import create_dataloader_v1
-from llms_from_scratch.ch04 import GPTModel
+from llms_from_scratch.ch04 import GPTModel, GPTModelFast
 from llms_from_scratch.ch05 import train_model_simple
 
 import os
 import urllib
 
-import pytest
 import tiktoken
 import torch
 from torch.utils.data import Subset, DataLoader
 
 
-@pytest.mark.parametrize("file_name", ["the-verdict.txt"])
-def test_train_simple(tmp_path, file_name):
+def test_train_simple(tmp_path):
 
     GPT_CONFIG_124M = {
         "vocab_size": 50257,    # Vocabulary size
@@ -103,6 +101,25 @@ def test_train_simple(tmp_path, file_name):
     one_batch_train_loader = DataLoader(train_subset, batch_size=1)
     val_subset = Subset(val_loader.dataset, range(1))
     one_batch_val_loader = DataLoader(val_subset, batch_size=1)
+
+    train_losses, val_losses, tokens_seen = train_model_simple(
+        model, one_batch_train_loader, one_batch_val_loader, optimizer, device,
+        num_epochs=OTHER_SETTINGS["num_epochs"], eval_freq=1, eval_iter=1,
+        start_context="Every effort moves you", tokenizer=tokenizer
+    )
+
+    assert round(train_losses[0], 1) == 7.6
+    assert round(val_losses[0], 1) == 10.1
+    assert train_losses[-1] < train_losses[0]
+
+    ###################
+    # Bonus
+    ###################
+    model = GPTModelFast(GPT_CONFIG_124M)
+    model.to(device)
+    optimizer = torch.optim.AdamW(
+        model.parameters(), lr=OTHER_SETTINGS["learning_rate"], weight_decay=OTHER_SETTINGS["weight_decay"]
+    )
 
     train_losses, val_losses, tokens_seen = train_model_simple(
         model, one_batch_train_loader, one_batch_val_loader, optimizer, device,

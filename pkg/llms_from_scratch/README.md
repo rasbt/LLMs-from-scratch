@@ -50,11 +50,12 @@ Once installed, you can import code from any chapter using:
 from llms_from_scratch.ch02 import GPTDatasetV1, create_dataloader_v1
 
 from llms_from_scratch.ch03 import (
-    MultiHeadAttention,
     SelfAttention_v1,
     SelfAttention_v2,
     CausalAttention,
-    MultiHeadAttentionWrapper
+    MultiHeadAttentionWrapper,
+    MultiHeadAttention,
+    PyTorchMultiHeadAttention # Bonus: Faster variant using PyTorch's scaled_dot_product_attention
 )
 
 from llms_from_scratch.ch04 import (
@@ -63,6 +64,7 @@ from llms_from_scratch.ch04 import (
     FeedForward,
     TransformerBlock,
     GPTModel,
+    GPTModelFast # Bonus: Faster variant using PyTorch's scaled_dot_product_attention
     generate_text_simple
 )
 

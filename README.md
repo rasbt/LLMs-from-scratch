@@ -113,7 +113,7 @@ Several folders contain optional materials as a bonus for interested readers:
 - **Chapter 4: Implementing a GPT model from scratch**
   - [FLOPS Analysis](ch04/02_performance-analysis/flops-analysis.ipynb)
 - **Chapter 5: Pretraining on unlabeled data:**
-  - [Alternative Weight Loading from Hugging Face Model Hub using Transformers](ch05/02_alternative_weight_loading/weight-loading-hf-transformers.ipynb)
+  - [Alternative Weight Loading Methods](ch05/02_alternative_weight_loading/)
   - [Pretraining GPT on the Project Gutenberg Dataset](ch05/03_bonus_pretraining_on_gutenberg)
   - [Adding Bells and Whistles to the Training Loop](ch05/04_learning_rate_schedulers)
   - [Optimizing Hyperparameters for Pretraining](ch05/05_bonus_hparam_tuning)

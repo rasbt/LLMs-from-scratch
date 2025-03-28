@@ -79,7 +79,8 @@ from llms_from_scratch.ch05 import (
     token_ids_to_text,
     calc_loss_batch,
     calc_loss_loader,
-    plot_losses
+    plot_losses,
+    download_and_load_gpt2
 )
 
 from llms_from_scratch.ch06 import (

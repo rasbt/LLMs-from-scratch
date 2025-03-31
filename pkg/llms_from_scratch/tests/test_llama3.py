@@ -5,7 +5,9 @@
 
 from llms_from_scratch.ch04 import generate_text_simple
 from llms_from_scratch.llama3 import (
-    compute_rope_params, apply_rope,
+    compute_rope_params,
+    apply_rope,
+    rescale_theta,
     LLAMA32_CONFIG_1B,
     Llama3Model
 )
@@ -90,6 +92,23 @@ GPT_CONFIG_124M = {
     "drop_rate": 0.1,        # Dropout rate
     "qkv_bias": False        # Query-Key-Value bias
 }
+
+
+def test_rescale():
+
+    new_theta = rescale_theta(
+        theta_old=500_000.,
+        context_length_old=131_072,
+        context_length_new=8192
+    )
+    assert new_theta == 31250.
+
+    old_theta = rescale_theta(
+        theta_old=new_theta,
+        context_length_old=8192,
+        context_length_new=131_072
+    )
+    assert old_theta == 500_000.
 
 
 @pytest.mark.parametrize("ModelClass", [Llama3Model])

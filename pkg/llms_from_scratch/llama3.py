@@ -103,11 +103,8 @@ class TransformerBlock(nn.Module):
         self.att = GroupedQueryAttention(
             d_in=cfg["emb_dim"],
             d_out=cfg["emb_dim"],
-            context_length=cfg["context_length"],
             num_heads=cfg["n_heads"],
             num_kv_groups=cfg["n_kv_groups"],
-            rope_base=cfg["rope_base"],
-            rope_config=cfg["rope_freq"],
             dtype=cfg["dtype"]
         )
         self.ff = FeedForward(cfg)
@@ -146,10 +143,8 @@ class FeedForward(nn.Module):
 
 class GroupedQueryAttention(nn.Module):
     def __init__(
-            self, d_in, d_out, context_length, num_heads,
+            self, d_in, d_out, num_heads,
             num_kv_groups,
-            rope_base=10_000,
-            rope_config=None,
             dtype=None
     ):
         super().__init__()

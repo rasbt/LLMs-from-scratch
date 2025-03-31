@@ -118,4 +118,4 @@ from llms_from_scratch.llama3 import (
 )
 ```
 
-(For the `llms_from_scratch.llama3` usage information, please see [this bonus section](../../ch05/07_gpt_to_llama/README.md.)
+(For the `llms_from_scratch.llama3` usage information, please see [this bonus section](../../ch05/07_gpt_to_llama/README.md).

@@ -71,4 +71,5 @@ jobs:
         shell: bash
         run: |
           source .venv/bin/activate
+          uv pip install transformers
           pytest pkg/llms_from_scratch/tests/

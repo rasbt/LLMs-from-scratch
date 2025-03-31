@@ -12,13 +12,16 @@ from llms_from_scratch.llama3 import (
     Llama3Model
 )
 
-import sys
+import importlib
 import pytest
 import tiktoken
 import torch
 
 
-@pytest.mark.skipif("transformers" not in sys.modules, reason="transformers not installed")
+transformers_installed = importlib.util.find_spec("transformers") is not None
+
+
+@pytest.mark.skipif(not transformers_installed, reason="transformers not installed")
 def test_rope():
 
     from transformers.models.llama.modeling_llama import LlamaRotaryEmbedding, apply_rotary_pos_emb

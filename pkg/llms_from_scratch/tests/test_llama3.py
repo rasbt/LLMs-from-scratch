@@ -15,10 +15,11 @@ from llms_from_scratch.llama3 import (
 import pytest
 import tiktoken
 import torch
-from transformers.models.llama.modeling_llama import LlamaRotaryEmbedding, apply_rotary_pos_emb
 
 
 def test_rope():
+
+    from transformers.models.llama.modeling_llama import LlamaRotaryEmbedding, apply_rotary_pos_emb
 
     # Settings
     batch_size = 1

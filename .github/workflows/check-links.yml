@@ -23,13 +23,12 @@ jobs:
     - name: Install dependencies
       run: |
         curl -LsSf https://astral.sh/uv/install.sh | sh
-        uv add pytest-ruff pytest-check-links pytest-retry
+        uv add pytest-ruff pytest-check-links
 
     - name: Check links
       run: |
         source .venv/bin/activate
         pytest --ruff --check-links ./ \
-          --retries 2 --retry-delay 5 \
           --check-links-ignore "https://platform.openai.com/*" \
           --check-links-ignore "https://openai.com/*" \
           --check-links-ignore "https://arena.lmsys.org" \

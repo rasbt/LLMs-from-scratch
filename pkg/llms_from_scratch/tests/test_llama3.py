@@ -12,7 +12,6 @@ from llms_from_scratch.llama3 import (
     GroupedQueryAttention,
     GroupedQueryAttentionFast,
     Llama3Model,
-    Llama3ModelFast
 )
 
 import importlib

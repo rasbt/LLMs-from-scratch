@@ -181,7 +181,7 @@ Test accuracy: 92.95%
 
 [ModernBERT (2024)](https://arxiv.org/abs/2412.13663) is an optimized reimplementation of BERT that incorporates architectural improvements like parallel residual connections and gated linear units (GLUs) to boost efficiency and performance. It maintains BERT’s original pretraining objectives while achieving faster inference and better scalability on modern hardware.
 
-```python
+```bash
 python train_bert_hf.py --trainable_layers "all" --num_epochs 1 --model "modernbert-base"
 ```
 
@@ -215,7 +215,7 @@ Test accuracy: 93.79%
 
 Same as above but using the larger ModernBERT variant.
 
-```python
+```bash
 python train_bert_hf.py --trainable_layers "all" --num_epochs 1 --model "modernbert-large"
 ```
 

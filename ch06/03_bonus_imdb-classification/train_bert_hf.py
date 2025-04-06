@@ -197,7 +197,7 @@ if __name__ == "__main__":
         type=str,
         default="distilbert",
         help=(
-            "Which model to train. Options: 'distilbert', 'bert', 'roberta', 'modern-bert-base', 'modern-bert-large."
+            "Which model to train. Options: 'distilbert', 'bert', 'roberta', 'modernbert-base/-large'."
         )
     )
     parser.add_argument(
@@ -296,9 +296,9 @@ if __name__ == "__main__":
 
         tokenizer = AutoTokenizer.from_pretrained("FacebookAI/roberta-large")
 
-    elif args.model in ("modern-bert-base", "modern-bert-large"):
+    elif args.model in ("modernbert-base", "modernbert-large"):
 
-        if args.model == "modern-bert-base":
+        if args.model == "modernbert-base":
             model = AutoModelForSequenceClassification.from_pretrained(
                 "answerdotai/ModernBERT-base", num_labels=2
             )
@@ -330,7 +330,7 @@ if __name__ == "__main__":
 
         tokenizer = AutoTokenizer.from_pretrained("answerdotai/ModernBERT-base")
 
-    elif args.model == "modern-bert-base":
+    elif args.model == "modernbert-base":
         model = AutoModelForSequenceClassification.from_pretrained(
             "answerdotai/ModernBERT-base", num_labels=2
         )

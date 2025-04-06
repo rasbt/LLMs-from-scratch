@@ -42,6 +42,7 @@ jobs:
       - name: List installed packages
         run: |
           pixi list --environment tests
+          pixi run --environment tests pip install "huggingface-hub>=0.30.0,<1.0"
 
       - name: Test Selected Python Scripts
         shell: pixi run --environment tests bash -e {0}

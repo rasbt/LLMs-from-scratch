@@ -37,4 +37,5 @@ jobs:
           --check-links-ignore "https://code.visualstudio.com/*" \
           --check-links-ignore "https://arxiv.org/*" \
           --check-links-ignore "https://ai.stanford.edu/~amaas/data/sentiment/" \
-          --check-links-ignore "https://x.com/*"
+          --check-links-ignore "https://x.com/*" \
+          --check-links-ignore "https://scholar.google.com/*"

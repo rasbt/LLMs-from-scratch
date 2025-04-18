@@ -17,3 +17,10 @@
 - [08_memory_efficient_weight_loading](08_memory_efficient_weight_loading) contains a bonus notebook showing how to load model weights via PyTorch's `load_state_dict` method more efficiently
 - [09_extending-tokenizers](09_extending-tokenizers) contains a from-scratch implementation of the GPT-2 BPE tokenizer
 - [10_llm-training-speed](10_llm-training-speed) shows PyTorch performance tips to improve the LLM training speed
+
+
+
+<br>
+<br>
+
+[![Link to the video](https://img.youtube.com/vi/Zar2TJv-sE0/0.jpg)](https://www.youtube.com/watch?v=Zar2TJv-sE0)

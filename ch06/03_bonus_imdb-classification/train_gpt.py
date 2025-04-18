@@ -293,6 +293,11 @@ if __name__ == "__main__":
             "Learning rate."
         )
     )
+    parser.add_argument(
+        "--compile",
+        action="store_true",
+        help="If set, model compilation will be enabled."
+    )
     args = parser.parse_args()
 
     if args.trainable_token_pos == "first":
@@ -346,6 +351,10 @@ if __name__ == "__main__":
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
+
+    if args.compile:
+        torch.set_float32_matmul_precision("high")
+        model = torch.compile(model)
 
     ###############################
     # Instantiate dataloaders

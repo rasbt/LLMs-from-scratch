@@ -1,3 +1,4 @@
+
 # Configs and keys
 ch05/07_gpt_to_llama/config.json
 ch07/02_dataset-utilities/config.json
@@ -47,6 +48,9 @@ ch05/07_gpt_to_llama/Llama-3.2-1B
 ch05/07_gpt_to_llama/Llama-3.2-1B-Instruct
 ch05/07_gpt_to_llama/Llama-3.2-3B
 ch05/07_gpt_to_llama/Llama-3.2-3B-Instruct
+ch05/10_llm-training-speed/middlemarch.txt
+ch05/10_llm-training-speed/loss.pdf
+ch05/10_llm-training-speed/model.pth
 
 ch06/01_main-chapter-code/gpt2
 ch06/02_bonus_additional-experiments/gpt2
@@ -63,6 +67,8 @@ ch07/01_main-chapter-code/Smalltestmodel-sft-standalone.pth
 ch07/01_main-chapter-code/gpt2/
 
 # Datasets
+the-verdict.txt
+
 appendix-E/01_main-chapter-code/sms_spam_collection.zip
 appendix-E/01_main-chapter-code/sms_spam_collection
 appendix-E/01_main-chapter-code/train.csv
@@ -70,6 +76,7 @@ appendix-E/01_main-chapter-code/test.csv
 appendix-E/01_main-chapter-code/validation.csv
 
 ch02/01_main-chapter-code/number-data.txt
+ch02/05_bpe-from-scratch/the-verdict.txt
 
 ch05/03_bonus_pretraining_on_gutenberg/gutenberg
 ch05/03_bonus_pretraining_on_gutenberg/gutenberg_preprocessed
@@ -107,7 +114,9 @@ ch02/05_bpe-from-scratch/bpe_merges.txt
 ch02/05_bpe-from-scratch/encoder.json
 ch02/05_bpe-from-scratch/vocab.bpe
 ch02/05_bpe-from-scratch/vocab.json
-
+encoder.json
+vocab.bpe
+vocab.json
 
 # Other
 ch0?/0?_user_interface/.chainlit/

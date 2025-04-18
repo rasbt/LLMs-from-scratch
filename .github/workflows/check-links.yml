@@ -24,8 +24,6 @@ jobs:
       run: |
         curl -LsSf https://astral.sh/uv/install.sh | sh
         uv add pytest-ruff pytest-check-links
-        # Current version of retry doesn't work well if there are broken non-URL links
-        # pip install pytest pytest-check-links pytest-retry
 
     - name: Check links
       run: |
@@ -39,6 +37,5 @@ jobs:
           --check-links-ignore "https://code.visualstudio.com/*" \
           --check-links-ignore "https://arxiv.org/*" \
           --check-links-ignore "https://ai.stanford.edu/~amaas/data/sentiment/" \
-          --check-links-ignore "https://x.com/*"
-        # pytest --check-links ./ --check-links-ignore "https://platform.openai.com/*" --check-links-ignore "https://arena.lmsys.org" --retries 2 --retry-delay 5
-
+          --check-links-ignore "https://x.com/*" \
+          --check-links-ignore "https://scholar.google.com/*"

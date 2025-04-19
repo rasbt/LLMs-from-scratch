@@ -10,13 +10,14 @@ This folder contains additional experiments to compare the (decoder-style) GPT-2
 
 |       | Model                        | Test accuracy |
 | ----- | ---------------------------- | ------------- |
-| **1** | 124 M GPT-2 Baseline         | 91.88%        |
-| **2** | 340 M BERT                   | 90.89%        |
-| **3** | 66 M DistilBERT              | 91.40%        |
-| **4** | 355 M RoBERTa                | 92.95%        |
-| **5** | 149 M ModernBERT Base        | 93.79%        |
-| **6** | 395 M ModernBERT Large       | 95.07%        |
-| **7** | Logistic Regression Baseline | 88.85%        |
+| **1** | 124M GPT-2 Baseline          | 91.88%        |
+| **2** | 340M BERT                    | 90.89%        |
+| **3** | 66M DistilBERT               | 91.40%        |
+| **4** | 355M RoBERTa                 | 92.95%        |
+| **5** | 304M DeBERTa-v3              | 94.69%        |
+| **6** | 149M ModernBERT Base         | 93.79%        |
+| **7** | 395M ModernBERT Large        | 95.07%        |
+| **8** | Logistic Regression Baseline | 88.85%        |
 
 
 
@@ -48,7 +49,7 @@ python download_prepare_dataset.py
 ## Step 3: Run Models
 
 &nbsp;
-### 1) 124 M GPT-2 Baseline
+### 1) 124M GPT-2 Baseline
 
 The 124M GPT-2 model used in chapter 6, starting with pretrained weights, and finetuning all weights:
 
@@ -80,7 +81,7 @@ Test accuracy: 91.88%
 <br>
 
 &nbsp;
-### 2) 340 M BERT
+### 2) 340M BERT
 
 
 A 340M parameter encoder-style [BERT](https://arxiv.org/abs/1810.04805) model:
@@ -112,7 +113,7 @@ Test accuracy: 90.89%
 <br>
 
 &nbsp;
-### 3) 66 M DistilBERT
+### 3) 66M DistilBERT
 
 A 66M parameter encoder-style [DistilBERT](https://arxiv.org/abs/1910.01108) model (distilled down from a 340M parameter BERT model), starting for the pretrained weights and only training the last transformer block plus output layers:
 
@@ -144,7 +145,7 @@ Test accuracy: 91.40%
 <br>
 
 &nbsp;
-### 4) 355 M RoBERTa
+### 4) 355M RoBERTa
 
 A 355M parameter encoder-style [RoBERTa](https://arxiv.org/abs/1907.11692) model, starting for the pretrained weights and only training the last transformer block plus output layers:
 
@@ -156,6 +157,38 @@ python train_bert_hf.py --trainable_layers "last_block" --num_epochs 1 --model "
 ```
 Ep 1 (Step 000000): Train loss 0.695, Val loss 0.698
 Ep 1 (Step 000050): Train loss 0.670, Val loss 0.690
+...
+Ep 1 (Step 004300): Train loss 0.083, Val loss 0.098
+Ep 1 (Step 004350): Train loss 0.170, Val loss 0.086
+Training accuracy: 98.12% | Validation accuracy: 96.88%
+Training completed in 11.22 minutes.
+
+Evaluating on the full datasets ...
+
+Training accuracy: 96.23%
+Validation accuracy: 94.52%
+Test accuracy: 94.69%
+```
+
+<br>
+
+---
+
+<br>
+
+&nbsp;
+### 5) 304M DeBERTa-v3
+
+A 304M parameter encoder-style [DeBERTa-v3](https://arxiv.org/abs/2111.09543) model. DeBERTa-v3 improves upon earlier versions with disentangled attention and improved position encoding.
+
+
+```bash
+python train_bert_hf.py --trainable_layers "all" --num_epochs 1 --model "deberta-v3-base"
+```
+
+```
+Ep 1 (Step 000000): Train loss 0.689, Val loss 0.694
+Ep 1 (Step 000050): Train loss 0.673, Val loss 0.683
 ...
 Ep 1 (Step 004300): Train loss 0.126, Val loss 0.149
 Ep 1 (Step 004350): Train loss 0.211, Val loss 0.138
@@ -176,8 +209,9 @@ Test accuracy: 92.95%
 <br>
 
 
+
 &nbsp;
-### 5) 149 M ModernBERT Base
+### 6) 149M ModernBERT Base
 
 [ModernBERT (2024)](https://arxiv.org/abs/2412.13663) is an optimized reimplementation of BERT that incorporates architectural improvements like parallel residual connections and gated linear units (GLUs) to boost efficiency and performance. It maintains BERT’s original pretraining objectives while achieving faster inference and better scalability on modern hardware.
 
@@ -211,7 +245,7 @@ Test accuracy: 93.79%
 
 
 &nbsp;
-### 6) 395 M ModernBERT Large
+### 7) 395M ModernBERT Large
 
 Same as above but using the larger ModernBERT variant.
 
@@ -248,7 +282,7 @@ Test accuracy: 95.07%
 <br>
 
 &nbsp;
-### 7) Logistic Regression Baseline
+### 8) Logistic Regression Baseline
 
 A scikit-learn [logistic regression](https://sebastianraschka.com/blog/2022/losses-learned-part1.html) classifier as a baseline:
 

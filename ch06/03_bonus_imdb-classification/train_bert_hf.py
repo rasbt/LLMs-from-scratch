@@ -197,7 +197,7 @@ if __name__ == "__main__":
         type=str,
         default="distilbert",
         help=(
-            "Which model to train. Options: 'distilbert', 'bert', 'roberta', 'modernbert-base/-large'."
+            "Which model to train. Options: 'distilbert', 'bert', 'roberta', 'modernbert-base/-large', 'deberta-v3-base'."
         )
     )
     parser.add_argument(
@@ -330,11 +330,10 @@ if __name__ == "__main__":
 
         tokenizer = AutoTokenizer.from_pretrained("answerdotai/ModernBERT-base")
 
-    elif args.model == "modernbert-base":
+    elif args.model == "deberta-v3-base":
         model = AutoModelForSequenceClassification.from_pretrained(
-            "answerdotai/ModernBERT-base", num_labels=2
+            "microsoft/deberta-v3-base", num_labels=2
         )
-        print(model)
         model.classifier = torch.nn.Linear(in_features=768, out_features=2)
         for param in model.parameters():
             param.requires_grad = False
@@ -344,7 +343,9 @@ if __name__ == "__main__":
         elif args.trainable_layers == "last_block":
             for param in model.classifier.parameters():
                 param.requires_grad = True
-            for param in model.layers.layer[-1].parameters():
+            for param in model.pooler.parameters():
+                param.requires_grad = True
+            for param in model.deberta.encoder.layer[-1].parameters():
                 param.requires_grad = True
         elif args.trainable_layers == "all":
             for param in model.parameters():
@@ -352,7 +353,7 @@ if __name__ == "__main__":
         else:
             raise ValueError("Invalid --trainable_layers argument.")
 
-        tokenizer = AutoTokenizer.from_pretrained("answerdotai/ModernBERT-base")
+        tokenizer = AutoTokenizer.from_pretrained("microsoft/deberta-v3-base")
 
     else:
         raise ValueError("Selected --model {args.model} not supported.")

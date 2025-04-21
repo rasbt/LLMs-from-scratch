@@ -16,7 +16,7 @@ Repo này fork từ [Build a Large Language Model (From Scratch)](https://github
 
 <br>
 
-| Chapter Title                                              | Main Code (for Quick Access)                                                                                                    | All Code + Supplementary      |
+| Danh sách các chương                                             | Nội dung chính                                                                                                    | Tất cả tài liệu + code      |
 |------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|-------------------------------|
 | Ch 1: Hiểu về mô hình ngôn ngữ lớn                  | No code                                                                                                                         | -                             |
 | Ch 2: Xử lý dữ liệu văn bản                               | - [ch02.ipynb](ch02/01_main-chapter-code/ch02.ipynb)<br/>- [dataloader.ipynb](ch02/01_main-chapter-code/dataloader.ipynb) (summary)<br/>- [exercise-solutions.ipynb](ch02/01_main-chapter-code/exercise-solutions.ipynb)               | [./ch02](./ch02)            |
@@ -36,7 +36,7 @@ Repo này fork từ [Build a Large Language Model (From Scratch)](https://github
 
 Mô tả trực quan nội dụng của các chương và các phần
 
-<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/mental-model.jpg" width="650px">
+<img src="https://images.viblo.asia/dfbd24a0-cc2f-467c-a81b-5c53d639b0be.png" >
 
 <br>
 &nbsp;
@@ -46,11 +46,9 @@ Mô tả trực quan nội dụng của các chương và các phần
 Một cái laptop, có GPU càng tốt. Cầu hình yếu quá thì có thể lên [Google Colab](https://colab.google/)
 
 &nbsp;
-## Các phần bổ sung thêm ngoài nội dung chính trong các chương
+## Các phần mở rộng thêm ngoài nội dung chính trong các chương
 
-Several folders contain optional materials as a bonus for interested readers:
-
-- **Setup**
+- **Cài đặt**
   - [Python Setup Tips](setup/01_optional-python-setup-preferences)
   - [Installing Python Packages and Libraries Used In This Book](setup/02_installing-python-libraries)
   - [Docker Environment Setup Guide](setup/03_optional-docker-environment)

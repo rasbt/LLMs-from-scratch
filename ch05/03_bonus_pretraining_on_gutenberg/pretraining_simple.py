@@ -21,8 +21,8 @@ import torch
 # For llms_from_scratch installation instructions, see:
 # https://github.com/rasbt/LLMs-from-scratch/tree/main/pkg
 from llms_from_scratch.ch02 import create_dataloader_v1
-from llms_from_scratch.ch04 import GPTModel, generate_and_print_sample
-from llms_from_scratch.ch05 import calc_loss_batch, evaluate_model, plot_losses
+from llms_from_scratch.ch04 import GPTModel
+from llms_from_scratch.ch05 import calc_loss_batch, evaluate_model, plot_losses, generate_and_print_sample
 
 
 def read_text_file(file_path):

@@ -271,12 +271,6 @@ def apply_rope(x, cos, sin):
     return x_rotated.to(dtype=x.dtype)
 
 
-def rescale_theta(theta_old, context_length_old, context_length_new):
-    scaling_factor = context_length_new / context_length_old
-    theta_new = theta_old * scaling_factor
-    return theta_new
-
-
 ##########################################
 # Tokenizer
 ##########################################

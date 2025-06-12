@@ -7,7 +7,6 @@ from llms_from_scratch.ch04 import generate_text_simple
 from llms_from_scratch.llama3 import (
     compute_rope_params,
     apply_rope,
-    rescale_theta,
     LLAMA32_CONFIG_1B,
     GroupedQueryAttention,
     GroupedQueryAttentionFast,
@@ -102,23 +101,6 @@ GPT_CONFIG_124M = {
 }
 
 
-def test_rescale():
-
-    new_theta = rescale_theta(
-        theta_old=500_000.,
-        context_length_old=131_072,
-        context_length_new=8192
-    )
-    assert new_theta == 31250.
-
-    old_theta = rescale_theta(
-        theta_old=new_theta,
-        context_length_old=8192,
-        context_length_new=131_072
-    )
-    assert old_theta == 500_000.
-
-
 def test_grouped_query_attention_equivalence():
     torch.manual_seed(42)
     b, t, d_in, d_out, num_heads, num_kv_groups = 2, 8, 32, 64, 4, 2
@@ -194,6 +176,6 @@ def test_gpt_model_variants(ModelClass, llama3_weights_path):
     )
     print("Encoded output text:", out)
     expect = torch.tensor([
-        [43,   2543,    292,   4483, 100383,   8113,  21197,  33804,  54419]
+        [43, 2543, 292, 4483, 100383, 8113, 76873, 42175, 72641]
     ])
     assert torch.equal(expect, out)

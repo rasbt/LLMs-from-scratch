@@ -1,4 +1,4 @@
 {
-    "HF_ACCESS_TOKEN": "your token",
+    "HF_ACCESS_TOKEN": "hf-...",
     "_comment": "Enter your access token from https://huggingface.co/settings/tokens"
 }

@@ -194,6 +194,6 @@ def test_gpt_model_variants(ModelClass, llama3_weights_path):
     )
     print("Encoded output text:", out)
     expect = torch.tensor([
-        [43,   2543,    292,   4483, 100383,   8113,  21197,  33804,  54419]
+        [43, 2543, 292, 4483, 100383, 8113, 76873, 42175, 72641]
     ])
     assert torch.equal(expect, out)

@@ -110,12 +110,21 @@ from llms_from_scratch.appendix_a import NeuralNetwork, ToyDataset
 
 from llms_from_scratch.appendix_d import find_highest_gradient, train_model
 
+```
+
+
+
+### Llama  3 (Bonus material)
+
+```python
 from llms_from_scratch.llama3 import (
     Llama3Model,
+    Llama3ModelFast,
     Llama3Tokenizer,
     ChatFormat,
     clean_text
 )
 ```
 
-(For the `llms_from_scratch.llama3` usage information, please see [this bonus section](../../ch05/07_gpt_to_llama/README.md).
+
+For the `llms_from_scratch.llama3` usage information, please see [this bonus section](../../ch05/07_gpt_to_llama/README.md).

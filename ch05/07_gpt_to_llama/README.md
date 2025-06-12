@@ -40,8 +40,6 @@ MODEL_FILE = "llama3.2-1B-instruct.pth"
 Basic text generation settings that can be defined by the user. Note that the recommended 8192-token context size requires approximately 3 GB of VRAM for the text generation example.
 
 ```python
-MODEL_CONTEXT_LENGTH = 8192  # Supports up to 131_072
-
 # Text generation settings
 if "instruct" in MODEL_FILE:
     PROMPT = "What do llamas eat?"
@@ -81,8 +79,6 @@ elif "3B" in MODEL_FILE:
     from llms_from_scratch.llama3 import LLAMA32_CONFIG_3B as LLAMA32_CONFIG
 else:
     raise ValueError("Incorrect model file name")
-
-LLAMA32_CONFIG["context_length"] = MODEL_CONTEXT_LENGTH
 
 model = Llama3Model(LLAMA32_CONFIG)
 model.load_state_dict(torch.load(MODEL_FILE, weights_only=True, map_location="cpu"))
@@ -125,7 +121,7 @@ Lastly, we can generate text via the following code:
 ```python
 import time
 
-from ch05 import (
+from llms_from_scratch.ch05 import (
     generate,
     text_to_token_ids,
     token_ids_to_text
@@ -192,8 +188,8 @@ The following table shows a performance comparison on an A100:
 
 |                 | Tokens/sec | Memory  |
 | --------------- | ---------- | ------- |
-| Llama3Model     | 50         | 2.91 GB |
-| Llama3ModelFast | 58         | 2.85 GB |
+| Llama3Model     | 42         | 2.91 GB |
+| Llama3ModelFast | 54         | 2.91 GB |
 
 &nbsp;
 #### Pro tip 2: speed up inference with compilation
@@ -218,5 +214,5 @@ The following table shows a performance comparison on an A100 for consequent `ge
 
 |                 | Tokens/sec | Memory  |
 | --------------- | ---------- | ------- |
-| Llama3Model     | 156        | 3.12 GB |
-| Llama3ModelFast | 159        | 2.84 GB |
+| Llama3Model     | 170        | 3.12 GB |
+| Llama3ModelFast | 177        | 3.61 GB |

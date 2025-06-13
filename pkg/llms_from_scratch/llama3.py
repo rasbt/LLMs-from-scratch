@@ -166,9 +166,9 @@ class GroupedQueryAttention(nn.Module):
         values = values.view(b, num_tokens, self.num_kv_groups, self.head_dim)
 
         # Transpose keys, values, and queries
-        keys = keys.transpose(1, 2)  # Shape: (b, num_heads, num_tokens, head_dim)
-        values = values.transpose(1, 2)  # Shape: (b, num_heads, num_tokens, head_dim)
-        queries = queries.transpose(1, 2)  # Shape: (b, num_query_groups, num_tokens, head_dim)
+        keys = keys.transpose(1, 2)  # Shape: (b, num_kv_groups, num_tokens, head_dim)
+        values = values.transpose(1, 2)  # Shape: (b, num_kv_groups, num_tokens, head_dim)
+        queries = queries.transpose(1, 2)  # Shape: (b, num_heads, num_tokens, head_dim)
 
         # Apply RoPE
         keys = apply_rope(keys, cos, sin)

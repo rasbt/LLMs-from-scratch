@@ -29,7 +29,7 @@ tensorflow-cpu = ">=2.18.0, <3"
 
 [feature.tests.dependencies]
 blobfile = ">=3.0.0,<4"
-huggingface_hub = ">=0.24.7,<0.29"
+huggingface_hub = ">=0.30.0,<1.0"
 ipywidgets = ">=8.1.2,<9"
 safetensors = ">=0.4.4,<0.6"
 sentencepiece = ">=0.1.99,<0.3"

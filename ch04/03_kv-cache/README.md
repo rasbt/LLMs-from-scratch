@@ -221,12 +221,12 @@ As sequence length increases, the benefits and downsides of a KV cache become mo
 &nbsp;
 ## Optimizing the KV Cache Implementation
 
-While my conceptual implementation of a KV cache above helps with clarity and is mainly geared towards code readability and educational purposes, deploying it in real-world scenarios, (especially with larger models and longer sequence lengths) requires more careful optimization.
+While my conceptual implementation of a KV cache above helps with clarity and is mainly geared towards code readability and educational purposes, deploying it in real-world scenarios (especially with larger models and longer sequence lengths) requires more careful optimization.
 
 &nbsp;
 ### Common pitfalls when scaling the cache
 
-- **Memory fragmentation and repeated allocations**: Continuously concatenating tensors via `torch.cat` as shown earlier leads to performance bottlenecks due to frequent memory allocation and reallocation.
+- **Memory fragmentation and repeated allocations**: Continuously concatenating tensors via `torch.cat` as shown earlier, leads to performance bottlenecks due to frequent memory allocation and reallocation.
 
 - **Linear growth in memory usage**: Without proper handling, the KV cache size becomes impractical for very long sequences.
 
@@ -250,7 +250,7 @@ During inference, we can then simply write into slices of these pre-allocated te
 To avoid blowing up our GPU memory, we can implement a sliding window approach with dynamic truncation. Via the sliding window, we maintain only the last `window_size` tokens in the cache:
 
 
-```pyython
+```python
 # Sliding window cache implementation
 window_size = 512
 cache_k = cache_k[:, :, -window_size:, :]
@@ -263,7 +263,7 @@ cache_v = cache_v[:, :, -window_size:, :]
 You can find these optimizations in the [`gpt_with_kv_cache_optimized.py`](gpt_with_kv_cache_optimized.py) file. 
 
 
-On a Mac Mini with M4 chip (CPU), with a 200-token generation and a window size of 48 below, the code runtimes compare as follows:
+On a Mac Mini with an M4 chip (CPU), with a 200-token generation and a window size of 48 below, the code runtimes compare as follows:
 
 |                                  | Tokens/sec |
 | -------------------------------- | ---------- |
@@ -271,10 +271,11 @@ On a Mac Mini with M4 chip (CPU), with a 200-token generation and a window size 
 | `gpt_with_kv_cache.py`           | 110        |
 | `gpt_with_kv_cache_optimized.py` | 148        |
 
-Unfortunately, the speed advantages disappear on CUDA devices as this is a tiny model, and the device transfer and communication outweights the benefits of a KV cache for this small model. However, we can see a significant difference in the memory usage:
+Unfortunately, the speed advantages disappear on CUDA devices as this is a tiny model, and the device transfer and communication outweigh the benefits of a KV cache for this small model. However, we can see a significant difference in the memory usage:
 
 |                                  | RAM     |
 | -------------------------------- | ------- |
 | `gpt_ch04.py`                    | 0.74 GB |
 | `gpt_with_kv_cache.py`           | 4.35 GB |
 | `gpt_with_kv_cache_optimized.py` | 0.89 GB |
+

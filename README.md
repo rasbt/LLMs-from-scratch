@@ -112,6 +112,7 @@ Several folders contain optional materials as a bonus for interested readers:
   - [Understanding PyTorch Buffers](ch03/03_understanding-buffers/understanding-buffers.ipynb)
 - **Chapter 4: Implementing a GPT model from scratch**
   - [FLOPS Analysis](ch04/02_performance-analysis/flops-analysis.ipynb)
+  - [KV Cache](ch04/03_kv-cache)
 - **Chapter 5: Pretraining on unlabeled data:**
   - [Alternative Weight Loading Methods](ch05/02_alternative_weight_loading/)
   - [Pretraining GPT on the Project Gutenberg Dataset](ch05/03_bonus_pretraining_on_gutenberg)

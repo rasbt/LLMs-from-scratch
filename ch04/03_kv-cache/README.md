@@ -1,0 +1,220 @@
+# Bonus Material: KV Cache
+
+
+
+**This folder implements the addition of a KV cache to the GPT model.** 
+
+&nbsp;
+## Overview
+
+In short, a KV cache stores intermediate key (K) and value (V) computations for reuse during inference, which results in a substantial speed-up when generating responses. The downside is that it adds some complexity to the code, increases memory usage, and can't be used during training. However, the inference speed-ups are often well worth the trade-offs in code complexity and memory when deploying LLMs.
+
+&nbsp;
+## How it works
+
+Imagine the LLM is generating some text. Concretely, suppose the LLM is given the following prompt: "Time flies".
+
+The figure below shows an excerpt of the underlying attention score computation using a modified graphic from Chapter 3 with the key and value vectors highlighted:
+
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/bonus/kv-cache/kv-cache-attn-1.png?3" width=800>
+
+Now, as we learned in Chapters 2 and 4, LLMs generate one word (or token) at a time. Suppose the LLM generated the word "fast" so that the prompt for the next round becomes "Time flies fast". This is illustrated in the next figure below:
+
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/bonus/kv-cache/kv-cache-attn-2.png?3" width=800>
+
+As we can see, based on comparing the previous 2 figures, the keys, and value vectors for the first two tokens are exactly the same, and it would be wasteful to recompute them in each next-token text generation round.
+
+So, the idea of the KV cache is to implement a caching mechanism that stores the previously generated key and value vectors for reuse, which helps us to avoid unnecessary recomputations.
+
+&nbsp;
+
+## KV cache implementation
+
+There are many ways to implement a KV cache, with the main idea being that we only compute the key and value tensors for the newly generated tokens in each generation step.
+
+I opted for a simple one that emphasizes code readability. I think it's easiest to just scroll through the code changes to see how it's implemented.
+
+There are two files in this folder:
+
+1. [`gpt_ch04.py`](gpt_ch04.py): Self-contained code taken from Chapter 3 and 4 to implement the LLM and run the simple text generation function
+2. [`gpt_with_kv_cache.py`](gpt_with_kv_cache.py): The same as above, but with the necessary changes made to implement the KV cache. 
+
+You can either 
+
+a. Open the [`gpt_with_kv_cache.py`](gpt_with_kv_cache.py) file and look out for the `# NEW` sections that mark the new changes:
+
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/bonus/kv-cache/new-sections.png?3" width=800>
+
+b. Check out the two code files via a file diff tool of your choice to compare the changes:
+
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/bonus/kv-cache/file-diff.png?3" width=800>
+
+To summarize the implementation details, here's a short walkthrough.
+
+&nbsp;
+
+### 1. Registering the cache buffers
+
+Inside the `MultiHeadAttention` constructor we add two non-persistent buffers, `cache_k` and `cache_v`, which will hold concatenated keys and values across steps:
+
+```python
+self.register_buffer("cache_k", None, persistent=False)
+self.register_buffer("cache_v", None, persistent=False)
+```
+
+&nbsp;
+
+### 2. Forward pass with `use_cache` flag
+
+Next, we extend the `forward` method of the `MultiHeadAttention` class to accept `use_cache` argument. After projecting the new chunk of tokens into `keys_new`, `values_new` and `queries`, we either initialize the kv cache or append to our cache:
+
+```python
+def forward(self, x, use_cache=False):
+    b, num_tokens, d_in = x.shape
+
+    keys_new = self.W_key(x)  # Shape: (b, num_tokens, d_out)
+    values_new = self.W_value(x)
+    queries = self.W_query(x)
+    #...
+
+    if use_cache:
+        if self.cache_k is None:
+            self.cache_k, self.cache_v = keys_new, values_new
+        else:
+            self.cache_k = torch.cat([self.cache_k, keys_new], dim=1)
+            self.cache_v = torch.cat([self.cache_v, values_new], dim=1)
+        keys, values = self.cache_k, self.cache_v
+    else:
+        keys, values = keys_new, values_new
+```
+
+&nbsp;
+
+
+### 3. Clearing the cache
+
+When generating texts, between independent sequences (for instance to text generation calls) we must reset both buffers, so we also add a cache resetting method the to the `MultiHeadAttention` class:
+
+```python
+def reset_cache(self):
+    self.cache_k, self.cache_v = None, None
+```
+
+&nbsp;
+
+### 4. Propagating `use_cache` in the full model
+
+With the changes to the `MultiHeadAttention` class in plass, we now modify the  `GPTModel` class. First, we add a position tracking for the token indices to the instructor:
+
+```python
+self.current_pos = 0
+```
+
+Then, we replace the one-liner block call with an explicit loop, passing `use_cache` through each transformer block:
+
+```python
+def forward(self, in_idx, use_cache=False):
+    # ...
+ 
+    if use_cache:
+        pos_ids = torch.arange(
+            self.current_pos, self.current_pos + seq_len,            
+            device=in_idx.device, dtype=torch.long
+        )
+        self.current_pos += seq_len
+    else:
+        pos_ids = torch.arange(
+            0, seq_len, device=in_idx.device, dtype=torch.long
+        )
+    
+    pos_embeds = self.pos_emb(pos_ids).unsqueeze(0)
+    x = tok_embeds + pos_embeds
+    # ...
+    for blk in self.trf_blocks:
+        x = blk(x, use_cache=use_cache)
+```
+
+The above change then also requires a small modification to the `TransformerBlock` class to accept the `use_cache` argument:
+```python
+    def forward(self, x, use_cache=False):
+        # ...
+        self.att(x, use_cache=use_cache)
+```
+
+Lastly, we add a model-level reset to `GPTModel` to clear all block caches at once for our convenience:
+
+```python
+def reset_kv_cache(self):
+    for blk in self.trf_blocks:
+        blk.att.reset_cache()
+    self.current_pos = 0
+```
+
+&nbsp;
+
+### 5. Using the cache in generation
+
+With the changes to the `GPTModel`, `TransformerBlock`, and `MultiHeadAttention`, finally, here's how we use the KV cache in a simple text generation function:
+
+```python
+def generate_text_simple_cached(model, idx, max_new_tokens):
+    model.eval()
+    model.reset_kv_cache()
+
+    # Init cache with full prompt
+    logits = model(idx, use_cache=True)
+
+    for _ in range(max_new_tokens):
+        last_logits = logits[:, -1]
+        next_idx = last_logits.argmax(dim=-1, keepdim=True)
+        idx = torch.cat([idx, next_idx], dim=1)
+
+        logits = model(next_idx, use_cache=True)
+
+    return idx
+```
+
+&nbsp;
+
+## Simple performance comparison
+
+After covering the KV cache on a conceptual level, the big question is how well it actually performs in practice on a small example. To give the implementation a try, we can run the two aforementioned code files as Python scripts, which will run the small 124 M parameter LLM to generate 200 new tokens (given a 4-token prompt "Hello, I am" to start with):
+
+```bash
+pip install -r https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/refs/heads/main/requirements.txt
+
+python gpt_ch04.py
+
+python gpt_with_kv_cache.py
+```
+
+On a Mac Mini with M4 chip (CPU), the results are as follows:
+
+|                         | Tokens/sec |
+| ----------------------- | ---------- |
+| `gpt_ch04.py`           | 27         |
+| `gpt_with_kv_cache.py`  | 110        |
+
+So, as we can see, we already get a ~5x speed-up with a small 124 M parameter model and a short 200-token sequence length. (Note that this implementation is optimized for code readability and not optimized for CUDA or MPS runtime speed, which would require pre-allocating tensors instead of reinstating and concatenating them.)
+
+**Note:** The model generates "gibberish" in both cases, i.e., text that looks like this: 
+
+> Output text: Hello, I am Featureiman Byeswickattribute argue logger Normandy Compton analogous bore ITVEGIN ministriesysics Kle functional recountrictionchangingVirgin embarrassedgl ...
+
+This is because we haven't trained the model, yet. The next chapter trains the model, and you can use the KV-cache on the trained model (however, the KV cache is only meant to be used during inference) to generate coherent text. Here, we are using the untrained model to keep the code simple(r).
+
+What's more important, though, is that both the `gpt_ch04.py` and `gpt_with_kv_cache.py` implementations produce exactly the same text. This tells us that the KV cache is implemented correctly -- it is easy to make indexing mistakes that can lead to divergent results.
+
+
+&nbsp;
+
+## KV cache advantages and disadvantages 
+
+As sequence length increases, the benefits and downsides of a KV cache become more pronounced in the following ways:
+
+- [Good] **Computational efficiency increases**: Without caching, the attention at step *t* must compare the new query with *t* previous keys, so the cumulative work scales quadratically, O(n²). With a cache, each key and value is computed once and then reused, reducing the total per-step complexity to linear, O(n).
+
+- [Bad] **Memory usage increases linearly**: Each new token appends to the KV cache. For long sequences and larger LLMs, the cumulative KV cache grows larger, which can consume a significant or even prohibitive amount of (GPU) memory. As a workaround, we can truncate the KV cache, but this adds even more complexity (but again, it may well be worth it when deploying LLMs.)
+
+
+

@@ -269,14 +269,16 @@ def generate_text_simple_cached(model, idx, max_new_tokens):
     model.reset_kv_cache()
 
     # Init cache with full prompt
-    logits = model(idx, use_cache=True)
+    with torch.no_grad():
+        logits = model(idx, use_cache=True)
 
     for _ in range(max_new_tokens):
         last_logits = logits[:, -1]
         next_idx = last_logits.argmax(dim=-1, keepdim=True)
         idx = torch.cat([idx, next_idx], dim=1)
 
-        logits = model(next_idx, use_cache=True)
+        with torch.no_grad():
+            logits = model(next_idx, use_cache=True)
 
     return idx
 ####################################################

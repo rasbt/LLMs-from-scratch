@@ -171,6 +171,7 @@ class GPTModel(nn.Module):
 
 
 def generate_text_simple(model, idx, max_new_tokens, context_size):
+    model.eval()
     # idx is (B, T) array of indices in the current context
     for _ in range(max_new_tokens):
 

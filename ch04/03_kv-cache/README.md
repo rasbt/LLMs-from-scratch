@@ -157,22 +157,35 @@ def reset_kv_cache(self):
 With the changes to the `GPTModel`, `TransformerBlock`, and `MultiHeadAttention`, finally, here's how we use the KV cache in a simple text generation function:
 
 ```python
-def generate_text_simple_cached(model, idx, max_new_tokens):
+def generate_text_simple_cached(model, idx, max_new_tokens, use_cache=True):
     model.eval()
-    model.reset_kv_cache()
 
-    # Init cache with full prompt
-    logits = model(idx, use_cache=True)
+    ctx_len = model.pos_emb.num_embeddings  # max supported length, e.g. 1024
+    if use_cache:
+        # Init cache with full prompt
+        model.reset_kv_cache()
+        with torch.no_grad():
+            logits = model(idx[:, -ctx_len:], use_cache=True)
 
-    for _ in range(max_new_tokens):
-        last_logits = logits[:, -1]
-        next_idx = last_logits.argmax(dim=-1, keepdim=True)
-        idx = torch.cat([idx, next_idx], dim=1)
-
-        logits = model(next_idx, use_cache=True)
+        for _ in range(max_new_tokens):
+            # a) pick the token with the highest log-probability (greedy sampling)
+            next_idx = logits[:, -1].argmax(dim=-1, keepdim=True)
+            # b) append it to the running sequence
+            idx = torch.cat([idx, next_idx], dim=1)
+            # c) feed model only the new token
+            with torch.no_grad():
+                logits = model(next_idx, use_cache=True)
+    else:
+        for _ in range(max_new_tokens):
+            with torch.no_grad():
+                logits = model(idx[:, -ctx_len:], use_cache=False)
+            next_idx = logits[:, -1].argmax(dim=-1, keepdim=True)
+            idx = torch.cat([idx, next_idx], dim=1)
 
     return idx
 ```
+
+Note that we only feed the model the new token in c) via `logits = model(next_idx, use_cache=True)`. Without caching, we feed the model the whole input `logits = model(idx[:, -ctx_len:], use_cache=False)` as it has no stored keys and values to reuse.
 
 &nbsp;
 
@@ -190,10 +203,10 @@ python gpt_with_kv_cache.py
 
 On a Mac Mini with M4 chip (CPU), the results are as follows:
 
-|                         | Tokens/sec |
-| ----------------------- | ---------- |
-| `gpt_ch04.py`           | 27         |
-| `gpt_with_kv_cache.py`  | 110        |
+|                        | Tokens/sec |
+| ---------------------- | ---------- |
+| `gpt_ch04.py`          | 27         |
+| `gpt_with_kv_cache.py` | 144        |
 
 So, as we can see, we already get a ~5x speed-up with a small 124 M parameter model and a short 200-token sequence length. (Note that this implementation is optimized for code readability and not optimized for CUDA or MPS runtime speed, which would require pre-allocating tensors instead of reinstating and concatenating them.)
 
@@ -263,19 +276,12 @@ cache_v = cache_v[:, :, -window_size:, :]
 You can find these optimizations in the [`gpt_with_kv_cache_optimized.py`](gpt_with_kv_cache_optimized.py) file. 
 
 
-On a Mac Mini with an M4 chip (CPU), with a 200-token generation and a window size of 48 below, the code runtimes compare as follows:
+On a Mac Mini with an M4 chip (CPU), with a 200-token generation and a window size equal to the context length (to guarantee same results) below, the code runtimes compare as follows:
 
 |                                  | Tokens/sec |
 | -------------------------------- | ---------- |
 | `gpt_ch04.py`                    | 27         |
-| `gpt_with_kv_cache.py`           | 110        |
-| `gpt_with_kv_cache_optimized.py` | 148        |
+| `gpt_with_kv_cache.py`           | 144        |
+| `gpt_with_kv_cache_optimized.py` | 166        |
 
-Unfortunately, the speed advantages disappear on CUDA devices as this is a tiny model, and the device transfer and communication outweigh the benefits of a KV cache for this small model. However, we can see a significant difference in the memory usage:
-
-|                                  | RAM     |
-| -------------------------------- | ------- |
-| `gpt_ch04.py`                    | 0.74 GB |
-| `gpt_with_kv_cache.py`           | 4.35 GB |
-| `gpt_with_kv_cache_optimized.py` | 0.89 GB |
-
+Unfortunately, the speed advantages disappear on CUDA devices as this is a tiny model, and the device transfer and communication outweigh the benefits of a KV cache for this small model. 

@@ -78,7 +78,7 @@ class MultiHeadAttention(nn.Module):
             values = self.cache_v[:, :, :self.ptr_cur, :]
         else:
             keys, values = keys_new, values_new
-            self.ptr_cur = 0        # keep pointer sane if you interleave modes
+            self.ptr_cur = 0  # keep pointer sane if you interleave modes
         ####################################################
 
 

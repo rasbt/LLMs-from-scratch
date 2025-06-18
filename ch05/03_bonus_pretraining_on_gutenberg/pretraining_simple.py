@@ -228,7 +228,7 @@ if __name__ == "__main__":
     )
 
     epochs_tensor = torch.linspace(0, args.n_epochs, len(train_losses))
-    plot_losses(epochs_tensor, tokens_seen, train_losses, val_losses, output_dir)
+    plot_losses(epochs_tensor, tokens_seen, train_losses, val_losses)
 
     torch.save(model.state_dict(), output_dir / "model_pg_final.pth")
     print(f"Maximum GPU memory allocated: {torch.cuda.max_memory_allocated() / 1e9:.2f} GB")

@@ -154,7 +154,7 @@ def llama3_weights_path(tmp_path_factory):
 def test_gpt_model_variants(ModelClass, llama3_weights_path):
     torch.manual_seed(123)
     model = ModelClass(LLAMA32_CONFIG_1B)
-    model.load_state_dict(torch.load(llama3_weights_path))
+    model.load_state_dict(torch.load(llama3_weights_path, weights_only=True))
     model.eval()
 
     start_context = "Llamas eat"

@@ -163,8 +163,8 @@ def test_rmsnorm_equivalence():
     torch.testing.assert_close(out1, out2, atol=1e-5, rtol=1e-5)
 
 
+@pytest.mark.skipif(not transformers_installed, reason="transformers not installed")
 def test_tokenizer_equivalence():
-
     from transformers import AutoTokenizer
     repo_id = "Qwen/Qwen3-0.6B"
     tokenizer_ref = AutoTokenizer.from_pretrained(repo_id)

@@ -48,12 +48,13 @@ ch05/07_gpt_to_llama/Llama-3.2-1B
 ch05/07_gpt_to_llama/Llama-3.2-1B-Instruct
 ch05/07_gpt_to_llama/Llama-3.2-3B
 ch05/07_gpt_to_llama/Llama-3.2-3B-Instruct
+ch05/07_gpt_to_llama/llama3.2-1B-instruct.pth
+ch05/07_gpt_to_llama/tokenizer.model
 ch05/10_llm-training-speed/middlemarch.txt
 ch05/10_llm-training-speed/loss.pdf
 ch05/10_llm-training-speed/model.pth
-ch05/07_gpt_to_llama/Untitled.ipynb
-ch05/07_gpt_to_llama/llama3.2-1B-instruct.pth
-ch05/07_gpt_to_llama/tokenizer.model
+ch05/11_qwen3/Qwen3-0.6B
+ch05/11_qwen3/Qwen3-0.6B-Base
 
 ch06/01_main-chapter-code/gpt2
 ch06/02_bonus_additional-experiments/gpt2

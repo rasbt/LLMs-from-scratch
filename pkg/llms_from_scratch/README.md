@@ -113,7 +113,7 @@ from llms_from_scratch.appendix_d import find_highest_gradient, train_model
 ```
 
 
-
+&nbsp;
 ### Llama  3 (Bonus material)
 
 ```python
@@ -126,5 +126,18 @@ from llms_from_scratch.llama3 import (
 )
 ```
 
-
 For the `llms_from_scratch.llama3` usage information, please see [this bonus section](../../ch05/07_gpt_to_llama/README.md).
+
+
+&nbsp;
+### Qwen3 (Bonus material)
+
+```python
+from llms_from_scratch.qwen3 import (
+    Qwen3Model,
+    Qwen3Tokenizer,
+)
+```
+
+
+For the `llms_from_scratch.qwen3` usage information, please see [this bonus section](../../ch05/11_qwen3/README.md).

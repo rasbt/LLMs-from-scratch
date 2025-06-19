@@ -1,6 +1,6 @@
 # Qwen3 From Scratch
 
-This [standalone-qwen3.ipynb](standalone-qwen3.ipynb) in this folder contains a from-scratch implementation of Qwen3 0.6B.
+This [standalone-qwen3.ipynb](standalone-qwen3.ipynb) Jupyter notebook in this folder contains a from-scratch implementation of Qwen3 0.6B.
 
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/bonus/qwen/qwen-overview.webp">
 

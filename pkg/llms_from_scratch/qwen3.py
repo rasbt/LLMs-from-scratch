@@ -7,7 +7,6 @@ import os
 import urllib.request
 from pathlib import Path
 
-from tokenizers import Tokenizer
 import torch
 import torch.nn as nn
 
@@ -336,6 +335,7 @@ def load_weights_into_qwen(model, param_config, params):
 class Qwen3Tokenizer():
     def __init__(self, tokenizer_file_path="tokenizer.json",
                  repo_id=None, add_generation_prompt=False, add_thinking=False):
+        from tokenizers import Tokenizer
         self.tokenizer_file_path = tokenizer_file_path
 
         if add_generation_prompt != add_thinking:

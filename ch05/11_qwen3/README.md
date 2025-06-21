@@ -165,7 +165,7 @@ Large language models (LLMs) are advanced artificial intelligence systems design
 ```
 
 &nbsp;
-#### Pro tip: speed up inference with compilation
+#### Pro tip 1: speed up inference with compilation
 
 
 For up to a 4× speed-up, replace
@@ -188,4 +188,44 @@ The following table shows a performance comparison on an A100 for consequent `ge
 |                     | Tokens/sec | Memory  |
 | ------------------- | ---------- | ------- |
 | Qwen3Model          | 25         | 1.49 GB |
-| Qwen3Model compiled | 101        | 1.99 GB |
+| Qwen3Model compiled | 107        | 1.99 GB |
+
+&nbsp;
+#### Pro tip 2: speed up inference with compilation
+
+You can significantly boost inference performance using the KV cache `Qwen3Model` drop-in replacement when running the model on a CPU. (See my [Understanding and Coding the KV Cache in LLMs from Scratch](https://magazine.sebastianraschka.com/p/coding-the-kv-cache-in-llms) article to learn more about KV caches.)
+
+```python
+from llms_from_scratch.kv_cache.qwen3 import Qwen3Model
+from llms_from_scratch.kv_cache.generate import generate_text_simple
+
+model = Qwen3Model(QWEN_CONFIG_06_B)
+# ...
+token_ids = generate_text_simple(
+    model=model,
+    idx=text_to_token_ids(PROMPT, tokenizer).to(device),
+    max_new_tokens=MAX_NEW_TOKENS,
+    context_size=QWEN_CONFIG_06_B["context_length"],
+)
+```
+
+Note that the peak memory usage is only listed for Nvidia CUDA devices, as it is easier to calculate. However, the memory usage on other devices is likely similar as it uses a similar precision format, and the KV cache storage dominates here for the generated 150-token text (however, different devices may implement matrix multiplication differently and may result in different peak memory requirements).
+
+| Model      | Mode              | Hardware        | Tokens/sec | GPU Memory (VRAM) |
+|------------|-------------------|-----------------|------------|-------------------|
+| Qwen3Model | Regular           | Mac Mini M4 CPU | 1          | -                 |
+| Qwen3Model | Regular compiled  | Mac Mini M4 CPU | -          | -                 |
+| Qwen3Model | KV cache          | Mac Mini M4 CPU | 80         | -                 |
+| Qwen3Model | KV cache compiled | Mac Mini M4 CPU | -          | -                 |
+|            |                   |                 |            |                   |
+| Qwen3Model | Regular           | Mac Mini M4 GPU | 21         | -                 |
+| Qwen3Model | Regular compiled  | Mac Mini M4 GPU | -          | -                 |
+| Qwen3Model | KV cache          | Mac Mini M4 GPU | 32         | -                 |
+| Qwen3Model | KV cache compiled | Mac Mini M4 GPU | -          | -                 |
+|            |                   |                 |            |                   |
+| Qwen3Model | Regular           | Nvidia A100 GPU | 25         | 1.49 GB           |
+| Qwen3Model | Regular compiled  | Nvidia A100 GPU | 107        | 1.99 GB           |
+| Qwen3Model | KV cache          | Nvidia A100 GPU | 25         | 10.20 GB          |
+| Qwen3Model | KV cache compiled | Nvidia A100 GPU | 24         | 10.61 GB          |
+
+Note that all settings above have been tested to produce the same text outputs.

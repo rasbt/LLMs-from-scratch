@@ -124,6 +124,9 @@ from llms_from_scratch.llama3 import (
     ChatFormat,
     clean_text
 )
+
+from llms_from_scratch.kv_cache.llama3 import Llama3Model
+from llms_from_scratch.kv_cache.generate import generate_text_simple
 ```
 
 For the `llms_from_scratch.llama3` usage information, please see [this bonus section](../../ch05/07_gpt_to_llama/README.md).

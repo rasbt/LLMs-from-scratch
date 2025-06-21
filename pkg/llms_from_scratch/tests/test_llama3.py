@@ -189,7 +189,7 @@ def llama3_weights_path(tmp_path_factory):
 )
 @pytest.mark.parametrize("ModelClass", [Llama3Model, Llama3ModelKV])
 @pytest.mark.parametrize("generate_fn", [generate_text_simple, generate_text_simple_cached])
-def test_gpt_model_variants(ModelClass, generate_fn, llama3_weights_path):
+def test_model_variants(ModelClass, generate_fn, llama3_weights_path):
 
     # Skip incompatible combinations
     if generate_fn is generate_text_simple and getattr(ModelClass, "reset_kv_cache", False):

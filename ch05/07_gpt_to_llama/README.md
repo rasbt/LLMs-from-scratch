@@ -216,3 +216,41 @@ The following table shows a performance comparison on an A100 for consequent `ge
 | --------------- | ---------- | ------- |
 | Llama3Model     | 170        | 3.12 GB |
 | Llama3ModelFast | 177        | 3.61 GB |
+
+&nbsp;
+#### Pro tip 3: speed up inference with compilation
+
+You can significantly boost inference performance using the KV cache `Llama3Model` drop-in replacement when running the model on a CPU. (See my [Understanding and Coding the KV Cache in LLMs from Scratch](https://magazine.sebastianraschka.com/p/coding-the-kv-cache-in-llms) article to learn more about KV caches.)
+
+```python
+from llms_from_scratch.kv_cache.llama3 import Llama3Model
+from llms_from_scratch.kv_cache.generate import generate_text_simple
+
+model = Llama3Model(LLAMA32_CONFIG)
+# ...
+token_ids = generate_text_simple(
+    model=model,
+    idx=text_to_token_ids(PROMPT, tokenizer).to(device),
+    max_new_tokens=MAX_NEW_TOKENS,
+    context_size=LLAMA32_CONFIG["context_length"],
+)
+```
+
+Note that the peak memory usage is only listed for Nvidia CUDA devices, as it is easier to calculate. However, the memory usage on other devices is likely similar as it uses a similar precision format, and the KV cache storage dominates here for the generated 150-token text (however, different devices may implement matrix multiplication differently and may result in different peak memory requirements).
+
+| Model       | Mode              | Hardware        | Tokens/sec | GPU Memory (VRAM) |
+|-------------|-------------------|-----------------|------------|-------------------|
+| Llama3Model | Regular           | Mac Mini M4 CPU | 1          | -                 |
+| Llama3Model | Regular compiled  | Mac Mini M4 CPU | -          | -                 |
+| Llama3Model | KV cache          | Mac Mini M4 CPU | 62         | -                 |
+| Llama3Model | KV cache compiled | Mac Mini M4 CPU | -          | -                 |
+|             |                   |                 |            |                   |
+| Llama3Model | Regular           | Mac Mini M4 GPU | 15         | -                 |
+| Llama3Model | Regular compiled  | Mac Mini M4 GPU | -          | -                 |
+| Llama3Model | KV cache          | Mac Mini M4 GPU | 62         | -                 |
+| Llama3Model | KV cache compiled | Mac Mini M4 GPU | -          | -                 |
+|             |                   |                 |            |                   |
+| Llama3Model | Regular           | Nvidia A100 GPU | 42         | 2.91 GB           |
+| Llama3Model | Regular compiled  | Nvidia A100 GPU | 170        | 3.12 GB           |
+| Llama3Model | KV cache          | Nvidia A100 GPU | 60         | 18.87 GB          |
+| Llama3Model | KV cache compiled | Nvidia A100 GPU | 59         | 19.12 GB          |

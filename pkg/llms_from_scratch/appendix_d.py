@@ -76,7 +76,7 @@ def train_model(model, train_loader, val_loader, optimizer, device,
             if global_step % eval_freq == 0:
                 train_loss, val_loss = evaluate_model(
                     model, train_loader, val_loader,
-                    device, eval_iter
+                if global_step >= warmup_steps:  # the book originally used global_step > warmup_steps, which leads to a skipped clipping step after warmup
                 )
                 train_losses.append(train_loss)
                 val_losses.append(val_loss)

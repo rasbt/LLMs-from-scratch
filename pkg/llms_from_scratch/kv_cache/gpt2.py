@@ -1,9 +1,8 @@
-# This file collects all the relevant code that we covered thus far
-# throughout Chapters 3-4.
-# This file can be run as a standalone script.
+# Copyright (c) Sebastian Raschka under Apache License 2.0 (see LICENSE.txt).
+# Source for "Build a Large Language Model From Scratch"
+#   - https://www.manning.com/books/build-a-large-language-model-from-scratch
+# Code: https://github.com/rasbt/LLMs-from-scratch
 
-import time
-import tiktoken
 import torch
 import torch.nn as nn
 
@@ -171,7 +170,8 @@ class TransformerBlock(nn.Module):
             num_heads=cfg["n_heads"],
             dropout=cfg["drop_rate"],
             qkv_bias=cfg["qkv_bias"],
-            window_size=cfg["kv_window_size"])  # NEW
+            window_size=cfg["kv_window_size"] if "kv_window_size" in cfg else cfg["context_length"]  # NEW
+        )
         self.ff = FeedForward(cfg)
         self.norm1 = LayerNorm(cfg["emb_dim"])
         self.norm2 = LayerNorm(cfg["emb_dim"])
@@ -285,106 +285,3 @@ def generate_text_simple(model, idx, max_new_tokens, context_size):
         idx = torch.cat((idx, idx_next), dim=1)  # (batch, n_tokens+1)
 
     return idx
-
-
-####################################################
-# NEW
-def generate_text_simple_cached(model, idx, max_new_tokens, use_cache=True):
-    model.eval()
-
-    ctx_len = model.pos_emb.num_embeddings  # max supported length, e.g. 1024
-    if use_cache:
-        # Init cache with full prompt
-        model.reset_kv_cache()
-        with torch.no_grad():
-            logits = model(idx[:, -ctx_len:], use_cache=True)
-
-        for _ in range(max_new_tokens):
-            # a) pick the token with the highest log-probability (greedy sampling)
-            next_idx = logits[:, -1].argmax(dim=-1, keepdim=True)
-            # b) append it to the running sequence
-            idx = torch.cat([idx, next_idx], dim=1)
-            # c) feed model only the new token
-            with torch.no_grad():
-                logits = model(next_idx, use_cache=True)
-    else:
-        for _ in range(max_new_tokens):
-            with torch.no_grad():
-                logits = model(idx[:, -ctx_len:], use_cache=False)
-            next_idx = logits[:, -1].argmax(dim=-1, keepdim=True)
-            idx = torch.cat([idx, next_idx], dim=1)
-
-    return idx
-####################################################
-
-
-def main():
-    GPT_CONFIG_124M = {
-        "vocab_size": 50257,     # Vocabulary size
-        "context_length": 1024,  # Context length
-        "emb_dim": 768,          # Embedding dimension
-        "n_heads": 12,           # Number of attention heads
-        "n_layers": 12,          # Number of layers
-        "drop_rate": 0.1,        # Dropout rate
-        "qkv_bias": False,       # Query-Key-Value bias
-        "kv_window_size": 1024   # NEW: KV cache window size
-    }
-
-    torch.manual_seed(123)
-    model = GPTModel(GPT_CONFIG_124M)
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model.to(device)
-    model.eval()  # disable dropout
-
-    start_context = "Hello, I am"
-
-    tokenizer = tiktoken.get_encoding("gpt2")
-    encoded = tokenizer.encode(start_context)
-    encoded_tensor = torch.tensor(encoded, device=device).unsqueeze(0)
-
-    print(f"\n{50*'='}\n{22*' '}IN\n{50*'='}")
-    print("\nInput text:", start_context)
-    print("Encoded input text:", encoded)
-    print("encoded_tensor.shape:", encoded_tensor.shape)
-
-    if torch.cuda.is_available():
-        torch.cuda.synchronize()
-    start = time.time()
-
-    # token_ids = generate_text_simple(
-    #     model=model,
-    #     idx=encoded_tensor,
-    #     max_new_tokens=200,
-    #     context_size=GPT_CONFIG_124M["context_length"]
-    # )
-
-    ####################################################
-    # NEW
-    token_ids = generate_text_simple_cached(
-        model=model,
-        idx=encoded_tensor,
-        max_new_tokens=200,
-    )
-    ####################################################
-
-    if torch.cuda.is_available():
-        torch.cuda.synchronize()
-    total_time = time.time() - start
-
-    decoded_text = tokenizer.decode(token_ids.squeeze(0).tolist())
-
-    print(f"\n\n{50*'='}\n{22*' '}OUT\n{50*'='}")
-    print("\nOutput:", token_ids)
-    print("Output length:", len(token_ids[0]))
-    print("Output text:", decoded_text)
-
-    print(f"\nTime: {total_time:.2f} sec")
-    print(f"{int(len(token_ids[0])/total_time)} tokens/sec")
-    if torch.cuda.is_available():
-        max_mem_bytes = torch.cuda.max_memory_allocated()
-        max_mem_gb = max_mem_bytes / (1024 ** 3)
-        print(f"Max memory allocated: {max_mem_gb:.2f} GB")
-
-
-if __name__ == "__main__":
-    main()

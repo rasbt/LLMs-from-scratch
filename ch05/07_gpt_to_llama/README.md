@@ -254,3 +254,5 @@ Note that the peak memory usage is only listed for Nvidia CUDA devices, as it is
 | Llama3Model | Regular compiled  | Nvidia A100 GPU | 170        | 3.12 GB           |
 | Llama3Model | KV cache          | Nvidia A100 GPU | 60         | 18.87 GB          |
 | Llama3Model | KV cache compiled | Nvidia A100 GPU | 59         | 19.12 GB          |
+
+Note that all settings above have been tested to produce the same text outputs.

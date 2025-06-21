@@ -3,9 +3,7 @@
 #   - https://www.manning.com/books/build-a-large-language-model-from-scratch
 # Code: https://github.com/rasbt/LLMs-from-scratch
 
-import os
-import urllib.request
-from pathlib import Path
+from ..qwen3 import Qwen3Tokenizer, download_from_huggingface, load_weights_into_qwen   # noqa: F401
 
 import torch
 import torch.nn as nn
@@ -14,6 +12,7 @@ import torch.nn as nn
 QWEN_CONFIG_06_B = {
     "vocab_size": 151_936,           # Vocabulary size
     "context_length": 40_960,        # Context length that was used to train the model
+    "window_size": None,             # Window size for the KV cache; context_length if None
     "emb_dim": 1024,                 # Embedding dimension
     "n_heads": 16,                   # Number of attention heads
     "n_layers": 28,                  # Number of layers
@@ -53,19 +52,21 @@ class Qwen3Model(nn.Module):
         self.register_buffer("sin", sin, persistent=False)
         self.cfg = cfg
 
-    def forward(self, in_idx):
+    def forward(self, in_idx, use_cache=False):
         # Forward pass
         tok_embeds = self.tok_emb(in_idx)
         x = tok_embeds
 
-        num_tokens = x.shape[1]
-        mask = torch.triu(torch.ones(num_tokens, num_tokens, device=x.device, dtype=torch.bool), diagonal=1)
-
         for block in self.trf_blocks:
-            x = block(x, mask, self.cos, self.sin)
+            x = block(x, self.cos, self.sin, use_cache)
         x = self.final_norm(x)
         logits = self.out_head(x.to(self.cfg["dtype"]))
         return logits
+
+    def reset_kv_cache(self):
+        for blk in self.trf_blocks:
+            blk.att.reset_cache()
+        self.ptr_current_pos = 0
 
 
 class TransformerBlock(nn.Module):
@@ -77,17 +78,18 @@ class TransformerBlock(nn.Module):
             head_dim=cfg["head_dim"],
             num_kv_groups=cfg["n_kv_groups"],
             qk_norm=cfg["qk_norm"],
+            max_seq_len=cfg["context_length"],
             dtype=cfg["dtype"]
         )
         self.ff = FeedForward(cfg)
         self.norm1 = RMSNorm(cfg["emb_dim"], eps=1e-6)
         self.norm2 = RMSNorm(cfg["emb_dim"], eps=1e-6)
 
-    def forward(self, x, mask, cos, sin):
+    def forward(self, x, cos, sin, use_cache=False):
         # Shortcut connection for attention block
         shortcut = x
         x = self.norm1(x)
-        x = self.att(x, mask, cos, sin,)  # Shape [batch_size, num_tokens, emb_size]
+        x = self.att(x, cos, sin, use_cache)  # Shape [batch_size, num_tokens, emb_size]
         x = x + shortcut  # Add the original input back
 
         # Shortcut connection for feed-forward block
@@ -115,7 +117,8 @@ class FeedForward(nn.Module):
 
 class GroupedQueryAttention(nn.Module):
     def __init__(
-        self, d_in, num_heads, num_kv_groups, head_dim=None, qk_norm=False, dtype=None
+        self, d_in, num_heads, num_kv_groups, head_dim=None, qk_norm=False, dtype=None,
+        max_seq_len=None, window_size=None
     ):
         super().__init__()
         assert num_heads % num_kv_groups == 0, "num_heads must be divisible by num_kv_groups"
@@ -143,40 +146,89 @@ class GroupedQueryAttention(nn.Module):
         else:
             self.q_norm = self.k_norm = None
 
-    def forward(self, x, mask, cos, sin):
+        # For optional KV cache
+        self.max_seq_len = max_seq_len
+        self.window_size = window_size or self.max_seq_len
+        self.register_buffer("cache_k", None, persistent=False)
+        self.register_buffer("cache_v", None, persistent=False)
+        self.cache_initialized = False
+        self.ptr = 0
+
+    def forward(self, x, cos, sin, use_cache=False):
         b, num_tokens, _ = x.shape
 
         # Apply projections
         queries = self.W_query(x)  # (b, num_tokens, num_heads * head_dim)
-        keys = self.W_key(x)       # (b, num_tokens, num_kv_groups * head_dim)
-        values = self.W_value(x)   # (b, num_tokens, num_kv_groups * head_dim)
+        keys_new = self.W_key(x)   # (b, num_tokens, num_kv_groups * head_dim)
+        values_new = self.W_value(x)   # (b, num_tokens, num_kv_groups * head_dim)
 
         # Reshape
         queries = queries.view(b, num_tokens, self.num_heads, self.head_dim).transpose(1, 2)
-        keys = keys.view(b, num_tokens, self.num_kv_groups, self.head_dim).transpose(1, 2)
-        values = values.view(b, num_tokens, self.num_kv_groups, self.head_dim).transpose(1, 2)
+        keys_new = keys_new.view(b, num_tokens, self.num_kv_groups, self.head_dim).transpose(1, 2)
+        values_new = values_new.view(b, num_tokens, self.num_kv_groups, self.head_dim).transpose(1, 2)
 
         # Optional normalization
         if self.q_norm:
             queries = self.q_norm(queries)
         if self.k_norm:
-            keys = self.k_norm(keys)
+            keys_new = self.k_norm(keys_new)
+
+        # For KV cache
+        pos_start = self.ptr
+        pos_end = pos_start + num_tokens
+        cos_slice = cos[pos_start:pos_end]
+        sin_slice = sin[pos_start:pos_end]
 
         # Apply RoPE
-        queries = apply_rope(queries, cos, sin)
-        keys = apply_rope(keys, cos, sin)
+        keys_new = apply_rope(keys_new, cos_slice, sin_slice)
+        queries = apply_rope(queries, cos_slice, sin_slice)
 
         # Expand K and V to match number of heads
-        keys = keys.repeat_interleave(self.group_size, dim=1)
-        values = values.repeat_interleave(self.group_size, dim=1)
+        keys_new = keys_new.repeat_interleave(self.group_size, dim=1)
+        values_new = values_new.repeat_interleave(self.group_size, dim=1)
+
+        if use_cache:
+            if not self.cache_initialized:
+                self.cache_k = torch.zeros(b, self.num_heads, self.max_seq_len, self.head_dim, device=x.device, dtype=keys_new.dtype)
+                self.cache_v = torch.zeros(b, self.num_heads, self.max_seq_len, self.head_dim, device=x.device, dtype=values_new.dtype)
+                self.ptr = 0
+                self.cache_initialized = True
+
+            # In-place update
+            end = self.ptr + num_tokens
+            self.cache_k[:, :, self.ptr:end].copy_(keys_new)
+            self.cache_v[:, :, self.ptr:end].copy_(values_new)
+
+            keys = self.cache_k[:, :, max(0, end - self.window_size):end]
+            values = self.cache_v[:, :, max(0, end - self.window_size):end]
+            self.ptr = end
+        else:
+            keys, values = keys_new, values_new
 
         # Attention
         attn_scores = queries @ keys.transpose(2, 3)
-        attn_scores = attn_scores.masked_fill(mask, -torch.inf)
+
+        # Create causal mask to fill attention scores
+        T_q = queries.shape[-2]
+        T_k = keys.shape[-2]
+
+        if not use_cache or T_q > 1:
+            causal_mask = torch.triu(
+                torch.ones((T_q, T_k), device=x.device, dtype=torch.bool),
+                diagonal=1
+            )
+            attn_scores = attn_scores.masked_fill(causal_mask, -torch.inf)
+
         attn_weights = torch.softmax(attn_scores / self.head_dim**0.5, dim=-1)
 
         context = (attn_weights @ values).transpose(1, 2).reshape(b, num_tokens, self.d_out)
         return self.out_proj(context)
+
+    def reset_cache(self):
+        if self.cache_k is not None:
+            self.cache_k.zero_()
+            self.cache_v.zero_()
+        self.ptr = 0
 
 
 def compute_rope_params(head_dim, theta_base=10_000, context_length=4096, dtype=torch.float32):
@@ -245,149 +297,3 @@ class RMSNorm(nn.Module):
 
         return norm_x.to(input_dtype)
 
-
-def load_weights_into_qwen(model, param_config, params):
-    def assign(left, right, tensor_name="unknown"):
-        if left.shape != right.shape:
-            raise ValueError(f"Shape mismatch in tensor '{tensor_name}'. Left: {left.shape}, Right: {right.shape}")
-        return torch.nn.Parameter(right.clone().detach() if isinstance(right, torch.Tensor) else torch.tensor(right))
-
-    model.tok_emb.weight = assign(model.tok_emb.weight, params["model.embed_tokens.weight"], "model.embed_tokens.weight")
-
-    for l in range(param_config["n_layers"]):
-        block = model.trf_blocks[l]
-        att = block.att
-
-        # Q, K, V projections
-        att.W_query.weight = assign(
-            att.W_query.weight,
-            params[f"model.layers.{l}.self_attn.q_proj.weight"],
-            f"model.layers.{l}.self_attn.q_proj.weight"
-        )
-        att.W_key.weight = assign(
-            att.W_key.weight,
-            params[f"model.layers.{l}.self_attn.k_proj.weight"],
-            f"model.layers.{l}.self_attn.k_proj.weight"
-        )
-        att.W_value.weight = assign(
-            att.W_value.weight,
-            params[f"model.layers.{l}.self_attn.v_proj.weight"],
-            f"model.layers.{l}.self_attn.v_proj.weight"
-        )
-
-        # Output projection
-        att.out_proj.weight = assign(
-            att.out_proj.weight,
-            params[f"model.layers.{l}.self_attn.o_proj.weight"],
-            f"model.layers.{l}.self_attn.o_proj.weight"
-        )
-
-        # QK norms
-        if hasattr(att, "q_norm") and att.q_norm is not None:
-            att.q_norm.scale = assign(
-                att.q_norm.scale,
-                params[f"model.layers.{l}.self_attn.q_norm.weight"],
-                f"model.layers.{l}.self_attn.q_norm.weight"
-            )
-        if hasattr(att, "k_norm") and att.k_norm is not None:
-            att.k_norm.scale = assign(
-                att.k_norm.scale,
-                params[f"model.layers.{l}.self_attn.k_norm.weight"],
-                f"model.layers.{l}.self_attn.k_norm.weight"
-            )
-
-        # Attention layernorm
-        block.norm1.scale = assign(
-            block.norm1.scale,
-            params[f"model.layers.{l}.input_layernorm.weight"],
-            f"model.layers.{l}.input_layernorm.weight"
-        )
-
-        # Feedforward weights
-        block.ff.fc1.weight = assign(
-            block.ff.fc1.weight,
-            params[f"model.layers.{l}.mlp.gate_proj.weight"],
-            f"model.layers.{l}.mlp.gate_proj.weight"
-        )
-        block.ff.fc2.weight = assign(
-            block.ff.fc2.weight,
-            params[f"model.layers.{l}.mlp.up_proj.weight"],
-            f"model.layers.{l}.mlp.up_proj.weight"
-        )
-        block.ff.fc3.weight = assign(
-            block.ff.fc3.weight,
-            params[f"model.layers.{l}.mlp.down_proj.weight"],
-            f"model.layers.{l}.mlp.down_proj.weight"
-        )
-        block.norm2.scale = assign(
-            block.norm2.scale,
-            params[f"model.layers.{l}.post_attention_layernorm.weight"],
-            f"model.layers.{l}.post_attention_layernorm.weight"
-        )
-
-    # Final normalization and output head
-    model.final_norm.scale = assign(model.final_norm.scale, params["model.norm.weight"], "model.norm.weight")
-
-    # Model uses weight tying, hence we reuse the embedding layer weights here
-    model.out_head.weight = assign(model.out_head.weight, params["model.embed_tokens.weight"], "model.embed_tokens.weight")
-
-
-class Qwen3Tokenizer():
-    def __init__(self, tokenizer_file_path="tokenizer.json",
-                 repo_id=None, add_generation_prompt=False, add_thinking=False):
-        from tokenizers import Tokenizer
-        self.tokenizer_file_path = tokenizer_file_path
-
-        if add_generation_prompt != add_thinking:
-            raise ValueError(
-                "Only add_generation_prompt==add_thinking settings are currently supported"
-            )
-
-        self.add_generation_prompt = add_generation_prompt
-        self.add_thinking = add_thinking
-
-        tokenizer_file_path_obj = Path(tokenizer_file_path)
-        if not tokenizer_file_path_obj.is_file() and repo_id is not None:
-            _ = download_from_huggingface(
-                repo_id=repo_id,
-                filename=str(tokenizer_file_path_obj.name),
-                local_dir=str(tokenizer_file_path_obj.parent.name)
-            )
-        self.tokenizer = Tokenizer.from_file(tokenizer_file_path)
-
-    def encode(self, prompt):
-        messages = [
-            {"role": "user", "content": prompt}
-        ]
-        formatted_prompt = self.format_qwen_chat(
-            messages,
-            add_generation_prompt=self.add_generation_prompt,
-            add_thinking=self.add_thinking
-        )
-        return self.tokenizer.encode(formatted_prompt).ids
-
-    def decode(self, token_ids):
-        return self.tokenizer.decode(token_ids, skip_special_tokens=False)
-
-    @staticmethod
-    def format_qwen_chat(messages, add_generation_prompt=False, add_thinking=False):
-        prompt = ""
-        for msg in messages:
-            prompt += f"<|im_start|>{msg['role']}\n{msg['content']}<|im_end|>\n"
-        if add_generation_prompt:
-            prompt += "<|im_start|>assistant"
-            if not add_thinking:
-                prompt += "<|think>\n\n<|/think>\n\n"
-            else:
-                prompt += "\n"
-        return prompt
-
-
-def download_from_huggingface(repo_id, filename, local_dir, revision="main"):
-    base_url = "https://huggingface.co"
-    url = f"{base_url}/{repo_id}/resolve/{revision}/{filename}"
-    Path(local_dir).mkdir(parents=True, exist_ok=True)
-    dest_path = os.path.join(local_dir, filename)
-    print(f"Downloading {url} to {dest_path}...")
-    urllib.request.urlretrieve(url, dest_path)
-    return dest_path

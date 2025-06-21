@@ -12,8 +12,11 @@ from llms_from_scratch.llama3 import (
     GroupedQueryAttentionFast,
     Llama3Model,
 )
+from llms_from_scratch.kv_cache.llama3 import Llama3Model as Llama3ModelKV
+from llms_from_scratch.kv_cache.generate import generate_text_simple as generate_text_simple_cached
 
 import importlib
+import os
 import pytest
 import tiktoken
 import torch
@@ -180,8 +183,20 @@ def llama3_weights_path(tmp_path_factory):
     return path
 
 
-@pytest.mark.parametrize("ModelClass", [Llama3Model])
-def test_gpt_model_variants(ModelClass, llama3_weights_path):
+@pytest.mark.skipif(
+    os.getenv("GITHUB_ACTIONS") == "true",
+    reason="Skipping in GitHub Actions due to compute or memory constraints"
+)
+@pytest.mark.parametrize("ModelClass", [Llama3Model, Llama3ModelKV])
+@pytest.mark.parametrize("generate_fn", [generate_text_simple, generate_text_simple_cached])
+def test_gpt_model_variants(ModelClass, generate_fn, llama3_weights_path):
+
+    # Skip incompatible combinations
+    if generate_fn is generate_text_simple and getattr(ModelClass, "reset_kv_cache", False):
+        return
+    if generate_fn is generate_text_simple_cached and not getattr(ModelClass, "reset_kv_cache", False):
+        return
+
     torch.manual_seed(123)
     model = ModelClass(LLAMA32_CONFIG_1B)
     model.load_state_dict(torch.load(llama3_weights_path))
@@ -198,7 +213,7 @@ def test_gpt_model_variants(ModelClass, llama3_weights_path):
     print("Encoded input text:", encoded)
     print("encoded_tensor.shape:", encoded_tensor.shape)
 
-    out = generate_text_simple(
+    out = generate_fn(
         model=model,
         idx=encoded_tensor,
         max_new_tokens=5,

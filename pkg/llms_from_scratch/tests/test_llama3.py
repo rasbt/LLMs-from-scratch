@@ -16,6 +16,7 @@ from llms_from_scratch.kv_cache.llama3 import Llama3Model as Llama3ModelKV
 from llms_from_scratch.kv_cache.generate import generate_text_simple as generate_text_simple_cached
 
 import importlib
+import os
 import pytest
 import tiktoken
 import torch
@@ -182,6 +183,10 @@ def llama3_weights_path(tmp_path_factory):
     return path
 
 
+@pytest.mark.skipif(
+    os.getenv("GITHUB_ACTIONS") == "true",
+    reason="Skipping in GitHub Actions due to compute or memory constraints"
+)
 @pytest.mark.parametrize("ModelClass", [Llama3Model, Llama3ModelKV])
 @pytest.mark.parametrize("generate_fn", [generate_text_simple, generate_text_simple_cached])
 def test_gpt_model_variants(ModelClass, generate_fn, llama3_weights_path):

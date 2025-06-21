@@ -113,7 +113,22 @@ from llms_from_scratch.appendix_d import find_highest_gradient, train_model
 ```
 
 
+
 &nbsp;
+
+### GPT-2 KV cache variant (Bonus material)
+
+```python
+from llms_from_scratch.kv_cache.gpt2 import GPTModel
+from llms_from_scratch.kv_cache.generate import generate_text_simple
+```
+
+For more information about KV caching, please see the [KV cache README](../../ch04/03_kv-cache).
+
+
+
+&nbsp;
+
 ### Llama  3 (Bonus material)
 
 ```python

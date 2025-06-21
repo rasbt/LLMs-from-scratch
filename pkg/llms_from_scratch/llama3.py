@@ -309,22 +309,11 @@ class Llama3Tokenizer:
             special_tokens=self.special,
         )
 
-    def encode(self, text, bos=False, eos=False, allowed_special=set()):
-        ids: list[int] = []
-
-        if bos:
-            ids.append(self.special_tokens["<|begin_of_text|>"])
-
-        # delegate to underlying tiktoken.Encoding.encode
-        ids.extend(
-            self.model.encode(
-                text,
-                allowed_special=allowed_special,
-            )
-        )
+    def encode(self, text, bos=False, eos=False):
+        ids = ([self.special["<|begin_of_text|>"]] if bos else []) \
+              + self.model.encode(text)
         if eos:
-            ids.append(self.special_tokens["<|end_of_text|>"])
-
+            ids.append(self.special["<|end_of_text|>"])
         return ids
 
     def decode(self, ids):

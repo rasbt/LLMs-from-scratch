@@ -9,7 +9,7 @@ import psutil
 import urllib
 
 import torch
-import tqdm
+from tqdm import tqdm
 from torch.utils.data import Dataset
 
 

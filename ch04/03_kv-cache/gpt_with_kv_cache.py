@@ -74,10 +74,10 @@ class MultiHeadAttention(nn.Module):
         # Original mask truncated to the number of tokens and converted to boolean
         num_tokens_Q = queries.shape[-2]
         num_tokens_K = keys.shape[-2]
-        mask_bool = self.mask.bool()[:num_tokens_Q, :num_tokens_K]
-
-        # Use the mask to fill attention scores
-        attn_scores.masked_fill_(mask_bool, -torch.inf)
+        mask = torch.triu(
+            torch.ones(num_tokens_Q, num_tokens_K, device=x.device), diagonal=1
+        ).bool()
+        attn_scores.masked_fill_(mask, float("-inf"))
 
         attn_weights = torch.softmax(attn_scores / keys.shape[-1]**0.5, dim=-1)
         attn_weights = self.dropout(attn_weights)

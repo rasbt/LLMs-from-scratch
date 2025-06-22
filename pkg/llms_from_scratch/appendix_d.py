@@ -66,7 +66,7 @@ def train_model(model, train_loader, val_loader, optimizer, device,
                 if global_step > warmup_steps:
                     torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
             else:
-                if global_step >= warmup_steps:  # the book originally used global_step > warmup_steps, which lead to a skipped clipping step after warmup
+                if global_step >= warmup_steps:  # the book originally used global_step > warmup_steps, which led to a skipped clipping step after warmup
                     torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
 
             optimizer.step()

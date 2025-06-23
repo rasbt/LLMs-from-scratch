@@ -2,7 +2,6 @@
 
 import pytest
 import torch
-import time
 import tiktoken
 
 from gpt_ch04 import GPTModel as GPTModelBase
@@ -25,7 +24,6 @@ GPT_CONFIG_124M = {
 
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
 
 
 @pytest.mark.parametrize("ModelClass", [GPTModelBase, GPTModelKV1, GPTModelKV2])

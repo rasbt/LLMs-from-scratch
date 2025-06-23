@@ -49,6 +49,7 @@ jobs:
           source .venv/bin/activate
           pytest --ruff setup/02_installing-python-libraries/tests.py
           pytest --ruff ch04/01_main-chapter-code/tests.py
+          pytest --ruff ch04/03_kv-cache/tests.py
           pytest --ruff ch05/01_main-chapter-code/tests.py
           pytest --ruff ch05/07_gpt_to_llama/tests/tests.py
           pytest --ruff ch06/01_main-chapter-code/tests.py

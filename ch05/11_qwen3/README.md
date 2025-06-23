@@ -212,16 +212,16 @@ token_ids = generate_text_simple(
 Note that the peak memory usage is only listed for Nvidia CUDA devices, as it is easier to calculate. However, the memory usage on other devices is likely similar as it uses a similar precision format, and the KV cache storage dominates here for the generated 150-token text (however, different devices may implement matrix multiplication differently and may result in different peak memory requirements).
 
 | Model      | Mode              | Hardware        | Tokens/sec | GPU Memory (VRAM) |
-|------------|-------------------|-----------------|------------|-------------------|
+| ---------- | ----------------- | --------------- | ---------- | ----------------- |
 | Qwen3Model | Regular           | Mac Mini M4 CPU | 1          | -                 |
-| Qwen3Model | Regular compiled  | Mac Mini M4 CPU | -          | -                 |
+| Qwen3Model | Regular compiled  | Mac Mini M4 CPU | 1          | -                 |
 | Qwen3Model | KV cache          | Mac Mini M4 CPU | 80         | -                 |
-| Qwen3Model | KV cache compiled | Mac Mini M4 CPU | -          | -                 |
+| Qwen3Model | KV cache compiled | Mac Mini M4 CPU | 82         | -                 |
 |            |                   |                 |            |                   |
 | Qwen3Model | Regular           | Mac Mini M4 GPU | 21         | -                 |
-| Qwen3Model | Regular compiled  | Mac Mini M4 GPU | -          | -                 |
+| Qwen3Model | Regular compiled  | Mac Mini M4 GPU | Error      | -                 |
 | Qwen3Model | KV cache          | Mac Mini M4 GPU | 32         | -                 |
-| Qwen3Model | KV cache compiled | Mac Mini M4 GPU | -          | -                 |
+| Qwen3Model | KV cache compiled | Mac Mini M4 GPU | Error      | -                 |
 |            |                   |                 |            |                   |
 | Qwen3Model | Regular           | Nvidia A100 GPU | 25         | 1.49 GB           |
 | Qwen3Model | Regular compiled  | Nvidia A100 GPU | 107        | 1.99 GB           |

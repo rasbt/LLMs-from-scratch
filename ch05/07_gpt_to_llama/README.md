@@ -241,14 +241,14 @@ Note that the peak memory usage is only listed for Nvidia CUDA devices, as it is
 | Model       | Mode              | Hardware        | Tokens/sec | GPU Memory (VRAM) |
 | ----------- | ----------------- | --------------- | ---------- | ----------------- |
 | Llama3Model | Regular           | Mac Mini M4 CPU | 1          | -                 |
-| Llama3Model | Regular compiled  | Mac Mini M4 CPU | -          | -                 |
+| Llama3Model | Regular compiled  | Mac Mini M4 CPU | 1          | -                 |
 | Llama3Model | KV cache          | Mac Mini M4 CPU | 68         | -                 |
 | Llama3Model | KV cache compiled | Mac Mini M4 CPU | 86         | -                 |
 |             |                   |                 |            |                   |
 | Llama3Model | Regular           | Mac Mini M4 GPU | 15         | -                 |
-| Llama3Model | Regular compiled  | Mac Mini M4 GPU | -          | -                 |
+| Llama3Model | Regular compiled  | Mac Mini M4 GPU | Error      | -                 |
 | Llama3Model | KV cache          | Mac Mini M4 GPU | 62         | -                 |
-| Llama3Model | KV cache compiled | Mac Mini M4 GPU | -          | -                 |
+| Llama3Model | KV cache compiled | Mac Mini M4 GPU | Error      | -                 |
 |             |                   |                 |            |                   |
 | Llama3Model | Regular           | Nvidia A100 GPU | 42         | 2.91 GB           |
 | Llama3Model | Regular compiled  | Nvidia A100 GPU | 170        | 3.12 GB           |

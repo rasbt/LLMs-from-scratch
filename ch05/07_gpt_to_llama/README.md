@@ -236,14 +236,14 @@ token_ids = generate_text_simple(
 )
 ```
 
-Note that the peak memory usage is only listed for Nvidia CUDA devices, as it is easier to calculate. However, the memory usage on other devices is likely similar as it uses a similar precision format, and the KV cache storage dominates here for the generated 150-token text (however, different devices may implement matrix multiplication differently and may result in different peak memory requirements).
+Note that the peak memory usage is only listed for Nvidia CUDA devices, as it is easier to calculate. However, the memory usage on other devices is likely similar as it uses a similar precision format, and the KV cache storage results in even lower memory usage here for the generated 150-token text (however, different devices may implement matrix multiplication differently and may result in different peak memory requirements; and KV-cache memory may increase prohibitively for longer contexts lengths).
 
 | Model       | Mode              | Hardware        | Tokens/sec | GPU Memory (VRAM) |
-|-------------|-------------------|-----------------|------------|-------------------|
+| ----------- | ----------------- | --------------- | ---------- | ----------------- |
 | Llama3Model | Regular           | Mac Mini M4 CPU | 1          | -                 |
 | Llama3Model | Regular compiled  | Mac Mini M4 CPU | -          | -                 |
-| Llama3Model | KV cache          | Mac Mini M4 CPU | 62         | -                 |
-| Llama3Model | KV cache compiled | Mac Mini M4 CPU | -          | -                 |
+| Llama3Model | KV cache          | Mac Mini M4 CPU | 68         | -                 |
+| Llama3Model | KV cache compiled | Mac Mini M4 CPU | 86         | -                 |
 |             |                   |                 |            |                   |
 | Llama3Model | Regular           | Mac Mini M4 GPU | 15         | -                 |
 | Llama3Model | Regular compiled  | Mac Mini M4 GPU | -          | -                 |
@@ -252,7 +252,7 @@ Note that the peak memory usage is only listed for Nvidia CUDA devices, as it is
 |             |                   |                 |            |                   |
 | Llama3Model | Regular           | Nvidia A100 GPU | 42         | 2.91 GB           |
 | Llama3Model | Regular compiled  | Nvidia A100 GPU | 170        | 3.12 GB           |
-| Llama3Model | KV cache          | Nvidia A100 GPU | 60         | 18.87 GB          |
-| Llama3Model | KV cache compiled | Nvidia A100 GPU | 59         | 19.12 GB          |
+| Llama3Model | KV cache          | Nvidia A100 GPU | 58         | 2.87 GB           |
+| Llama3Model | KV cache compiled | Nvidia A100 GPU | 161        | 3.61 GB           |
 
 Note that all settings above have been tested to produce the same text outputs.

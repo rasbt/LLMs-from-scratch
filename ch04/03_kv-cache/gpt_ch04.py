@@ -27,7 +27,7 @@ class MultiHeadAttention(nn.Module):
         self.dropout = nn.Dropout(dropout)
         self.register_buffer(
             "mask",
-            torch.triu(torch.ones(context_length, context_length),diagonal=1),
+            torch.triu(torch.ones(context_length, context_length), diagonal=1),
             persistent=False
         )
 

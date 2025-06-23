@@ -104,7 +104,7 @@ def reset_cache(self):
 
 ### 4. Propagating `use_cache` in the full model
 
-With the changes to the `MultiHeadAttention` class in plass, we now modify the  `GPTModel` class. First, we add a position tracking for the token indices to the instructor:
+With the changes to the `MultiHeadAttention` class in place, we now modify the  `GPTModel` class. First, we add a position tracking for the token indices to the instructor:
 
 ```python
 self.current_pos = 0

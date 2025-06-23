@@ -3,7 +3,7 @@
 #   - https://www.manning.com/books/build-a-large-language-model-from-scratch
 # Code: https://github.com/rasbt/LLMs-from-scratch
 
-from .utils import KVCache
+from .utils import KVCache   # noqa: F401
 
 import os
 import urllib.request

@@ -297,3 +297,11 @@ On a Mac Mini with an M4 chip (CPU), with a 200-token generation and a window si
 | `gpt_with_kv_cache_optimized.py` | 166        |
 
 Unfortunately, the speed advantages disappear on CUDA devices as this is a tiny model, and the device transfer and communication outweigh the benefits of a KV cache for this small model. 
+
+
+&nbsp;
+## Additional Resources
+
+1. [Qwen3 from-scratch KV cache benchmarks](../../ch05/11_qwen3#pro-tip-2-speed-up-inference-with-compilation)
+2. [Llama 3 from-scratch KV cache benchmarks](../../ch05/07_gpt_to_llama/README.md#pro-tip-3-speed-up-inference-with-compilation)
+3. [Understanding and Coding the KV Cache in LLMs from Scratch](https://magazine.sebastianraschka.com/p/coding-the-kv-cache-in-llms) -- A more detailed write-up of this README

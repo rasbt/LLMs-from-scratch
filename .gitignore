@@ -55,6 +55,14 @@ ch05/10_llm-training-speed/loss.pdf
 ch05/10_llm-training-speed/model.pth
 ch05/11_qwen3/Qwen3-0.6B
 ch05/11_qwen3/Qwen3-0.6B-Base
+ch05/11_qwen3/Qwen3-1.7B
+ch05/11_qwen3/Qwen3-1.7B-Base
+ch05/11_qwen3/Qwen3-4B
+ch05/11_qwen3/Qwen3-4B-Base
+ch05/11_qwen3/Qwen3-8B
+ch05/11_qwen3/Qwen3-8B-Base
+ch05/11_qwen3/Qwen3-32B
+ch05/11_qwen3/Qwen3-32B-Base
 
 ch06/01_main-chapter-code/gpt2
 ch06/02_bonus_additional-experiments/gpt2

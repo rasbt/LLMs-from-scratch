@@ -1,6 +1,6 @@
 # Qwen3 From Scratch
 
-This [standalone-qwen3.ipynb](standalone-qwen3.ipynb) Jupyter notebook in this folder contains a from-scratch implementation of Qwen3 0.6B.
+This [standalone-qwen3.ipynb](standalone-qwen3.ipynb) Jupyter notebook in this folder contains a from-scratch implementation of Qwen3 0.6B, 1.7B, 4B, 8B, and 32 B.
 
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/bonus/qwen/qwen-overview.webp">
 
@@ -8,7 +8,7 @@ This [standalone-qwen3.ipynb](standalone-qwen3.ipynb) Jupyter notebook in this f
 &nbsp;
 ### Using Qwen3 0.6B via the `llms-from-scratch` package
 
-For an easy way to use the Qwen3 from-scratch implementation, you can also use the `llms-from-scratch` PyPI package based on the source code in this repository at [pkg/llms_from_scratch](../../pkg/llms_from_scratch).
+For an easy way to use the Qwen3 0.6B from-scratch implementation, you can also use the `llms-from-scratch` PyPI package based on the source code in this repository at [pkg/llms_from_scratch](../../pkg/llms_from_scratch).
 
 &nbsp;
 #### 1) Installation

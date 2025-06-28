@@ -6,9 +6,9 @@ This [standalone-qwen3.ipynb](standalone-qwen3.ipynb) Jupyter notebook in this f
 
 
 &nbsp;
-### Using Qwen3 0.6B via the `llms-from-scratch` package
+### Using Qwen3 via the `llms-from-scratch` package
 
-For an easy way to use the Qwen3 0.6B from-scratch implementation, you can also use the `llms-from-scratch` PyPI package based on the source code in this repository at [pkg/llms_from_scratch](../../pkg/llms_from_scratch).
+For an easy way to use the Qwen3 from-scratch implementation, you can also use the `llms-from-scratch` PyPI package based on the source code in this repository at [pkg/llms_from_scratch](../../pkg/llms_from_scratch).
 
 &nbsp;
 #### 1) Installation
@@ -36,9 +36,9 @@ TOP_K = 1
 ```
 
 &nbsp;
-#### 3) Weight download and loading
+#### 3a) Weight download and loading of the 0.6B model
 
-This automatically downloads the weight file based on the model choice above:
+The following automatically downloads the weight file based on the model choice (reasoning or base) above. Note that this section focuses on the 0.6B model. Skip this section and continue with section 3b) if you want to work with any of the larger models (1.7B, 4B, 8B, or 32B).
 
 ```python
 from llms_from_scratch.qwen3 import download_from_huggingface
@@ -77,10 +77,74 @@ device = (
     torch.device("mps") if torch.backends.mps.is_available() else
     torch.device("cpu")
 )
-model.to(device)
+model.to(device);
 ```
 
 &nbsp;
+#### 3b) Weight download and loading of the larger Qwen models
+
+If you are interested in working with any of the larger Qwen models, for instance, 1.7B, 4B, 8B, or 32B, please use the following code below instead of the code under 3a), which requires additional code dependencies:
+
+```bash
+pip install safetensors huggingface_hub
+```
+
+Then use the following code (make appropriate changes to `USE_MODEL` to select the desired model size)
+
+```python
+USE_MODEL = "1.7B"
+
+if USE_MODEL == "1.7B":
+    from llms_from_scratch.qwen3 import QWEN3_CONFIG_1_7B as QWEN3_CONFIG
+elif USE_MODEL == "4B":
+    from llms_from_scratch.qwen3 import QWEN3_CONFIG_4B as QWEN3_CONFIG
+elif USE_MODEL == "8B":
+    from llms_from_scratch.qwen3 import QWEN3_CONFIG_8B as QWEN3_CONFIG
+elif USE_MODEL == "14B":
+    from llms_from_scratch.qwen3 import QWEN3_CONFIG_14B as QWEN3_CONFIG
+elif USE_MODEL == "32B":
+    from llms_from_scratch.qwen3 import QWEN3_CONFIG_32B as QWEN3_CONFIG
+else:
+    raise ValueError("Invalid USE_MODEL name.")
+    
+repo_id = f"Qwen/Qwen3-{USE_MODEL}"
+local_dir = f"Qwen3-{USE_MODEL}"
+
+if not USE_REASONING_MODEL:
+  repo_id = f"{repo_id}-Base"
+  local_dir = f"{local_dir}-Base"
+```
+
+Now, download and load the weights into the `model`:
+
+```python
+from llms_from_scratch.qwen3 import (
+    Qwen3Model,
+    download_from_huggingface_from_snapshots,
+    load_weights_into_qwen
+)
+
+model = Qwen3Model(QWEN3_CONFIG)
+
+weights_dict = download_from_huggingface_from_snapshots(
+    repo_id=repo_id,
+    local_dir=local_dir
+)
+load_weights_into_qwen(model, QWEN3_CONFIG, weights_dict)
+del weights_dict  # delete weight dictionary to free up disk space
+
+device = (
+    torch.device("cuda") if torch.cuda.is_available() else
+    torch.device("mps") if torch.backends.mps.is_available() else
+    torch.device("cpu")
+)
+
+model.to(device);
+```
+
+
+&nbsp;
+
 #### 4) Initialize tokenizer
 
 The following code downloads and initializes the tokenizer:

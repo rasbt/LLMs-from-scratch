@@ -175,7 +175,7 @@ def main(test_mode=False):
     val_data = data[train_portion + test_portion:]
 
     # Use very small subset for testing purposes
-    if args.test_mode:
+    if test_mode:
         train_data = train_data[:10]
         val_data = val_data[:10]
         test_data = test_data[:10]

@@ -4,13 +4,15 @@
 # Code: https://github.com/rasbt/LLMs-from-scratch
 
 import os
+import json
 import urllib.request
 from pathlib import Path
 
 import torch
 import torch.nn as nn
 
-# 0.6B model
+
+# 0.6 billion parameters
 QWEN_CONFIG_06_B = {
     "vocab_size": 151_936,           # Vocabulary size
     "context_length": 40_960,        # Context length that was used to train the model
@@ -23,6 +25,80 @@ QWEN_CONFIG_06_B = {
     "n_kv_groups": 8,                # Key-Value groups for grouped-query attention
     "rope_base": 1_000_000.0,        # The base in RoPE's "theta"
     "dtype": torch.bfloat16,         # Lower-precision dtype to reduce memory usage
+}
+
+# 1.7 billion parameters
+QWEN3_CONFIG_1_7B = {
+    "vocab_size": 151_936,
+    "context_length": 40_960,
+    "emb_dim": 2048,                 # 2x larger than above
+    "n_heads": 16,
+    "n_layers": 28,
+    "hidden_dim": 6144,              # 2x larger than above
+    "head_dim": 128,
+    "qk_norm": True,
+    "n_kv_groups": 8,
+    "rope_base": 1_000_000.0,
+    "dtype": torch.bfloat16,
+}
+
+# 4 billion parameters
+QWEN3_CONFIG_4B = {
+    "vocab_size": 151_936,
+    "context_length": 40_960,
+    "emb_dim": 2560,                 # 25% larger than above
+    "n_heads": 32,                   # 2x larger than above
+    "n_layers": 36,                  # 29% larger than above
+    "hidden_dim": 9728,              # ~3x larger than above
+    "head_dim": 128,
+    "qk_norm": True,
+    "n_kv_groups": 8,
+    "rope_base": 1_000_000.0,
+    "dtype": torch.bfloat16,
+}
+
+# 8 billion parameters
+QWEN3_CONFIG_8B = {
+    "vocab_size": 151_936,
+    "context_length": 40_960,
+    "emb_dim": 4096,                 # 60% larger than above
+    "n_heads": 32,
+    "n_layers": 36,                  # 26% larger than above
+    "hidden_dim": 12288,
+    "head_dim": 128,
+    "qk_norm": True,
+    "n_kv_groups": 8,
+    "rope_base": 1_000_000.0,
+    "dtype": torch.bfloat16,
+}
+
+# 14 billion parameters
+QWEN3_CONFIG_14B = {
+        "vocab_size": 151_936,
+        "context_length": 40_960,
+        "emb_dim": 5120,                 # 25% larger than above
+        "n_heads": 40,                   # 25% larger than above
+        "n_layers": 40,                  # 11% larger than above
+        "hidden_dim": 17408,             # 42% larger than above
+        "head_dim": 128,
+        "qk_norm": True,
+        "n_kv_groups": 8,
+        "rope_base": 1_000_000.0,
+        "dtype": torch.bfloat16,
+}
+
+QWEN3_CONFIG_32B = {
+        "vocab_size": 151_936,
+        "context_length": 40_960,
+        "emb_dim": 5120,
+        "n_heads": 64,                   # 60% larger than above
+        "n_layers": 64,                  # 60% larger than above
+        "hidden_dim": 25600,             # 47% larger than above
+        "head_dim": 128,
+        "qk_norm": True,
+        "n_kv_groups": 8,
+        "rope_base": 1_000_000.0,
+        "dtype": torch.bfloat16,
 }
 
 
@@ -388,6 +464,44 @@ def download_from_huggingface(repo_id, filename, local_dir, revision="main"):
     url = f"{base_url}/{repo_id}/resolve/{revision}/{filename}"
     Path(local_dir).mkdir(parents=True, exist_ok=True)
     dest_path = os.path.join(local_dir, filename)
-    print(f"Downloading {url} to {dest_path}...")
-    urllib.request.urlretrieve(url, dest_path)
+
+    if os.path.exists(dest_path):
+        print(f"File already exists: {dest_path}")
+    else:
+        print(f"Downloading {url} to {dest_path}...")
+        urllib.request.urlretrieve(url, dest_path)
+
     return dest_path
+
+
+def download_from_huggingface_from_snapshots(repo_id, local_dir):
+    from huggingface_hub import hf_hub_download, snapshot_download
+    from safetensors.torch import load_file  # or your preferred loader
+
+    repo_dir = snapshot_download(repo_id=repo_id, local_dir=local_dir)
+
+    index_path = os.path.join(repo_dir, "model.safetensors.index.json")
+    single_file_path = os.path.join(repo_dir, "model.safetensors")
+
+    if os.path.exists(index_path):
+        # Multi-shard model
+        with open(index_path, "r") as f:
+            index = json.load(f)
+
+        weights_dict = {}
+        for filename in set(index["weight_map"].values()):
+            shard_path = os.path.join(repo_dir, filename)
+            shard = load_file(shard_path)
+            weights_dict.update(shard)
+    elif os.path.exists(single_file_path):
+        # Single-shard model
+        weights_file = hf_hub_download(
+            repo_id=repo_id,
+            filename="model.safetensors",
+            local_dir=local_dir,
+        )
+        weights_dict = load_file(weights_file)
+    else:
+        raise FileNotFoundError("No model.safetensors or model.safetensors.index.json found.")
+
+    return weights_dict

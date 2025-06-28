@@ -4,28 +4,16 @@
 # Code: https://github.com/rasbt/LLMs-from-scratch
 
 from .utils import KVCache   # noqa: F401
-
-import os
-import urllib.request
-from pathlib import Path
+from ..qwen3 import (   # noqa: F401
+    QWEN_CONFIG_06_B, QWEN3_CONFIG_1_7B, QWEN3_CONFIG_4B,
+    QWEN3_CONFIG_8B, QWEN3_CONFIG_14B, QWEN3_CONFIG_32B,
+    Qwen3Tokenizer, load_weights_into_qwen,
+    download_from_huggingface,
+    download_from_huggingface_from_snapshots
+)
 
 import torch
 import torch.nn as nn
-
-# 0.6B model
-QWEN_CONFIG_06_B = {
-    "vocab_size": 151_936,           # Vocabulary size
-    "context_length": 40_960,        # Context length that was used to train the model
-    "emb_dim": 1024,                 # Embedding dimension
-    "n_heads": 16,                   # Number of attention heads
-    "n_layers": 28,                  # Number of layers
-    "hidden_dim": 3072,              # Size of the intermediate dimension in FeedForward
-    "head_dim": 128,                 # Size of the heads in GQA
-    "qk_norm": True,                 # Whether to normalize queries and values in GQA
-    "n_kv_groups": 8,                # Key-Value groups for grouped-query attention
-    "rope_base": 1_000_000.0,        # The base in RoPE's "theta"
-    "dtype": torch.bfloat16,         # Lower-precision dtype to reduce memory usage
-}
 
 
 class Qwen3Model(nn.Module):
@@ -285,150 +273,3 @@ class RMSNorm(nn.Module):
             norm_x = norm_x + self.shift
 
         return norm_x.to(input_dtype)
-
-
-def load_weights_into_qwen(model, param_config, params):
-    def assign(left, right, tensor_name="unknown"):
-        if left.shape != right.shape:
-            raise ValueError(f"Shape mismatch in tensor '{tensor_name}'. Left: {left.shape}, Right: {right.shape}")
-        return torch.nn.Parameter(right.clone().detach() if isinstance(right, torch.Tensor) else torch.tensor(right))
-
-    model.tok_emb.weight = assign(model.tok_emb.weight, params["model.embed_tokens.weight"], "model.embed_tokens.weight")
-
-    for l in range(param_config["n_layers"]):
-        block = model.trf_blocks[l]
-        att = block.att
-
-        # Q, K, V projections
-        att.W_query.weight = assign(
-            att.W_query.weight,
-            params[f"model.layers.{l}.self_attn.q_proj.weight"],
-            f"model.layers.{l}.self_attn.q_proj.weight"
-        )
-        att.W_key.weight = assign(
-            att.W_key.weight,
-            params[f"model.layers.{l}.self_attn.k_proj.weight"],
-            f"model.layers.{l}.self_attn.k_proj.weight"
-        )
-        att.W_value.weight = assign(
-            att.W_value.weight,
-            params[f"model.layers.{l}.self_attn.v_proj.weight"],
-            f"model.layers.{l}.self_attn.v_proj.weight"
-        )
-
-        # Output projection
-        att.out_proj.weight = assign(
-            att.out_proj.weight,
-            params[f"model.layers.{l}.self_attn.o_proj.weight"],
-            f"model.layers.{l}.self_attn.o_proj.weight"
-        )
-
-        # QK norms
-        if hasattr(att, "q_norm") and att.q_norm is not None:
-            att.q_norm.scale = assign(
-                att.q_norm.scale,
-                params[f"model.layers.{l}.self_attn.q_norm.weight"],
-                f"model.layers.{l}.self_attn.q_norm.weight"
-            )
-        if hasattr(att, "k_norm") and att.k_norm is not None:
-            att.k_norm.scale = assign(
-                att.k_norm.scale,
-                params[f"model.layers.{l}.self_attn.k_norm.weight"],
-                f"model.layers.{l}.self_attn.k_norm.weight"
-            )
-
-        # Attention layernorm
-        block.norm1.scale = assign(
-            block.norm1.scale,
-            params[f"model.layers.{l}.input_layernorm.weight"],
-            f"model.layers.{l}.input_layernorm.weight"
-        )
-
-        # Feedforward weights
-        block.ff.fc1.weight = assign(
-            block.ff.fc1.weight,
-            params[f"model.layers.{l}.mlp.gate_proj.weight"],
-            f"model.layers.{l}.mlp.gate_proj.weight"
-        )
-        block.ff.fc2.weight = assign(
-            block.ff.fc2.weight,
-            params[f"model.layers.{l}.mlp.up_proj.weight"],
-            f"model.layers.{l}.mlp.up_proj.weight"
-        )
-        block.ff.fc3.weight = assign(
-            block.ff.fc3.weight,
-            params[f"model.layers.{l}.mlp.down_proj.weight"],
-            f"model.layers.{l}.mlp.down_proj.weight"
-        )
-        block.norm2.scale = assign(
-            block.norm2.scale,
-            params[f"model.layers.{l}.post_attention_layernorm.weight"],
-            f"model.layers.{l}.post_attention_layernorm.weight"
-        )
-
-    # Final normalization and output head
-    model.final_norm.scale = assign(model.final_norm.scale, params["model.norm.weight"], "model.norm.weight")
-
-    # Model uses weight tying, hence we reuse the embedding layer weights here
-    model.out_head.weight = assign(model.out_head.weight, params["model.embed_tokens.weight"], "model.embed_tokens.weight")
-
-
-class Qwen3Tokenizer():
-    def __init__(self, tokenizer_file_path="tokenizer.json",
-                 repo_id=None, add_generation_prompt=False, add_thinking=False):
-        from tokenizers import Tokenizer
-        self.tokenizer_file_path = tokenizer_file_path
-
-        if add_generation_prompt != add_thinking:
-            raise ValueError(
-                "Only add_generation_prompt==add_thinking settings are currently supported"
-            )
-
-        self.add_generation_prompt = add_generation_prompt
-        self.add_thinking = add_thinking
-
-        tokenizer_file_path_obj = Path(tokenizer_file_path)
-        if not tokenizer_file_path_obj.is_file() and repo_id is not None:
-            _ = download_from_huggingface(
-                repo_id=repo_id,
-                filename=str(tokenizer_file_path_obj.name),
-                local_dir=str(tokenizer_file_path_obj.parent.name)
-            )
-        self.tokenizer = Tokenizer.from_file(tokenizer_file_path)
-
-    def encode(self, prompt):
-        messages = [
-            {"role": "user", "content": prompt}
-        ]
-        formatted_prompt = self.format_qwen_chat(
-            messages,
-            add_generation_prompt=self.add_generation_prompt,
-            add_thinking=self.add_thinking
-        )
-        return self.tokenizer.encode(formatted_prompt).ids
-
-    def decode(self, token_ids):
-        return self.tokenizer.decode(token_ids, skip_special_tokens=False)
-
-    @staticmethod
-    def format_qwen_chat(messages, add_generation_prompt=False, add_thinking=False):
-        prompt = ""
-        for msg in messages:
-            prompt += f"<|im_start|>{msg['role']}\n{msg['content']}<|im_end|>\n"
-        if add_generation_prompt:
-            prompt += "<|im_start|>assistant"
-            if not add_thinking:
-                prompt += "<|think>\n\n<|/think>\n\n"
-            else:
-                prompt += "\n"
-        return prompt
-
-
-def download_from_huggingface(repo_id, filename, local_dir, revision="main"):
-    base_url = "https://huggingface.co"
-    url = f"{base_url}/{repo_id}/resolve/{revision}/{filename}"
-    Path(local_dir).mkdir(parents=True, exist_ok=True)
-    dest_path = os.path.join(local_dir, filename)
-    print(f"Downloading {url} to {dest_path}...")
-    urllib.request.urlretrieve(url, dest_path)
-    return dest_path

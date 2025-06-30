@@ -410,15 +410,11 @@ def load_weights_into_qwen(model, param_config, params):
 
 class Qwen3Tokenizer():
     def __init__(self, tokenizer_file_path="tokenizer.json",
-                 repo_id=None, add_generation_prompt=False, add_thinking=False):
+                 repo_id=None, apply_chat_template=True,
+                 add_generation_prompt=False, add_thinking=False):
         from tokenizers import Tokenizer
         self.tokenizer_file_path = tokenizer_file_path
-
-        if add_generation_prompt != add_thinking:
-            raise ValueError(
-                "Only add_generation_prompt==add_thinking settings are currently supported"
-            )
-
+        self.apply_chat_template = apply_chat_template
         self.add_generation_prompt = add_generation_prompt
         self.add_thinking = add_thinking
 
@@ -432,14 +428,15 @@ class Qwen3Tokenizer():
         self.tokenizer = Tokenizer.from_file(tokenizer_file_path)
 
     def encode(self, prompt):
-        messages = [
-            {"role": "user", "content": prompt}
-        ]
-        formatted_prompt = self.format_qwen_chat(
-            messages,
-            add_generation_prompt=self.add_generation_prompt,
-            add_thinking=self.add_thinking
-        )
+        if self.apply_chat_template:
+            messages = [{"role": "user", "content": prompt}]
+            formatted_prompt = self.format_qwen_chat(
+                messages,
+                add_generation_prompt=self.add_generation_prompt,
+                add_thinking=self.add_thinking
+            )
+        else:
+            formatted_prompt = prompt
         return self.tokenizer.encode(formatted_prompt).ids
 
     def decode(self, token_ids):
@@ -452,10 +449,10 @@ class Qwen3Tokenizer():
             prompt += f"<|im_start|>{msg['role']}\n{msg['content']}<|im_end|>\n"
         if add_generation_prompt:
             prompt += "<|im_start|>assistant"
-            if not add_thinking:
-                prompt += "<|think>\n\n<|/think>\n\n"
+            if add_thinking:
+                prompt += "\n"  # no <think> tags
             else:
-                prompt += "\n"
+                prompt += "\n<think>\n\n</think>\n\n"
         return prompt
 
 

@@ -117,12 +117,6 @@ def qwen3_weights_path(tmp_path_factory):
 @pytest.mark.parametrize("generate_fn", [generate_text_simple, generate_text_simple_cached])
 def test_model_variants(ModelClass, qwen3_weights_path, generate_fn):
 
-    # Skip incompatible combinations
-    if generate_fn is generate_text_simple and getattr(ModelClass, "reset_kv_cache", False):
-        return
-    if generate_fn is generate_text_simple_cached and not getattr(ModelClass, "reset_kv_cache", False):
-        return
-
     torch.manual_seed(123)
     model = ModelClass(QWEN_CONFIG_06_B)
     model.load_state_dict(torch.load(qwen3_weights_path))

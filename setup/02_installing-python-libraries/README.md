@@ -7,7 +7,7 @@ I used the following libraries listed [here](https://github.com/rasbt/LLMs-from-
 
 
 > **Note:**
-> If you you are using `uv` as described in [Option 1: Using uv](../01_optional-python-setup-preferences/README.md), you can replace `pip` via `pip uv` in the commands below. For example, `pip install -r requirements.txt` becomes `uv pip install -r requirements.txt`
+> If you you are using `uv` as described in [Option 1: Using uv](../01_optional-python-setup-preferences/README.md), you can replace `pip` via `uv pip` in the commands below. For example, `pip install -r requirements.txt` becomes `uv pip install -r requirements.txt`
 
 
 

@@ -56,22 +56,6 @@ def verdict_file(imported_module):
     return paths
 
 
-@pytest.fixture(scope="module")
-def gpt2_files(imported_module):
-    """Fixture to handle downloading GPT-2 files."""
-    download_file_if_absent = getattr(imported_module, "download_file_if_absent", None)
-
-    search_directories = ["ch02/02_bonus_bytepair-encoder/gpt2_model/", "../02_bonus_bytepair-encoder/gpt2_model/", "."]
-    files_to_download = {
-        "https://openaipublic.blob.core.windows.net/gpt-2/models/124M/vocab.bpe": "vocab.bpe",
-        "https://openaipublic.blob.core.windows.net/gpt-2/models/124M/encoder.json": "encoder.json",
-    }
-    paths = {filename: download_file_if_absent(url, filename, search_directories)
-             for url, filename in files_to_download.items()}
-
-    return paths
-
-
 def test_tokenizer_training(imported_module, verdict_file):
     BPETokenizerSimple = getattr(imported_module, "BPETokenizerSimple", None)
     tokenizer = BPETokenizerSimple()

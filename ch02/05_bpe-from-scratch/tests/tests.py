@@ -58,7 +58,7 @@ def gpt2_files(imported_module):
     return paths
 
 
-def test_tokenizer_training(imported_module, gpt2_files):
+def test_tokenizer_training(imported_module):
     BPETokenizerSimple = getattr(imported_module, "BPETokenizerSimple", None)
     download_file_if_absent = getattr(imported_module, "download_file_if_absent", None)
 

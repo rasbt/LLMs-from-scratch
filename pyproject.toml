@@ -29,6 +29,7 @@ dev = [
     "build>=1.2.2.post1",
     "llms-from-scratch",
     "twine>=6.1.0",
+    "tokenizers>=0.21.1",
 ]
 
 [tool.ruff]

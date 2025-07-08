@@ -23,6 +23,7 @@ jobs:
     - name: Install dependencies
       run: |
         curl -LsSf https://astral.sh/uv/install.sh | sh
+        uv sync --dev
         uv add pytest-ruff pytest-check-links
 
     - name: Check links

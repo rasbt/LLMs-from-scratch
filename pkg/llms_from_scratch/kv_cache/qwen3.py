@@ -44,13 +44,13 @@ class Qwen3Model(nn.Module):
         self.cfg = cfg
         self.current_pos = 0  # Track current position in KV cache
 
-    def forward(self, in_idx, use_cache=False, cache=None):
+    def forward(self, in_idx, cache=None):
         # Forward pass
         tok_embeds = self.tok_emb(in_idx)
         x = tok_embeds
 
         num_tokens = x.shape[1]
-        if use_cache:
+        if cache is not None:
             pos_start = self.current_pos
             pos_end = pos_start + num_tokens
             self.current_pos = pos_end
@@ -69,10 +69,9 @@ class Qwen3Model(nn.Module):
         for i, block in enumerate(self.trf_blocks):
             blk_cache = cache.get(i) if cache else None
             x, new_blk_cache = block(x, mask, self.cos, self.sin,
-                                     use_cache=use_cache,
                                      start_pos=pos_start,
                                      cache=blk_cache)
-            if cache:
+            if cache is not None:
                 cache.update(i, new_blk_cache)
             next_cache.append(new_blk_cache)
 
@@ -99,11 +98,11 @@ class TransformerBlock(nn.Module):
         self.norm1 = RMSNorm(cfg["emb_dim"], eps=1e-6)
         self.norm2 = RMSNorm(cfg["emb_dim"], eps=1e-6)
 
-    def forward(self, x, mask, cos, sin, use_cache=False, start_pos=0, cache=None):
+    def forward(self, x, mask, cos, sin, start_pos=0, cache=None):
         # Shortcut connection for attention block
         shortcut = x
         x = self.norm1(x)
-        x, next_cache = self.att(x, mask, cos, sin, use_cache=use_cache, start_pos=start_pos, cache=cache)  # Shape [batch_size, num_tokens, emb_size]
+        x, next_cache = self.att(x, mask, cos, sin, start_pos=start_pos, cache=cache)  # Shape [batch_size, num_tokens, emb_size]
         x = x + shortcut  # Add the original input back
 
         # Shortcut connection for feed-forward block
@@ -159,7 +158,7 @@ class GroupedQueryAttention(nn.Module):
         else:
             self.q_norm = self.k_norm = None
 
-    def forward(self, x, mask, cos, sin, use_cache=False, start_pos=0, cache=None):
+    def forward(self, x, mask, cos, sin, start_pos=0, cache=None):
         b, num_tokens, _ = x.shape
 
         # Apply projections
@@ -182,18 +181,15 @@ class GroupedQueryAttention(nn.Module):
         queries = apply_rope(queries, cos, sin, offset=start_pos)
         keys_new = apply_rope(keys_new, cos, sin, offset=start_pos)
 
-        if use_cache:
-            if cache is None:
-                keys = keys_new
-                values = values_new
-            else:
-                prev_k, prev_v = cache
-                keys = torch.cat([prev_k, keys_new], dim=2)
-                values = torch.cat([prev_v, values_new], dim=2)
+        if cache is not None:
+            prev_k, prev_v = cache
+            keys = torch.cat([prev_k, keys_new], dim=2)
+            values = torch.cat([prev_v, values_new], dim=2)
             next_cache = (keys, values)
         else:
+            start_pos = 0  # reset RoPE
             keys, values = keys_new, values_new
-            next_cache = None
+            next_cache = (keys, values)
 
         # Expand K and V to match number of heads
         keys = keys.repeat_interleave(self.group_size, dim=1)

@@ -524,8 +524,6 @@ def main(gpt_config, settings, rank, world_size):
     # Train model
     ##############################
 
-    tokenizer = tiktoken.get_encoding("gpt2")
-
     train_losses, val_losses, tokens_seen = train_model_simple_with_timing(
         model=model,
         train_loader=train_loader,

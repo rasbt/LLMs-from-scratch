@@ -279,3 +279,11 @@ def test_tokenizer_equivalence():
 
         assert tokenizer_ref.eos_token_id == tokenizer.eos_token_id
         assert tokenizer_ref.pad_token_id == tokenizer.pad_token_id
+
+        assert tokenizer.encode("<|endoftext|>") == [tokenizer._special_to_id["<|endoftext|>"]]
+        assert tokenizer.encode("<|im_end|>") == [tokenizer._special_to_id["<|im_end|>"]]
+
+        expected_eos_token = "<|im_end|>" if "Base" not in repo_id else "<|endoftext|>"
+        expected_pad_token = "<|endoftext|>"
+        assert tokenizer.decode([tokenizer.eos_token_id]) == expected_eos_token
+        assert tokenizer.decode([tokenizer.pad_token_id]) == expected_pad_token

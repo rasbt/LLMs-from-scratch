@@ -5,8 +5,6 @@ import nbformat
 import types
 import pytest
 
-import tiktoken
-
 
 def import_definitions_from_notebook(fullname, names):
     """Loads function definitions from a Jupyter notebook file into a module."""
@@ -47,17 +45,15 @@ def verdict_file(imported_module):
     """Fixture to handle downloading The Verdict file."""
     download_file_if_absent = getattr(imported_module, "download_file_if_absent", None)
 
-    verdict_path = download_file_if_absent(
-        url=(
-            "https://raw.githubusercontent.com/rasbt/"
-            "LLMs-from-scratch/main/ch02/01_main-chapter-code/"
-            "the-verdict.txt"
-        ),
-        filename="the-verdict.txt",
-        search_dirs=["ch02/01_main-chapter-code/", "../01_main-chapter-code/", "."]
-    )
+    search_directories = [".", "../02_bonus_bytepair-encoder/gpt2_model/"]
+    files_to_download = {
+        "https://openaipublic.blob.core.windows.net/gpt-2/models/124M/vocab.bpe": "vocab.bpe",
+        "https://openaipublic.blob.core.windows.net/gpt-2/models/124M/encoder.json": "encoder.json"
+    }
+    paths = {filename: download_file_if_absent(url, filename, search_directories)
+             for url, filename in files_to_download.items()}
 
-    return verdict_path
+    return paths
 
 
 @pytest.fixture(scope="module")
@@ -97,6 +93,7 @@ def test_tokenizer_training(imported_module, verdict_file):
     tokenizer2 = BPETokenizerSimple()
     tokenizer2.load_vocab_and_merges(vocab_path="vocab.json", bpe_merges_path="bpe_merges.txt")
     assert tokenizer2.decode(token_ids) == input_text, "Decoded text mismatch after reloading tokenizer."
+
 
 def test_gpt2_tokenizer_openai_simple(imported_module, gpt2_files):
     BPETokenizerSimple = getattr(imported_module, "BPETokenizerSimple", None)

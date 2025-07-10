@@ -175,7 +175,7 @@ def evaluate_model(model, train_loader, val_loader, device, eval_iter):
 
 
 def train_classifier_simple(model, train_loader, val_loader, optimizer, device, num_epochs,
-                            eval_freq, eval_iter, tokenizer):
+                            eval_freq, eval_iter):
     # Initialize lists to track losses and tokens seen
     train_losses, val_losses, train_accs, val_accs = [], [], [], []
     examples_seen, global_step = 0, -1
@@ -408,7 +408,6 @@ if __name__ == "__main__":
     train_losses, val_losses, train_accs, val_accs, examples_seen = train_classifier_simple(
         model, train_loader, val_loader, optimizer, device,
         num_epochs=num_epochs, eval_freq=50, eval_iter=5,
-        tokenizer=tokenizer
     )
 
     end_time = time.time()

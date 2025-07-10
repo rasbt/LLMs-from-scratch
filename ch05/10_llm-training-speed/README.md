@@ -4,17 +4,25 @@
 
 Note that the book is written for education purposes, meaning the original code is kept purposefully simple. This is to aid readability and ensure compatibility across different hardware, including CPUs and GPUs. However, you might be curious about some more advanced PyTorch and GPU features to make the LLM training more performant.
 
-This folder contains 3 code files to showcase PyTorch tips to improve the performance of the LLM and LLM training function in Chapter 5. 
+This folder contains three code files that demonstrate performance optimizations for the LLM and the training function introduced in Chapter 5:
 
-1. [`00_orig.py`](00_orig.py): The original code from Chapter 5 for CPU and single-GPU training; run it via `python 00_orig.py`
-2. [`01_opt_single_gpu.py`](01_opt_single_gpu.py): The optimized code for single-GPU training; run it via `python 01_opt_single_gpu.py`
-3. [`02_opt_multi_gpu_dpp.py`](02_opt_multi_gpu_dpp.py): The optimized code for multi-GPU training via distributed data parallelism; run it via `torchrun --nproc_per_node=4 02_opt_multi_gpu_dpp.py`
+1. [`00_orig.py`](00_orig.py): The original Chapter 5 code for CPU and single-GPU training.  
+   ➤ Run via: `python 00_orig.py`
+
+2. [`01_opt_single_gpu.py`](01_opt_single_gpu.py): An optimized version for single-GPU training.  
+   ➤ Run via: `python 01_opt_single_gpu.py`
+
+3. [`02_opt_multi_gpu_ddp.py`](02_opt_multi_gpu_ddp.py): An optimized version for multi-GPU training using Distributed Data Parallel (DDP).  
+   ➤ Run via: `torchrun --nproc_per_node=4 02_opt_multi_gpu_ddp.py`  
+   (**Note:** To keep the changes minimal compared to `01_opt_single_gpu.py`, this script supports multi-processing only via `torchrun` as shown above. This means multi-GPU support is **not** supported via `python 02_opt_multi_gpu_ddp.py`)
 
 **Note that these modifications take the training speed from 12,525 tokens per second (single A100) to 142,156 tokens per second (single A100) and 419,259 tokens per second (4x A100s).**
 
 I plan to expand on the differences in a more detailed write-up sometime in the future. For now, the easiest way to see what improvements have been added to the code is to open the files in Visual Studio Code and look at the differences via the "Compare Selected" feature.
 
 ![VS compare](https://sebastianraschka.com/images/LLMs-from-scratch-images/bonus/llm-training-speed/vs-code-compare.png)
+
+![PyTorch Tips](https://sebastianraschka.com/images/LLMs-from-scratch-images/bonus/pytorch-tips/pytorch-tips.webp?1)
 
 
 &nbsp;
@@ -167,9 +175,9 @@ After:
 - `Reserved memory: 6.1875 GB`
 
 &nbsp;
-### 9. Using a nicer vocab size value
+### 9. Vocabulary padding
 
-- Here, we slightly increase the vocabulary size from 50,257 to 50,304, which is the nearest multiple of 64. This tip was suggested to me by my former colleague Carlos Mocholi, who mentioned that it originally came from Andrej Karpathy (likely from [this post](https://x.com/karpathy/status/1621578354024677377)). Karpathy's recommendation is based on [NVIDIA's guidelines on tensor shapes](https://docs.nvidia.com/deeplearning/performance/mixed-precision-training/index.html#tensor-core-shape), where batch sizes and linear layer dimensions are commonly chosen as multiples of certain values.
+- Here, we slightly increase the vocabulary size from 50,257 to 50,304, which is the nearest multiple of 64. This tip was suggested to me by my former colleague Carlos Mocholi, who mentioned that it originally came from Andrej Karpathy (likely from [this post](https://x.com/karpathy/status/1621578354024677377)). Karpathy's recommendation is based on an interaction with the PyTorch team, who gave advice on `torch.compile` as mentioned by [Bertrand Maher](https://www.linkedin.com/feed/update/urn:li:activity:7309569006057795584?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7309569006057795584%2C7309754284185669632%29&dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287309754284185669632%2Curn%3Ali%3Aactivity%3A7309569006057795584%29). A good resource for this are [NVIDIA's guidelines on tensor shapes](https://docs.nvidia.com/deeplearning/performance/mixed-precision-training/index.html#tensor-core-shape), where batch sizes and linear layer dimensions are commonly chosen as multiples of certain values. Furthermore, the vocab-padding trick was described by NVIDIA's Megatron team a long time ago (see the 2019 [Megatron-LM: Training Multi-Billion Parameter Language Models Using Model Parallelism](https://arxiv.org/abs/1909.08053) paper).
 
 Before:
 - `Step tok/sec: 112046`

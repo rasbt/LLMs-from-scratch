@@ -108,7 +108,7 @@ class PyTorchMultiHeadAttention(nn.Module):
     def __init__(self, d_in, d_out, num_heads, dropout=0.0, qkv_bias=False):
         super().__init__()
 
-        assert d_out % num_heads == 0, "embed_dim is indivisible by num_heads"
+        assert d_out % num_heads == 0, "d_out is indivisible by num_heads"
 
         self.num_heads = num_heads
         self.head_dim = d_out // num_heads
@@ -312,7 +312,7 @@ def generate_and_print_sample(model, device, start_context):
 
 
 def train_model_simple_with_timing(model, train_loader, val_loader, optimizer, device,
-                                   num_epochs, eval_freq, eval_iter, start_context, tokenizer):
+                                   num_epochs, eval_freq, eval_iter, start_context):
     train_losses, val_losses, track_tokens = [], [], []
     total_tokens, global_step, last_tokens = 0, -1, 0
 
@@ -524,8 +524,6 @@ def main(gpt_config, settings, rank, world_size):
     # Train model
     ##############################
 
-    tokenizer = tiktoken.get_encoding("gpt2")
-
     train_losses, val_losses, tokens_seen = train_model_simple_with_timing(
         model=model,
         train_loader=train_loader,
@@ -536,7 +534,6 @@ def main(gpt_config, settings, rank, world_size):
         eval_freq=5,
         eval_iter=1,
         start_context="Every effort moves you",
-        tokenizer=tokenizer
     )
 
     # NEW: Clean up distributed processes
@@ -598,6 +595,12 @@ if __name__ == "__main__":
         plt.savefig("loss.pdf")
 
     # Save and load model
-    # torch.save(model.state_dict(), "model.pth")
+    #
+    # compiled = hasattr(model, "_orig_mod")
+    # if compiled:
+    #     torch.save(model._orig_mod.state_dict(), "model.pth")
+    # else:
+    #     torch.save(model.state_dict(), "model.pth")
+    #
     # model = GPTModel(GPT_CONFIG_124M)
     # model.load_state_dict(torch.load("model.pth", weights_only=True))

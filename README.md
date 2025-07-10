@@ -40,13 +40,13 @@ git clone --depth 1 https://github.com/rasbt/LLMs-from-scratch.git
 
 # Table of Contents
 
-Please note that this `README.md` file is a Markdown (`.md`) file. If you have downloaded this code bundle from the Manning website and are viewing it on your local computer, I recommend using a Markdown editor or previewer for proper viewing. If you haven't installed a Markdown editor yet, [MarkText](https://www.marktext.cc) is a good free option.
+Please note that this `README.md` file is a Markdown (`.md`) file. If you have downloaded this code bundle from the Manning website and are viewing it on your local computer, I recommend using a Markdown editor or previewer for proper viewing. If you haven't installed a Markdown editor yet, [Ghostwriter](https://ghostwriter.kde.org) is a good free option.
 
 You can alternatively view this and other files on GitHub at [https://github.com/rasbt/LLMs-from-scratch](https://github.com/rasbt/LLMs-from-scratch) in your browser, which renders Markdown automatically.
 
 <br>
 <br>
-<!--  -->
+
 
 > **Tip:**
 > If you're seeking guidance on installing Python and Python packages and setting up your code environment, I suggest reading the [README.md](setup/README.md) file located in the [setup](setup) directory.
@@ -86,12 +86,41 @@ The mental model below summarizes the contents covered in this book.
 
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/mental-model.jpg" width="650px">
 
+
+<br>
+&nbsp;
+
+## Prerequisites
+
+The most important prerequisite is a strong foundation in Python programming.
+With this knowledge, you will be well prepared to explore the fascinating world of LLMs
+and understand the concepts and code examples presented in this book.
+
+If you have some experience with deep neural networks, you may find certain concepts more familiar, as LLMs are built upon these architectures.
+
+This book uses PyTorch to implement the code from scratch without using any external LLM libraries. While proficiency in PyTorch is not a prerequisite, familiarity with PyTorch basics is certainly useful. If you are new to PyTorch, Appendix A provides a concise introduction to PyTorch. Alternatively, you may find my book, [PyTorch in One Hour: From Tensors to Training Neural Networks on Multiple GPUs](https://sebastianraschka.com/teaching/pytorch-1h/), helpful for learning about the essentials.
+
+
+
 <br>
 &nbsp;
 
 ## Hardware Requirements
 
 The code in the main chapters of this book is designed to run on conventional laptops within a reasonable timeframe and does not require specialized hardware. This approach ensures that a wide audience can engage with the material. Additionally, the code automatically utilizes GPUs if they are available. (Please see the [setup](https://github.com/rasbt/LLMs-from-scratch/blob/main/setup/README.md) doc for additional recommendations.)
+
+
+
+&nbsp;
+## Exercises
+
+Each chapter of the book includes several exercises. The solutions are summarized in Appendix C, and the corresponding code notebooks are available in the main chapter folders of this repository (for example,  [./ch02/01_main-chapter-code/exercise-solutions.ipynb](./ch02/01_main-chapter-code/exercise-solutions.ipynb).
+
+In addition to the code exercises, you can download a free 170-page PDF titled  [Test Yourself On Build a Large Language Model (From Scratch)](https://www.manning.com/books/test-yourself-on-build-a-large-language-model-from-scratch) from the Manning website. It contains approximately 30 quiz questions and solutions per chapter to help you test your understanding.
+
+<a href="https://www.manning.com/books/test-yourself-on-build-a-large-language-model-from-scratch"><img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/test-yourself-cover.jpg?123" width="150px"></a>
+
+
 
 &nbsp;
 ## Bonus Material
@@ -112,14 +141,16 @@ Several folders contain optional materials as a bonus for interested readers:
   - [Understanding PyTorch Buffers](ch03/03_understanding-buffers/understanding-buffers.ipynb)
 - **Chapter 4: Implementing a GPT model from scratch**
   - [FLOPS Analysis](ch04/02_performance-analysis/flops-analysis.ipynb)
+  - [KV Cache](ch04/03_kv-cache)
 - **Chapter 5: Pretraining on unlabeled data:**
-  - [Alternative Weight Loading from Hugging Face Model Hub using Transformers](ch05/02_alternative_weight_loading/weight-loading-hf-transformers.ipynb)
+  - [Alternative Weight Loading Methods](ch05/02_alternative_weight_loading/)
   - [Pretraining GPT on the Project Gutenberg Dataset](ch05/03_bonus_pretraining_on_gutenberg)
   - [Adding Bells and Whistles to the Training Loop](ch05/04_learning_rate_schedulers)
   - [Optimizing Hyperparameters for Pretraining](ch05/05_bonus_hparam_tuning)
   - [Building a User Interface to Interact With the Pretrained LLM](ch05/06_user_interface)
   - [Converting GPT to Llama](ch05/07_gpt_to_llama)
   - [Llama 3.2 From Scratch](ch05/07_gpt_to_llama/standalone-llama32.ipynb)
+  - [Qwen3 From Scratch](ch05/11_qwen3/standalone-qwen3.ipynb)
   - [Memory-efficient Model Weight Loading](ch05/08_memory_efficient_weight_loading/memory-efficient-state-dict.ipynb)
   - [Extending the Tiktoken BPE Tokenizer with New Tokens](ch05/09_extending-tokenizers/extend-tiktoken.ipynb)
   - [PyTorch Performance Tips for Faster LLM Training](ch05/10_llm-training-speed)

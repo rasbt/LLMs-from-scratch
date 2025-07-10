@@ -65,7 +65,7 @@ class PyTorchMultiHeadAttention(nn.Module):
     def __init__(self, d_in, d_out, num_heads, dropout=0.0, qkv_bias=False):
         super().__init__()
 
-        assert d_out % num_heads == 0, "embed_dim is indivisible by num_heads"
+        assert d_out % num_heads == 0, "d_out is indivisible by num_heads"
 
         self.num_heads = num_heads
         self.head_dim = d_out // num_heads
@@ -502,6 +502,12 @@ if __name__ == "__main__":
     plt.savefig("loss.pdf")
 
     # Save and load model
-    # torch.save(model.state_dict(), "model.pth")
+    #
+    # compiled = hasattr(model, "_orig_mod")
+    # if compiled:
+    #     torch.save(model._orig_mod.state_dict(), "model.pth")
+    # else:
+    #     torch.save(model.state_dict(), "model.pth")
+    #
     # model = GPTModel(GPT_CONFIG_124M)
     # model.load_state_dict(torch.load("model.pth", weights_only=True))

@@ -10,10 +10,11 @@ import tiktoken
 import torch
 import chainlit
 
-from previous_chapters import (
-    classify_review,
-    GPTModel
-)
+# For llms_from_scratch installation instructions, see:
+# https://github.com/rasbt/LLMs-from-scratch/tree/main/pkg
+from llms_from_scratch.ch04 import GPTModel
+from llms_from_scratch.ch06 import classify_review
+
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 

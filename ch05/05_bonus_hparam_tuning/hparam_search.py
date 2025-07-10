@@ -8,7 +8,11 @@ import math
 import os
 import tiktoken
 import torch
-from previous_chapters import GPTModel, create_dataloader_v1
+
+# For llms_from_scratch installation instructions, see:
+# https://github.com/rasbt/LLMs-from-scratch/tree/main/pkg
+from llms_from_scratch.ch02 import create_dataloader_v1
+from llms_from_scratch.ch04 import GPTModel
 
 
 # Define a grid of hyperparameters to search over
@@ -60,8 +64,7 @@ def evaluate_model(model, train_loader, val_loader, device, eval_iter):
 
 
 def train_model(model, train_loader, val_loader, optimizer, device,
-                n_epochs, eval_freq, eval_iter,
-                encoded_start_context, tokenizer, warmup_iters=10,
+                n_epochs, eval_iter, warmup_iters=10,
                 initial_lr=3e-05, min_lr=1e-6):
     global_step = 0
 
@@ -188,9 +191,7 @@ if __name__ == "__main__":
             train_loss, val_loss = train_model(
                 model, train_loader, val_loader, optimizer, device,
                 n_epochs=HPARAM_CONFIG["n_epochs"],
-                eval_freq=5, eval_iter=1,
-                encoded_start_context=encoded_tensor,
-                tokenizer=tokenizer,
+                eval_iter=1,
                 warmup_iters=HPARAM_CONFIG["warmup_iters"],
                 initial_lr=HPARAM_CONFIG["initial_lr"],
                 min_lr=HPARAM_CONFIG["min_lr"]

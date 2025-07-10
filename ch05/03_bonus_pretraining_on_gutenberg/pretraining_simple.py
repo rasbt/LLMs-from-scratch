@@ -17,14 +17,12 @@ from pathlib import Path
 import time
 import tiktoken
 import torch
-from previous_chapters import (
-    create_dataloader_v1,
-    GPTModel,
-    generate_and_print_sample,
-    calc_loss_batch,
-    evaluate_model,
-    plot_losses
-)
+
+# For llms_from_scratch installation instructions, see:
+# https://github.com/rasbt/LLMs-from-scratch/tree/main/pkg
+from llms_from_scratch.ch02 import create_dataloader_v1
+from llms_from_scratch.ch04 import GPTModel
+from llms_from_scratch.ch05 import calc_loss_batch, evaluate_model, plot_losses, generate_and_print_sample
 
 
 def read_text_file(file_path):
@@ -230,7 +228,7 @@ if __name__ == "__main__":
     )
 
     epochs_tensor = torch.linspace(0, args.n_epochs, len(train_losses))
-    plot_losses(epochs_tensor, tokens_seen, train_losses, val_losses, output_dir)
+    plot_losses(epochs_tensor, tokens_seen, train_losses, val_losses)
 
     torch.save(model.state_dict(), output_dir / "model_pg_final.pth")
     print(f"Maximum GPU memory allocated: {torch.cuda.max_memory_allocated() / 1e9:.2f} GB")

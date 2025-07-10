@@ -10,7 +10,7 @@ import tiktoken
 
 def import_definitions_from_notebook(fullname, names):
     """Loads function definitions from a Jupyter notebook file into a module."""
-    path = os.path.join(os.path.dirname(__file__), "..", fullname + ".ipynb")
+    path = os.path.join(os.path.dirname(__file__), fullname + ".ipynb")
     path = os.path.normpath(path)
 
     if not os.path.exists(path):
@@ -43,11 +43,29 @@ def imported_module():
 
 
 @pytest.fixture(scope="module")
+def verdict_file(imported_module):
+    """Fixture to handle downloading The Verdict file."""
+    download_file_if_absent = getattr(imported_module, "download_file_if_absent", None)
+
+    verdict_path = download_file_if_absent(
+        url=(
+            "https://raw.githubusercontent.com/rasbt/"
+            "LLMs-from-scratch/main/ch02/01_main-chapter-code/"
+            "the-verdict.txt"
+        ),
+        filename="the-verdict.txt",
+        search_dirs=["ch02/01_main-chapter-code/", "../01_main-chapter-code/", "."]
+    )
+
+    return verdict_path
+
+
+@pytest.fixture(scope="module")
 def gpt2_files(imported_module):
     """Fixture to handle downloading GPT-2 files."""
     download_file_if_absent = getattr(imported_module, "download_file_if_absent", None)
 
-    search_directories = [".", "../02_bonus_bytepair-encoder/gpt2_model/"]
+    search_directories = ["ch02/02_bonus_bytepair-encoder/gpt2_model/", "../02_bonus_bytepair-encoder/gpt2_model/", "."]
     files_to_download = {
         "https://openaipublic.blob.core.windows.net/gpt-2/models/124M/vocab.bpe": "vocab.bpe",
         "https://openaipublic.blob.core.windows.net/gpt-2/models/124M/encoder.json": "encoder.json"
@@ -58,22 +76,11 @@ def gpt2_files(imported_module):
     return paths
 
 
-def test_tokenizer_training(imported_module):
+def test_tokenizer_training(imported_module, verdict_file):
     BPETokenizerSimple = getattr(imported_module, "BPETokenizerSimple", None)
-    download_file_if_absent = getattr(imported_module, "download_file_if_absent", None)
-
     tokenizer = BPETokenizerSimple()
-    verdict_path = download_file_if_absent(
-        url=(
-            "https://raw.githubusercontent.com/rasbt/"
-            "LLMs-from-scratch/main/ch02/01_main-chapter-code/"
-            "the-verdict.txt"
-        ),
-        filename="the-verdict.txt",
-        search_dirs="."
-    )
 
-    with open(verdict_path, "r", encoding="utf-8") as f: # added ../01_main-chapter-code/
+    with open(verdict_file, "r", encoding="utf-8") as f: # added ../01_main-chapter-code/
         text = f.read()
 
     tokenizer.train(text, vocab_size=1000, allowed_special={"<|endoftext|>"})

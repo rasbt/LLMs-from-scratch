@@ -260,7 +260,7 @@ def apply_rope(x, cos, sin):
     x2 = x[..., head_dim // 2:]  # Second half
 
     # Adjust sin and cos shapes
-    cos = cos[:seq_len, :].unsqueeze(0).unsqueeze(0)  # Shape: (1, 1, seq_len, head_dim)
+    cos = cos[:seq_len, :].unsqueeze(0).unsqueeze(0)  # Shape: (1, 1, seq_len, head_dim // 2)
     sin = sin[:seq_len, :].unsqueeze(0).unsqueeze(0)
 
     # Apply the rotary transformation

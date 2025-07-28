@@ -255,7 +255,7 @@ The following table shows a performance comparison on an A100 for consequent `ge
 | Qwen3Model compiled | 107        | 1.99 GB |
 
 &nbsp;
-#### Pro tip 2: speed up inference with compilation
+#### Pro tip 2: speed up inference with KV cache
 
 You can significantly boost inference performance using the KV cache `Qwen3Model` drop-in replacement when running the model on a CPU. (See my [Understanding and Coding the KV Cache in LLMs from Scratch](https://magazine.sebastianraschka.com/p/coding-the-kv-cache-in-llms) article to learn more about KV caches.)
 

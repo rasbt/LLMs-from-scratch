@@ -1,12 +1,18 @@
 # Qwen3 From Scratch
 
-This [standalone-qwen3.ipynb](standalone-qwen3.ipynb) Jupyter notebook in this folder contains a from-scratch implementation of Qwen3 0.6B, 1.7B, 4B, 8B, and 32 B.
+This [standalone-qwen3.ipynb](standalone-qwen3.ipynb) Jupyter notebook in this folder contains a from-scratch implementation of Qwen3 0.6B, 1.7B, 4B, 8B, and 32B.
 
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/bonus/qwen/qwen-overview.webp">
 
 
+This [standalone-qwen3-moe.ipynb](standalone-qwen3-moe.ipynb) and [standalone-qwen3-moe-plus-kvcache.ipynb](standalone-qwen3-moe-plus-kvcache.ipynb) Jupyter notebooks in this folder contain a from-scratch implementation of 30B-A3B Mixture-of-Experts (MoE), including the Thinking, Instruct, and Coder model variants.
+
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/bonus/qwen/qwen3-coder-flash-overview.webp?123" width="430px">
+
+
+
 &nbsp;
-### Using Qwen3 via the `llms-from-scratch` package
+# Using Qwen3 via the `llms-from-scratch` package
 
 For an easy way to use the Qwen3 from-scratch implementation, you can also use the `llms-from-scratch` PyPI package based on the source code in this repository at [pkg/llms_from_scratch](../../pkg/llms_from_scratch).
 
@@ -23,8 +29,9 @@ pip install llms_from_scratch tokenizers
 Specify which model to use:
 
 ```python
-USE_REASONING_MODEL = True   # The "thinking" model
 USE_REASONING_MODEL = False  # The base model
+USE_REASONING_MODEL = True   # The "thinking" model
+
 
 # Use
 # USE_REASONING_MODEL = True
@@ -130,22 +137,22 @@ from llms_from_scratch.qwen3 import (
     load_weights_into_qwen
 )
 
-model = Qwen3Model(QWEN3_CONFIG)
-
-weights_dict = download_from_huggingface_from_snapshots(
-    repo_id=repo_id,
-    local_dir=local_dir
-)
-load_weights_into_qwen(model, QWEN3_CONFIG, weights_dict)
-del weights_dict  # delete weight dictionary to free up disk space
-
 device = (
     torch.device("cuda") if torch.cuda.is_available() else
     torch.device("mps") if torch.backends.mps.is_available() else
     torch.device("cpu")
 )
 
-model.to(device);
+with device:
+    model = Qwen3Model(QWEN3_CONFIG)
+
+weights_dict = download_from_huggingface_from_snapshots(
+    repo_id=repo_id,
+    local_dir=local_dir
+)
+load_weights_into_qwen(model, QWEN3_CONFIG, weights_dict)
+model.to(device)  # only required for the MoE models
+del weights_dict  # delete weight dictionary to free up disk space
 ```
 
 
@@ -236,6 +243,33 @@ Large language models (LLMs) are advanced artificial intelligence systems design
 
 
 
+For the larger models, you may prefer the streaming variant, which prints each token as soon as it's generated:
+
+```python
+from llms_from_scratch.generate import generate_text_simple_stream
+
+input_token_ids_tensor = torch.tensor(input_token_ids, device=device).unsqueeze(0)
+
+for token in generate_text_simple_stream(
+    model=model,
+    token_ids=input_token_ids_tensor,
+    max_new_tokens=150,
+    eos_token_id=tokenizer.eos_token_id
+):
+    token_id = token.squeeze(0).tolist()
+    print(
+        tokenizer.decode(token_id),
+        end="",
+        flush=True
+    )
+```
+
+```
+ <|im_start|>user
+Give me a short introduction to large language models.<|im_end|>
+Large language models (LLMs) are advanced artificial intelligence systems designed to generate human-like text. They are trained on vast amounts of text data, allowing them to understand and generate coherent, contextually relevant responses. LLMs are used in a variety of applications, including chatbots, virtual assistants, content generation, and more. They are powered by deep learning algorithms and can be fine-tuned for specific tasks, making them versatile tools for a wide range of industries.<|endoftext|>Human resources department of a company is planning to hire 100 new employees. The company has a budget of $100,000 for the recruitment process. The company has a minimum wage of $10 per hour. The company has a total of...
+```
+
 
 
 &nbsp;
@@ -252,18 +286,19 @@ model.to(device)
 with
 
 ```python
-model = torch.compile(model)
 model.to(device)
+model = torch.compile(model)
 ```
 
 Note: There is a significant multi-minute upfront cost when compiling, and the speed-up takes effect after the first `generate` call. 
 
 The following table shows a performance comparison on an A100 for consequent `generate` calls:
 
-|                          | Tokens/sec | Memory  |
-| ------------------------ | ---------- | ------- |
-| Qwen3Model 0.6B          | 25         | 1.49 GB |
-| Qwen3Model 0.6B compiled | 107        | 1.99 GB |
+|                          | Hardware        | Tokens/sec | Memory   |
+| ------------------------ | ----------------|----------- | -------- |
+| Qwen3Model 0.6B          | Nvidia A100 GPU | 25         | 1.49 GB  |
+| Qwen3Model 0.6B compiled | Nvidia A100 GPU | 107        | 1.99 GB  |
+
 
 &nbsp;
 #### Pro tip 2: speed up inference with KV cache
@@ -304,6 +339,8 @@ Note that the peak memory usage is only listed for Nvidia CUDA devices, as it is
 | Qwen3Model 0.6B | KV cache compiled | Nvidia A100 GPU | 90         | 1.48 GB           |
 
 Note that all settings above have been tested to produce the same text outputs.
+
+
 
 &nbsp;
 

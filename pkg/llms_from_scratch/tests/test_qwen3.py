@@ -87,6 +87,7 @@ def dummy_cfg_moe(dummy_cfg_base):
 
 
 def test_dummy_qwen3_forward(dummy_cfg_base, dummy_input):
+    torch.manual_seed(123)
     model = Qwen3Model(dummy_cfg_base)
     out = model(dummy_input)
     assert out.shape == (1, dummy_input.size(1), dummy_cfg_base["vocab_size"]), \
@@ -94,6 +95,7 @@ def test_dummy_qwen3_forward(dummy_cfg_base, dummy_input):
 
 
 def test_dummy_qwen3_moe_forward(dummy_cfg_moe, dummy_input):
+    torch.manual_seed(123)
     model = Qwen3Model(dummy_cfg_moe)
     out = model(dummy_input)
     assert out.shape == (1, dummy_input.size(1), dummy_cfg_moe["vocab_size"]), \
@@ -105,6 +107,7 @@ def test_dummy_qwen3_moe_forward(dummy_cfg_moe, dummy_input):
 @pytest.mark.parametrize("cfg_name", ["dummy_cfg_base", "dummy_cfg_moe"])
 def test_qwen3_kvcache_equivalence(cfg_name, request):
     cfg = request.getfixturevalue(cfg_name)
+    torch.manual_seed(123)
     model_regular = Qwen3Model(cfg)
     model_regular.eval()
 

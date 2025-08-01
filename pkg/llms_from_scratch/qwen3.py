@@ -173,7 +173,7 @@ class TransformerBlock(nn.Module):
             qk_norm=cfg["qk_norm"],
             dtype=cfg["dtype"]
         )
-        if cfg["num_experts"] > 0:
+        if "num_experts" in cfg and cfg["num_experts"] > 0:
             self.ff = MoEFeedForward(cfg)
         else:
             self.ff = FeedForward(cfg)

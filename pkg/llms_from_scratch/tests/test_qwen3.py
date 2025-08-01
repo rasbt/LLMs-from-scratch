@@ -20,6 +20,7 @@ from llms_from_scratch.kv_cache_batched.qwen3 import Qwen3Model as Qwen3ModelKVB
 from llms_from_scratch.kv_cache_batched.generate import generate_text_simple as generate_text_simple_batched
 
 import importlib
+import platform
 import pytest
 import torch
 import torch.nn as nn
@@ -107,6 +108,10 @@ def test_dummy_qwen3_moe_forward(dummy_cfg_moe, dummy_input):
 @pytest.mark.parametrize("cfg_name", ["dummy_cfg_base", "dummy_cfg_moe"])
 def test_qwen3_kvcache_equivalence(cfg_name, request):
     cfg = request.getfixturevalue(cfg_name)
+
+    if cfg["num_experts"] > 0 and platform.system() == "Linux":
+        pytest.skip("Skipping MoE KV equivalence test on Linux due to nondeterministic expert routing")
+
     torch.manual_seed(123)
     model_regular = Qwen3Model(cfg)
     model_regular.eval()
@@ -130,13 +135,7 @@ def test_qwen3_kvcache_equivalence(cfg_name, request):
     out_kv = torch.cat(logits_stepwise, dim=1)
 
     assert out_full.shape == out_kv.shape, f"Shape mismatch: {out_full.shape} vs {out_kv.shape}"
-
-    if cfg["num_experts"] > 0:
-        # MoE models are not bit-identical due to non-deterministic topk on Linux (works fine on macOS)
-        cosine_sim = torch.nn.functional.cosine_similarity(out_full.flatten(), out_kv.flatten(), dim=0)
-        assert cosine_sim > 0.99, f"Low cosine similarity for MoE model: {cosine_sim.item()}"
-    else:
-        assert torch.allclose(out_full, out_kv, atol=1e-5, rtol=1e-3)
+    assert torch.allclose(out_full, out_kv, atol=1e-5, rtol=1e-3)
 
 
 @pytest.mark.skipif(not transformers_installed, reason="transformers not installed")

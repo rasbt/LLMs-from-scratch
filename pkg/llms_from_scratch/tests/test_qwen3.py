@@ -102,19 +102,21 @@ def test_dummy_qwen3_moe_forward(dummy_cfg_moe, dummy_input):
         "Expected MoEFeedForward in at least one transformer block"
 
 
-def test_qwen3_base_kvcache_equivalence(dummy_cfg_base):
-    model_regular = Qwen3Model(dummy_cfg_base)
+@pytest.mark.parametrize("cfg_name", ["dummy_cfg_base", "dummy_cfg_moe"])
+def test_qwen3_kvcache_equivalence(cfg_name, request):
+    cfg = request.getfixturevalue(cfg_name)
+    model_regular = Qwen3Model(cfg)
     model_regular.eval()
 
-    model_kv = Qwen3ModelKV(dummy_cfg_base)
+    model_kv = Qwen3ModelKV(cfg)
     model_kv.eval()
     model_kv.load_state_dict(model_regular.state_dict())  # ensure same weights
 
     model_kv.reset_kv_cache()
-    cache = KVCache(n_layers=dummy_cfg_base["n_layers"])
+    cache = KVCache(n_layers=cfg["n_layers"])
 
     torch.manual_seed(123)
-    input_ids = torch.randint(0, dummy_cfg_base["vocab_size"], (1, 6))  # batch_size=1, seq_len=6
+    input_ids = torch.randint(0, cfg["vocab_size"], (1, 6))  # batch_size=1, seq_len=6
 
     # full-sequence output
     out_full = model_regular(input_ids)
@@ -129,35 +131,6 @@ def test_qwen3_base_kvcache_equivalence(dummy_cfg_base):
     out_kv = torch.cat(logits_stepwise, dim=1)
 
     assert out_full.shape == out_kv.shape, f"Shape mismatch: {out_full.shape} vs {out_kv.shape}"
-    assert torch.allclose(out_full, out_kv, atol=1e-5, rtol=1e-3)
-
-
-@pytest.mark.parametrize("cfg_name", ["dummy_cfg_base", "dummy_cfg_moe"])
-def test_qwen3_moe_kvcache_equivalence(cfg_name):
-    model_regular = Qwen3Model(cfg_name)
-    model_regular.eval()
-
-    torch.manual_seed(123)
-    input_ids = torch.randint(0, cfg_name["vocab_size"], (1, 6))  # batch_size=1, seq_len=6
-
-    # No KV cache forward
-    out_full = model_regular(input_ids)
-
-    # Now with KV cache
-    model_kv = Qwen3ModelKV(cfg_name)
-    model_kv.eval()
-    model_kv.reset_kv_cache()
-    cache = KVCache(n_layers=cfg_name["n_layers"])
-
-    logits_stepwise = []
-    for t in range(input_ids.size(1)):
-        input_token = input_ids[:, t:t+1]  # shape (1, 1)
-        logits = model_kv(input_token, cache=cache)
-        logits_stepwise.append(logits)
-
-    # Concatenate all stepwise outputs
-    out_kv = torch.cat(logits_stepwise, dim=1)
-
     assert torch.allclose(out_full, out_kv, atol=1e-5, rtol=1e-3)
 
 

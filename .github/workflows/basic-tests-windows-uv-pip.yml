@@ -35,7 +35,7 @@ jobs:
         shell: bash
         run: |
           export PATH="$HOME/.local/bin:$PATH"
-          pip install --upgrade pip
+          python -m pip install --upgrade pip
           pip install uv
           uv venv --python=python3.11
           source .venv/Scripts/activate

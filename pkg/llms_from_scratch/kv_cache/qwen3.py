@@ -29,7 +29,7 @@ class Qwen3Model(nn.Module):
         self.final_norm = RMSNorm(cfg["emb_dim"])
         self.out_head = nn.Linear(cfg["emb_dim"], cfg["vocab_size"], bias=False, dtype=cfg["dtype"])
 
-        # Reusuable utilities
+        # Reusable utilities
         if cfg["head_dim"] is None:
             head_dim = cfg["emb_dim"] // cfg["n_heads"]
         else:
@@ -94,7 +94,10 @@ class TransformerBlock(nn.Module):
             qk_norm=cfg["qk_norm"],
             dtype=cfg["dtype"]
         )
-        self.ff = FeedForward(cfg)
+        if "num_experts" in cfg and cfg["num_experts"] > 0:
+            self.ff = MoEFeedForward(cfg)
+        else:
+            self.ff = FeedForward(cfg)
         self.norm1 = RMSNorm(cfg["emb_dim"], eps=1e-6)
         self.norm2 = RMSNorm(cfg["emb_dim"], eps=1e-6)
 
@@ -126,6 +129,46 @@ class FeedForward(nn.Module):
         x_fc2 = self.fc2(x)
         x = nn.functional.silu(x_fc1) * x_fc2
         return self.fc3(x)
+
+
+class MoEFeedForward(nn.Module):
+    def __init__(self, cfg):
+        super().__init__()
+        self.num_experts_per_tok = cfg["num_experts_per_tok"]
+        self.num_experts = cfg["num_experts"]
+        self.gate = nn.Linear(cfg["emb_dim"], cfg["num_experts"], bias=False, dtype=cfg["dtype"])
+
+        meta_device = torch.device("meta")  # to reduce memory pressure and only load them when used (trades compute for memory)
+        self.fc1 = nn.ModuleList([nn.Linear(cfg["emb_dim"], cfg["moe_intermediate_size"], bias=False, dtype=cfg["dtype"], device=meta_device)
+                                  for _ in range(cfg["num_experts"])])
+        self.fc2 = nn.ModuleList([nn.Linear(cfg["emb_dim"], cfg["moe_intermediate_size"], bias=False, dtype=cfg["dtype"], device=meta_device)
+                                  for _ in range(cfg["num_experts"])])
+        self.fc3 = nn.ModuleList([nn.Linear(cfg["moe_intermediate_size"], cfg["emb_dim"], bias=False, dtype=cfg["dtype"], device=meta_device)
+                                  for _ in range(cfg["num_experts"])])
+
+    def forward(self, x):
+        scores = self.gate(x)  # (b, seq_len, num_experts)
+        topk_scores, topk_indices = torch.topk(scores, self.num_experts_per_tok, dim=-1)
+        topk_probs = torch.softmax(topk_scores, dim=-1)
+
+        expert_outputs = []
+        for e in range(self.num_experts):
+            hidden = torch.nn.functional.silu(self.fc1[e](x)) * self.fc2[e](x)
+            out = self.fc3[e](hidden)
+            expert_outputs.append(out.unsqueeze(-2))
+        expert_outputs = torch.cat(expert_outputs, dim=-2)  # (b, t, num_experts, emb_dim)
+
+        gating_probs = torch.zeros_like(scores)
+
+        for i in range(self.num_experts_per_tok):
+            indices = topk_indices[..., i:i+1]
+            prob = topk_probs[..., i:i+1]
+            gating_probs.scatter_(dim=-1, index=indices, src=prob)
+        gating_probs = gating_probs.unsqueeze(-1)  # (b, t, num_experts, 1)
+
+        # Weighted sum over experts
+        y = (gating_probs * expert_outputs).sum(dim=-2)
+        return y
 
 
 class GroupedQueryAttention(nn.Module):

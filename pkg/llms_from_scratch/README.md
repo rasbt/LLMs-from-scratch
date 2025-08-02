@@ -160,10 +160,16 @@ from llms_from_scratch.qwen3 import (
 
 # KV cache drop-in replacements
 from llms_from_scratch.kv_cache.qwen3 import Qwen3Model
-from llms_from_scratch.kv_cache.generate import generate_text_simple
+from llms_from_scratch.kv_cache.generate import (
+    generate_text_simple,
+    generate_text_simple_stream
+)
 
 # KV cache drop-in replacements with batched inference support
-from llms_from_scratch.kv_cache_batched.generate import generate_text_simple
+from llms_from_scratch.kv_cache_batched.generate import (
+    generate_text_simple,
+    generate_text_simple_stream
+)
 from llms_from_scratch.kv_cache_batched.qwen3 import Qwen3Model
 ```
 

@@ -102,6 +102,23 @@ QWEN3_CONFIG_32B = {
         "dtype": torch.bfloat16,
 }
 
+# Mixture of Experts Model
+QWEN3_CONFIG_30B_A3B = {
+    "vocab_size": 151_936,
+    "context_length": 262_144,
+    "emb_dim": 2048,
+    "n_heads": 32,
+    "n_layers": 48,
+    "head_dim": 128,
+    "qk_norm": True,
+    "n_kv_groups": 4,
+    "rope_base": 10_000_000.0,
+    "dtype": torch.bfloat16,
+    "num_experts": 128,
+    "num_experts_per_tok": 8,
+        "moe_intermediate_size": 768,
+}
+
 
 class Qwen3Model(nn.Module):
     def __init__(self, cfg):
@@ -156,7 +173,10 @@ class TransformerBlock(nn.Module):
             qk_norm=cfg["qk_norm"],
             dtype=cfg["dtype"]
         )
-        self.ff = FeedForward(cfg)
+        if "num_experts" in cfg and cfg["num_experts"] > 0:
+            self.ff = MoEFeedForward(cfg)
+        else:
+            self.ff = FeedForward(cfg)
         self.norm1 = RMSNorm(cfg["emb_dim"], eps=1e-6)
         self.norm2 = RMSNorm(cfg["emb_dim"], eps=1e-6)
 
@@ -188,6 +208,46 @@ class FeedForward(nn.Module):
         x_fc2 = self.fc2(x)
         x = nn.functional.silu(x_fc1) * x_fc2
         return self.fc3(x)
+
+
+class MoEFeedForward(nn.Module):
+    def __init__(self, cfg):
+        super().__init__()
+        self.num_experts_per_tok = cfg["num_experts_per_tok"]
+        self.num_experts = cfg["num_experts"]
+        self.gate = nn.Linear(cfg["emb_dim"], cfg["num_experts"], bias=False, dtype=cfg["dtype"])
+
+        meta_device = torch.device("meta")  # to reduce memory pressure and only load them when used (trades compute for memory)
+        self.fc1 = nn.ModuleList([nn.Linear(cfg["emb_dim"], cfg["moe_intermediate_size"], bias=False, dtype=cfg["dtype"], device=meta_device)
+                                  for _ in range(cfg["num_experts"])])
+        self.fc2 = nn.ModuleList([nn.Linear(cfg["emb_dim"], cfg["moe_intermediate_size"], bias=False, dtype=cfg["dtype"], device=meta_device)
+                                  for _ in range(cfg["num_experts"])])
+        self.fc3 = nn.ModuleList([nn.Linear(cfg["moe_intermediate_size"], cfg["emb_dim"], bias=False, dtype=cfg["dtype"], device=meta_device)
+                                  for _ in range(cfg["num_experts"])])
+
+    def forward(self, x):
+        scores = self.gate(x)  # (b, seq_len, num_experts)
+        topk_scores, topk_indices = torch.topk(scores, self.num_experts_per_tok, dim=-1)
+        topk_probs = torch.softmax(topk_scores, dim=-1)
+
+        expert_outputs = []
+        for e in range(self.num_experts):
+            hidden = torch.nn.functional.silu(self.fc1[e](x)) * self.fc2[e](x)
+            out = self.fc3[e](hidden)
+            expert_outputs.append(out.unsqueeze(-2))
+        expert_outputs = torch.cat(expert_outputs, dim=-2)  # (b, t, num_experts, emb_dim)
+
+        gating_probs = torch.zeros_like(scores)
+
+        for i in range(self.num_experts_per_tok):
+            indices = topk_indices[..., i:i+1]
+            prob = topk_probs[..., i:i+1]
+            gating_probs.scatter_(dim=-1, index=indices, src=prob)
+        gating_probs = gating_probs.unsqueeze(-1)  # (b, t, num_experts, 1)
+
+        # Weighted sum over experts
+        y = (gating_probs * expert_outputs).sum(dim=-2)
+        return y
 
 
 class GroupedQueryAttention(nn.Module):
@@ -381,21 +441,53 @@ def load_weights_into_qwen(model, param_config, params):
         )
 
         # Feedforward weights
-        block.ff.fc1.weight = assign(
-            block.ff.fc1.weight,
-            params[f"model.layers.{l}.mlp.gate_proj.weight"],
-            f"model.layers.{l}.mlp.gate_proj.weight"
-        )
-        block.ff.fc2.weight = assign(
-            block.ff.fc2.weight,
-            params[f"model.layers.{l}.mlp.up_proj.weight"],
-            f"model.layers.{l}.mlp.up_proj.weight"
-        )
-        block.ff.fc3.weight = assign(
-            block.ff.fc3.weight,
-            params[f"model.layers.{l}.mlp.down_proj.weight"],
-            f"model.layers.{l}.mlp.down_proj.weight"
-        )
+        if "num_experts" in param_config:
+            # Load router (gating) weights
+            block.ff.gate.weight = assign(
+                block.ff.gate.weight,
+                params[f"model.layers.{l}.mlp.gate.weight"],
+                f"model.layers.{l}.mlp.gate.weight"
+            )
+            # Load expert weights
+            for e in range(param_config["num_experts"]):
+                prefix = f"model.layers.{l}.mlp.experts.{e}"
+                block.ff.fc1[e].weight = assign(
+                    block.ff.fc1[e].weight,
+                    params[f"{prefix}.gate_proj.weight"],
+                    f"{prefix}.gate_proj.weight"
+                )
+                block.ff.fc2[e].weight = assign(
+                    block.ff.fc2[e].weight,
+                    params[f"{prefix}.up_proj.weight"],
+                    f"{prefix}.up_proj.weight"
+                )
+                block.ff.fc3[e].weight = assign(
+                    block.ff.fc3[e].weight,
+                    params[f"{prefix}.down_proj.weight"],
+                    f"{prefix}.down_proj.weight"
+                )
+                # After assigning weights, move the expert layers from meta to CPU
+                block.ff.fc1[e] = block.ff.fc1[e].to("cpu")
+                block.ff.fc2[e] = block.ff.fc2[e].to("cpu")
+                block.ff.fc3[e] = block.ff.fc3[e].to("cpu")
+
+        else:
+            block.ff.fc1.weight = assign(
+                block.ff.fc1.weight,
+                params[f"model.layers.{l}.mlp.gate_proj.weight"],
+                f"model.layers.{l}.mlp.gate_proj.weight"
+            )
+            block.ff.fc2.weight = assign(
+                block.ff.fc2.weight,
+                params[f"model.layers.{l}.mlp.up_proj.weight"],
+                f"model.layers.{l}.mlp.up_proj.weight"
+            )
+            block.ff.fc3.weight = assign(
+                block.ff.fc3.weight,
+                params[f"model.layers.{l}.mlp.down_proj.weight"],
+                f"model.layers.{l}.mlp.down_proj.weight"
+            )
+
         block.norm2.scale = assign(
             block.norm2.scale,
             params[f"model.layers.{l}.post_attention_layernorm.weight"],
@@ -405,8 +497,12 @@ def load_weights_into_qwen(model, param_config, params):
     # Final normalization and output head
     model.final_norm.scale = assign(model.final_norm.scale, params["model.norm.weight"], "model.norm.weight")
 
-    # Model uses weight tying, hence we reuse the embedding layer weights here
-    model.out_head.weight = assign(model.out_head.weight, params["model.embed_tokens.weight"], "model.embed_tokens.weight")
+    if "lm_head.weight" in params:
+        model.out_head.weight = assign(model.out_head.weight, params["lm_head.weight"], "lm_head.weight")
+    else:
+        # Model uses weight tying, hence we reuse the embedding layer weights here
+        print("Model uses weight tying.")
+        model.out_head.weight = assign(model.out_head.weight, params["model.embed_tokens.weight"], "model.embed_tokens.weight")
 
 
 class Qwen3Tokenizer:

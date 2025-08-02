@@ -24,12 +24,12 @@ jobs:
       run: |
         curl -LsSf https://astral.sh/uv/install.sh | sh
         uv sync --dev
-        uv add pytest-ruff pytest-check-links
+        uv add pytest-check-links
 
     - name: Check links
       run: |
         source .venv/bin/activate
-        pytest --ruff --check-links ./ \
+        pytest --check-links ./ \
           --check-links-ignore "https://platform.openai.com/*" \
           --check-links-ignore "https://openai.com/*" \
           --check-links-ignore "https://arena.lmsys.org" \

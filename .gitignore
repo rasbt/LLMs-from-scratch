@@ -1,4 +1,3 @@
-
 # Configs and keys
 ch05/07_gpt_to_llama/config.json
 ch07/02_dataset-utilities/config.json
@@ -77,6 +76,11 @@ ch07/01_main-chapter-code/gpt2-medium355M-sft.pth
 ch07/01_main-chapter-code/gpt2-medium355M-sft-standalone.pth
 ch07/01_main-chapter-code/Smalltestmodel-sft-standalone.pth
 ch07/01_main-chapter-code/gpt2/
+
+Qwen3-0.6B-Base/
+Qwen3-0.6B/
+tokenizer-base.json
+tokenizer.json
 
 # Datasets
 the-verdict.txt

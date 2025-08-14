@@ -132,7 +132,8 @@ For more information about KV caching, please see the [KV cache README](../../ch
 
 ```python
 from llms_from_scratch.llama3 import (
-    Llama3Model,
+		load_weights_into_llama,
+  	Llama3Model,
     Llama3ModelFast,
     Llama3Tokenizer,
     ChatFormat,
@@ -154,6 +155,7 @@ For more information about KV caching, please see the [KV cache README](../../ch
 
 ```python
 from llms_from_scratch.qwen3 import (
+    load_weights_into_qwen
     Qwen3Model,
     Qwen3Tokenizer,
 )

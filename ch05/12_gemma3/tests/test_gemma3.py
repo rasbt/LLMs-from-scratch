@@ -107,7 +107,7 @@ def dummy_cfg_base():
 
 @torch.inference_mode()
 def test_dummy_gemma3_forward(dummy_cfg_base, dummy_input):
-    nb_dir = Path(__file__).parent
+    nb_dir = Path(__file__).resolve().parents[1]
     mod = import_definitions_from_notebook(nb_dir, "standalone-gemma3.ipynb")
     Gemma3Model = mod.Gemma3Model
 
@@ -120,7 +120,7 @@ def test_dummy_gemma3_forward(dummy_cfg_base, dummy_input):
 @torch.inference_mode()
 @pytest.mark.skipif(not transformers_installed, reason="transformers not installed")
 def test_gemma3_base_equivalence_with_transformers():
-    nb_dir = Path(__file__).parent
+    nb_dir = Path(__file__).resolve().parents[1]
     mod = import_definitions_from_notebook(nb_dir, "standalone-gemma3.ipynb")
     Gemma3Model = mod.Gemma3Model
     load_weights_into_gemma = mod.load_weights_into_gemma

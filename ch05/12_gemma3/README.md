@@ -8,6 +8,10 @@ Below is a side-by-side comparison with Qwen3 0.6B as a reference model; if you 
 
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/bonus/gemma3/gemma3-vs-qwen3.webp">
 
+<br>
+
+To learn more about the architecture differences and read about comparisons with other architectures, see my [The Big LLM Architecture Comparison: From DeepSeek-V3 to Kimi K2: A Look At Modern LLM Architecture Design](https://magazine.sebastianraschka.com/p/the-big-llm-architecture-comparison)article.
+
 
 
 

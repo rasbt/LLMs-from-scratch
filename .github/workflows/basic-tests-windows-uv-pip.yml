@@ -43,6 +43,7 @@ jobs:
           pip install tensorflow-io-gcs-filesystem==0.31.0  # Explicit for Windows
           pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
           pip install pytest-ruff nbval
+          pip install -e .
 
       - name: Run Python Tests
         shell: bash
@@ -51,7 +52,9 @@ jobs:
           pytest --ruff setup/02_installing-python-libraries/tests.py
           pytest --ruff ch04/01_main-chapter-code/tests.py
           pytest --ruff ch05/01_main-chapter-code/tests.py
-          pytest --ruff ch05/07_gpt_to_llama/tests/tests.py
+          pytest --ruff ch05/07_gpt_to_llama/tests/tests_rope_and_parts.py
+          pytest --ruff ch05/07_gpt_to_llama/tests/test_llama32_nb.py
+          pytest --ruff ch05/11_qwen3/tests/test_qwen3_nb.py
           pytest --ruff ch06/01_main-chapter-code/tests.py
 
       - name: Run Jupyter Notebook Tests

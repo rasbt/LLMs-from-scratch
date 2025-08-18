@@ -30,6 +30,7 @@ dev = [
     "llms-from-scratch",
     "twine>=6.1.0",
     "tokenizers>=0.21.1",
+    "safetensors>=0.6.2",
 ]
 
 [tool.ruff]

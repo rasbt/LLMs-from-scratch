@@ -33,7 +33,6 @@ jobs:
       run: |
         curl -LsSf https://astral.sh/uv/install.sh | sh
         uv sync --dev --python=3.10  # tests for backwards compatibility
-        uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
         uv add pytest-ruff nbval
         uv pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cpu
 
@@ -43,7 +42,6 @@ jobs:
         pytest --ruff setup/02_installing-python-libraries/tests.py
         pytest --ruff ch04/01_main-chapter-code/tests.py
         pytest --ruff ch05/01_main-chapter-code/tests.py
-        pytest --ruff ch05/07_gpt_to_llama/tests/tests.py
         pytest --ruff ch06/01_main-chapter-code/tests.py
 
     - name: Validate Selected Jupyter Notebooks

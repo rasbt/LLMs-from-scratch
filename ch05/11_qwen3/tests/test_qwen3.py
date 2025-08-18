@@ -18,7 +18,7 @@ transformers_installed = importlib.util.find_spec("transformers") is not None
 @pytest.fixture
 def nb_imports():
     nb_dir = Path(__file__).resolve().parents[1]
-    mod = import_definitions_from_notebook(nb_dir, "standalone-gemma3.ipynb")
+    mod = import_definitions_from_notebook(nb_dir, "standalone-qwen3.ipynb")
     return mod
 
 
@@ -38,29 +38,38 @@ def dummy_cfg_base():
         "n_heads": 4,
         "head_dim": 8,
         "n_kv_groups": 1,
-        "qk_norm": True,                # Gemma3 uses q/k RMSNorm
+        "qk_norm": False,
         "dtype": torch.float32,
-        "rope_base": 1_000_000.0,       # global RoPE base
-        "rope_local_base": 10_000.0,    # local RoPE base (unused in these tests)
+        "rope_base": 10000,
         "context_length": 64,
-        "sliding_window": 16,
-        "layer_types": ["full_attention", "full_attention"],
-        "query_pre_attn_scalar": 256,
+        "num_experts": 0,
     }
 
 
+@pytest.fixture
+def dummy_cfg_moe(dummy_cfg_base):
+    cfg = dummy_cfg_base.copy()
+    cfg.update({
+        "num_experts": 4,
+        "num_experts_per_tok": 2,
+        "moe_intermediate_size": 64,
+    })
+    return cfg
+
+
 @torch.inference_mode()
-def test_dummy_gemma3_forward(dummy_cfg_base, dummy_input, nb_imports):
+def test_dummy_qwen3_forward(dummy_cfg_base, dummy_input, nb_imports):
     torch.manual_seed(123)
-    model = nb_imports.Gemma3Model(dummy_cfg_base)
+    model = nb_imports.Qwen3Model(dummy_cfg_base)
     out = model(dummy_input)
-    assert out.shape == (1, dummy_input.size(1), dummy_cfg_base["vocab_size"])
+    assert out.shape == (1, dummy_input.size(1), dummy_cfg_base["vocab_size"]), \
+        f"Expected shape (1, seq_len, vocab_size), got {out.shape}"
 
 
 @torch.inference_mode()
 @pytest.mark.skipif(not transformers_installed, reason="transformers not installed")
-def test_gemma3_base_equivalence_with_transformers(nb_imports):
-    from transformers import Gemma3TextConfig, Gemma3ForCausalLM
+def test_qwen3_base_equivalence_with_transformers(nb_imports):
+    from transformers import Qwen3Config, Qwen3ForCausalLM
 
     # Tiny config so the test is fast
     cfg = {
@@ -80,9 +89,9 @@ def test_gemma3_base_equivalence_with_transformers(nb_imports):
         "dtype": torch.float32,
         "query_pre_attn_scalar": 256,
     }
-    model = nb_imports.Gemma3Model(cfg)
+    model = nb_imports.Qwen3Model(cfg)
 
-    hf_cfg = Gemma3TextConfig(
+    hf_cfg = Qwen3Config(
         vocab_size=cfg["vocab_size"],
         max_position_embeddings=cfg["context_length"],
         hidden_size=cfg["emb_dim"],
@@ -101,11 +110,11 @@ def test_gemma3_base_equivalence_with_transformers(nb_imports):
         query_pre_attn_scalar=cfg["query_pre_attn_scalar"],
         rope_scaling={"rope_type": "default"},
     )
-    hf_model = Gemma3ForCausalLM(hf_cfg)
+    hf_model = Qwen3ForCausalLM(hf_cfg)
 
     hf_state = hf_model.state_dict()
     param_config = {"n_layers": cfg["n_layers"], "hidden_dim": cfg["hidden_dim"]}
-    nb_imports.load_weights_into_gemma(model, param_config, hf_state)
+    nb_imports.load_weights_into_qwen(model, param_config, hf_state)
 
     x = torch.randint(0, cfg["vocab_size"], (2, cfg["context_length"]), dtype=torch.long)
     ours_logits = model(x)

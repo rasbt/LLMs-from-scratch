@@ -116,7 +116,7 @@ QWEN3_CONFIG_30B_A3B = {
     "dtype": torch.bfloat16,
     "num_experts": 128,
     "num_experts_per_tok": 8,
-        "moe_intermediate_size": 768,
+    "moe_intermediate_size": 768,
 }
 
 

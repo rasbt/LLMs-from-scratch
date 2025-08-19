@@ -18,7 +18,7 @@ transformers_installed = importlib.util.find_spec("transformers") is not None
 @pytest.fixture
 def nb_imports():
     nb_dir = Path(__file__).resolve().parents[1]
-    mod = import_definitions_from_notebook(nb_dir, "standalone-gemma3.ipynb")
+    mod = import_definitions_from_notebook(nb_dir, "standalone-gemma3-plus-kvcache.ipynb")
     return mod
 
 

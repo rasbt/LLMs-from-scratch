@@ -54,6 +54,7 @@ jobs:
           pytest --ruff ch05/07_gpt_to_llama/tests/test_llama32_nb.py
           pytest --ruff ch05/11_qwen3/tests/test_qwen3_nb.py
           pytest --ruff ch05/12_gemma3/tests/test_gemma3_nb.py
+          pytest --ruff ch05/12_gemma3/tests/test_gemma3_kv_nb.py
           pytest --ruff ch06/01_main-chapter-code/tests.py
 
       - name: Validate Selected Jupyter Notebooks (uv)

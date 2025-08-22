@@ -18,6 +18,7 @@
 - [09_extending-tokenizers](09_extending-tokenizers) contains a from-scratch implementation of the GPT-2 BPE tokenizer
 - [10_llm-training-speed](10_llm-training-speed) shows PyTorch performance tips to improve the LLM training speed
 - [11_qwen3](11_qwen3) A from-scratch implementation of Qwen3 0.6B and Qwen3 30B-A3B (Mixture-of-Experts) including code to load the pretrained weights of the base, reasoning, and coding model variants
+- [12_gemma3](12_gemma3) A from-scratch implementation of Gemma 3 270M and alternative with KV cache, including code to load the pretrained weights
 
 
 

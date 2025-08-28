@@ -118,6 +118,24 @@ The code in the main chapters of this book is designed to run on conventional la
 <a href="https://www.manning.com/livevideo/master-and-build-large-language-models"><img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/video-screenshot.webp?123" width="350px"></a>
 
 
+&nbsp;
+
+
+## Companion Book / Sequel
+
+[*Build A Reasoning Model (From Scratch)*](https://mng.bz/lZ5B), while a standalone book, can be considered as a sequel to *Build A Large Language Model (From Scratch)*.
+
+It starts with a pretrained model and implements different reasoning approaches, including inference-time scaling, reinforcement learning, and distillation, to improve the model's reasoning capabilities. 
+
+Similar to *Build A Large Language Model (From Scratch)*, [*Build A Reasoning Model (From Scratch)*](https://mng.bz/lZ5B) takes a hands-on approach implementing these methods from scratch.
+
+<a href="https://mng.bz/lZ5B"><img src="https://sebastianraschka.com/images/reasoning-from-scratch-images/cover.webp?123" width="120px"></a>
+
+- Amazon link (TBD)
+- [Manning link](https://mng.bz/lZ5B)
+- [GitHub repository](https://github.com/rasbt/reasoning-from-scratch)
+
+<br>
 
 &nbsp;
 ## Exercises

@@ -6,7 +6,7 @@ This bonus folder contains code for running a ChatGPT-like user interface to int
 
 
 
-![Chainlit UI example](/Users/sebastian/project-data/book__manning-llm-from-scratch/_manning_manuscript/ch05/bonus/qwen3-chainlit.gif)
+![Chainlit UI example](https://sebastianraschka.com/images/LLMs-from-scratch-images/bonus/qwen/qwen3-chainlit.gif)
 
 
 

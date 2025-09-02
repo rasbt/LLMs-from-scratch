@@ -1,4 +1,5 @@
 # Configs and keys
+.chainlit
 ch05/07_gpt_to_llama/config.json
 ch07/02_dataset-utilities/config.json
 ch07/03_model-evaluation/config.json

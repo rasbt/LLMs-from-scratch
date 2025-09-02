@@ -142,7 +142,8 @@ ch0?/0?_user_interface/chainlit.md
 ch0?/0?_user_interface/.files
 *.lock
 
-# Temporary OS-related files
+# Temporary and OS-related files
+Untitled.ipynb
 .DS_Store
 
 # Byte-compiled / optimized / DLL files

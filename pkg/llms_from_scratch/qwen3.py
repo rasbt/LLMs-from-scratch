@@ -514,8 +514,9 @@ class Qwen3Tokenizer:
         "<|quad_start|>", "<|quad_end|>",
         "<|vision_start|>", "<|vision_end|>",
         "<|vision_pad|>", "<|image_pad|>", "<|video_pad|>",
+        "<think>", "</think>"
     ]
-    _SPLIT_RE = re.compile(r"(<\|[^>]+?\|>)")
+    _SPLIT_RE = re.compile(r"(<\|[^>]+?\|>|<think>|</think>)")
 
     def __init__(self, tokenizer_file_path="tokenizer.json", repo_id=None,
                  apply_chat_template=True, add_generation_prompt=False, add_thinking=False):
@@ -533,9 +534,13 @@ class Qwen3Tokenizer:
                 local_dir=str(tok_file.parent),
             )
         self._tok = Tokenizer.from_file(str(tok_file))
-        self._special_to_id = {t: self._tok.token_to_id(t) for t in self._SPECIALS}
+        self._special_to_id = {}
+        for t in self._SPECIALS:
+            tid = self._tok.token_to_id(t)
+            if tid is not None:
+                self._special_to_id[t] = tid
 
-        self.pad_token_id = self._special_to_id.get("<|endoftext|>")
+        self.pad_token_id = self._special_to_id["<|endoftext|>"]
         self.eos_token_id = self.pad_token_id
 
         if repo_id and "Base" not in repo_id:

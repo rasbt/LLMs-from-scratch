@@ -1,0 +1,5 @@
+chainlit>=1.2.0
+huggingface_hub>=0.34.4
+llms_from_scratch>=1.0.18  # to import code from this repo
+safetensors>=0.6.2
+tokenizers>=0.21.1

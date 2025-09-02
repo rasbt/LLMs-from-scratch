@@ -2,7 +2,7 @@
 
 
 
-This bonus folder contains code for running a ChatGPT-like user interface to interact with the pretrained LLMs from chapter 5, as shown below.
+This bonus folder contains code for running a ChatGPT-like user interface to interact with the pretrained Qwen3 model.
 
 
 
@@ -24,7 +24,7 @@ pip install install -r requirements-extra.txt
 Or, if you are using `uv`:
 
 ```bash
-uv pip install install -r requirements-extra.txt
+uv pip install -r requirements-extra.txt
 ```
 
 

@@ -144,6 +144,7 @@ ch0?/0?_user_interface/.files
 *.lock
 
 # Temporary and OS-related files
+chainlit.md
 Untitled.ipynb
 .DS_Store
 

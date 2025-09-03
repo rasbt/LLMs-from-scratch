@@ -18,7 +18,7 @@ To implement this user interface, we use the open-source [Chainlit Python packag
 First, we install the `chainlit` package and dependencies from the [requirements-extra.txt](requirements-extra.txt) list via
 
 ```bash
-pip install install -r requirements-extra.txt
+pip install -r requirements-extra.txt
 ```
 
 Or, if you are using `uv`:

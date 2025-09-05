@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.10,<=3.13"
 dependencies = [
     "torch>=2.2.2,<2.6; sys_platform == 'darwin' and platform_machine == 'x86_64'",    # Intel macOS
-    "torch>=2.3.0,<2.6; sys_platform != 'darwin' or platform_machine != 'x86_64'",
+    "torch>=2.3.0; sys_platform != 'darwin' or platform_machine != 'x86_64'",
     "jupyterlab>=4.0",
     "tiktoken>=0.5.1",
     "matplotlib>=3.7.1",

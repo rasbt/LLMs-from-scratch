@@ -64,8 +64,8 @@ QWEN3_CONFIG_8B = {
     "context_length": 40_960,
     "emb_dim": 4096,                 # 60% larger than above
     "n_heads": 32,
-    "n_layers": 36,                  # 26% larger than above
-    "hidden_dim": 12288,
+    "n_layers": 36,                 
+    "hidden_dim": 12288,             # 26% larger than above
     "head_dim": 128,
     "qk_norm": True,
     "n_kv_groups": 8,

@@ -19,7 +19,7 @@ The standalone notebooks in this folder contain from-scratch codes in linear fas
 3. [standalone-qwen3-moe.ipynb](standalone-qwen3-moe.ipynb): Like the first notebook but the Mixture-of-Experts (MoE) variant
 4. [standalone-qwen3-moe-plus-kvcache.ipynb](standalone-qwen3-moe-plus-kvcache.ipynb): Same as above but with KV cache for better inference efficiency
 
-Alternatively, I also organized the code into a Python package [here](http://../../pkg/llms_from_scratch/) (including unit tests and CI), which you can run as described below.
+Alternatively, I also organized the code into a Python package [here](../../pkg/llms_from_scratch/) (including unit tests and CI), which you can run as described below.
 
 &nbsp;
 # Using Qwen3 via the `llms-from-scratch` package

@@ -183,7 +183,7 @@ Several folders contain optional materials as a bonus for interested readers:
   - [PyTorch Performance Tips for Faster LLM Training](ch05/10_llm-training-speed)
 - **Chapter 6: Finetuning for classification**
   - [Additional experiments finetuning different layers and using larger models](ch06/02_bonus_additional-experiments)
-  - [Finetuning different models on 50k IMDB movie review dataset](ch06/03_bonus_imdb-classification)
+  - [Finetuning different models on 50k IMDb movie review dataset](ch06/03_bonus_imdb-classification)
   - [Building a User Interface to Interact With the GPT-based Spam Classifier](ch06/04_user_interface)
 - **Chapter 7: Finetuning to follow instructions**
   - [Dataset Utilities for Finding Near Duplicates and Creating Passive Voice Entries](ch07/02_dataset-utilities)

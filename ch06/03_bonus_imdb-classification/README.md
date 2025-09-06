@@ -1,4 +1,4 @@
-# Additional Experiments Classifying the Sentiment of 50k IMDB Movie Reviews
+# Additional Experiments Classifying the Sentiment of 50k IMDb Movie Reviews
 
 ## Overview
 

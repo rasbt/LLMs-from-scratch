@@ -22,6 +22,12 @@ The standalone notebooks in this folder contain from-scratch codes in linear fas
 Alternatively, I also organized the code into a Python package [here](../../pkg/llms_from_scratch/) (including unit tests and CI), which you can run as described below.
 
 &nbsp;
+# Training
+
+The `Qwen3Model` class is implemented in a similar style as the `GPTModel` class, so it can be used as a drop-in replacement for training in chapter 5 and finetuning in chapters 6 and 7.
+
+
+&nbsp;
 # Using Qwen3 via the `llms-from-scratch` package
 
 For an easy way to use the Qwen3 from-scratch implementation, you can also use the `llms-from-scratch` PyPI package based on the source code in this repository at [pkg/llms_from_scratch](../../pkg/llms_from_scratch).

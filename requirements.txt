@@ -1,5 +1,5 @@
 torch>=2.2.2,<2.6; sys_platform == 'darwin' and platform_machine == 'x86_64'  # Intel macOS
-torch >= 2.3.0; sys_platform != 'darwin' or platform_machine != 'x86_64'   # all chapters
+torch >= 2.2.2; sys_platform != 'darwin' or platform_machine != 'x86_64'   # all chapters
 jupyterlab >= 4.0          # all
 tiktoken >= 0.5.1          # ch02; ch04; ch05
 matplotlib >= 3.7.1        # ch04; ch06; ch07

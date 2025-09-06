@@ -15,7 +15,7 @@ from torch.utils.data import Dataset
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
 
-class IMDBDataset(Dataset):
+class IMDbDataset(Dataset):
     def __init__(self, csv_file, tokenizer, max_length=None, pad_token_id=50256, use_attention_mask=False):
         self.data = pd.read_csv(csv_file)
         self.max_length = max_length if max_length is not None else self._longest_encoded_length(tokenizer)
@@ -375,21 +375,21 @@ if __name__ == "__main__":
     else:
         raise ValueError("Invalid argument for `use_attention_mask`.")
 
-    train_dataset = IMDBDataset(
+    train_dataset = IMDbDataset(
         base_path / "train.csv",
         max_length=256,
         tokenizer=tokenizer,
         pad_token_id=tokenizer.pad_token_id,
         use_attention_mask=use_attention_mask
     )
-    val_dataset = IMDBDataset(
+    val_dataset = IMDbDataset(
         base_path / "validation.csv",
         max_length=256,
         tokenizer=tokenizer,
         pad_token_id=tokenizer.pad_token_id,
         use_attention_mask=use_attention_mask
     )
-    test_dataset = IMDBDataset(
+    test_dataset = IMDbDataset(
         base_path / "test.csv",
         max_length=256,
         tokenizer=tokenizer,

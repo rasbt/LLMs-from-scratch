@@ -1,4 +1,4 @@
-name: Test PyTorch 2.2 and 2.6
+name: Test PyTorch 2.3 and 2.5
 
 on:
   push:
@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        pytorch-version: [ 2.3.0, 2.6.0 ]
+        pytorch-version: [ 2.3.0, 2.5.0 ]
 
     steps:
     - uses: actions/checkout@v4

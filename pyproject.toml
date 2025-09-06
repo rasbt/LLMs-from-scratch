@@ -9,18 +9,22 @@ description = "Implement a ChatGPT-like LLM in PyTorch from scratch, step by ste
 readme = "README.md"
 requires-python = ">=3.10,<=3.13"
 dependencies = [
-    "torch>=2.2.2,<2.6; sys_platform == 'darwin' and platform_machine == 'x86_64'",    # Intel macOS
-    "torch>=2.3.0; sys_platform != 'darwin' or platform_machine != 'x86_64'",
-    "jupyterlab>=4.0",
-    "tiktoken>=0.5.1",
-    "matplotlib>=3.7.1",
-    "tensorflow>=2.16.2; sys_platform == 'darwin' and platform_machine == 'x86_64'",  # Intel macOS
-    "tensorflow>=2.18.0; sys_platform != 'darwin' or platform_machine != 'x86_64'",
-    "tqdm>=4.66.1",
-    "numpy>=1.26,<2.1",
-    "pandas>=2.2.1",
-    "pip>=25.0.1",
-    "pytest>=8.3.5",
+  "torch>=2.2.2,<2.6; sys_platform == 'darwin' and platform_machine == 'x86_64' and python_version < '3.13'",
+  "torch>=2.2.2; sys_platform == 'darwin' and platform_machine == 'arm64'",
+  "torch>=2.2.2; sys_platform == 'linux'",
+  "torch>=2.2.2; sys_platform == 'win32'",
+  "tensorflow>=2.16.2; sys_platform == 'darwin' and platform_machine == 'x86_64'",
+  "tensorflow>=2.18.0; sys_platform == 'darwin' and platform_machine == 'arm64'",
+  "tensorflow>=2.18.0; sys_platform == 'linux'",
+  "tensorflow>=2.18.0; sys_platform == 'win32'",
+  "jupyterlab>=4.0",
+  "tiktoken>=0.5.1",
+  "matplotlib>=3.7.1",
+  "tqdm>=4.66.1",
+  "numpy>=1.26,<2.1",
+  "pandas>=2.2.1",
+  "pip>=25.0.1",
+  "pytest>=8.3.5",
 ]
 
 [tool.uv.sources]

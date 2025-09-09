@@ -116,8 +116,8 @@ DEVICE = get_device(DEVICE)
 MODEL, TOKENIZER = get_model_and_tokenizer(QWEN3_CONFIG, REPO_ID, LOCAL_DIR, DEVICE, REASONING)
 
 # Even though the official TOKENIZER.eos_token_id is either <|im_end|> (reasoning)
-# or <|endoftext|>(base), the reasoning model sometimes emits both.
-EOS_TOKEN_IDS = (TOKENIZER.encode("<|im_end|>"), TOKENIZER.encode("<|end_of_text|>"))
+# or <|endoftext|> (base), the reasoning model sometimes emits both.
+EOS_TOKEN_IDS = (TOKENIZER.encode("<|im_end|>")[0], TOKENIZER.encode("<|endoftext|>")[0])
 
 
 @chainlit.on_chat_start
@@ -157,8 +157,6 @@ async def main(message: chainlit.Message):
         if token_id in EOS_TOKEN_IDS:
             break
         piece = TOKENIZER.decode(token_id.tolist())
-        if piece in ("<|im_end|>", "<|endoftext|>"):
-            break
         await out_msg.stream_token(piece)
 
     # 4) Finalize the streamed message

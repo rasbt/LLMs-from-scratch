@@ -15,7 +15,8 @@ from llms_from_scratch.kv_cache.qwen3 import (
     load_weights_into_qwen
 )
 from llms_from_scratch.kv_cache.generate import (
-    generate_text_simple_stream
+    generate_text_simple_stream,
+    trim_input_tensor
 )
 
 # ============================================================
@@ -141,6 +142,11 @@ async def main(message: chainlit.Message):
     prompt = build_prompt_from_history(history, add_assistant_header=True)
     input_ids = TOKENIZER.encode(prompt)
     input_ids_tensor = torch.tensor(input_ids, device=DEVICE).unsqueeze(0)
+    input_ids_tensor = trim_input_tensor(
+        input_ids_tensor=input_ids_tensor,
+        context_len=MODEL.cfg["context_length"],
+        max_new_tokens=MAX_NEW_TOKENS
+    )
 
     # 2) Start an outgoing message we can stream into
     out_msg = chainlit.Message(content="")

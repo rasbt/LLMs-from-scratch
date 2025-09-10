@@ -3,6 +3,7 @@
 #   - https://www.manning.com/books/build-a-large-language-model-from-scratch
 # Code: https://github.com/rasbt/LLMs-from-scratch
 
+from ..generate import trim_input_tensor  # noqa: F401
 from .utils import KVCache
 import torch
 

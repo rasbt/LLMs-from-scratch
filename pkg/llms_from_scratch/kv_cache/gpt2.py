@@ -177,13 +177,11 @@ class GPTModel(nn.Module):
         else:
             start_pos = 0
 
-        next_cache = []
         for i, block in enumerate(self.trf_blocks):
             blk_cache = cache.get(i) if cache else None
             x, new_cache = block(x, use_cache=use_cache, start_pos=start_pos, cache=blk_cache)
             if cache:
                 cache.update(i, new_cache)
-            next_cache.append(new_cache)
 
         x = self.final_norm(x)
         logits = self.out_head(x)

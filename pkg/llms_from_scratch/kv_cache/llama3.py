@@ -97,7 +97,6 @@ class Llama3Model(nn.Module):
         # Shape (1, 1, num_tokens, num_tokens) to broadcast across batch and heads
         mask = mask[None, None, :, :]
 
-        next_cache = []
         for i, block in enumerate(self.trf_blocks):
             blk_cache = cache.get(i) if cache else None
             x, new_blk_cache = block(x, mask, self.cos, self.sin,
@@ -105,7 +104,6 @@ class Llama3Model(nn.Module):
                                      cache=blk_cache)
             if cache is not None:
                 cache.update(i, new_blk_cache)
-            next_cache.append(new_blk_cache)
 
         x = self.final_norm(x)
         logits = self.out_head(x.to(self.cfg["dtype"]))

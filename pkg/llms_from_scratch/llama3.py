@@ -499,17 +499,20 @@ class Llama3ModelFast(nn.Module):
         return logits
 
 
-def assign(left, right, tensor_name="unknown"):
-    if left.shape != right.shape:
-        raise ValueError(f"Shape mismatch in tensor '{tensor_name}'. Left: {left.shape}, Right: {right.shape}")
-
-    if isinstance(right, torch.Tensor):
-        return torch.nn.Parameter(right.clone().detach())
-    else:
-        return torch.nn.Parameter(torch.tensor(right))
-
-
 def load_weights_into_llama(model, param_config, params):
+    def assign(left, right, tensor_name="unknown"):
+        def assign(left, right, tensor_name="unknown"):
+            if left.shape != right.shape:
+                raise ValueError(f"Shape mismatch in tensor '{tensor_name}'. Left: {left.shape}, Right: {right.shape}")
+
+            with torch.no_grad():
+                if isinstance(right, torch.Tensor):
+                    left.copy_(right)
+                else:
+                    left.copy_(torch.as_tensor(right, dtype=left.dtype, device=left.device))
+
+            return left
+
     model.tok_emb.weight = assign(model.tok_emb.weight, params["model.embed_tokens.weight"], "model.embed_tokens.weight")
 
     for l in range(param_config["n_layers"]):
@@ -569,5 +572,5 @@ def load_weights_into_llama(model, param_config, params):
     if "lm_head.weight" in params.keys():
         model.out_head.weight = assign(model.out_head.weight, params["lm_head.weight"], "lm_head.weight")
     else:
-        model.out_head.weight = assign(model.out_head.weight, params["model.embed_tokens.weight"], "model.embed_tokens.weight")
+        model.out_head.weight = model.tok_emb.weight
         print("Model uses weight tying.")

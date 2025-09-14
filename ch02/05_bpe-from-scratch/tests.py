@@ -80,7 +80,7 @@ def test_tokenizer_training(imported_module, verdict_file):
     BPETokenizerSimple = getattr(imported_module, "BPETokenizerSimple", None)
     tokenizer = BPETokenizerSimple()
 
-    with open(verdict_file, "r", encoding="utf-8") as f: # added ../01_main-chapter-code/
+    with open(verdict_file, "r", encoding="utf-8") as f:  # added ../01_main-chapter-code/
         text = f.read()
 
     tokenizer.train(text, vocab_size=1000, allowed_special={"<|endoftext|>"})

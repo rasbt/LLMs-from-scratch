@@ -499,19 +499,20 @@ class Llama3ModelFast(nn.Module):
         return logits
 
 
+def assign(left, right, tensor_name="unknown"):
+    if left.shape != right.shape:
+        raise ValueError(f"Shape mismatch in tensor '{tensor_name}'. Left: {left.shape}, Right: {right.shape}")
+
+    with torch.no_grad():
+        if isinstance(right, torch.Tensor):
+            left.copy_(right)
+        else:
+            left.copy_(torch.as_tensor(right, dtype=left.dtype, device=left.device))
+
+    return left
+
+
 def load_weights_into_llama(model, param_config, params):
-    def assign(left, right, tensor_name="unknown"):
-        def assign(left, right, tensor_name="unknown"):
-            if left.shape != right.shape:
-                raise ValueError(f"Shape mismatch in tensor '{tensor_name}'. Left: {left.shape}, Right: {right.shape}")
-
-            with torch.no_grad():
-                if isinstance(right, torch.Tensor):
-                    left.copy_(right)
-                else:
-                    left.copy_(torch.as_tensor(right, dtype=left.dtype, device=left.device))
-
-            return left
 
     model.tok_emb.weight = assign(model.tok_emb.weight, params["model.embed_tokens.weight"], "model.embed_tokens.weight")
 

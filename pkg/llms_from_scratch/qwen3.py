@@ -531,6 +531,7 @@ class Qwen3Tokenizer:
         self.apply_chat_template = apply_chat_template
         self.add_generation_prompt = add_generation_prompt
         self.add_thinking = add_thinking
+        self.repo_id=repo_id
 
         tok_file = Path(tokenizer_file_path)
         if not tok_file.is_file() and repo_id:
@@ -549,7 +550,7 @@ class Qwen3Tokenizer:
         self.pad_token_id = self._special_to_id["<|endoftext|>"]
         self.eos_token_id = self.pad_token_id
 
-        if repo_id and "Base" not in repo_id:
+        if self.repo_id and "Base" not in self.repo_id:
             eos_token = "<|im_end|>"
         else:
             eos_token = "<|endoftext|>"
@@ -557,7 +558,7 @@ class Qwen3Tokenizer:
             self.eos_token_id = self._special_to_id[eos_token]
 
     def encode(self, text, chat_wrapped=None):
-        if chat_wrapped is None:
+        if chat_wrapped is None and self.repo_id and "Base" not in self.repo_id:
             chat_wrapped = self.apply_chat_template
 
         stripped = text.strip()

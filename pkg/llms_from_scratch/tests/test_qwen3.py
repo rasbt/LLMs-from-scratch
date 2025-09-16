@@ -470,13 +470,6 @@ def test_chat_wrap_and_equivalence(add_gen, add_think):
             add_generation_prompt=add_gen,
             enable_thinking=add_think,
         )
-        ours = qt.encode(prompt)
-        ref = hf_tok.apply_chat_template(
-            messages,
-            tokenize=True,
-            add_generation_prompt=add_gen,
-            enable_thinking=add_think,
-        )
 
         if add_gen and not add_think:
             pass  # skip edge case as this is not something we use in practice

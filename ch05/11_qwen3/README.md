@@ -45,8 +45,14 @@ pip install llms_from_scratch tokenizers
 Specify which model to use:
 
 ```python
-USE_REASONING_MODEL = False  # The base model
-USE_REASONING_MODEL = True   # The "thinking" model
+USE_REASONING_MODEL = True
+# Uses the base model if USE_REASONING_MODEL = False
+
+USE_INSTRUCT_MODEL = False
+# Uses the instruct mode (without reasoning) if 
+# USE_REASONING_MODEL = True
+# USE_INSTRUCT_MODEL = False
+# This setting does have no effect if USE_REASONING_MODEL = False
 
 
 # Use
@@ -187,10 +193,11 @@ else:
     tok_filename = "tokenizer-base.json"   
 
 tokenizer = Qwen3Tokenizer(
-    tokenizer_file_path=tok_filename,
+    tokenizer_file_path=tokenizer_file_path,
     repo_id=repo_id,
+    apply_chat_template=USE_REASONING_MODEL,
     add_generation_prompt=USE_REASONING_MODEL,
-    add_thinking=USE_REASONING_MODEL
+    add_thinking=not USE_INSTRUCT_MODEL
 )
 ```
 

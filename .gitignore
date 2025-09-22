@@ -83,6 +83,7 @@ gemma-3-270m-it/
 Qwen3-0.6B-Base/
 Qwen3-0.6B/
 tokenizer-base.json
+tokenizer-reasoning.json
 tokenizer.json
 
 # Datasets

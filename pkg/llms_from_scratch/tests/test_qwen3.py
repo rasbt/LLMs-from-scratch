@@ -11,6 +11,7 @@ from llms_from_scratch.qwen3 import (
     QWEN_CONFIG_06_B,
     Qwen3Model,
     Qwen3Tokenizer,
+    MoEFeedForward,
     RMSNorm,
 )
 from llms_from_scratch.kv_cache.qwen3 import Qwen3Model as Qwen3ModelKV
@@ -111,6 +112,36 @@ def test_dummy_qwen3_moe_forward(dummy_cfg_moe, dummy_input):
         f"Expected shape (1, seq_len, vocab_size), got {out.shape}"
     assert any(hasattr(block.ff, 'gate') for block in model.trf_blocks), \
         "Expected MoEFeedForward in at least one transformer block"
+
+
+@torch.inference_mode()
+def test_moe_forward_matches_reference(dummy_cfg_moe):
+    torch.manual_seed(0)
+    moe = MoEFeedForward(dummy_cfg_moe)
+    x = torch.randn(2, 5, dummy_cfg_moe["emb_dim"])
+
+    scores = moe.gate(x)
+    topk_scores, topk_indices = torch.topk(scores, moe.num_experts_per_tok, dim=-1)
+    topk_probs = torch.softmax(topk_scores, dim=-1)
+
+    expert_outputs = []
+    for e in range(moe.num_experts):
+        hidden = torch.nn.functional.silu(moe.fc1[e](x)) * moe.fc2[e](x)
+        out = moe.fc3[e](hidden)
+        expert_outputs.append(out.unsqueeze(-2))
+    expert_outputs = torch.cat(expert_outputs, dim=-2)
+
+    gating_probs = torch.zeros_like(scores)
+    for i in range(moe.num_experts_per_tok):
+        indices = topk_indices[..., i:i+1]
+        prob = topk_probs[..., i:i+1]
+        gating_probs.scatter_(dim=-1, index=indices, src=prob)
+    gating_probs = gating_probs.unsqueeze(-1)
+
+    expected = (gating_probs * expert_outputs).sum(dim=-2)
+
+    actual = moe(x)
+    torch.testing.assert_close(actual, expected, atol=1e-5, rtol=1e-5)
 
 
 @torch.inference_mode()

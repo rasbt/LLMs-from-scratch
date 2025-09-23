@@ -39,7 +39,7 @@ jobs:
         shell: bash
         run: |
           curl -LsSf https://astral.sh/uv/install.sh | sh
-          uv sync --dev --python=3.10  # tests for backwards compatibility
+          uv sync --dev  # tests for backwards compatibility
           uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
           uv add pytest-ruff nbval
 

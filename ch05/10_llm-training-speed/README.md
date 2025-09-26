@@ -174,6 +174,24 @@ After:
 - `Step tok/sec: 112046`
 - `Reserved memory: 6.1875 GB`
 
+<br>
+
+---
+
+**Windows note**
+
+- Compilation can be tricky on Windows
+- `torch.compile()` uses Inductor, which JIT-compiles kernels and needs a working C/C++ toolchain
+- For CUDA, Inductor also depends on Triton, available via the community package `triton-windows`
+  - If you see `cl not found`, [install Visual Studio Build Tools with the "C++ workload"](https://learn.microsoft.com/en-us/cpp/build/vscpp-step-0-installation?view=msvc-170) and run Python from the "x64 Native Tools" prompt
+  - If you see `triton not found` with CUDA, install `triton-windows` (for example, `uv pip install "triton-windows<3.4"`).
+- For CPU, a reader further recommended following this [PyTorch Inductor guide for Windows](https://docs.pytorch.org/tutorials/unstable/inductor_windows.html)
+  - Here, it is important to install the English language package when installing Visual Studio 2022 to avoid a UTF-8 error
+  - Also, please note that the code needs to be run via the "Visual Studio 2022 Developer Command Prompt" rather than a notebook
+- If this setup proves tricky, you can skip compilation; **compilation is optional, and all code examples work fine without it**
+
+---
+
 &nbsp;
 ### 9. Vocabulary padding
 

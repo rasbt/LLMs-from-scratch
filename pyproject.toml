@@ -7,16 +7,19 @@ name = "llms-from-scratch"
 version = "1.0.18"
 description = "Implement a ChatGPT-like LLM in PyTorch from scratch, step by step"
 readme = "README.md"
-requires-python = ">=3.10,<=3.13"
+requires-python = ">=3.10,<3.14"
 dependencies = [
-  "torch>=2.2.2,<2.6; sys_platform == 'darwin' and platform_machine == 'x86_64' and python_version < '3.13'",
-  "torch>=2.2.2; sys_platform == 'darwin' and platform_machine == 'arm64'",
-  "torch>=2.2.2; sys_platform == 'linux'",
-  "torch>=2.2.2; sys_platform == 'win32'",
+  'torch>=2.6; python_version >= "3.13"',
+  "torch>=2.2.2,<2.6; sys_platform == 'darwin' and platform_machine == 'x86_64' and python_version < '3.12'",
+  "torch>=2.2.2; sys_platform == 'darwin' and platform_machine == 'arm64' and python_version < '3.12'",
+  "torch>=2.2.2; sys_platform == 'linux' and python_version < '3.12'",
+  "torch>=2.2.2; sys_platform == 'win32' and python_version < '3.12'",
+
   "tensorflow>=2.16.2; sys_platform == 'darwin' and platform_machine == 'x86_64'",
   "tensorflow>=2.18.0; sys_platform == 'darwin' and platform_machine == 'arm64'",
   "tensorflow>=2.18.0; sys_platform == 'linux'",
   "tensorflow>=2.18.0; sys_platform == 'win32'",
+
   "jupyterlab>=4.0",
   "tiktoken>=0.5.1",
   "matplotlib>=3.7.1",
@@ -33,9 +36,8 @@ llms-from-scratch = { workspace = true }
 [dependency-groups]
 dev = [
     "build>=1.2.2.post1",
-    "llms-from-scratch",
     "twine>=6.1.0",
-    "tokenizers>=0.21.1",
+    "tokenizers>=0.22.0",
     "safetensors>=0.6.2",
 ]
 

@@ -1,5 +1,4 @@
-name: Test PyTorch 2.3 and 2.5
-
+name: Test latest PyTorch-compatible Python version
 on:
   push:
     branches: [ main ]
@@ -21,9 +20,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        pytorch-version: [ 2.3.0, 2.5.0 ]
 
     steps:
     - uses: actions/checkout@v4
@@ -36,9 +32,8 @@ jobs:
     - name: Install dependencies
       run: |
         curl -LsSf https://astral.sh/uv/install.sh | sh
-        uv sync --dev --python=3.10  # tests for backwards compatibility
-        uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
-        uv pip install torch==${{ matrix.pytorch-version }} pytest-ruff nbval
+        uv sync --dev --python=3.13
+        uv add pytest-ruff nbval
 
     - name: Test Selected Python Scripts
       run: |

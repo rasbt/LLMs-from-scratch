@@ -38,8 +38,7 @@ jobs:
         curl -LsSf https://astral.sh/uv/install.sh | sh
         uv sync --dev --python=3.10  # tests for backwards compatibility
         uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
-        uv add torch==${{ matrix.pytorch-version }}
-        uv add pytest-ruff nbval
+        uv pip install torch==${{ matrix.pytorch-version }} pytest-ruff nbval
 
     - name: Test Selected Python Scripts
       run: |

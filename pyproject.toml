@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "llms-from-scratch"
 version = "1.0.18"
@@ -6,35 +10,36 @@ readme = "README.md"
 requires-python = ">=3.10,<=3.13"
 dependencies = [
   'torch>=2.6; python_version >= "3.13"',
-  "torch>=2.2.2,<2.6; sys_platform == 'darwin' and platform_machine == 'x86_64' and python_version < '3.13'",
-  "torch>=2.2.2; sys_platform == 'darwin' and platform_machine == 'arm64' and python_version < '3.13'",
-  "torch>=2.2.2; sys_platform == 'linux' and python_version < '3.13'",
-  "torch>=2.2.2; sys_platform == 'win32' and python_version < '3.13'",
+  "torch>=2.2.2,<2.6; sys_platform == 'darwin' and platform_machine == 'x86_64' and python_version < '3.12'",
+  "torch>=2.2.2; sys_platform == 'darwin' and platform_machine == 'arm64' and python_version < '3.12'",
+  "torch>=2.2.2; sys_platform == 'linux' and python_version < '3.12'",
+  "torch>=2.2.2; sys_platform == 'win32' and python_version < '3.12'",
 
   "tensorflow>=2.16.2; sys_platform == 'darwin' and platform_machine == 'x86_64'",
   "tensorflow>=2.18.0; sys_platform == 'darwin' and platform_machine == 'arm64'",
   "tensorflow>=2.18.0; sys_platform == 'linux'",
   "tensorflow>=2.18.0; sys_platform == 'win32'",
 
+  "jupyterlab>=4.0",
   "tiktoken>=0.5.1",
   "matplotlib>=3.7.1",
   "tqdm>=4.66.1",
   "numpy>=1.26",
   "pandas>=2.2.1",
-  "jupyterlab>=4.0",
-]
-
-[dependency-groups]
-dev = [
-  "build>=1.2.2.post1",
-  "twine>=6.1.0",
-  "tokenizers>=0.22.0",
-  "safetensors>=0.6.2",
+  "pip>=25.0.1",
   "pytest>=8.3.5",
 ]
 
 [tool.uv.sources]
 llms-from-scratch = { workspace = true }
+
+[dependency-groups]
+dev = [
+    "build>=1.2.2.post1",
+    "twine>=6.1.0",
+    "tokenizers>=0.22.0",
+    "safetensors>=0.6.2",
+]
 
 [tool.ruff]
 line-length = 140

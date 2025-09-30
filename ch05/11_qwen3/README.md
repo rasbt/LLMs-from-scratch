@@ -51,7 +51,7 @@ USE_REASONING_MODEL = True
 USE_INSTRUCT_MODEL = False
 # Uses the instruct mode (without reasoning) if 
 # USE_REASONING_MODEL = True
-# USE_INSTRUCT_MODEL = False
+# USE_INSTRUCT_MODEL = True
 # This setting does have no effect if USE_REASONING_MODEL = False
 
 

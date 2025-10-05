@@ -1,3 +1,35 @@
+
+<div align="right">
+  <details>
+    <summary >🌐 Language</summary>
+    <div>
+      <div align="center">
+        <a href="https://openaitx.github.io/view.html?user=rasbt&project=LLMs-from-scratch&lang=en">English</a>
+        | <a href="https://openaitx.github.io/view.html?user=rasbt&project=LLMs-from-scratch&lang=zh-CN">简体中文</a>
+        | <a href="https://openaitx.github.io/view.html?user=rasbt&project=LLMs-from-scratch&lang=zh-TW">繁體中文</a>
+        | <a href="https://openaitx.github.io/view.html?user=rasbt&project=LLMs-from-scratch&lang=ja">日本語</a>
+        | <a href="https://openaitx.github.io/view.html?user=rasbt&project=LLMs-from-scratch&lang=ko">한국어</a>
+        | <a href="https://openaitx.github.io/view.html?user=rasbt&project=LLMs-from-scratch&lang=hi">हिन्दी</a>
+        | <a href="https://openaitx.github.io/view.html?user=rasbt&project=LLMs-from-scratch&lang=th">ไทย</a>
+        | <a href="https://openaitx.github.io/view.html?user=rasbt&project=LLMs-from-scratch&lang=fr">Français</a>
+        | <a href="https://openaitx.github.io/view.html?user=rasbt&project=LLMs-from-scratch&lang=de">Deutsch</a>
+        | <a href="https://openaitx.github.io/view.html?user=rasbt&project=LLMs-from-scratch&lang=es">Español</a>
+        | <a href="https://openaitx.github.io/view.html?user=rasbt&project=LLMs-from-scratch&lang=it">Italiano</a>
+        | <a href="https://openaitx.github.io/view.html?user=rasbt&project=LLMs-from-scratch&lang=ru">Русский</a>
+        | <a href="https://openaitx.github.io/view.html?user=rasbt&project=LLMs-from-scratch&lang=pt">Português</a>
+        | <a href="https://openaitx.github.io/view.html?user=rasbt&project=LLMs-from-scratch&lang=nl">Nederlands</a>
+        | <a href="https://openaitx.github.io/view.html?user=rasbt&project=LLMs-from-scratch&lang=pl">Polski</a>
+        | <a href="https://openaitx.github.io/view.html?user=rasbt&project=LLMs-from-scratch&lang=ar">العربية</a>
+        | <a href="https://openaitx.github.io/view.html?user=rasbt&project=LLMs-from-scratch&lang=fa">فارسی</a>
+        | <a href="https://openaitx.github.io/view.html?user=rasbt&project=LLMs-from-scratch&lang=tr">Türkçe</a>
+        | <a href="https://openaitx.github.io/view.html?user=rasbt&project=LLMs-from-scratch&lang=vi">Tiếng Việt</a>
+        | <a href="https://openaitx.github.io/view.html?user=rasbt&project=LLMs-from-scratch&lang=id">Bahasa Indonesia</a>
+        | <a href="https://openaitx.github.io/view.html?user=rasbt&project=LLMs-from-scratch&lang=as">অসমীয়া</
+      </div>
+    </div>
+  </details>
+</div>
+
 # Build a Large Language Model (From Scratch)
 
 This repository contains the code for developing, pretraining, and finetuning a GPT-like LLM and is the official code repository for the book [Build a Large Language Model (From Scratch)](https://amzn.to/4fqvn0D).

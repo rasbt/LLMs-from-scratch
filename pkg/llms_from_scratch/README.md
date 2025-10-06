@@ -155,7 +155,7 @@ For more information about KV caching, please see the [KV cache README](../../ch
 
 ```python
 from llms_from_scratch.qwen3 import (
-    load_weights_into_qwen
+    load_weights_into_qwen,
     Qwen3Model,
     Qwen3Tokenizer,
 )

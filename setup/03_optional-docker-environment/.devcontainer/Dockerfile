@@ -8,9 +8,11 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Install uv
-ADD https://astral.sh/uv/install.sh /uv-installer.sh
-RUN sh /uv-installer.sh && rm /uv-installer.sh
-ENV PATH="/root/.local/bin/:$PATH"
+RUN curl -fsSL https://astral.sh/uv/install.sh -o uv-installer.sh && \
+    sh uv-installer.sh && \
+    rm uv-installer.sh
+
+ENV PATH="/root/.local/bin:$PATH"
 
 # Install Python packages
 COPY requirements.txt requirements.txt

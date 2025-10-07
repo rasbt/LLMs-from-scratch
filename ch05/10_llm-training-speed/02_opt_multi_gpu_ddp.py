@@ -8,7 +8,7 @@ import os
 import time
 
 import matplotlib.pyplot as plt
-import request
+import requests
 import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader

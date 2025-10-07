@@ -224,27 +224,16 @@ def query_model(
         }
     }
 
-    # Convert the dictionary to a JSON formatted string and encode it to bytes
-    payload = json.dumps(data).encode("utf-8")
-
-    # Create a request object, setting the method to POST and adding necessary headers
-    request = urllib.request.Request(
-        url,
-        data=payload,
-        method="POST"
-    )
-    request.add_header("Content-Type", "application/json")
-
-    # Send the request and capture the response
-    response_data = ""
-    with urllib.request.urlopen(request) as response:
-        # Read and decode the response
-        while True:
-            line = response.readline().decode("utf-8")
+    # Send the POST request
+    with requests.post(url, json=data, stream=True, timeout=30) as r:
+        r.raise_for_status()
+        response_data = ""
+        for line in r.iter_lines(decode_unicode=True):
             if not line:
-                break
+                continue
             response_json = json.loads(line)
-            response_data += response_json["message"]["content"]
+            if "message" in response_json:
+                response_data += response_json["message"]["content"]
 
     return response_data
 

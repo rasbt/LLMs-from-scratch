@@ -7,7 +7,6 @@
 
 import pytest
 from gpt_train import main
-import http.client
 import requests
 
 @pytest.fixture

@@ -6,9 +6,9 @@
 
 import os
 import time
-import urllib.request
 
 import matplotlib.pyplot as plt
+import requests
 import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
@@ -397,8 +397,9 @@ def main(gpt_config, settings):
     url = "https://www.gutenberg.org/cache/epub/145/pg145.txt"
 
     if not os.path.exists(file_path):
-        with urllib.request.urlopen(url) as response:
-            text_data = response.read().decode('utf-8')
+        response = requests.get(url, timeout=30)
+        response.raise_for_status()
+        text_data = response.text
         with open(file_path, "w", encoding="utf-8") as file:
             file.write(text_data)
     else:

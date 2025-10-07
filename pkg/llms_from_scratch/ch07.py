@@ -6,7 +6,7 @@
 import json
 import os
 import psutil
-import urllib
+import requests
 
 import torch
 from tqdm import tqdm
@@ -14,22 +14,44 @@ from torch.utils.data import Dataset
 
 
 def download_and_load_file(file_path, url):
-
     if not os.path.exists(file_path):
-        with urllib.request.urlopen(url) as response:
-            text_data = response.read().decode("utf-8")
+        response = requests.get(url, timeout=30)
+        response.raise_for_status()
+        text_data = response.text
         with open(file_path, "w", encoding="utf-8") as file:
             file.write(text_data)
-
-    # The book originally contained this unnecessary "else" clause:
-    # else:
-    #     with open(file_path, "r", encoding="utf-8") as file:
-    #         text_data = file.read()
 
     with open(file_path, "r", encoding="utf-8") as file:
         data = json.load(file)
 
     return data
+
+
+# The book originally used the following code below
+# However, urllib uses older protocol settings that
+# can cause problems for some readers using a VPN.
+# The `requests` version above is more robust
+# in that regard.
+
+
+# import urllib
+
+# def download_and_load_file(file_path, url):
+
+#     if not os.path.exists(file_path):
+#         with urllib.request.urlopen(url) as response:
+#             text_data = response.read().decode("utf-8")
+#         with open(file_path, "w", encoding="utf-8") as file:
+#             file.write(text_data)
+
+#     else:
+#         with open(file_path, "r", encoding="utf-8") as file:
+#             text_data = file.read()
+
+#     with open(file_path, "r", encoding="utf-8") as file:
+#         data = json.load(file)
+
+#     return data
 
 
 def format_input(entry):
@@ -202,27 +224,16 @@ def query_model(
         }
     }
 
-    # Convert the dictionary to a JSON formatted string and encode it to bytes
-    payload = json.dumps(data).encode("utf-8")
-
-    # Create a request object, setting the method to POST and adding necessary headers
-    request = urllib.request.Request(
-        url,
-        data=payload,
-        method="POST"
-    )
-    request.add_header("Content-Type", "application/json")
-
-    # Send the request and capture the response
-    response_data = ""
-    with urllib.request.urlopen(request) as response:
-        # Read and decode the response
-        while True:
-            line = response.readline().decode("utf-8")
+    # Send the POST request
+    with requests.post(url, json=data, stream=True, timeout=30) as r:
+        r.raise_for_status()
+        response_data = ""
+        for line in r.iter_lines(decode_unicode=True):
             if not line:
-                break
+                continue
             response_json = json.loads(line)
-            response_data += response_json["message"]["content"]
+            if "message" in response_json:
+                response_data += response_json["message"]["content"]
 
     return response_data
 

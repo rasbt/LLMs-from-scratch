@@ -47,20 +47,20 @@ jobs:
         shell: bash
         run: |
           source .venv/bin/activate
-          pytest --ruff setup/02_installing-python-libraries/tests.py
-          pytest --ruff ch04/01_main-chapter-code/tests.py
-          pytest --ruff ch05/01_main-chapter-code/tests.py
-          pytest --ruff ch05/07_gpt_to_llama/tests/tests_rope_and_parts.py
-          pytest --ruff ch05/07_gpt_to_llama/tests/test_llama32_nb.py
-          pytest --ruff ch05/11_qwen3/tests/test_qwen3_nb.py
-          pytest --ruff ch05/12_gemma3/tests/test_gemma3_nb.py
-          pytest --ruff ch05/12_gemma3/tests/test_gemma3_kv_nb.py
-          pytest --ruff ch06/01_main-chapter-code/tests.py
+          pytest setup/02_installing-python-libraries/tests.py
+          pytest ch04/01_main-chapter-code/tests.py
+          pytest ch05/01_main-chapter-code/tests.py
+          pytest ch05/07_gpt_to_llama/tests/tests_rope_and_parts.py
+          pytest ch05/07_gpt_to_llama/tests/test_llama32_nb.py
+          pytest ch05/11_qwen3/tests/test_qwen3_nb.py
+          pytest ch05/12_gemma3/tests/test_gemma3_nb.py
+          pytest ch05/12_gemma3/tests/test_gemma3_kv_nb.py
+          pytest ch06/01_main-chapter-code/tests.py
 
       - name: Validate Selected Jupyter Notebooks (uv)
         shell: bash
         run: |
           source .venv/bin/activate
-          pytest --ruff --nbval ch02/01_main-chapter-code/dataloader.ipynb
-          pytest --ruff --nbval ch03/01_main-chapter-code/multihead-attention.ipynb
-          pytest --ruff --nbval ch02/04_bonus_dataloader-intuition/dataloader-intuition.ipynb
+          pytest --nbval ch02/01_main-chapter-code/dataloader.ipynb
+          pytest --nbval ch03/01_main-chapter-code/multihead-attention.ipynb
+          pytest --nbval ch02/04_bonus_dataloader-intuition/dataloader-intuition.ipynb

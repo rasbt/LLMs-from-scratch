@@ -47,14 +47,14 @@ jobs:
       - name: Test Selected Python Scripts
         shell: pixi run --environment tests bash -e {0}
         run: |
-          pytest --ruff setup/02_installing-python-libraries/tests.py
-          pytest --ruff ch04/01_main-chapter-code/tests.py
-          pytest --ruff ch05/01_main-chapter-code/tests.py
-          pytest --ruff ch06/01_main-chapter-code/tests.py
+          pytest setup/02_installing-python-libraries/tests.py
+          pytest ch04/01_main-chapter-code/tests.py
+          pytest ch05/01_main-chapter-code/tests.py
+          pytest ch06/01_main-chapter-code/tests.py
 
       - name: Validate Selected Jupyter Notebooks
         shell: pixi run --environment tests bash -e {0}
         run: |
-          pytest --ruff --nbval ch02/01_main-chapter-code/dataloader.ipynb
-          pytest --ruff --nbval ch03/01_main-chapter-code/multihead-attention.ipynb
-          pytest --ruff --nbval ch02/04_bonus_dataloader-intuition/dataloader-intuition.ipynb
+          pytest --nbval ch02/01_main-chapter-code/dataloader.ipynb
+          pytest --nbval ch03/01_main-chapter-code/multihead-attention.ipynb
+          pytest --nbval ch02/04_bonus_dataloader-intuition/dataloader-intuition.ipynb

@@ -9,10 +9,9 @@ import ast
 import re
 import types
 from pathlib import Path
-import urllib.request
-import urllib.parse
 
 import nbformat
+import requests
 
 
 def _extract_imports(src: str):
@@ -125,21 +124,24 @@ def import_definitions_from_notebook(nb_dir_or_path, notebook_name=None, *, extr
     exec(src, mod.__dict__)
     return mod
 
+
 def download_file(url, out_dir="."):
     """Simple file download utility for tests."""
-    from pathlib import Path
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
-    filename = Path(urllib.parse.urlparse(url).path).name
+    filename = Path(url).name
     dest = out_dir / filename
-    
+
     if dest.exists():
         return dest
-        
+
     try:
-        with urllib.request.urlopen(url) as response:
-            with open(dest, 'wb') as f:
-                f.write(response.read())
+        response = requests.get(url, stream=True, timeout=30)
+        response.raise_for_status()
+        with open(dest, "wb") as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                if chunk:
+                    f.write(chunk)
         return dest
     except Exception as e:
         raise RuntimeError(f"Failed to download {url}: {e}")

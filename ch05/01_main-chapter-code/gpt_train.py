@@ -5,8 +5,8 @@
 
 import matplotlib.pyplot as plt
 import os
+import requests
 import torch
-import urllib.request
 import tiktoken
 
 
@@ -141,14 +141,14 @@ def main(gpt_config, settings):
     url = "https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/main/ch02/01_main-chapter-code/the-verdict.txt"
 
     if not os.path.exists(file_path):
-        with urllib.request.urlopen(url) as response:
-            text_data = response.read().decode('utf-8')
+        response = requests.get(url, timeout=30)
+        response.raise_for_status()
+        text_data = response.text
         with open(file_path, "w", encoding="utf-8") as file:
             file.write(text_data)
     else:
         with open(file_path, "r", encoding="utf-8") as file:
             text_data = file.read()
-
     ##############################
     # Initialize model
     ##############################

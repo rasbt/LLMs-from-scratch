@@ -7,7 +7,7 @@ import argparse
 import os
 from pathlib import Path
 import time
-import urllib
+import requests
 import zipfile
 
 import pandas as pd
@@ -62,9 +62,12 @@ def download_and_unzip(url, zip_path, extract_to, new_file_path):
         return
 
     # Downloading the file
-    with urllib.request.urlopen(url) as response:
-        with open(zip_path, "wb") as out_file:
-            out_file.write(response.read())
+    response = requests.get(url, stream=True, timeout=60)
+    response.raise_for_status()
+    with open(zip_path, "wb") as out_file:
+        for chunk in response.iter_content(chunk_size=8192):
+            if chunk:
+                out_file.write(chunk)
 
     # Unzipping the file
     with zipfile.ZipFile(zip_path, "r") as zip_ref:

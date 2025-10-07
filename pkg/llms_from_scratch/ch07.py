@@ -6,7 +6,7 @@
 import json
 import os
 import psutil
-import urllib
+import requests
 
 import torch
 from tqdm import tqdm
@@ -14,22 +14,44 @@ from torch.utils.data import Dataset
 
 
 def download_and_load_file(file_path, url):
-
     if not os.path.exists(file_path):
-        with urllib.request.urlopen(url) as response:
-            text_data = response.read().decode("utf-8")
+        response = requests.get(url, timeout=30)
+        response.raise_for_status()
+        text_data = response.text
         with open(file_path, "w", encoding="utf-8") as file:
             file.write(text_data)
-
-    # The book originally contained this unnecessary "else" clause:
-    # else:
-    #     with open(file_path, "r", encoding="utf-8") as file:
-    #         text_data = file.read()
 
     with open(file_path, "r", encoding="utf-8") as file:
         data = json.load(file)
 
     return data
+
+
+# The book originally used the following code below
+# However, urllib uses older protocol settings that
+# can cause problems for some readers using a VPN.
+# The `requests` version above is more robust
+# in that regard.
+
+
+# import urllib
+
+# def download_and_load_file(file_path, url):
+
+#     if not os.path.exists(file_path):
+#         with urllib.request.urlopen(url) as response:
+#             text_data = response.read().decode("utf-8")
+#         with open(file_path, "w", encoding="utf-8") as file:
+#             file.write(text_data)
+
+#     else:
+#         with open(file_path, "r", encoding="utf-8") as file:
+#             text_data = file.read()
+
+#     with open(file_path, "r", encoding="utf-8") as file:
+#         data = json.load(file)
+
+#     return data
 
 
 def format_input(entry):

@@ -8,8 +8,8 @@ from llms_from_scratch.ch04 import GPTModel, GPTModelFast
 from llms_from_scratch.ch05 import train_model_simple
 
 import os
-import urllib
 
+import requests
 import pytest
 import tiktoken
 import torch
@@ -46,8 +46,9 @@ def test_train_simple(tmp_path, ModelClass):
     url = "https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/main/ch02/01_main-chapter-code/the-verdict.txt"
 
     if not os.path.exists(file_path):
-        with urllib.request.urlopen(url) as response:
-            text_data = response.read().decode("utf-8")
+        response = requests.get(url, timeout=30)
+        response.raise_for_status()
+        text_data = response.text
         with open(file_path, "w", encoding="utf-8") as f:
             f.write(text_data)
     else:

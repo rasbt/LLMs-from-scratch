@@ -58,12 +58,17 @@ This automatically downloads the weight file based on the model choice above:
 
 ```python
 import os
-import urllib.request
+import requests
 
 url = f"https://huggingface.co/rasbt/llama-3.2-from-scratch/resolve/main/{MODEL_FILE}"
 
 if not os.path.exists(MODEL_FILE):
-    urllib.request.urlretrieve(url, MODEL_FILE)
+    response = requests.get(url, stream=True, timeout=60)
+    response.raise_for_status()
+    with open(MODEL_FILE, "wb") as f:
+        for chunk in response.iter_content(chunk_size=8192):
+            if chunk:
+                f.write(chunk)
     print(f"Downloaded to {MODEL_FILE}")
 ```
 

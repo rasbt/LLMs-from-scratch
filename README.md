@@ -194,6 +194,17 @@ Several folders contain optional materials as a bonus for interested readers:
   - [Direct Preference Optimization (DPO) for LLM Alignment](ch07/04_preference-tuning-with-dpo/dpo-from-scratch.ipynb)
   - [Building a User Interface to Interact With the Instruction Finetuned GPT Model](ch07/06_user_interface)
 
+More bonus material from the [reasoning from scratch](https://github.com/rasbt/reasoning-from-scratch) repository:
+
+- **Qwen3 (from scratch) basics**
+  - [Qwen3 source code walkthrough](https://github.com/rasbt/reasoning-from-scratch/blob/main/chC/01_main-chapter-code/chC_main.ipynb) 
+  - [Optimized Qwen3](https://github.com/rasbt/reasoning-from-scratch/tree/main/ch02/03_optimized-LLM)
+- **Evaluation**
+  - [Verifier-based evaluation (MATH-500)](https://github.com/rasbt/reasoning-from-scratch/tree/main/ch03)
+  - [Multiple-choice evaluation (MMLU)](https://github.com/rasbt/reasoning-from-scratch/blob/main/chF/02_mmlu)
+  - [LLM leaderboard evaluation](https://github.com/rasbt/reasoning-from-scratch/blob/main/chF/03_leaderboards)
+  - [LLM-as-a-judge evaluation](https://github.com/rasbt/reasoning-from-scratch/blob/main/chF/04_llm-judge)
+
 <br>
 &nbsp;
 

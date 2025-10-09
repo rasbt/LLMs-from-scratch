@@ -85,6 +85,8 @@ Qwen3-0.6B/
 tokenizer-base.json
 tokenizer-reasoning.json
 tokenizer.json
+config.json
+bpe_merges.txt
 
 # Datasets
 the-verdict.txt

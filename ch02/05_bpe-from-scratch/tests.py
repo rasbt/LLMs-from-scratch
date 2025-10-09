@@ -152,3 +152,90 @@ def test_gpt2_tokenizer_openai_edgecases(imported_module, gpt2_files):
 
     if errors:
         pytest.fail("\n".join(errors))
+
+
+def test_gpt2_newline_and_eot_ids(imported_module, gpt2_files):
+    BPETokenizerSimple = getattr(imported_module, "BPETokenizerSimple", None)
+
+    tok = BPETokenizerSimple()
+    tok.load_vocab_and_merges_from_openai(
+        vocab_path=gpt2_files["encoder.json"], bpe_merges_path=gpt2_files["vocab.bpe"]
+    )
+
+    assert "Ċ" in tok.inverse_vocab, "Missing GPT-2 newline glyph 'Ċ' in inverse_vocab"
+    assert "<|endoftext|>" in tok.inverse_vocab, "Missing EOT in inverse_vocab"
+
+    assert tok.inverse_vocab["Ċ"] == 198, "Ċ must map to id 198"
+    assert tok.inverse_vocab["<|endoftext|>"] == 50256, "EOT must be 50256"
+
+    if "\n" not in tok.inverse_vocab:
+        tok.inverse_vocab["\n"] = tok.inverse_vocab["Ċ"]
+    assert tok.inverse_vocab["\n"] == 198, r"'\n' must map to 198 via Ċ"
+
+    assert tok.vocab[198] == "Ċ", "Don't overwrite vocab[198]; keep it 'Ċ'"
+    assert tok.vocab[50256] == "<|endoftext|>", "Don't map <|endoftext|> to anything else"
+
+
+def test_no_eot_aliasing_and_disallowed_logic(imported_module, gpt2_files):
+    BPETokenizerSimple = getattr(imported_module, "BPETokenizerSimple", None)
+    tok = BPETokenizerSimple()
+    tok.load_vocab_and_merges_from_openai(
+        vocab_path=gpt2_files["encoder.json"], bpe_merges_path=gpt2_files["vocab.bpe"]
+    )
+    tik = tiktoken.get_encoding("gpt2")
+
+    text = "Hello<|endoftext|>\nworld"
+    # When not allowed, our encode should raise ValueError like tiktoken
+    with pytest.raises(ValueError):
+        tok.encode(text)
+
+    # When allowed, both tokenizers should match
+    ids_ours = tok.encode(text, allowed_special={"<|endoftext|>"})
+    ids_tik = tik.encode(text, allowed_special={"<|endoftext|>"})
+    assert ids_ours == ids_tik, "Mismatch vs tiktoken with EOT allowed"
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "a\nb",
+        "a\n\nb",
+        "\nHello",
+        "Hello\n",
+        "a\r\nb",
+    ],
+)
+def test_newline_roundtrip_and_equivalence(imported_module, gpt2_files, text):
+    BPETokenizerSimple = getattr(imported_module, "BPETokenizerSimple", None)
+    tok = BPETokenizerSimple()
+    tok.load_vocab_and_merges_from_openai(
+        vocab_path=gpt2_files["encoder.json"], bpe_merges_path=gpt2_files["vocab.bpe"]
+    )
+    tik = tiktoken.get_encoding("gpt2")
+
+    ids_ours = tok.encode(text)
+    ids_tik = tik.encode(text)
+
+    assert ids_ours == ids_tik, f"Mismatch vs tiktoken for: {repr(text)}"
+    # Each "\n" should correspond to id 198
+    expected_lf_count = text.count("\n")
+    assert ids_ours.count(198) == expected_lf_count
+
+    dec = tok.decode(ids_ours)
+    assert dec == text
+
+
+def test_space_newline_space_patterns(imported_module, gpt2_files):
+    BPETokenizerSimple = getattr(imported_module, "BPETokenizerSimple", None)
+    tok = BPETokenizerSimple()
+    tok.load_vocab_and_merges_from_openai(
+        vocab_path=gpt2_files["encoder.json"], bpe_merges_path=gpt2_files["vocab.bpe"]
+    )
+    tik = tiktoken.get_encoding("gpt2")
+
+    samples = [
+        "Hello \nworld",
+        "Hello\n world",
+    ]
+    for s in samples:
+        assert tok.encode(s) == tik.encode(s), f"Mismatch vs tiktoken: {repr(s)}"

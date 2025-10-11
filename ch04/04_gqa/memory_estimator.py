@@ -49,8 +49,11 @@ def main():
         "n_kv_groups": args.n_kv_groups,
     }
 
+    if cfg["n_heads"] % cfg["n_kv_groups"] != 0:
+        raise ValueError("n_kv_groups must divide n_heads exactly.")
+
     bytes_per_elem = DTYPE_BYTES[args.dtype]
-    head_dim = cfg["emb_dim"] / cfg["n_heads"]
+    head_dim = math.ceil(cfg["emb_dim"] / cfg["n_heads"])
 
     n_kv_heads_mha = cfg["n_heads"]
     n_kv_heads_gqa = cfg["n_heads"] // cfg["n_kv_groups"]
@@ -83,7 +86,7 @@ def main():
         print(f"{k:17}: {v}")
     print(f"batch_size       : {args.batch_size}")
     print(f"dtype            : {args.dtype} ({bytes_per_elem} Bytes/elem)")
-    print(f"head_dim         : {int(head_dim)}")
+    print(f"head_dim         : {head_dim}")
     print(f"GQA n_kv_heads   : {n_kv_heads_gqa}")
     print()
 

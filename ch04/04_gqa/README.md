@@ -91,7 +91,7 @@ Note that GQA is also used in the [Llama 3](../../ch05/07_gpt_to_llama), [Gemma 
 
 Note that the model is not trained and thus generates nonsensical text. However, you can use it as a drop-in replacement for the standard GPT model in chapters 5-7 and train it.
 
-Also, this implementation uses the KV cache explained in [another bonus section](03_kv-cache) so the memory savings are more pronounced.
+Also, this implementation uses the KV cache explained in [another bonus section](../03_kv-cache) so the memory savings are more pronounced.
 
 ```bash
 uv run gpt_with_kv_mha.py \

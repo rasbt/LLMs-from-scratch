@@ -74,7 +74,7 @@ def plot_abs_kv_vs_context_multi_groups():
     plt.grid(True, which="both")
     plt.legend()
     plt.tight_layout()
-    plt.savefig("kv_bytes_vs_context_length_multi_groups.pdf")
+    plt.savefig("kv_bytes_vs_context_length.pdf")
 
 
 if __name__ == "__main__":

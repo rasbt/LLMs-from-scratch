@@ -1,4 +1,4 @@
-# Appendix C: Excercise Solutions
+# Appendix C: Exercise Solutions
 
 
 

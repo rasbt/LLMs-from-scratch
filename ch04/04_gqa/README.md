@@ -2,11 +2,8 @@
 
 This bonus material illustrates the memory savings when using Grouped-Query Attention (GQA) over regular Multi-Head Attention (MHA).
 
-
-
 &nbsp;
 ## Introduction
-
 
 Grouped-Query Attention (GQA) has become the new standard replacement for a more compute- and parameter-efficient alternative to Multi-Head Attention (MHA) in recent years. Note that it's not new and goes back to the 2023 [GQA: Training Generalized Multi-Query Transformer Models from Multi-Head Checkpoints](https://arxiv.org/abs/2305.13245). And even the larger variants in the good old Llama 2 series used it.
 
@@ -28,8 +25,6 @@ While GQA is mainly a computational-efficiency workaround for MHA, ablation stud
 
 However, this assumes that the number of key-value groups is chosen carefully. However, if we set the number of key-value heads equal to the number of heads (this special case is known as multi-query attention), it will negatively affect the modeling performance.
 
-
-
 &nbsp;
 ## GQA Memory Savings
 
@@ -37,10 +32,10 @@ The memory savings are mostly reflected in the KV storage. We can compute the KV
 
 bytes ≈ batch_size × seqlen × (embed_dim / n_heads) × n_layers × 2 (K,V) × bytes_per_elem × n_kv_heads
 
-You can use the [memory_estimator.py](memory_estimator.py) script in this folder to apply this for different model configs to see how much memory you can save by using GQA over MHA:
+You can use the [memory_estimator_gqa.py](memory_estimator_gqa.py) script in this folder to apply this for different model configs to see how much memory you can save by using GQA over MHA:
 
 ```bash
-➜ uv run memory_estimator.py \
+➜ uv run memory_estimator_gqa.py \
   --emb_dim 4096 --n_heads 32 --n_layers 32 \
   --context_length 32768 --n_kv_groups 4 \
   --batch_size 1 --dtype bf16
@@ -62,25 +57,15 @@ Ratio (MHA / GQA)   : 4.00x
 Savings (GQA vs MHA): 75.00%
 ```
 
-The savings when using GQA over MHA are further shown in the plot below for different key-value group sizes:
+The savings when using GQA over MHA are further shown in the plot below for different key-value group sizes as a function of the context length:
 
 &nbsp;
 
-<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/bonus/gqa-memory/2.webp?2" alt="GQA" width="500px" />
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/bonus/gqa-memory/3.webp?4" alt="GQA" width="500px" />
 
 &nbsp;
 
-And the following plot shows how the KV cache size grows with an increasing context length:
-
-&nbsp;
-
-<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/bonus/gqa-memory/3.webp?2" alt="GQA" width="500px" />
-
-&nbsp;
-
-You can reproduce these plots via `uv run plot_memory_estimates.py`.
-
-
+You can reproduce the plot via `uv run plot_memory_estimates_gqa.py`.
 
 &nbsp;
 ## GQA Code Examples

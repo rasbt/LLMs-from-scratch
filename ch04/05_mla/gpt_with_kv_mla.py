@@ -4,7 +4,7 @@
 # Code: https://github.com/rasbt/LLMs-from-scratch
 
 # This file collects all the relevant code that we covered thus far
-# throughout Chapters 3-4, adapted to use Grouped-Query Attention (GQA).
+# throughout Chapters 3-4, adapted to use Multi-Head Latent Attention (MLA).
 # This file can be run as a standalone script.
 
 import argparse
@@ -15,76 +15,79 @@ import torch.nn as nn
 
 
 #####################################
-# NEW: GQA instead of MHA
+# Multi-Head Latent Attention
 #####################################
-class GroupedQueryAttention(nn.Module):
-    def __init__(
-            self, d_in, d_out, dropout, num_heads, num_kv_groups, dtype=None, qkv_bias=False
-    ):
+# The MLA code below is inspired by
+# https://huggingface.co/bird-of-paradise/deepseek-mla
+
+
+class MultiHeadLatentAttention(nn.Module):
+    def __init__(self, d_in, d_out, dropout, num_heads,
+                 qkv_bias=False, latent_dim=None):
         super().__init__()
         assert d_out % num_heads == 0, "d_out must be divisible by num_heads"
-        assert num_heads % num_kv_groups == 0, "num_heads must be divisible by num_kv_groups"
 
         self.d_out = d_out
         self.num_heads = num_heads
         self.head_dim = d_out // num_heads
+        self.latent_dim = latent_dim if latent_dim is not None else max(16, d_out // 8)
 
-        self.W_key = nn.Linear(d_in, num_kv_groups * self.head_dim, bias=qkv_bias, dtype=dtype)
-        self.W_value = nn.Linear(d_in, num_kv_groups * self.head_dim, bias=qkv_bias, dtype=dtype)
-        self.num_kv_groups = num_kv_groups
-        self.group_size = num_heads // num_kv_groups
+        # Projections
+        self.W_query = nn.Linear(d_in, d_out, bias=qkv_bias)              # per-head Q
+        self.W_DKV = nn.Linear(d_in, self.latent_dim, bias=qkv_bias)    # down to latent C
+        self.W_UK = nn.Linear(self.latent_dim, d_out, bias=qkv_bias)   # latent -> per-head K
+        self.W_UV = nn.Linear(self.latent_dim, d_out, bias=qkv_bias)   # latent -> per-head V
 
-        self.W_query = nn.Linear(d_in, d_out, bias=qkv_bias, dtype=dtype)
-        self.out_proj = nn.Linear(d_out, d_out, bias=False, dtype=dtype)
+        self.out_proj = nn.Linear(d_out, d_out)
         self.dropout = nn.Dropout(dropout)
 
-        self.register_buffer("cache_k", None, persistent=False)
-        self.register_buffer("cache_v", None, persistent=False)
+        ####################################################
+        # Latent-KV cache
+        self.register_buffer("cache_c_kv", None, persistent=False)
         self.ptr_current_pos = 0
+        ####################################################
+
+    def reset_cache(self):
+        self.cache_c_kv = None
+        self.ptr_current_pos = 0
+
+    @staticmethod
+    def _reshape_to_heads(x, num_heads, head_dim):
+        # (b, T, d_out) -> (b, num_heads, T, head_dim)
+        bsz, num_tokens, _ = x.shape
+        return x.view(bsz, num_tokens, num_heads, head_dim).transpose(1, 2).contiguous()
 
     def forward(self, x, use_cache=False):
         b, num_tokens, _ = x.shape
+        num_heads = self.num_heads
+        head_dim = self.head_dim
 
-        # Apply projections
-        queries = self.W_query(x)  # (b, num_tokens, num_heads * head_dim)
-        keys = self.W_key(x)       # (b, num_tokens, num_kv_groups * head_dim)
-        values = self.W_value(x)   # (b, num_tokens, num_kv_groups * head_dim)
+        # 1) Project to queries (per-token, per-head) and new latent chunk
+        queries_all = self.W_query(x)  # (b, T, d_out)
+        latent_new = self.W_DKV(x)  # (b, T, latent_dim)
 
-        # Reshape
-        queries = queries.view(b, num_tokens, self.num_heads, self.head_dim).transpose(1, 2)
-        keys_new = keys.view(b, num_tokens, self.num_kv_groups, self.head_dim).transpose(1, 2)
-        values_new = values.view(b, num_tokens, self.num_kv_groups, self.head_dim).transpose(1, 2)
-
+        # 2) Update latent cache and choose latent sequence to up-project
         if use_cache:
-            if self.cache_k is None:
-                self.cache_k, self.cache_v = keys_new, values_new
+            if self.cache_c_kv is None:
+                latent_total = latent_new
             else:
-                self.cache_k = torch.cat([self.cache_k, keys_new], dim=2)
-                self.cache_v = torch.cat([self.cache_v, values_new], dim=2)
-            keys_base, values_base = self.cache_k, self.cache_v
+                latent_total = torch.cat([self.cache_c_kv, latent_new], dim=1)
+            self.cache_c_kv = latent_total
         else:
-            keys_base, values_base = keys_new, values_new
-            if self.cache_k is not None or self.cache_v is not None:
-                self.cache_k, self.cache_v = None, None
-                self.ptr_current_pos = 0
+            latent_total = latent_new
 
-        # Expand keys and values to match the number of heads
-        # Shape: (b, num_heads, num_tokens, head_dim)
-        keys = keys_base.repeat_interleave(self.group_size, dim=1)  # Shape: (b, num_heads, num_tokens, head_dim)
-        values = values_base.repeat_interleave(self.group_size, dim=1)  # Shape: (b, num_heads, num_tokens, head_dim)
-        # For example, before repeat_interleave along dim=1 (query groups):
-        #   [K1, K2]
-        # After repeat_interleave (each query group is repeated group_size times):
-        #   [K1, K1, K2, K2]
-        # If we used regular repeat instead of repeat_interleave, we'd get:
-        #   [K1, K2, K1, K2]
+        # 3) Up-project latent to per-head keys/values (then split into heads)
+        keys_all = self.W_UK(latent_total)   # (b, T_k_total, d_out)
+        values_all = self.W_UV(latent_total)   # (b, T_k_total, d_out)
 
-        # Compute scaled dot-product attention (aka self-attention) with a causal mask
-        # Shape: (b, num_heads, num_tokens, num_tokens)
-        attn_scores = queries @ keys.transpose(2, 3)  # Dot product for each head
+        # 4) Reshape to heads
+        queries = self._reshape_to_heads(queries_all, num_heads, head_dim)
+        keys = self._reshape_to_heads(keys_all, num_heads, head_dim)
+        values = self._reshape_to_heads(values_all, num_heads, head_dim)
 
-        ####################################################
-        # causal mask
+        # 5) Scaled dot-product attention with causal mask
+        attn_scores = torch.matmul(queries, keys.transpose(-2, -1))
+
         num_tokens_Q = queries.shape[-2]
         num_tokens_K = keys.shape[-2]
         device = queries.device
@@ -100,13 +103,12 @@ class GroupedQueryAttention(nn.Module):
             q_positions = torch.arange(num_tokens_Q, device=device, dtype=torch.long)
             self.ptr_current_pos = 0
         k_positions = torch.arange(num_tokens_K, device=device, dtype=torch.long)
-        mask = q_positions.unsqueeze(-1) < k_positions.unsqueeze(0)
+        mask_bool = q_positions.unsqueeze(-1) < k_positions.unsqueeze(0)
 
         # Use the mask to fill attention scores
-        attn_scores = attn_scores.masked_fill(mask, -torch.inf)
+        attn_scores.masked_fill_(mask_bool, -torch.inf)
 
         attn_weights = torch.softmax(attn_scores / keys.shape[-1]**0.5, dim=-1)
-        assert keys.shape[-1] == self.head_dim
         attn_weights = self.dropout(attn_weights)
 
         # Shape: (b, num_tokens, num_heads, head_dim)
@@ -118,14 +120,7 @@ class GroupedQueryAttention(nn.Module):
 
         return context_vec
 
-    def reset_cache(self):
-        self.cache_k, self.cache_v = None, None
-        self.ptr_current_pos = 0
 
-
-#####################################
-# Chapter 4
-#####################################
 class LayerNorm(nn.Module):
     def __init__(self, emb_dim):
         super().__init__()
@@ -167,13 +162,14 @@ class FeedForward(nn.Module):
 class TransformerBlock(nn.Module):
     def __init__(self, cfg):
         super().__init__()
-        self.att = GroupedQueryAttention(
+        self.att = MultiHeadLatentAttention(
             d_in=cfg["emb_dim"],
             d_out=cfg["emb_dim"],
             num_heads=cfg["n_heads"],
-            num_kv_groups=cfg["n_kv_groups"],
             dropout=cfg["drop_rate"],
-            qkv_bias=cfg["qkv_bias"])
+            qkv_bias=cfg["qkv_bias"],
+            latent_dim=cfg["latent_dim"])
+
         self.ff = FeedForward(cfg)
         self.norm1 = LayerNorm(cfg["emb_dim"])
         self.norm2 = LayerNorm(cfg["emb_dim"])
@@ -244,7 +240,7 @@ class GPTModel(nn.Module):
 
         # x = self.trf_blocks(x)
         ####################################################
-        # KV cache-related
+        #  KV cache-related
         for blk in self.trf_blocks:
             x = blk(x, use_cache=use_cache)
         ####################################################
@@ -254,7 +250,7 @@ class GPTModel(nn.Module):
         return logits
 
     ####################################################
-    # KV cache-related
+    #  KV cache-related
     def reset_kv_cache(self):
         for blk in self.trf_blocks:
             blk.att.reset_cache()
@@ -290,12 +286,13 @@ def generate_text_simple_cached(model, idx, max_new_tokens,
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Run GPT with grouped-query attention.")
+    parser = argparse.ArgumentParser(description="Run GPT with standard multi-head attention.")
     parser.add_argument("--emb_dim", type=int, default=768, help="Model embedding dimension.")
     parser.add_argument("--n_heads", type=int, default=12, help="Number of attention heads.")
     parser.add_argument("--n_layers", type=int, default=12, help="Number of transformer blocks.")
-    parser.add_argument("--n_kv_groups", type=int, default=2, help="Number of key/value groups.")
     parser.add_argument("--max_new_tokens", type=int, default=200, help="Number of tokens to generate.")
+    parser.add_argument("--latent_dim", type=int, default=None,
+                        help="Latent dim for MLA (default: d_out//8)")
 
     args = parser.parse_args()
 
@@ -311,7 +308,7 @@ def main():
         "n_layers": args.n_layers,  # Number of layers
         "drop_rate": 0.0,           # Dropout rate
         "qkv_bias": False,          # Query-Key-Value bias
-        "n_kv_groups": args.n_kv_groups
+        "latent_dim": args.latent_dim,
     }
     torch.manual_seed(123)
     model = GPTModel(GPT_CONFIG_124M)

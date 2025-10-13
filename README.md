@@ -170,6 +170,7 @@ Several folders contain optional materials as a bonus for interested readers:
   - [KV Cache](ch04/03_kv-cache)
   - [Grouped-Query Attention](ch04/04_gqa)
   - [Multi-Head Latent Attention](ch04/05_mla)
+  - [Sliding Window Attention](ch04/06_swa)
 - **Chapter 5: Pretraining on unlabeled data:**
   - [Alternative Weight Loading Methods](ch05/02_alternative_weight_loading/)
   - [Pretraining GPT on the Project Gutenberg Dataset](ch05/03_bonus_pretraining_on_gutenberg)

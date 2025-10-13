@@ -13,6 +13,7 @@ appendix-E/01_main-chapter-code/loss-plot.pdf
 
 ch04/04_gqa/kv_bytes_vs_context_length.pdf
 ch05/05_mla/kv_bytes_vs_context_length.pdf
+ch06/06_swa/kv_bytes_vs_context_length.pdf
 
 ch05/01_main-chapter-code/loss-plot.pdf
 ch05/01_main-chapter-code/temperature-plot.pdf

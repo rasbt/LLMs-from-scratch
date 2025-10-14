@@ -127,7 +127,7 @@ uv run gpt_with_kv_mla.py \
 --n_heads 24 \
 --n_layers 12 \
 --emb_dim 768 \
---latent_dim 192 # 4x compression
+--latent_dim 192 # (768×2)/192 = 8× compression
 
 ...
 

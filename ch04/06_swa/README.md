@@ -71,14 +71,14 @@ The savings when using SWA over MHA are further shown in the plot below for diff
 
 &nbsp;
 
-<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/bonus/swa-memory/4.webp?2" alt="SWA" width="=800px" />
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/bonus/swa-memory/4.webp?2" alt="SWA" width="800px" />
 
 &nbsp;
 
-You can reproduce these plots via:
+You can reproduce thi plots via:
 
 ```bash
-plot_memory_estimates_swa.py \
+uv run plot_memory_estimates_swa.py \
   --emb_dim 4096 --n_heads 48 --n_layers 36 \
   --batch_size 1 --dtype bf16 \
   --sliding_window_size 2048 --swa_ratio "5:1"

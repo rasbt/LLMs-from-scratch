@@ -148,26 +148,26 @@ def train_model_simple(model, optimizer, device, n_epochs,
 
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser(description='GPT Model Training Configuration')
+    parser = argparse.ArgumentParser(description="GPT Model Training Configuration")
 
-    parser.add_argument('--data_dir', type=str, default='gutenberg/data',
-                        help='Directory containing the training data')
-    parser.add_argument('--output_dir', type=str, default='model_checkpoints',
-                        help='Directory where the model checkpoints will be saved')
-    parser.add_argument('--n_epochs', type=int, default=1,
-                        help='Number of epochs to train the model')
-    parser.add_argument('--print_sample_iter', type=int, default=1000,
-                        help='Iterations between printing sample outputs')
-    parser.add_argument('--eval_freq', type=int, default=100,
-                        help='Frequency of evaluations during training')
-    parser.add_argument('--save_ckpt_freq', type=int, default=100_000,
-                        help='Frequency of saving model checkpoints during training')
-    parser.add_argument('--lr', type=float, default=5e-4,
-                        help='Learning rate for the optimizer')
-    parser.add_argument('--batch_size', type=int, default=4,
-                        help='Batch size for training')
-    parser.add_argument('--debug', type=bool, default=False,
-                        help='Uses a very small model for debugging purposes')
+    parser.add_argument("--data_dir", type=str, default="gutenberg/data",
+                        help="Directory containing the training data")
+    parser.add_argument("--output_dir", type=str, default="model_checkpoints",
+                        help="Directory where the model checkpoints will be saved")
+    parser.add_argument("--n_epochs", type=int, default=1,
+                        help="Number of epochs to train the model")
+    parser.add_argument("--print_sample_iter", type=int, default=1000,
+                        help="Iterations between printing sample outputs")
+    parser.add_argument("--eval_freq", type=int, default=100,
+                        help="Frequency of evaluations during training")
+    parser.add_argument("--save_ckpt_freq", type=int, default=100_000,
+                        help="Frequency of saving model checkpoints during training")
+    parser.add_argument("--lr", type=float, default=5e-4,
+                        help="Learning rate for the optimizer")
+    parser.add_argument("--batch_size", type=int, default=4,
+                        help="Batch size for training")
+    parser.add_argument("--debug", type=bool, default=False,
+                        help="Uses a very small model for debugging purposes")
 
     args = parser.parse_args()
 

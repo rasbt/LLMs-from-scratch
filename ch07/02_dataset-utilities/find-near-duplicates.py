@@ -34,7 +34,7 @@ def preprocess_text(text):
     # Lowercase the text
     text = text.lower()
     # Remove punctuation
-    text = re.sub(r'[^\w\s]', '', text)
+    text = re.sub(r"[^\w\s]", "", text)
     return text
 
 
@@ -50,7 +50,7 @@ def find_near_duplicates(json_data, threshold=0.75, key="instruction"):
         return {}, near_duplicates
 
     # Vectorize the text data
-    vectorizer = TfidfVectorizer(stop_words=None, analyzer='char', ngram_range=(1, 3))
+    vectorizer = TfidfVectorizer(stop_words=None, analyzer="char", ngram_range=(1, 3))
     tfidf_matrix = vectorizer.fit_transform(text)
 
     # Compute cosine similarity between each pair of entries
@@ -84,7 +84,7 @@ def find_print_and_remove_near_duplicates(json_data, remove_duplicates=False, th
             json_data, near_duplicates = find_near_duplicates(json_data, key=key, threshold=threshold)
         else:
             _, near_duplicates = find_near_duplicates(json_data, key=key, threshold=threshold)
-        separator = 50 * '='
+        separator = 50 * "="
         print(f"\n\n{separator}\nSearching '{key}' for duplicates ...\n{separator}")
         if not near_duplicates:
             print("No duplicates found")
@@ -114,7 +114,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--remove_duplicates",
-        action='store_true',
+        action="store_true",
         default=False,
         help=(
             "Removes duplicates based on the 'input' or 'output' keys "

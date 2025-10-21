@@ -446,7 +446,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--average_embeddings",
-        action='store_true',
+        action="store_true",
         default=False,
         help=(
             "Average the output embeddings from all tokens instead of using"
@@ -480,7 +480,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--no_padding",
-        action='store_true',
+        action="store_true",
         default=False,
         help=(
             "Disable padding, which means each example may have a different length."
@@ -517,7 +517,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--disable_causal_mask",
-        action='store_true',
+        action="store_true",
         default=False,
         help=(
             "Disables the causal attention mask."

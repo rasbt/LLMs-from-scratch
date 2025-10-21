@@ -23,7 +23,7 @@ Because only a few experts are active at a time, MoE modules are often referred 
 
 For example, DeepSeek-V3 has 256 experts per MoE module and a total of 671 billion parameters. Yet during inference, only 9 experts are active at a time (1 shared expert plus 8 selected by the router). This means just 37 billion parameters are used for each token inference step as opposed to all 671 billion.
 
-One notable feature of DeepSeek-V3's MoE design is the use of a shared expert. This is an expert that is always active for every token. This idea is not new and was already introduced in the [2022 DeepSeek MoE](https://arxiv.org/abs/2201.05596) and the [2024 DeepSeek MoE](https://arxiv.org/abs/2201.05596) papers.
+One notable feature of DeepSeek-V3's MoE design is the use of a shared expert. This is an expert that is always active for every token. This idea is not new and was already introduced in the [2022 DeepSpeed-MoE](https://arxiv.org/abs/2201.05596) and the [2024 DeepSeek MoE](https://arxiv.org/abs/2401.06066) papers.
 
 &nbsp;
 
@@ -33,7 +33,7 @@ One notable feature of DeepSeek-V3's MoE design is the use of a shared expert. T
 
 &nbsp;
 
-The benefit of having a shared expert was first noted in the [DeepSpeedMoE paper](https://arxiv.org/abs/2201.05596), where they found that it boosts overall modeling performance compared to no shared experts. This is likely because common or repeated patterns don't have to be learned by multiple individual experts, which leaves them with more room for learning more specialized patterns.
+The benefit of having a shared expert was first noted in the [DeepSpeed-MoE paper](https://arxiv.org/abs/2201.05596), where they found that it boosts overall modeling performance compared to no shared experts. This is likely because common or repeated patterns don't have to be learned by multiple individual experts, which leaves them with more room for learning more specialized patterns.
 
 &nbsp;
 ## Mixture of Experts (MoE) Memory Savings

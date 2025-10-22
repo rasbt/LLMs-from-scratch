@@ -321,3 +321,7 @@ cython_debug/
 # pixi environments
 .pixi
 *.egg-info
+
+
+#Ignore vscode AI rules
+.github/instructions/codacy.instructions.md

@@ -6,9 +6,9 @@
 import os
 import json
 import re
-import urllib.request
 from pathlib import Path
 
+import requests
 import torch
 import torch.nn as nn
 
@@ -660,7 +660,12 @@ def download_from_huggingface(repo_id, filename, local_dir, revision="main"):
         print(f"File already exists: {dest_path}")
     else:
         print(f"Downloading {url} to {dest_path}...")
-        urllib.request.urlretrieve(url, dest_path)
+        response = requests.get(url, stream=True, timeout=60)
+        response.raise_for_status()
+        with open(dest_path, "wb") as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                if chunk:
+                    f.write(chunk)
 
     return dest_path
 

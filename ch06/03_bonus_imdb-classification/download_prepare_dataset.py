@@ -7,7 +7,7 @@ import os
 import sys
 import tarfile
 import time
-import urllib.request
+import requests
 import pandas as pd
 
 
@@ -32,7 +32,15 @@ def download_and_extract_dataset(dataset_url, target_file, directory):
     if not os.path.exists(directory):
         if os.path.exists(target_file):
             os.remove(target_file)
-        urllib.request.urlretrieve(dataset_url, target_file, reporthook)
+
+        response = requests.get(dataset_url, stream=True, timeout=60)
+        response.raise_for_status()
+
+        with open(target_file, "wb") as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                if chunk:
+                    f.write(chunk)
+
         print("\nExtracting dataset ...")
         with tarfile.open(target_file, "r:gz") as tar:
             tar.extractall()

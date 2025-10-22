@@ -118,7 +118,7 @@ if __name__ == "__main__":
     print(f"Total hyperparameter configurations: {total_combinations}")
 
     # Placeholder for the best loss and best hyperparameters
-    best_val_loss = float('inf')
+    best_val_loss = float("inf")
     best_hparams = {}
 
     script_path = os.path.abspath(__file__)

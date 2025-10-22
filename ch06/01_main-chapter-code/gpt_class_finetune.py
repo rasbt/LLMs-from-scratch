@@ -5,7 +5,7 @@
 
 # This is a summary file containing the main takeaways from chapter 6.
 
-import urllib.request
+import requests
 import zipfile
 import os
 from pathlib import Path
@@ -27,9 +27,12 @@ def download_and_unzip_spam_data(url, zip_path, extracted_path, data_file_path):
         return
 
     # Downloading the file
-    with urllib.request.urlopen(url) as response:
-        with open(zip_path, "wb") as out_file:
-            out_file.write(response.read())
+    response = requests.get(url, stream=True, timeout=60)
+    response.raise_for_status()
+    with open(zip_path, "wb") as out_file:
+        for chunk in response.iter_content(chunk_size=8192):
+            if chunk:
+                out_file.write(chunk)
 
     # Unzipping the file
     with zipfile.ZipFile(zip_path, "r") as zip_ref:
@@ -259,7 +262,7 @@ if __name__ == "__main__":
 
     try:
         download_and_unzip_spam_data(url, zip_path, extracted_path, data_file_path)
-    except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError) as e:
+    except (requests.exceptions.RequestException, TimeoutError) as e:
         print(f"Primary URL failed: {e}. Trying backup URL...")
         url = "https://f001.backblazeb2.com/file/LLMs-from-scratch/sms%2Bspam%2Bcollection.zip"
         download_and_unzip_spam_data(url, zip_path, extracted_path, data_file_path)

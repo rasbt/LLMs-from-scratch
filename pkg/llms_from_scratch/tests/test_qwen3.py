@@ -110,7 +110,7 @@ def test_dummy_qwen3_moe_forward(dummy_cfg_moe, dummy_input):
     out = model(dummy_input)
     assert out.shape == (1, dummy_input.size(1), dummy_cfg_moe["vocab_size"]), \
         f"Expected shape (1, seq_len, vocab_size), got {out.shape}"
-    assert any(hasattr(block.ff, 'gate') for block in model.trf_blocks), \
+    assert any(hasattr(block.ff, "gate") for block in model.trf_blocks), \
         "Expected MoEFeedForward in at least one transformer block"
 
 

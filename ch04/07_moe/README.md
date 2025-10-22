@@ -23,7 +23,7 @@ Because only a few experts are active at a time, MoE modules are often referred 
 
 For example, DeepSeek-V3 has 256 experts per MoE module and a total of 671 billion parameters. Yet during inference, only 9 experts are active at a time (1 shared expert plus 8 selected by the router). This means just 37 billion parameters are used for each token inference step as opposed to all 671 billion.
 
-One notable feature of DeepSeek-V3's MoE design is the use of a shared expert. This is an expert that is always active for every token. This idea is not new and was already introduced in the [2022 DeepSpeed-MoE](https://arxiv.org/abs/2201.05596) and the [2024 DeepSeek MoE](https://arxiv.org/abs/2401.06066) papers.
+One notable feature of DeepSeek-V3's MoE design is the use of a shared expert. This is an expert that is always active for every token. This idea is not new and was already introduced in the [2022 DeepSeek MoE](https://arxiv.org/abs/2201.05596) and the [2024 DeepSeek MoE](https://arxiv.org/abs/2201.05596) papers.
 
 &nbsp;
 
@@ -33,7 +33,7 @@ One notable feature of DeepSeek-V3's MoE design is the use of a shared expert. T
 
 &nbsp;
 
-The benefit of having a shared expert was first noted in the [DeepSpeed-MoE paper](https://arxiv.org/abs/2201.05596), where they found that it boosts overall modeling performance compared to no shared experts. This is likely because common or repeated patterns don't have to be learned by multiple individual experts, which leaves them with more room for learning more specialized patterns.
+The benefit of having a shared expert was first noted in the [DeepSpeedMoE paper](https://arxiv.org/abs/2201.05596), where they found that it boosts overall modeling performance compared to no shared experts. This is likely because common or repeated patterns don't have to be learned by multiple individual experts, which leaves them with more room for learning more specialized patterns.
 
 &nbsp;
 ## Mixture of Experts (MoE) Memory Savings
@@ -98,7 +98,7 @@ uv run plot_memory_estimates_moe.py \
 &nbsp;
 ## MoE Code Examples
 
-The [gpt_with_kv_moe.py](gpt_with_kv_moe.py) and [gpt_with_kv_moe.py](gpt_with_kv_moe.py) scripts in this folder provide hands-on examples for comparing the regular FFN and MoE memory usage in the context of a GPT model implementation. Note that both scripts use [SwiGLU](https://arxiv.org/abs/2002.05202) feed-forward modules as shown in the first figure of this page (GPT-2 traditionally uses GELU).
+The [gpt_with_kv_ffn.py](gpt_with_kv_ffn.py) and [gpt_with_kv_moe.py](gpt_with_kv_moe.py) scripts in this folder provide hands-on examples for comparing the regular FFN and MoE memory usage in the context of a GPT model implementation. Note that both scripts use [SwiGLU](https://arxiv.org/abs/2002.05202) feed-forward modules as shown in the first figure of this page (GPT-2 traditionally uses GELU).
 
 **Note: The model is not trained and thus generates nonsensical text. You can find a trained MoE in the bonus materials at [../../ch05/11_qwen3/standalone-qwen3-moe-plus-kvcache.ipynb](../../ch05/11_qwen3/standalone-qwen3-moe-plus-kvcache.ipynb).**
 

@@ -48,6 +48,7 @@ jobs:
         run: |
           source .venv/bin/activate
           pytest setup/02_installing-python-libraries/tests.py
+          pytest ch03/02_bonus_efficient-multihead-attention/tests/test_mha_implementations.py
           pytest ch04/01_main-chapter-code/tests.py
           pytest ch04/03_kv-cache/tests.py
           pytest ch05/01_main-chapter-code/tests.py

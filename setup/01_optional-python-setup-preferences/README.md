@@ -6,7 +6,7 @@ There are several ways to install Python and set up your computing environment. 
 
 <br>
 
-> **Note:** 
+> **Note:**
 > If you are running any of the notebooks on Google Colab and want to install the dependencies, simply run the following code in a new cell at the top of the notebook and skip the rest of this tutorial:
 > `pip install uv && uv pip install --system -r https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/refs/heads/main/requirements.txt`
 
@@ -151,6 +151,7 @@ To install all required packages from a `requirements.txt` file (such as the one
 uv pip install -r requirements.txt
 ```
 
+
 Alternatively, install the latest dependencies directly from the repository:
 
 ```bash
@@ -167,6 +168,13 @@ uv pip install -r https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/refs
 > `pip install -r requirements.txt`
 > or
 > `pip install -U -r https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/refs/heads/main/requirements.txt`
+
+&nbsp;
+
+> **Optional dependencies for bonus materials:**
+> To include the optional dependencies used throughout the bonus materials, install the `bonus` dependency group from the project root:
+>  `uv pip install --group bonus`
+> This is useful if you don't want to install them separately as you check out the optional bonus materials later on.
 
 <br>
 

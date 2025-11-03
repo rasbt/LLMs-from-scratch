@@ -20,7 +20,7 @@ In addition, for the full attention layers, Kimi Linear replaces Qwen3-Next’s 
 
 The MLA in Kimi Linear does not use the gate, which was intentional so that the authors could compare the architecture more directly to standard MLA, however, they [stated](https://x.com/yzhang_cs/status/1984631714464088563) that they plan to add it in the future.
 
-Since we already implemented MLA in [../05_mla](05_mla), this bonus material focuses on the Gated DeltaNet aspect.
+Since we already implemented MLA in [../05_mla](../05_mla), this bonus material focuses on the Gated DeltaNet aspect.
 
 
 &nbsp;

@@ -4,7 +4,6 @@
 # Code: https://github.com/rasbt/LLMs-from-scratch
 
 import argparse
-from pathlib import Path
 import numpy as np
 import matplotlib.pyplot as plt
 

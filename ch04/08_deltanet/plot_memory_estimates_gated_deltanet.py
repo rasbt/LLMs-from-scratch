@@ -1,9 +1,7 @@
-# Memory vs. context length comparison:
-# 1) Full Attention (MHA)
-# 2) Gated DeltaNet (no conv)
-# 3) 3:1 ratio (3 DeltaNet : 1 Full Attention)
-#
-# Memory reported in GB (1e9 bytes)
+# Copyright (c) Sebastian Raschka under Apache License 2.0 (see LICENSE.txt).
+# Source for "Build a Large Language Model From Scratch"
+#   - https://www.manning.com/books/build-a-large-language-model-from-scratch
+# Code: https://github.com/rasbt/LLMs-from-scratch
 
 import argparse
 from pathlib import Path

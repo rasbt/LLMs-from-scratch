@@ -331,7 +331,7 @@ For the simplified DeltaNet version implemented above, we have:
 KV_cache_DeltaNet = batch_size × n_heads × d_head × d_head × bytes
 ```
 
-Note that the `KV_cache_DeltaNet` memory size doesn't have a context length (`n_tokens`) dependency. Also, we have only the memory state S that we store instead of separate keys and values, hence `2 × bytes` becomes just `bytes`. However, note that we now have a quadratic `n_heads × d_head` in here. This comes from the state :
+Note that the `KV_cache_DeltaNet` memory size doesn't have a context length (`n_tokens`) dependency. Also, we have only the memory state S that we store instead of separate keys and values, hence `2 × bytes` becomes just `bytes`. However, note that we now have a quadratic `d_head × d_head` in here. This comes from the state :
 
 ```
 S = x.new_zeros(b, self.num_heads, self.head_dim, self.head_dim)

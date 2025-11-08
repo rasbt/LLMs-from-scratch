@@ -166,7 +166,8 @@ class GatedDeltaNet(nn.Module):
         # A_log + W_alpha(x) + dt_bias
         self.W_alpha = nn.Linear(d_in, num_heads, bias=False)
         self.dt_bias = nn.Parameter(torch.ones(num_heads))
-        self.A_log = nn.Parameter(torch.zeros(num_heads))
+        A_init = torch.empty(num_heads).uniform_(0, 16)
+        self.A_log = nn.Parameter(torch.log(A_init))
         # We could implement this as
         # W_alpha = nn.Linear(d_in, num_heads, bias=True)
         # but the bias is separate for interpretability and

@@ -60,12 +60,9 @@ You can alternatively view this and other files on GitHub at [https://github.com
 
 
 
-
-<br>
-
 | Chapter Title                                              | Main Code (for Quick Access)                                                                                                    | All Code + Supplementary      |
 |------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|-------------------------------|
-| [Setup recommendations](setup)                             | -                                                                                                                               | -                             |
+| [Setup recommendations](setup) <br/>[How to best read this book](https://sebastianraschka.com/blog/2025/reading-books.html)                            | -                                                                                                                               | -                             |
 | Ch 1: Understanding Large Language Models                  | No code                                                                                                                         | -                             |
 | Ch 2: Working with Text Data                               | - [ch02.ipynb](ch02/01_main-chapter-code/ch02.ipynb)<br/>- [dataloader.ipynb](ch02/01_main-chapter-code/dataloader.ipynb) (summary)<br/>- [exercise-solutions.ipynb](ch02/01_main-chapter-code/exercise-solutions.ipynb)               | [./ch02](./ch02)            |
 | Ch 3: Coding Attention Mechanisms                          | - [ch03.ipynb](ch03/01_main-chapter-code/ch03.ipynb)<br/>- [multihead-attention.ipynb](ch03/01_main-chapter-code/multihead-attention.ipynb) (summary) <br/>- [exercise-solutions.ipynb](ch03/01_main-chapter-code/exercise-solutions.ipynb)| [./ch03](./ch03)             |

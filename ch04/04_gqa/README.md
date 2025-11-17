@@ -23,7 +23,7 @@ So, to summarize, the core idea behind GQA is to reduce the number of key and va
 
 While GQA is mainly a computational-efficiency workaround for MHA, ablation studies (such as those in the [original GQA paper](https://arxiv.org/abs/2305.13245) and the [Llama 2 paper](https://arxiv.org/abs/2307.09288)) show it performs comparably to standard MHA in terms of LLM modeling performance.
 
-However, this assumes that the number of key-value groups is chosen carefully. However, if we set the number of key-value heads equal to the number of heads (this special case is known as multi-query attention), it will negatively affect the modeling performance.
+However, this assumes that the number of key-value groups is chosen carefully. In the extreme case where all attention heads share a single key-value group, known as multi-query attention, the memory usage decreases even more drastically but modeling performance can suffer. (And, on the other extreme, if we set the number of key-value groups equal to the number of query heads, we are back at standard multi-head attention.)
 
 &nbsp;
 ## GQA Memory Savings

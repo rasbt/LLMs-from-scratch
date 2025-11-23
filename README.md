@@ -179,19 +179,19 @@ Several folders contain optional materials as a bonus for interested readers:
   - [Optimizing Hyperparameters for Pretraining](ch05/05_bonus_hparam_tuning)
   - [Building a User Interface to Interact With the Pretrained LLM](ch05/06_user_interface)
   - [Converting GPT to Llama](ch05/07_gpt_to_llama)
-  - [Llama 3.2 From Scratch](ch05/07_gpt_to_llama/standalone-llama32.ipynb)
-  - [Qwen3 Dense and Mixture-of-Experts (MoE) From Scratch](ch05/11_qwen3/)
-  - [Gemma 3 From Scratch](ch05/12_gemma3/)
-  - [Memory-Efficient Model Weight Loading](ch05/08_memory_efficient_weight_loading/memory-efficient-state-dict.ipynb)
-  - [Extending the Tiktoken BPE Tokenizer With New Tokens](ch05/09_extending-tokenizers/extend-tiktoken.ipynb)
+  - [Memory-efficient Model Weight Loading](ch05/08_memory_efficient_weight_loading/memory-efficient-state-dict.ipynb)
+  - [Extending the Tiktoken BPE Tokenizer with New Tokens](ch05/09_extending-tokenizers/extend-tiktoken.ipynb)
   - [PyTorch Performance Tips for Faster LLM Training](ch05/10_llm-training-speed)
-
-- **Chapter 6: Finetuning for Classification**
-  - [Additional Experiments Finetuning Different Layers and Using Larger Models](ch06/02_bonus_additional-experiments)
-  - [Finetuning Different Models on 50k IMDb Movie Review Dataset](ch06/03_bonus_imdb-classification)
-  - [Building a User Interface to Interact With the GPT-Based Spam Classifier](ch06/04_user_interface)
-
-- **Chapter 7: Finetuning to Follow Instructions**
+  - [LLM Architectures](ch05/#llm-architectures-from-scratch)
+    - [Llama 3.2 From Scratch](ch05/07_gpt_to_llama/standalone-llama32.ipynb)
+    - [Qwen3 Dense and Mixture-of-Experts (MoE) From Scratch](ch05/11_qwen3/)
+    - [Gemma 3 From Scratch](ch05/12_gemma3/)
+    - [Olmo 3 From Scratch](ch05/13_olmo3/)
+- **Chapter 6: Finetuning for classification**
+  - [Additional experiments finetuning different layers and using larger models](ch06/02_bonus_additional-experiments)
+  - [Finetuning different models on 50k IMDb movie review dataset](ch06/03_bonus_imdb-classification)
+  - [Building a User Interface to Interact With the GPT-based Spam Classifier](ch06/04_user_interface)
+- **Chapter 7: Finetuning to follow instructions**
   - [Dataset Utilities for Finding Near Duplicates and Creating Passive Voice Entries](ch07/02_dataset-utilities)
   - [Evaluating Instruction Responses Using the OpenAI API and Ollama](ch07/03_model-evaluation)
   - [Generating a Dataset for Instruction Finetuning](ch07/05_dataset-generation/llama3-ollama.ipynb)

@@ -70,6 +70,16 @@ ch05/11_qwen3/Qwen3-8B
 ch05/11_qwen3/Qwen3-8B-Base
 ch05/11_qwen3/Qwen3-32B
 ch05/11_qwen3/Qwen3-32B-Base
+ch05/12_gemma3/gemma-3-270M-it
+ch05/12_gemma3/gemma-3-270M
+ch05/13_olmo3/Olmo-3-1025-7B
+ch05/13_olmo3/Olmo-3-1125-32B
+ch05/13_olmo3/Olmo-3-7B-Instruct
+ch05/13_olmo3/Olmo-3-32B-Instruct
+ch05/13_olmo3/Olmo-3-7B-Think
+ch05/13_olmo3/Olmo-3-32B-Think
+ch05/13_olmo3/Olmo-3-7B-RLZero-IF
+ch05/13_olmo3/Olmo-3-32B-RLZero-IF
 
 ch06/01_main-chapter-code/gpt2
 ch06/02_bonus_additional-experiments/gpt2

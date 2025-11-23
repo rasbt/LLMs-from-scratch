@@ -30,7 +30,8 @@
 - [12_gemma3](12_gemma3) A from-scratch implementation of Gemma 3 270M and alternative with KV cache, including code to load the pretrained weights
 - [13_olmo3](13_olmo3) A from-scratch implementation of Olmo 3 7B and 32B (Base, Instruct, and Think variants) and alternative with KV cache, including code to load the pretrained weights
 
-
+&nbsp;
+## Code-Along Video for This Chapter
 
 <br>
 <br>

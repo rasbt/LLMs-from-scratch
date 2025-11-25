@@ -55,11 +55,11 @@ To summarize the implementation details, here's a short walkthrough.
 
 ### 1. Registering the cache buffers
 
-Inside the `MultiHeadAttention` constructor we add two non-persistent buffers, `cache_k` and `cache_v`, which will hold concatenated keys and values across steps:
+Inside the `MultiHeadAttention` constructor we add two buffers, `cache_k` and `cache_v`, which will hold concatenated keys and values across steps:
 
 ```python
-self.register_buffer("cache_k", None, persistent=False)
-self.register_buffer("cache_v", None, persistent=False)
+self.register_buffer("cache_k", None)
+self.register_buffer("cache_v", None)
 ```
 
 &nbsp;

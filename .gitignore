@@ -15,6 +15,7 @@ ch04/04_gqa/kv_bytes_vs_context_length.pdf
 ch04/05_mla/kv_bytes_vs_context_length.pdf
 ch04/06_swa/kv_bytes_vs_context_length.pdf
 ch04/07_moe/ffn_vs_moe.pdf
+ch04/08_deltanet/deltanet_memory_plot.pdf
 
 ch05/01_main-chapter-code/loss-plot.pdf
 ch05/01_main-chapter-code/temperature-plot.pdf
@@ -29,6 +30,7 @@ ch07/01_main-chapter-code/loss-plot-baseline.pdf
 ch07/01_main-chapter-code/loss-plot-mask-instructions.pdf
 ch07/01_main-chapter-code/loss-plot-phi3-prompt.pdf
 ch07/01_main-chapter-code/loss-plot-alpaca52k.pdf
+ch07/04_preference-tuning-with-dpo/reward margins-plot.pdf
 
 # Checkpoint files
 appendix-A/01_main-chapter-code/model.pth
@@ -68,6 +70,16 @@ ch05/11_qwen3/Qwen3-8B
 ch05/11_qwen3/Qwen3-8B-Base
 ch05/11_qwen3/Qwen3-32B
 ch05/11_qwen3/Qwen3-32B-Base
+ch05/12_gemma3/gemma-3-270M-it
+ch05/12_gemma3/gemma-3-270M
+ch05/13_olmo3/Olmo-3-1025-7B
+ch05/13_olmo3/Olmo-3-1125-32B
+ch05/13_olmo3/Olmo-3-7B-Instruct
+ch05/13_olmo3/Olmo-3-32B-Instruct
+ch05/13_olmo3/Olmo-3-7B-Think
+ch05/13_olmo3/Olmo-3-32B-Think
+ch05/13_olmo3/Olmo-3-7B-RLZero-IF
+ch05/13_olmo3/Olmo-3-32B-RLZero-IF
 
 ch06/01_main-chapter-code/gpt2
 ch06/02_bonus_additional-experiments/gpt2
@@ -328,3 +340,5 @@ cython_debug/
 # pixi environments
 .pixi
 *.egg-info
+
+

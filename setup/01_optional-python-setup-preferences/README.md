@@ -173,7 +173,7 @@ uv pip install -r https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/refs
 
 > **Optional dependencies for bonus materials:**
 > To include the optional dependencies used throughout the bonus materials, install the `bonus` dependency group from the project root:
->  `uv pip install --group bonus --editable .`
+>  `uv pip install --group bonus`
 > This is useful if you don't want to install them separately as you check out the optional bonus materials later on.
 
 <br>

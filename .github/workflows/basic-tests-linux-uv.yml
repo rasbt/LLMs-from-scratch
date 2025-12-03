@@ -48,6 +48,7 @@ jobs:
         run: |
           source .venv/bin/activate
           pytest setup/02_installing-python-libraries/tests.py
+          pytest ch03/02_bonus_efficient-multihead-attention/tests/test_mha_implementations.py
           pytest ch04/01_main-chapter-code/tests.py
           pytest ch04/03_kv-cache/tests.py
           pytest ch05/01_main-chapter-code/tests.py
@@ -56,6 +57,8 @@ jobs:
           pytest ch05/11_qwen3/tests/test_qwen3_nb.py
           pytest ch05/12_gemma3/tests/test_gemma3_nb.py
           pytest ch05/12_gemma3/tests/test_gemma3_kv_nb.py
+          pytest ch05/13_olmo3/tests/test_olmo3_nb.py
+          pytest ch05/13_olmo3/tests/test_olmo3_kvcache_nb.py
           pytest ch06/01_main-chapter-code/tests.py
 
       - name: Validate Selected Jupyter Notebooks (uv)

@@ -37,6 +37,12 @@ class MultiHeadAttention(nn.Module):
     def forward(self, x, use_cache=False):
         b, num_tokens, d_in = x.shape
 
+        if use_cache:
+            # to prevent self.ptr_cur became negative
+            assert num_tokens <= self.window_size, (
+                f"Input chunk size ({num_tokens}) exceeds KV cache window size ({self.window_size}). "
+            )
+
         keys_new = self.W_key(x)  # Shape: (b, num_tokens, d_out)
         values_new = self.W_value(x)
         queries = self.W_query(x)
@@ -221,6 +227,7 @@ class GPTModel(nn.Module):
 
         self.final_norm = LayerNorm(cfg["emb_dim"])
         self.out_head = nn.Linear(cfg["emb_dim"], cfg["vocab_size"], bias=False)
+        self.kv_window_size = cfg["kv_window_size"]  if "kv_window_size" in cfg else cfg["context_length"]
 
     def forward(self, in_idx, use_cache=False):
         batch_size, seq_len = in_idx.shape
@@ -232,6 +239,12 @@ class GPTModel(nn.Module):
         # NEW
 
         if use_cache:
+            context_length = self.pos_emb.num_embeddings
+            # to prevent generate more sequence than context_length
+            # since longer than context_length will cause model out of bound error when reading the position embedding
+            assert self.ptr_current_pos + seq_len <= context_length, (
+                f"Position embedding overflow. Want to read {self.ptr_current_pos + seq_len} which excceded size of {context_length}"
+            )
             pos_ids = torch.arange(self.ptr_current_pos, self.ptr_current_pos + seq_len, device=in_idx.device, dtype=torch.long)
             self.ptr_current_pos += seq_len
         else:
@@ -294,11 +307,24 @@ def generate_text_simple_cached(model, idx, max_new_tokens, context_size=None, u
     model.eval()
 
     ctx_len = context_size or model.pos_emb.num_embeddings
+    kv_window_size = model.kv_window_size
 
     with torch.no_grad():
         if use_cache:
             model.reset_kv_cache()
-            logits = model(idx[:, -ctx_len:], use_cache=True)
+
+            input_tokens = idx[:, -ctx_len:]
+            input_tokens_length = input_tokens.size(1)
+
+            # prefill to handle input_tokens_length > kv_window_size
+            for i in range(0, input_tokens_length, kv_window_size):
+                chunk = input_tokens[:, i:i+kv_window_size]
+                logits = model(chunk, use_cache=True)
+
+            # can't generate more than ctx_len of result
+            # due to the limitation of position embedding
+            max_generable = ctx_len - input_tokens_length
+            max_new_tokens = min(max_new_tokens, max_generable)
 
             for _ in range(max_new_tokens):
                 next_idx = logits[:, -1].argmax(dim=-1, keepdim=True)

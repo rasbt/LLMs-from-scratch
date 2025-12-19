@@ -40,7 +40,10 @@ jobs:
           python -m venv .venv
           source .venv/bin/activate
           pip install --upgrade pip
-          pip install -r requirements.txt
+          # Necessary because there is not much storage space on this runner:
+          pip install torch==2.9.1+cpu --index-url https://download.pytorch.org/whl/cpu
+          pip install -r requirements.txt --no-deps
+          pip install jupyterlab pandas tensorflow matplotlib
           pip install pytest pytest-ruff nbval
 
       - name: Test Selected Python Scripts

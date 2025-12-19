@@ -40,7 +40,8 @@ jobs:
           python -m venv .venv
           source .venv/bin/activate
           pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install torch==2.9.1+cpu --index-url https://download.pytorch.org/whl/cpu
+          pip install -r requirements.txt --no-deps
           pip install pytest pytest-ruff nbval
 
       - name: Test Selected Python Scripts

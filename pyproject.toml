@@ -10,10 +10,10 @@ readme = "README.md"
 requires-python = ">=3.10,<3.14"
 dependencies = [
   'torch>=2.6; python_version >= "3.13"',
-  "torch>=2.2.2,<2.6; sys_platform == 'darwin' and platform_machine == 'x86_64' and python_version < '3.12'",
-  "torch>=2.2.2; sys_platform == 'darwin' and platform_machine == 'arm64' and python_version < '3.12'",
-  "torch>=2.2.2; sys_platform == 'linux' and python_version < '3.12'",
-  "torch>=2.2.2; sys_platform == 'win32' and python_version < '3.12'",
+  "torch>=2.2.2,<2.6; sys_platform == 'darwin' and platform_machine == 'x86_64' and python_version <= '3.12'",
+  "torch>=2.2.2; sys_platform == 'darwin' and platform_machine == 'arm64' and python_version <= '3.12'",
+  "torch>=2.2.2; sys_platform == 'linux' and python_version <= '3.12'",
+  "torch>=2.2.2; sys_platform == 'win32' and python_version <= '3.12'",
 
   "tensorflow>=2.16.2; sys_platform == 'darwin' and platform_machine == 'x86_64'",
   "tensorflow>=2.18.0; sys_platform == 'darwin' and platform_machine == 'arm64'",

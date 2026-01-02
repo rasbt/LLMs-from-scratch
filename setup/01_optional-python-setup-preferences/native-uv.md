@@ -69,10 +69,6 @@ uv sync --dev --python 3.11
 > If you have problems with the following commands above due to certain dependencies (for example, if you are using Windows), you can always fall back to regular pip:
 > `uv add pip`
 > `uv run python -m pip install -U -r requirements.txt`
->
-> Since the TensorFo
-
-
 
 
 Note that the `uv sync` command above will create a separate virtual environment via the `.venv` subfolder. (In case you want to delete your virtual environment to start from scratch, you can simply delete the `.venv` folder.)

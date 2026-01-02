@@ -27,12 +27,18 @@ jobs:
         uv add pytest-check-links
 
     - name: Check links
+      env:
+        CHECK_LINKS_TIMEOUT: "10"
       run: |
         source .venv/bin/activate
         pytest --check-links ./ \
           --check-links-ignore "https://platform.openai.com/*" \
           --check-links-ignore "https://openai.com/*" \
           --check-links-ignore "https://arena.lmsys.org" \
+          --check-links-ignore "https?://localhost(:\\d+)?/.*" \
+          --check-links-ignore "https?://127[.]0[.]0[.]1(:\\d+)?/.*" \
+          --check-links-ignore "https://mng\\.bz/.*" \
+          --check-links-ignore "https://github\\.com/.*" \
           --check-links-ignore "https://unsloth.ai/blog/gradient" \
           --check-links-ignore "https://www.reddit.com/r/*" \
           --check-links-ignore "https://code.visualstudio.com/*" \

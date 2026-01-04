@@ -43,9 +43,50 @@ def tiny_debug_config():
     }
 
 
+def yarn_debug_config():
+    return {
+        "vocab_size": 257,
+        "context_length": 8,
+        "emb_dim": 32,
+        "n_heads": 4,
+        "n_layers": 2,
+        "hidden_dim": 64,
+        "head_dim": 8,
+        "qk_norm": True,
+        "n_kv_heads": 2,
+        "sliding_window": 4,
+        "layer_types": ["full_attention", "full_attention"],
+        "dtype": torch.float32,
+        "query_pre_attn_scalar": 256,
+        "attention_bias": False,
+        "rms_norm_eps": 1e-6,
+        "rope_base": 500_000.0,
+        "rope_attention_factor": 1.2079441541679836,
+        "rope_type": "yarn",
+        "rope_factor": 8.0,
+        "rope_orig_max": 8192,
+        "beta_fast": 32.0,
+        "beta_slow": 1.0,
+        "rope_local_base": 10_000.0,
+    }
+
+
 def _hf_config_from_dict(cfg):
     if Olmo3Config is None:
         raise ImportError("transformers is required for the Olmo-3 debugger.")
+
+    rope_type = cfg.get("rope_type", "default")
+    rope_scaling = {"rope_type": rope_type}
+    if rope_type == "yarn":
+        rope_scaling.update(
+            {
+                "attention_factor": cfg.get("rope_attention_factor", 1.0),
+                "beta_fast": cfg.get("beta_fast", 32.0),
+                "beta_slow": cfg.get("beta_slow", 1.0),
+                "factor": cfg.get("rope_factor", 1.0),
+                "original_max_position_embeddings": cfg.get("rope_orig_max", 8192),
+            }
+        )
 
     return Olmo3Config(
         vocab_size=cfg["vocab_size"],
@@ -64,7 +105,7 @@ def _hf_config_from_dict(cfg):
         attn_implementation="eager",
         torch_dtype=cfg.get("dtype", torch.float32),
         query_pre_attn_scalar=cfg.get("query_pre_attn_scalar", 256),
-        rope_scaling={"rope_type": cfg.get("rope_type", "default")},
+        rope_scaling=rope_scaling,
         qk_norm=cfg.get("qk_norm", False),
         rms_norm_eps=cfg.get("rms_norm_eps", 1e-5),
     )
@@ -231,7 +272,7 @@ if __name__ == "__main__":
         raise SystemExit("transformers is not installed; install it to run the debugger.")
 
     nb_imports = load_notebook_defs()
-    cfg = tiny_debug_config()
+    cfg = yarn_debug_config()
 
     ours_model, hf_model = build_olmo3_pair(nb_imports, cfg)
     torch.manual_seed(0)

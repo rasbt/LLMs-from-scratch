@@ -187,9 +187,10 @@ Several folders contain optional materials as a bonus for interested readers:
     - [Qwen3 Dense and Mixture-of-Experts (MoE) From Scratch](ch05/11_qwen3/)
     - [Gemma 3 From Scratch](ch05/12_gemma3/)
     - [Olmo 3 From Scratch](ch05/13_olmo3/)
+  - [Chapter 5 with other LLMs as Drop-In Replacement (e.g., Llama 3, Qwen 3)](ch05/14_ch05_with_other_llms/)
 - **Chapter 6: Finetuning for classification**
-  - [Additional experiments finetuning different layers and using larger models](ch06/02_bonus_additional-experiments)
-  - [Finetuning different models on 50k IMDb movie review dataset](ch06/03_bonus_imdb-classification)
+  - [Additional Experiments Finetuning Different Layers and Using Larger Models](ch06/02_bonus_additional-experiments)
+  - [Finetuning Different Models on the 50k IMDb Movie Review Dataset](ch06/03_bonus_imdb-classification)
   - [Building a User Interface to Interact With the GPT-based Spam Classifier](ch06/04_user_interface)
 - **Chapter 7: Finetuning to follow instructions**
   - [Dataset Utilities for Finding Near Duplicates and Creating Passive Voice Entries](ch07/02_dataset-utilities)

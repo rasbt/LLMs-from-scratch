@@ -47,7 +47,6 @@ jobs:
         shell: bash
         run: |
           source .venv/bin/activate
-          uv pip install transformers -U
           pytest setup/02_installing-python-libraries/tests.py
           pytest ch04/01_main-chapter-code/tests.py
           pytest ch05/01_main-chapter-code/tests.py

@@ -31,7 +31,7 @@ jobs:
         os: [ubuntu-latest, windows-latest]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Set up pixi (without caching)
         uses: prefix-dev/setup-pixi@v0.8.2

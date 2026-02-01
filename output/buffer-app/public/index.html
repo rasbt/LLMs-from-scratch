@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Buffered URL Text Viewer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header>
+        <h1>Buffered URL Text Viewer</h1>
+        <p>Stream text from a URL and throttle the render speed.</p>
+      </header>
+
+      <section class="controls">
+        <label>
+          URL
+          <input id="urlInput" type="url" placeholder="https://example.com/data.txt" />
+        </label>
+
+        <label>
+          Throttle (chars/sec)
+          <input id="throttleInput" type="number" min="0" step="50" value="600" />
+        </label>
+
+        <label>
+          Max total time (sec)
+          <input id="maxTimeInput" type="number" min="0" step="10" value="300" />
+        </label>
+
+        <label>
+          Stall timeout (sec)
+          <input id="stallTimeInput" type="number" min="1" step="5" value="20" />
+        </label>
+
+        <label class="checkbox">
+          <input id="autoScroll" type="checkbox" checked />
+          Scroll with progress
+        </label>
+
+        <div class="buttons">
+          <button id="startBtn">Start</button>
+          <button id="stopBtn" disabled>Stop</button>
+          <button id="downloadBtn" disabled>Download</button>
+          <button id="clearBtn">Clear</button>
+        </div>
+      </section>
+
+      <section class="status">
+        <div>State: <span id="stateText">Idle</span></div>
+        <div>Received: <span id="receivedText">0</span> chars</div>
+        <div>Displayed: <span id="displayedText">0</span> chars</div>
+      </section>
+
+      <section class="output">
+        <pre id="output"></pre>
+      </section>
+
+      <p class="hint">Tip: click the output area to toggle auto-scroll. Hotkey: Ctrl+Shift+S (Cmd+Shift+S on macOS).</p>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

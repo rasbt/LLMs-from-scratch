@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+INSTALL_DIR="/usr/local/share/buffer-app"
+NODE_BIN="${NODE_BIN:-node}"
+PORT="${PORT:-3000}"
+
+if [[ ! -f "$INSTALL_DIR/server.js" ]]; then
+  echo "buffer-app is not installed. Run install.sh first." >&2
+  exit 1
+fi
+
+exec "$NODE_BIN" "$INSTALL_DIR/server.js"

@@ -1,0 +1,6 @@
+services:
+  llmsfromscratch:
+    image: llmsfromscratch
+    build:
+      context: .
+      dockerfile: ./Dockerfile

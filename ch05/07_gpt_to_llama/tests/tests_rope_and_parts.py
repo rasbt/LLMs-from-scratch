@@ -177,6 +177,10 @@ def test_rope_llama2(notebook):
             max_position_embeddings: int = 8192
             hidden_size = head_dim * num_heads
             num_attention_heads = num_heads
+            rope_parameters = {"rope_type": "default", "rope_theta": theta_base}
+
+            def standardize_rope_params(self):
+                return
 
         config = RoPEConfig()
         rot_emb = LlamaRotaryEmbedding(config=config)
@@ -242,6 +246,10 @@ def test_rope_llama3(notebook):
             max_position_embeddings: int = 8192
             hidden_size = head_dim * num_heads
             num_attention_heads = num_heads
+            rope_parameters = {"rope_type": "default", "rope_theta": theta_base}
+
+            def standardize_rope_params(self):
+                return
 
         config = RoPEConfig()
         rot_emb = LlamaRotaryEmbedding(config=config)
@@ -320,6 +328,10 @@ def test_rope_llama3_12(notebook):
         max_position_embeddings: int = 8192
         hidden_size = head_dim * num_heads
         num_attention_heads = num_heads
+        rope_parameters = {**hf_rope_params, "rope_theta": rope_theta}
+
+        def standardize_rope_params(self):
+            return
 
     config = RoPEConfig()
 

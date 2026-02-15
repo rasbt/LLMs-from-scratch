@@ -111,6 +111,25 @@ def test_rope():
         hidden_size = head_dim * num_heads
         num_attention_heads = num_heads
 
+        def __init__(self):
+            # Transformers >=5.0.0 expects `rope_parameters` on the instance.
+            self.rope_parameters = {**hf_rope_params, "rope_theta": rope_theta}
+
+        def standardize_rope_params(self):
+            params = dict(getattr(self, "rope_parameters", {}) or {})
+            if "rope_type" not in params:
+                params["rope_type"] = getattr(self, "rope_type", "default")
+            if "rope_theta" not in params:
+                params["rope_theta"] = getattr(self, "rope_theta")
+            # Handle older key name used in this repo.
+            if (
+                "original_max_position_embeddings" not in params
+                and "original_context_length" in params
+            ):
+                params["original_max_position_embeddings"] = params["original_context_length"]
+            self.rope_parameters = params
+            return params
+
     config = RoPEConfig()
 
     rot_emb = LlamaRotaryEmbedding(config=config)

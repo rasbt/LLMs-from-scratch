@@ -100,9 +100,28 @@ def main(args):
         print(f"\n[Generated Code]\n{code}\n")
         
         # Execute?
-        confirm = input("Execute this code? (y/n): ")
-        if confirm.lower() == 'y':
-            result = execute_code_safe(code)
+        print(f"\n[Generated Code]\n{code}\n")
+        
+        # Detect function name
+        import re
+        func_matches = re.findall(r"def\s+(\w+)\(", code)
+        last_func = func_matches[-1] if func_matches else None
+        
+        if last_func:
+            print(f"Detected function: {last_func}")
+            
+        confirm = input(f"Execute? (y/n, 'e' to edit/append, 'c' to call print({last_func}())): ")
+        
+        if confirm.lower() in ('y', 'e', 'c'):
+            appended_code = ""
+            if confirm.lower() == 'e':
+                appended_code = input("Enter code to append: ")
+            elif confirm.lower() == 'c' and last_func:
+                appended_code = f"print({last_func}())"
+            
+            full_code = code + "\n" + appended_code
+            print(f"Executing:\n{full_code}")
+            result = execute_code_safe(full_code)
             print(f"\n[Execution Output]\n{result}")
 
 if __name__ == "__main__":

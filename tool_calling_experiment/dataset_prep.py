@@ -69,6 +69,32 @@ class ToolCallingDataset(IterableDataset):
             yield input_chunk, target_chunk
             count += 1
 
+def collate_batch(batch):
+    # Batch is a list of (input_chunk, target_chunk) tuples
+    # We need to pad them to the longest sequence in the batch
+    
+    # 1. Separate inputs and targets
+    inputs = [item[0] for item in batch]
+    targets = [item[1] for item in batch]
+    
+    # 2. Pad
+    # Use eot_token (50256) for padding? Or 0? EOT is safer for GPT-2 as it ignores it usually?
+    # Actually, we should use a pad token. GPT-2 doesn't have one by default, often EOT is used.
+    pad_token_id = 50256 # <|endoftext|>
+    
+    inputs_padded = torch.nn.utils.rnn.pad_sequence(inputs, batch_first=True, padding_value=pad_token_id)
+    targets_padded = torch.nn.utils.rnn.pad_sequence(targets, batch_first=True, padding_value=pad_token_id)
+    
+    # Create mask? 
+    # GPT-2 implementation in the book might not handle padding masks explicitly in the attention 
+    # if we supply it. 
+    # However, for training formatting, standard causal masking is used. 
+    # If we pad at the end, the model will just predict padding from padding.
+    # Ideally we should mask the loss for padding tokens.
+    # But for simplicity, we'll just pad.
+    
+    return inputs_padded, targets_padded
+
 def create_dataloader(tokenizer, batch_size=4, max_length=1024, limit=None):
     dataset = ToolCallingDataset(tokenizer, max_length=max_length, limit=limit)
-    return DataLoader(dataset, batch_size=batch_size)
+    return DataLoader(dataset, batch_size=batch_size, collate_fn=collate_batch)

@@ -239,3 +239,14 @@ def test_space_newline_space_patterns(imported_module, gpt2_files):
     ]
     for s in samples:
         assert tok.encode(s) == tik.encode(s), f"Mismatch vs tiktoken: {repr(s)}"
+
+
+def test_multiple_leading_spaces_roundtrip(imported_module, gpt2_files):
+    BPETokenizerSimple = getattr(imported_module, "BPETokenizerSimple", None)
+    tok = BPETokenizerSimple()
+    tok.load_vocab_and_merges_from_openai(
+        vocab_path=gpt2_files["encoder.json"], bpe_merges_path=gpt2_files["vocab.bpe"]
+    )
+
+    text = "  Hello World."
+    assert tok.decode(tok.encode(text)) == text

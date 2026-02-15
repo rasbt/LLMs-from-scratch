@@ -1,7 +1,7 @@
 import torch
 from architecture import GPTModel
 from tokenizer_utils import TokenizerWrapper
-from config import GPT_CONFIG_124M, SPECIAL_TOKENS
+from config import GPT_CONFIG_124M, GPT_CONFIG_355M, GPT_CONFIG_774M, GPT_CONFIG_1558M, SPECIAL_TOKENS
 from execution_sandbox import execute_code_safe
 
 def load_trained_model(model_path="tool_llm.pth", cfg=GPT_CONFIG_124M):
@@ -64,15 +64,29 @@ def generate_tool_call(model, tokenizer, device, instruction, max_new_tokens=200
     code = tokenizer.decode(generated_ids)
     return code
 
-def main():
-    print("Loading model...")
+def main(args):
+    print(f"Loading model from {args.model_path} with size {args.model_size}...")
     # Ensure model exists or warn
     import os
-    if not os.path.exists("tool_llm.pth"):
-        print("Warning: 'tool_llm.pth' not found. Please train the model first using train_colab.py")
+    if not os.path.exists(args.model_path):
+        print(f"Warning: '{args.model_path}' not found. Please train the model first using train_colab.py")
         return
 
-    model, tokenizer, device = load_trained_model()
+    # Select config
+    if args.model_size == "124M":
+        cfg = GPT_CONFIG_124M
+    elif args.model_size == "355M":
+        cfg = GPT_CONFIG_355M
+    elif args.model_size == "774M":
+        cfg = GPT_CONFIG_774M
+    elif args.model_size == "1558M":
+        cfg = GPT_CONFIG_1558M
+    else:
+        raise ValueError(f"Unknown model size: {args.model_size}")
+        
+    cfg["context_length"] = args.max_length
+
+    model, tokenizer, device = load_trained_model(model_path=args.model_path, cfg=cfg)
     
     print("\nModel loaded. Enter an instruction (or 'q' to quit).")
     
@@ -92,4 +106,11 @@ def main():
             print(f"\n[Execution Output]\n{result}")
 
 if __name__ == "__main__":
-    main()
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--model_path", type=str, default="tool_llm.pth", help="Path to trained model checkpoint")
+    parser.add_argument("--model_size", type=str, default="124M", help="GPT-2 model size (124M, 355M, 774M, 1558M)")
+    parser.add_argument("--max_length", type=int, default=1024, help="Context length used during training")
+    
+    args = parser.parse_args()
+    main(args)

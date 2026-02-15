@@ -100,7 +100,6 @@ def main(args):
         print(f"\n[Generated Code]\n{code}\n")
         
         # Execute?
-        print(f"\n[Generated Code]\n{code}\n")
         
         # Detect function name
         import re

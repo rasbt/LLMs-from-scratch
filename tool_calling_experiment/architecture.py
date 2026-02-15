@@ -249,6 +249,10 @@ def assign(left, right):
 
 
 def load_weights_into_gpt(gpt, params):
+    # Handle positional embedding mismatch (slicing if model context < pretrained context)
+    if gpt.pos_emb.weight.shape[0] < params["wpe"].shape[0]:
+        params["wpe"] = params["wpe"][:gpt.pos_emb.weight.shape[0]]
+        
     gpt.pos_emb.weight = assign(gpt.pos_emb.weight, params["wpe"])
     gpt.tok_emb.weight = assign(gpt.tok_emb.weight, params["wte"])
 

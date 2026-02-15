@@ -16,6 +16,16 @@ def execute_code_safe(code):
     # However, Python exec is not a true sandbox. 
     # This relies on the user approval step as the primary safety gate.
     
+    allowed_modules = {
+        "math", "random", "datetime", "time", "re", "string", 
+        "collections", "itertools", "functools"
+    }
+    
+    def guarded_import(name, globals=None, locals=None, fromlist=(), level=0):
+        if name in allowed_modules:
+            return __import__(name, globals, locals, fromlist, level)
+        raise ImportError(f"Importing '{name}' is not allowed in sandbox.")
+
     safe_globals = {
         "__builtins__": {
             "print": print,
@@ -37,7 +47,7 @@ def execute_code_safe(code):
             "zip": zip,
             "map": map,
             "filter": filter,
-            # Add more safe builtins as needed
+            "__import__": guarded_import,
         }
     }
     

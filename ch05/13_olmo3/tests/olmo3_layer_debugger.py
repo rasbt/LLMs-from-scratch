@@ -116,11 +116,11 @@ def load_notebook_defs(nb_name="standalone-olmo3.ipynb"):
     return import_definitions_from_notebook(nb_dir, nb_name)
 
 
-def build_olmo3_pair(nb_imports, cfg, hf_checkpoint=None):
+def build_olmo3_pair(import_notebook_defs, cfg, hf_checkpoint=None):
     if Olmo3ForCausalLM is None:
         raise ImportError("transformers is required for the Olmo-3 debugger.")
 
-    ours = nb_imports.Olmo3Model(cfg)
+    ours = import_notebook_defs.Olmo3Model(cfg)
     hf_cfg = _hf_config_from_dict(cfg)
 
     if hf_checkpoint:
@@ -133,7 +133,7 @@ def build_olmo3_pair(nb_imports, cfg, hf_checkpoint=None):
         hf_model = Olmo3ForCausalLM(hf_cfg)
 
     param_config = {"n_layers": cfg["n_layers"], "hidden_dim": cfg["hidden_dim"]}
-    nb_imports.load_weights_into_olmo(ours, param_config, hf_model.state_dict())
+    import_notebook_defs.load_weights_into_olmo(ours, param_config, hf_model.state_dict())
 
     ours.eval()
     hf_model.eval()
@@ -271,10 +271,10 @@ if __name__ == "__main__":
     if not transformers_available:
         raise SystemExit("transformers is not installed; install it to run the debugger.")
 
-    nb_imports = load_notebook_defs()
+    import_notebook_defs = load_notebook_defs()
     cfg = yarn_debug_config()
 
-    ours_model, hf_model = build_olmo3_pair(nb_imports, cfg)
+    ours_model, hf_model = build_olmo3_pair(import_notebook_defs, cfg)
     torch.manual_seed(0)
     input_ids = torch.randint(0, cfg["vocab_size"], (1, cfg["context_length"]), dtype=torch.long)
     diffs = layerwise_differences(ours_model, hf_model, input_ids)

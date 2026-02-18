@@ -16,7 +16,7 @@ transformers_installed = importlib.util.find_spec("transformers") is not None
 
 
 @pytest.fixture
-def nb_imports():
+def import_notebook_defs():
     nb_dir = Path(__file__).resolve().parents[1]
     mod = import_definitions_from_notebook(nb_dir, "standalone-olmo3.ipynb")
     return mod
@@ -55,9 +55,9 @@ def dummy_cfg_base():
     }
 
 @torch.inference_mode()
-def test_dummy_olmo3_forward(dummy_cfg_base, dummy_input, nb_imports):
+def test_dummy_olmo3_forward(dummy_cfg_base, dummy_input, import_notebook_defs):
     torch.manual_seed(123)
-    model = nb_imports.Olmo3Model(dummy_cfg_base)
+    model = import_notebook_defs.Olmo3Model(dummy_cfg_base)
     out = model(dummy_input)
     assert out.shape == (1, dummy_input.size(1), dummy_cfg_base["vocab_size"]), \
         f"Expected shape (1, seq_len, vocab_size), got {out.shape}"
@@ -65,7 +65,7 @@ def test_dummy_olmo3_forward(dummy_cfg_base, dummy_input, nb_imports):
 
 @torch.inference_mode()
 @pytest.mark.skipif(not transformers_installed, reason="transformers not installed")
-def test_olmo3_base_equivalence_with_transformers(nb_imports):
+def test_olmo3_base_equivalence_with_transformers(import_notebook_defs):
     from transformers import Olmo3Config, Olmo3ForCausalLM
 
     # Tiny config so the test is fast
@@ -99,7 +99,7 @@ def test_olmo3_base_equivalence_with_transformers(nb_imports):
         "rope_local_base": 10_000.0,
     }
 
-    model = nb_imports.Olmo3Model(cfg)
+    model = import_notebook_defs.Olmo3Model(cfg)
 
     hf_cfg = Olmo3Config(
         vocab_size=cfg["vocab_size"],
@@ -129,7 +129,7 @@ def test_olmo3_base_equivalence_with_transformers(nb_imports):
         "n_layers": cfg["n_layers"],
         "hidden_dim": cfg["hidden_dim"],
     }
-    nb_imports.load_weights_into_olmo(model, param_config, hf_state)
+    import_notebook_defs.load_weights_into_olmo(model, param_config, hf_state)
 
     x = torch.randint(
         0,

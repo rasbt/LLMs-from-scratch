@@ -16,7 +16,7 @@ transformers_installed = importlib.util.find_spec("transformers") is not None
 
 
 @pytest.fixture
-def nb_imports():
+def import_notebook_defs():
     nb_dir = Path(__file__).resolve().parents[1]
     mod = import_definitions_from_notebook(nb_dir, "standalone-qwen3-plus-kvcache.ipynb")
     return mod
@@ -58,9 +58,9 @@ def dummy_cfg_moe(dummy_cfg_base):
 
 
 @torch.inference_mode()
-def test_dummy_qwen3_forward(dummy_cfg_base, dummy_input, nb_imports):
+def test_dummy_qwen3_forward(dummy_cfg_base, dummy_input, import_notebook_defs):
     torch.manual_seed(123)
-    model = nb_imports.Qwen3Model(dummy_cfg_base)
+    model = import_notebook_defs.Qwen3Model(dummy_cfg_base)
     out = model(dummy_input)
     assert out.shape == (1, dummy_input.size(1), dummy_cfg_base["vocab_size"]), \
         f"Expected shape (1, seq_len, vocab_size), got {out.shape}"
@@ -68,7 +68,7 @@ def test_dummy_qwen3_forward(dummy_cfg_base, dummy_input, nb_imports):
 
 @torch.inference_mode()
 @pytest.mark.skipif(not transformers_installed, reason="transformers not installed")
-def test_qwen3_base_equivalence_with_transformers(nb_imports):
+def test_qwen3_base_equivalence_with_transformers(import_notebook_defs):
     from transformers import Qwen3Config, Qwen3ForCausalLM
 
     # Tiny config so the test is fast
@@ -89,7 +89,7 @@ def test_qwen3_base_equivalence_with_transformers(nb_imports):
         "dtype": torch.float32,
         "query_pre_attn_scalar": 256,
     }
-    model = nb_imports.Qwen3Model(cfg)
+    model = import_notebook_defs.Qwen3Model(cfg)
 
     hf_cfg = Qwen3Config(
         vocab_size=cfg["vocab_size"],
@@ -114,7 +114,7 @@ def test_qwen3_base_equivalence_with_transformers(nb_imports):
 
     hf_state = hf_model.state_dict()
     param_config = {"n_layers": cfg["n_layers"], "hidden_dim": cfg["hidden_dim"]}
-    nb_imports.load_weights_into_qwen(model, param_config, hf_state)
+    import_notebook_defs.load_weights_into_qwen(model, param_config, hf_state)
 
     x = torch.randint(0, cfg["vocab_size"], (2, cfg["context_length"]), dtype=torch.long)
     ours_logits = model(x)

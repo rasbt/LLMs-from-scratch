@@ -16,7 +16,7 @@ transformers_installed = importlib.util.find_spec("transformers") is not None
 
 
 @pytest.fixture
-def nb_imports():
+def import_notebook_defs():
     nb_dir = Path(__file__).resolve().parents[1]
     mod = import_definitions_from_notebook(nb_dir, "standalone-llama32.ipynb")
     return mod
@@ -51,16 +51,16 @@ def dummy_cfg_base():
 
 
 @torch.inference_mode()
-def test_dummy_llama3_forward(dummy_cfg_base, dummy_input, nb_imports):
+def test_dummy_llama3_forward(dummy_cfg_base, dummy_input, import_notebook_defs):
     torch.manual_seed(123)
-    model = nb_imports.Llama3Model(dummy_cfg_base)
+    model = import_notebook_defs.Llama3Model(dummy_cfg_base)
     out = model(dummy_input)
     assert out.shape == (1, dummy_input.size(1), dummy_cfg_base["vocab_size"])
 
 
 @torch.inference_mode()
 @pytest.mark.skipif(not transformers_installed, reason="transformers not installed")
-def test_llama3_base_equivalence_with_transformers(nb_imports):
+def test_llama3_base_equivalence_with_transformers(import_notebook_defs):
     from transformers.models.llama import LlamaConfig, LlamaForCausalLM
     cfg = {
         "vocab_size": 257,
@@ -80,7 +80,7 @@ def test_llama3_base_equivalence_with_transformers(nb_imports):
         "dtype": torch.float32,
     }
 
-    ours = nb_imports.Llama3Model(cfg)
+    ours = import_notebook_defs.Llama3Model(cfg)
 
     hf_cfg = LlamaConfig(
         vocab_size=cfg["vocab_size"],
@@ -107,7 +107,7 @@ def test_llama3_base_equivalence_with_transformers(nb_imports):
     theirs = LlamaForCausalLM(hf_cfg)
 
     hf_state = theirs.state_dict()
-    nb_imports.load_weights_into_llama(ours, {"n_layers": cfg["n_layers"], "hidden_dim": cfg["hidden_dim"]}, hf_state)
+    import_notebook_defs.load_weights_into_llama(ours, {"n_layers": cfg["n_layers"], "hidden_dim": cfg["hidden_dim"]}, hf_state)
 
     x = torch.randint(0, cfg["vocab_size"], (2, 8), dtype=torch.long)
     ours_logits = ours(x)

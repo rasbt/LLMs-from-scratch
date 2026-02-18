@@ -6,14 +6,14 @@
 
 import argparse
 import matplotlib.pyplot as plt
-from ffn_moe_memory_estimator import (
+from memory_estimator_moe import (
     estimate_params_and_hidden,
-    ffn_params,
-    router_params,
+    calc_ffn_params,
+    calc_router_params,
 )
 
 
-def moe_active_and_total(
+def calc_moe_active_and_total(
     emb_dim,
     hidden_dim,
     ffn_type,
@@ -22,8 +22,8 @@ def moe_active_and_total(
     match_dense=True,
 ):
     if match_dense:
-        dense_params = ffn_params(emb_dim, hidden_dim, ffn_type)
-        router = router_params(emb_dim, num_experts)
+        dense_params = calc_ffn_params(emb_dim, hidden_dim, ffn_type)
+        router = calc_router_params(emb_dim, num_experts)
         if dense_params <= router:
             match_dense = False
 
@@ -52,11 +52,11 @@ def plot_active_params_vs_experts(
     experts = [1, 2, 4, 8, 16, 32, 64, 128, 192, 256, 384, 512]
     experts = [e for e in experts if e <= max_experts]
 
-    dense_active = ffn_params(emb_dim, hidden_dim, ffn_type)
+    dense_active = calc_ffn_params(emb_dim, hidden_dim, ffn_type)
     moe_active = []
     moe_total = []
     for e in experts:
-        active, total = moe_active_and_total(
+        active, total = calc_moe_active_and_total(
             emb_dim=emb_dim,
             hidden_dim=hidden_dim,
             ffn_type=ffn_type,

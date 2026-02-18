@@ -24,7 +24,7 @@ DTYPE_BYTES = {
 }
 
 
-def bytes_to_gb(n_bytes):
+def convert_bytes_to_gb(n_bytes):
     return n_bytes / (1000.0 ** 3)
 
 
@@ -39,22 +39,22 @@ def parse_ratio(ratio_str):
         raise ValueError("--swa_ratio must be in the form 'a:b' with nonnegative integers and a+b>0")
 
 
-def kv_bytes_total_mha(batch, context_length, emb_dim, n_layers, bytes_per_elem):
+def calc_kv_bytes_total_mha(batch, context_length, emb_dim, n_layers, bytes_per_elem):
     # For MHA, n_kv_heads = n_heads, which cancels out:
     # total = B * L * E * 2 (K,V) * bytes * n_layers
     return batch * context_length * emb_dim * 2 * bytes_per_elem * n_layers
 
 
-def kv_bytes_total_gqa(
+def calc_kv_bytes_total_gqa(
     batch, context_length, emb_dim, n_layers, bytes_per_elem, n_kv_groups
 ):
     # For GQA, n_kv_heads = n_heads / n_kv_groups
     # => scale the MHA total by 1 / n_kv_groups
-    base = kv_bytes_total_mha(batch, context_length, emb_dim, n_layers, bytes_per_elem)
+    base = calc_kv_bytes_total_mha(batch, context_length, emb_dim, n_layers, bytes_per_elem)
     return base / n_kv_groups
 
 
-def kv_bytes_total_mha_swa(
+def calc_kv_bytes_total_mha_swa(
     batch, context_length, emb_dim, n_layers, bytes_per_elem, window, swa_ratio
 ):
     # Split layers into SWA vs Full
@@ -63,16 +63,16 @@ def kv_bytes_total_mha_swa(
     n_swa_layers = int(round(n_layers * (a / total_blocks)))
     n_full_layers = n_layers - n_swa_layers
 
-    total_full = kv_bytes_total_mha(
+    total_full = calc_kv_bytes_total_mha(
         batch, context_length, emb_dim, n_full_layers, bytes_per_elem
     )
-    total_swa = kv_bytes_total_mha(
+    total_swa = calc_kv_bytes_total_mha(
         batch, window, emb_dim, n_swa_layers, bytes_per_elem
     )
     return total_full + total_swa
 
 
-def kv_bytes_total_gqa_swa(
+def calc_kv_bytes_total_gqa_swa(
     batch,
     context_length,
     emb_dim,
@@ -87,7 +87,7 @@ def kv_bytes_total_gqa_swa(
     n_swa_layers = int(round(n_layers * (a / total_blocks)))
     n_full_layers = n_layers - n_swa_layers
 
-    total_full = kv_bytes_total_gqa(
+    total_full = calc_kv_bytes_total_gqa(
         batch,
         context_length,
         emb_dim,
@@ -95,7 +95,7 @@ def kv_bytes_total_gqa_swa(
         bytes_per_elem,
         n_kv_groups,
     )
-    total_swa = kv_bytes_total_gqa(
+    total_swa = calc_kv_bytes_total_gqa(
         batch, window, emb_dim, n_swa_layers, bytes_per_elem, n_kv_groups
     )
     return total_full + total_swa
@@ -144,10 +144,10 @@ def main():
         ] = []
 
     for L in context_lengths:
-        total_mha = kv_bytes_total_mha(
+        total_mha = calc_kv_bytes_total_mha(
             batch_size, L, emb_dim, n_layers, bytes_per_elem
         )
-        total_mha_swa = kv_bytes_total_mha_swa(
+        total_mha_swa = calc_kv_bytes_total_mha_swa(
             batch_size,
             L,
             emb_dim,
@@ -156,16 +156,16 @@ def main():
             window=args.sliding_window_size,
             swa_ratio=args.swa_ratio,
         )
-        series["MHA (KV total)"].append(bytes_to_gb(total_mha))
+        series["MHA (KV total)"].append(convert_bytes_to_gb(total_mha))
         series[
             f"SWA on MHA (ratio {args.swa_ratio}, W={args.sliding_window_size})"
-        ].append(bytes_to_gb(total_mha_swa))
+        ].append(convert_bytes_to_gb(total_mha_swa))
 
         if valid_g4:
-            total_gqa = kv_bytes_total_gqa(
+            total_gqa = calc_kv_bytes_total_gqa(
                 batch_size, L, emb_dim, n_layers, bytes_per_elem, n_kv_groups=kv_groups
             )
-            total_gqa_swa = kv_bytes_total_gqa_swa(
+            total_gqa_swa = calc_kv_bytes_total_gqa_swa(
                 batch_size,
                 L,
                 emb_dim,
@@ -175,10 +175,10 @@ def main():
                 window=args.sliding_window_size,
                 swa_ratio=args.swa_ratio,
             )
-            series["GQA kv_groups=4 (full)"].append(bytes_to_gb(total_gqa))
+            series["GQA kv_groups=4 (full)"].append(convert_bytes_to_gb(total_gqa))
             series[
                 f"SWA on GQA kv_groups=4 (ratio {args.swa_ratio}, W={args.sliding_window_size})"
-            ].append(bytes_to_gb(total_gqa_swa))
+            ].append(convert_bytes_to_gb(total_gqa_swa))
 
     plt.figure(figsize=(10, 5))
     x = np.array(context_lengths, dtype=float)

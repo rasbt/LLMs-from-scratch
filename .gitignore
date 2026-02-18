@@ -1,3 +1,6 @@
+# Reports
+reports/
+
 # Configs and keys
 .chainlit
 ch05/07_gpt_to_llama/config.json

@@ -17,12 +17,12 @@ DTYPE_BYTES = {
 }
 
 
-def bytes_convert(n):
+def convert_bytes(n):
     gb = n / (1000 ** 3)
     return f"{gb:,.2f} GB"
 
 
-def kv_bytes_per_layer(batch, context_length, head_dim, n_kv_heads, bytes_per_elem):
+def calc_kv_bytes_per_layer(batch, context_length, head_dim, n_kv_heads, bytes_per_elem):
     # KV = batch * tokens * head_dim * n_kv_heads * 2 (K,V) * bytes
     return batch * context_length * head_dim * n_kv_heads * 2 * bytes_per_elem
 
@@ -64,10 +64,10 @@ def estimate_totals(context_length, sliding_window_size, emb_dim, n_heads, n_lay
     L = context_length
 
     # Per-layer costs
-    per_mha_full = kv_bytes_per_layer(batch_size, L, head_dim, n_kv_heads_mha, bytes_per_elem)
-    per_gqa_full = kv_bytes_per_layer(batch_size, L, head_dim, n_kv_heads_gqa, bytes_per_elem)
-    per_mha_swa = kv_bytes_per_layer(batch_size, eff_W, head_dim, n_kv_heads_mha, bytes_per_elem)
-    per_gqa_swa = kv_bytes_per_layer(batch_size, eff_W, head_dim, n_kv_heads_gqa, bytes_per_elem)
+    per_mha_full = calc_kv_bytes_per_layer(batch_size, L, head_dim, n_kv_heads_mha, bytes_per_elem)
+    per_gqa_full = calc_kv_bytes_per_layer(batch_size, L, head_dim, n_kv_heads_gqa, bytes_per_elem)
+    per_mha_swa = calc_kv_bytes_per_layer(batch_size, eff_W, head_dim, n_kv_heads_mha, bytes_per_elem)
+    per_gqa_swa = calc_kv_bytes_per_layer(batch_size, eff_W, head_dim, n_kv_heads_gqa, bytes_per_elem)
 
     # Totals
     total_mha_allfull = per_mha_full * n_layers
@@ -140,10 +140,10 @@ def main():
     print()
 
     print("==== KV-cache totals across all layers ====")
-    print(f"MHA KV total           : {bytes_convert(res['total_mha_allfull'])}")
-    print(f"GQA KV total           : {bytes_convert(res['total_gqa_allfull'])}")
-    print(f"MHA + SWA (ratio {args.swa_ratio})  : {bytes_convert(res['total_mixed_mha'])}")
-    print(f"GQA + SWA (ratio {args.swa_ratio})  : {bytes_convert(res['total_mixed_gqa'])}")
+    print(f"MHA KV total           : {convert_bytes(res['total_mha_allfull'])}")
+    print(f"GQA KV total           : {convert_bytes(res['total_gqa_allfull'])}")
+    print(f"MHA + SWA (ratio {args.swa_ratio})  : {convert_bytes(res['total_mixed_mha'])}")
+    print(f"GQA + SWA (ratio {args.swa_ratio})  : {convert_bytes(res['total_mixed_gqa'])}")
     print()
 
 

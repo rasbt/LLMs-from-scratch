@@ -7,7 +7,7 @@ from llms_from_scratch.utils import import_definitions_from_notebook
 
 
 @pytest.fixture
-def nb_imports():
+def import_notebook_defs():
     nb_dir = Path(__file__).resolve().parents[1]
     mod = import_definitions_from_notebook(nb_dir, "mha-implementations.ipynb")
     return mod
@@ -31,12 +31,12 @@ def copy_weights(from_mha, to_mha):
         (1024, 512, 2, 4, 8, 789),   # d_in > d_out
     ],
 )
-def test_mha_einsum_matches_ch03(d_in, d_out, batch, seq_len, num_heads, seed, nb_imports):
+def test_mha_einsum_matches_ch03(d_in, d_out, batch, seq_len, num_heads, seed, import_notebook_defs):
     torch.manual_seed(seed)
 
     x = torch.randn(batch, seq_len, d_in)
 
-    mha_linear = nb_imports.Ch03_MHA(
+    mha_linear = import_notebook_defs.Ch03_MHA(
         d_in=d_in,
         d_out=d_out,
         context_length=seq_len,
@@ -45,7 +45,7 @@ def test_mha_einsum_matches_ch03(d_in, d_out, batch, seq_len, num_heads, seed, n
         qkv_bias=False,
     ).eval()
 
-    mha_einsum = nb_imports.MHAEinsum(
+    mha_einsum = import_notebook_defs.MHAEinsum(
         d_in=d_in,
         d_out=d_out,
         context_length=seq_len,

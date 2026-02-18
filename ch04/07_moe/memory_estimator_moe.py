@@ -14,7 +14,7 @@ DTYPE_BYTES = {
 }
 
 
-def bytes_convert(n):
+def convert_bytes(n):
     gb = n / (1000 ** 3)
     return f"{gb:,.2f} GB"
 
@@ -28,19 +28,19 @@ def get_num_param_matrices(ffn_type):
         raise ValueError("--ffn_type must be 'gelu' or 'swiglu'")
 
 
-def ffn_params(emb_dim, hidden_dim, ffn_type):
+def calc_ffn_params(emb_dim, hidden_dim, ffn_type):
     return get_num_param_matrices(ffn_type) * emb_dim * hidden_dim
 
 
-def router_params(emb_dim, num_experts):
+def calc_router_params(emb_dim, num_experts):
     return emb_dim * num_experts
 
 
 def estimate_params_and_hidden(
     emb_dim, hidden_dim, ffn_type, num_experts, match_dense=False
 ):
-    P_dense = ffn_params(emb_dim, hidden_dim, ffn_type)
-    R = router_params(emb_dim, num_experts)
+    P_dense = calc_ffn_params(emb_dim, hidden_dim, ffn_type)
+    R = calc_router_params(emb_dim, num_experts)
 
     if match_dense:
         num_param_matrices = get_num_param_matrices(ffn_type)
@@ -52,7 +52,7 @@ def estimate_params_and_hidden(
     else:
         moe_hidden_dim = hidden_dim
 
-    per_expert_params = ffn_params(emb_dim, moe_hidden_dim, ffn_type)
+    per_expert_params = calc_ffn_params(emb_dim, moe_hidden_dim, ffn_type)
     moe_total = num_experts * per_expert_params + R
 
     return {
@@ -110,15 +110,15 @@ def main():
 
     print("==== Model weights (parameters) ====")
     print(f"{'Dense FFN params':23}: {res['dense_params']:,} "
-          f"({bytes_convert(res['dense_params'] * bytes_per_elem)})")
+          f"({convert_bytes(res['dense_params'] * bytes_per_elem)})")
     print(f"{'Per-expert params':23}: {res['per_expert_params']:,} "
-          f"({bytes_convert(res['per_expert_params'] * bytes_per_elem)})")
+          f"({convert_bytes(res['per_expert_params'] * bytes_per_elem)})")
     print(f"{'Router params':23}: {res['router']:,} "
-          f"({bytes_convert(res['router'] * bytes_per_elem)})")
+          f"({convert_bytes(res['router'] * bytes_per_elem)})")
     print(f"{'MoE TOTAL params':23}: {res['moe_total']:,} "
-          f"({bytes_convert(res['moe_total'] * bytes_per_elem)})")
+          f"({convert_bytes(res['moe_total'] * bytes_per_elem)})")
     print(f"{'MoE ACTIVE/Token':23}: {moe_active_params_per_token:,} "
-          f"({bytes_convert(moe_active_params_per_token * bytes_per_elem)})")
+          f"({convert_bytes(moe_active_params_per_token * bytes_per_elem)})")
     print(f"{'moe_hidden_dim':23}: {res['moe_hidden_dim']}")
     print()
 

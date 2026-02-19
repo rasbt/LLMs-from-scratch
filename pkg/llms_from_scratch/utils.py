@@ -37,6 +37,23 @@ def _extract_imports(src: str):
 
 
 def _extract_defs_and_classes_from_code(src):
+    def _is_header_complete(header_lines):
+        header = "\n".join(header_lines).rstrip()
+        if not header.endswith(":"):
+            return False
+
+        # Track bracket balance for multiline signatures
+        # like:
+        # def fn(
+        #     arg,
+        # ):
+        balance = (
+            header.count("(") - header.count(")")
+            + header.count("[") - header.count("]")
+            + header.count("{") - header.count("}")
+        )
+        return balance <= 0
+
     lines = src.splitlines()
     kept = []
     i = 0
@@ -47,14 +64,22 @@ def _extract_defs_and_classes_from_code(src):
             j = i + 1
             while j < len(lines) and not lines[j].strip():
                 j += 1
-            if j < len(lines) and lines[j].lstrip().startswith(("def ", "class ")):
+            if j < len(lines) and lines[j].lstrip().startswith(("def ", "class ", "async def ")):
                 kept.append(line)
                 i += 1
                 continue
-        if stripped.startswith("def ") or stripped.startswith("class "):
+        if stripped.startswith(("def ", "class ", "async def ")):
             kept.append(line)
             base_indent = len(line) - len(stripped)
             i += 1
+
+            # Handle multiline signatures before consuming the function/class body.
+            header_lines = [line]
+            while i < len(lines) and not _is_header_complete(header_lines):
+                header_lines.append(lines[i])
+                kept.append(lines[i])
+                i += 1
+
             while i < len(lines):
                 nxt = lines[i]
                 if nxt.strip() == "":

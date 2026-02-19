@@ -187,6 +187,7 @@ Several folders contain optional materials as a bonus for interested readers:
     - [Qwen3 Dense and Mixture-of-Experts (MoE) From Scratch](ch05/11_qwen3/)
     - [Gemma 3 From Scratch](ch05/12_gemma3/)
     - [Olmo 3 From Scratch](ch05/13_olmo3/)
+    - [Tiny Aya From Scratch](ch05/15_tiny-aya/)
   - [Chapter 5 with other LLMs as Drop-In Replacement (e.g., Llama 3, Qwen 3)](ch05/14_ch05_with_other_llms/)
 - **Chapter 6: Finetuning for classification**
   - [Additional Experiments Finetuning Different Layers and Using Larger Models](ch06/02_bonus_additional-experiments)

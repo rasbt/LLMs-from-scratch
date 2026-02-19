@@ -2,9 +2,13 @@
 
 Tiny Aya is a new, "small" LLM by Cohere that is said to be the "most capable multi-lingual open-weight model" at the 3B parameter size class. (Tiny Aya outperforms Qwen3-4B, Gemma 3 4B, and Ministral 3 3B according to the [announcement post](https://cohere.com/blog/cohere-labs-tiny-aya)).
 
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/bonus/tiny-aya/01.webp">
+
+
+
 This is a great model to run and experiment with locally. The only caveat is that while it's an open-weight model, its licensing terms are relatively restricted and only allow non-commercial use.
 
-That aside, Arya is a 3.35B parameter model that comes in several flavors that are useful for 
+That aside, Arya is a 3.35B parameter model that comes in several flavors that are useful for
 personal and (non-commercial) research use:
 
   - [tiny-aya-base](https://huggingface.co/CohereLabs/tiny-aya-base) (base model)

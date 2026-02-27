@@ -62,6 +62,22 @@ It's also highly recommended to consult the installation guide menu on the offic
 
 <br>
 
+
+
+&nbsp;
+## JupyterLab tips
+
+If you are viewing the notebook code in JupyterLab rather than VSCode, note that JupyterLab (in its default setting) has had scrolling bugs in recent versions. My recommendation is to go to Settings -> Settings Editor and change the "Windowing mode" to "none" (as illustrated below), which seems to address the issue.
+
+
+![Jupyter Glitch 1](https://sebastianraschka.com/images/reasoning-from-scratch-images/bonus/setup/jupyter_glitching_1.webp)
+
+<br>
+
+![Jupyter Glitch 2](https://sebastianraschka.com/images/reasoning-from-scratch-images/bonus/setup/jupyter_glitching_2.webp)
+
+<br>
+
 ---
 
 

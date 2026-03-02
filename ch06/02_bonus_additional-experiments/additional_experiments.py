@@ -410,7 +410,7 @@ def replace_linear_with_lora(model, rank, alpha, alternative=False):
 
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument(
         "--model_size",
         type=str,

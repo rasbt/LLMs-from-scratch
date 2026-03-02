@@ -100,7 +100,7 @@ def find_print_and_remove_near_duplicates(json_data, remove_duplicates=False, th
 if __name__ == "__main__":
     print("scikit-learn version:", sklearn_version)
 
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument(
         "--json_file",
         type=str,

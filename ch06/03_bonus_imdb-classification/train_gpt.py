@@ -225,7 +225,7 @@ def train_classifier_simple(model, train_loader, val_loader, optimizer, device, 
 
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument(
         "--model_size",
         type=str,

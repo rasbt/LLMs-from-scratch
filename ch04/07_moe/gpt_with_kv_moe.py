@@ -401,7 +401,7 @@ def generate_text_simple_cached(model, idx, max_new_tokens,
 
 
 def main():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("--emb_dim", type=int, default=768, help="Model embedding dimension.")
     parser.add_argument("--hidden_dim", type=int, default=768*4, help="Intermediate FFN or MoE size.")
     parser.add_argument("--n_heads", type=int, default=12, help="Number of attention heads.")

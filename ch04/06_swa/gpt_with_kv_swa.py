@@ -311,7 +311,7 @@ def generate_text_simple_cached(model, idx, max_new_tokens,
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Run GPT with standard multi-head attention.")
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter, description="Run GPT with standard multi-head attention.")
     parser.add_argument("--emb_dim", type=int, default=768, help="Model embedding dimension.")
     parser.add_argument("--n_heads", type=int, default=12, help="Number of attention heads.")
     parser.add_argument("--n_layers", type=int, default=12, help="Number of transformer blocks.")

@@ -90,7 +90,7 @@ def estimate_totals(context_length, sliding_window_size, emb_dim, n_heads, n_lay
 
 
 def main():
-    p = argparse.ArgumentParser(description="Estimate KV-cache memory for MHA/GQA with SWA layer ratio")
+    p = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter, description="Estimate KV-cache memory for MHA/GQA with SWA layer ratio")
     p.add_argument("--context_length", default=1024, type=int)
     p.add_argument("--sliding_window_size", required=True, type=int,
                    help="SWA window size W per SWA layer.")

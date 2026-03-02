@@ -37,7 +37,7 @@ def calc_mla_bytes_total(batch, context_length, n_layers, latent_dim, bytes_per_
 
 
 def main():
-    p = argparse.ArgumentParser(description="Estimate KV-cache memory for MHA vs GQA vs MLA")
+    p = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter, description="Estimate KV-cache memory for MHA vs GQA vs MLA")
     p.add_argument("--context_length", default=1024, type=int)
     p.add_argument("--emb_dim", required=True, type=int)
     p.add_argument("--n_heads", required=True, type=int)

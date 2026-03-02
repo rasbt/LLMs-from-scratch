@@ -36,7 +36,7 @@ def convert_to_gb(x):
 
 
 def main():
-    p = argparse.ArgumentParser(description="Memory vs. Context Length: MHA vs. DeltaNet (3:1 mix)")
+    p = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter, description="Memory vs. Context Length: MHA vs. DeltaNet (3:1 mix)")
     p.add_argument("--batch", type=int, default=1)
     p.add_argument("--emb_dim", type=int, default=2048)
     p.add_argument("--n_heads", type=int, default=16)

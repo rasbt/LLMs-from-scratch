@@ -65,7 +65,7 @@ def estimate_params_and_hidden(
 
 
 def main():
-    p = argparse.ArgumentParser(
+    p = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter,
         description="Estimate FFN vs MoE parameter memory"
     )
     p.add_argument("--emb_dim", type=int, required=True,

@@ -102,7 +102,7 @@ def calc_kv_bytes_total_gqa_swa(
 
 
 def main():
-    p = argparse.ArgumentParser(
+    p = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter,
         description="KV-cache vs Context Length — MHA vs GQA with SWA overlays"
     )
     p.add_argument("--emb_dim", type=int, required=True)

@@ -148,7 +148,7 @@ def train_model_simple(model, optimizer, device, n_epochs,
 
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser(description="GPT Model Training Configuration")
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter, description="GPT Model Training Configuration")
 
     parser.add_argument("--data_dir", type=str, default="gutenberg/data",
                         help="Directory containing the training data")

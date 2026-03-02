@@ -534,7 +534,7 @@ if __name__ == "__main__":
 
     import argparse
 
-    parser = argparse.ArgumentParser(
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter,
         description="Instruction finetune a GPT model"
     )
     options = {"baseline", "mask_instructions", "alpaca_52k", "phi3_prompt", "lora"}

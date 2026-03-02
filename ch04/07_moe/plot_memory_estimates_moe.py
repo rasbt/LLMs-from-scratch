@@ -91,7 +91,7 @@ def plot_active_params_vs_experts(
 
 
 def main():
-    p = argparse.ArgumentParser(description="Plot Dense vs MoE active parameters.")
+    p = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter, description="Plot Dense vs MoE active parameters.")
     p.add_argument("--emb_dim", type=int, required=True, help="Embedding dimension")
     p.add_argument("--hidden_dim", type=int, required=True, help="Dense FFN hidden size")
     p.add_argument("--ffn_type", choices=["gelu", "swiglu"], default="swiglu")

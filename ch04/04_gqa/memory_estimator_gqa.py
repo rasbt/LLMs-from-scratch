@@ -31,7 +31,7 @@ def calc_kv_bytes_total(batch, context_length, emb_dim, n_heads,
 
 
 def main():
-    p = argparse.ArgumentParser(description="Estimate KV-cache memory for MHA vs GQA")
+    p = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter, description="Estimate KV-cache memory for MHA vs GQA")
     p.add_argument("--context_length", default=1024, type=int)
     p.add_argument("--emb_dim", required=True, type=int)
     p.add_argument("--n_heads", required=True, type=int)

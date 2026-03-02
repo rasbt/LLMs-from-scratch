@@ -66,7 +66,7 @@ def combine_files(file_paths, target_dir, max_size_mb=500, separator="<|endoftex
 
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser(description="Preprocess and combine text files for pretraining")
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter, description="Preprocess and combine text files for pretraining")
 
     parser.add_argument("--data_dir", type=str, default="gutenberg/data/raw",
                         help="Directory containing the downloaded raw training data")

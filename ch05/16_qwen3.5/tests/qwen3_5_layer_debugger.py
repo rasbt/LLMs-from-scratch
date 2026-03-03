@@ -102,7 +102,7 @@ def _hf_config_from_dict(cfg):
     return hf_cfg
 
 
-def load_notebook_defs(nb_name="standalone-qwen3.5.ipynb"):
+def load_notebook_defs(nb_name="qwen3.5.ipynb"):
     nb_dir = Path(__file__).resolve().parents[1]
     if str(nb_dir) not in sys.path:
         sys.path.insert(0, str(nb_dir))

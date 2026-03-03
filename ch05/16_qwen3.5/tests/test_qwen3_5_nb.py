@@ -44,7 +44,8 @@ def import_notebook_defs():
     nb_dir = Path(__file__).resolve().parents[1]
     if str(nb_dir) not in sys.path:
         sys.path.insert(0, str(nb_dir))
-    mod = import_definitions_from_notebook(nb_dir, "standalone-qwen3.5.ipynb")
+
+    mod = import_definitions_from_notebook(nb_dir, "qwen3.5.ipynb")
     return mod
 
 

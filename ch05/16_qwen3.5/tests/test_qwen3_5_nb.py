@@ -3,6 +3,7 @@
 #   - https://www.manning.com/books/build-a-large-language-model-from-scratch
 # Code: https://github.com/rasbt/LLMs-from-scratch
 
+import importlib
 import sys
 from pathlib import Path
 
@@ -35,8 +36,15 @@ def _import_qwen3_5_classes():
         return Qwen3_5TextConfig, Qwen3_5ForCausalLM
 
 
-Qwen3_5TextConfig, Qwen3_5ForCausalLM = _import_qwen3_5_classes()
-transformers_qwen3_5_available = True
+transformers_installed = importlib.util.find_spec("transformers") is not None
+if transformers_installed:
+    try:
+        Qwen3_5TextConfig, Qwen3_5ForCausalLM = _import_qwen3_5_classes()
+    except Exception:
+        transformers_installed = False
+        Qwen3_5TextConfig, Qwen3_5ForCausalLM = None, None
+else:
+    Qwen3_5TextConfig, Qwen3_5ForCausalLM = None, None
 
 
 @pytest.fixture
@@ -91,7 +99,7 @@ def test_dummy_qwen3_5_forward(dummy_cfg_base, dummy_input, import_notebook_defs
 
 
 @torch.inference_mode()
-@pytest.mark.skipif(not transformers_qwen3_5_available, reason="Qwen3.5 classes not available in transformers")
+@pytest.mark.skipif(not transformers_installed, reason="transformers not installed")
 def test_qwen3_5_base_equivalence_with_transformers(import_notebook_defs):
     cfg = {
         "vocab_size": 257,

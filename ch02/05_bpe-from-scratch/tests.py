@@ -88,8 +88,14 @@ def test_tokenizer_training(imported_module, verdict_file):
     assert len(tokenizer.bpe_merges) == 742, "Tokenizer BPE merges count mismatch."
 
     input_text = "Jack embraced beauty through art and life."
+    invalid_whitespace_tokens = [
+        tok for tok in tokenizer.vocab.values()
+        if "Ġ" in tok and tok != "Ġ" and not tok.startswith("Ġ")
+    ]
+    assert not invalid_whitespace_tokens, "Training should not learn tokens with non-leading Ġ markers."
+
     token_ids = tokenizer.encode(input_text)
-    assert token_ids == [424, 256, 654, 531, 302, 311, 256, 296, 97, 465, 121, 595, 841, 116, 287, 466, 256, 326, 972, 46], "Token IDs do not match expected output."
+    assert token_ids == [74, 361, 310, 109, 98, 420, 397, 100, 300, 428, 116, 121, 519, 699, 299, 808, 534], "Token IDs do not match expected output."
 
     assert tokenizer.decode(token_ids) == input_text, "Decoded text does not match the original input."
 

@@ -34,7 +34,7 @@ jobs:
       - uses: actions/checkout@v6
 
       - name: Set up pixi (without caching)
-        uses: prefix-dev/setup-pixi@v0.8.2
+        uses: prefix-dev/setup-pixi@0f64e482e3d251f735019b1bc7fb0413ead75b2c # v0.8.2
         with:
           environments: tests
           cache: false

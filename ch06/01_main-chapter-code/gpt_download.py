@@ -47,6 +47,9 @@ def download_and_load_gpt2(model_size, models_dir):
 
 
 def download_file(url, destination, backup_url=None):
+    import ssl
+    ssl._create_default_https_context = ssl._create_stdlib_context
+
     def _attempt_download(download_url):
         with urllib.request.urlopen(download_url) as response:
             # Get the total file size from headers, defaulting to 0 if not present

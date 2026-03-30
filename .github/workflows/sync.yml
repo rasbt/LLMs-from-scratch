@@ -2,19 +2,22 @@ name: Sync Fork
 
 on:
   schedule:
-    - cron: '0 3 * * *'
+    - cron: "0 3 * * *"
   workflow_dispatch:
 
 permissions:
   contents: write
-  pull-requests: write
 
 jobs:
   sync:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: tgymnich/fork-sync@v2.0
+      - name: GitHub Forks Sync Action
+        uses: TobKed/github-forks-sync-action@v0.2.0
         with:
-          owner: rasbt
-          base: main
-          head: main
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          upstream_repository: rasbt/LLMs-from-scratch
+          upstream_branch: main
+          target_branch: main
+          force: false

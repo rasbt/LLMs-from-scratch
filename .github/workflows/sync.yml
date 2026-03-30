@@ -2,8 +2,12 @@ name: Sync Fork
 
 on:
   schedule:
-    - cron: '0 3 * * *'   # once daily at 03:00 UTC
+    - cron: '0 3 * * *'
   workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
   sync:

@@ -28,6 +28,9 @@ dependencies = [
   "pytest>=8.3.5",
 ]
 
+[tool.uv]
+exclude-newer = "7 days"  # Requires a recent uv; run `uv self update` if unsupported
+
 [tool.uv.sources]
 llms-from-scratch = { workspace = true }
 

@@ -9,7 +9,7 @@ import tiktoken
 
 
 def import_definitions_from_notebook(fullname, names):
-    """Loads function definitions from a Jupyter notebook file into a module."""
+    """Loads function definitions from a Jupyter notebook file into a module"""
     path = os.path.join(os.path.dirname(__file__), fullname + ".ipynb")
     path = os.path.normpath(path)
 

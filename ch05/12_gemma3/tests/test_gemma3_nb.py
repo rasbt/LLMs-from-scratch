@@ -100,6 +100,7 @@ def test_gemma3_base_equivalence_with_transformers(import_notebook_defs):
         torch_dtype=torch.float32,
         query_pre_attn_scalar=cfg["query_pre_attn_scalar"],
         rope_scaling={"rope_type": "default"},
+        ignore_keys_at_rope_validation={"full_attention", "sliding_attention"},
     )
     hf_model = Gemma3ForCausalLM(hf_cfg)
 

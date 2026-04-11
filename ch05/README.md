@@ -29,6 +29,7 @@
 - [11_qwen3](11_qwen3) A from-scratch implementation of Qwen3 0.6B and Qwen3 30B-A3B (Mixture-of-Experts) including code to load the pretrained weights of the base, reasoning, and coding model variants
 - [12_gemma3](12_gemma3) A from-scratch implementation of Gemma 3 270M and alternative with KV cache, including code to load the pretrained weights
 - [13_olmo3](13_olmo3) A from-scratch implementation of Olmo 3 7B and 32B (Base, Instruct, and Think variants) and alternative with KV cache, including code to load the pretrained weights
+- [17_gemma4](17_gemma4) A from-scratch implementation of the E2B and E4B dense variants of Gemma 4
 
 &nbsp;
 ## Code-Along Video for This Chapter

@@ -75,6 +75,10 @@ ch05/11_qwen3/Qwen3-32B
 ch05/11_qwen3/Qwen3-32B-Base
 ch05/12_gemma3/gemma-3-270M-it
 ch05/12_gemma3/gemma-3-270M
+ch05/17_gemma4/gemma-4-E2B
+ch05/17_gemma4/gemma-4-E2B-it
+ch05/17_gemma4/gemma-4-E4B
+ch05/17_gemma4/gemma-4-E4B-it
 ch05/13_olmo3/Olmo-3-1025-7B
 ch05/13_olmo3/Olmo-3-1125-32B
 ch05/13_olmo3/Olmo-3-7B-Instruct
@@ -167,6 +171,7 @@ ch0?/0?_user_interface/.files
 *.lock
 
 # Temporary and OS-related files
+temp
 chainlit.md
 Untitled.ipynb
 .DS_Store
@@ -343,5 +348,4 @@ cython_debug/
 # pixi environments
 .pixi
 *.egg-info
-
 

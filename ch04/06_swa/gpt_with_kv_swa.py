@@ -56,24 +56,32 @@ class MultiHeadAttentionWithSWA(nn.Module):
         ####################################################
         # KV cache-related
         if use_cache:
-            old_len = 0 if self.cache_k is None else self.cache_k.size(1)
-            if self.cache_k is None:
-                self.cache_k, self.cache_v = keys_new, values_new
+            old_cache_k, old_cache_v = self.cache_k, self.cache_v
+            old_len = 0 if old_cache_k is None else old_cache_k.size(1)
+            if old_cache_k is None:
+                combined_k, combined_v = keys_new, values_new
             else:
-                self.cache_k = torch.cat([self.cache_k, keys_new], dim=1)
-                self.cache_v = torch.cat([self.cache_v, values_new], dim=1)
-            # Left-trim to sliding window if configured
+                combined_k = torch.cat([old_cache_k, keys_new], dim=1)
+                combined_v = torch.cat([old_cache_v, values_new], dim=1)
+
+            keys, values = combined_k, combined_v
             if self.sliding_window_size is not None:
-                if self.cache_k.size(1) > self.sliding_window_size:
-                    self.cache_k = self.cache_k[:, -self.sliding_window_size:, :, :]
-                    self.cache_v = self.cache_v[:, -self.sliding_window_size:, :, :]
-            # Compute absolute start positions for mask
-            total_len = old_len + num_tokens
-            k_len_now = self.cache_k.size(1)
-            dropped = max(0, total_len - k_len_now)
+                # During chunked prefill we need up to W-1 older keys plus the whole
+                # current chunk (so the earliest queries in the chunk keep their full
+                # sliding-window context)
+                attn_keep = min(keys.size(1), self.sliding_window_size + num_tokens - 1)
+                keys = keys[:, -attn_keep:, :, :]
+                values = values[:, -attn_keep:, :, :]
+
+                cache_keep = min(combined_k.size(1), self.sliding_window_size)
+                self.cache_k = combined_k[:, -cache_keep:, :, :]
+                self.cache_v = combined_v[:, -cache_keep:, :, :]
+            else:
+                self.cache_k, self.cache_v = combined_k, combined_v
+
+            dropped = combined_k.size(1) - keys.size(1)
             k_start_pos_abs = (self.ptr_current_pos - old_len) + dropped
             q_start_pos_abs = self.ptr_current_pos
-            keys, values = self.cache_k, self.cache_v
         else:
             keys, values = keys_new, values_new
         ####################################################

@@ -303,7 +303,7 @@ def test_model_variants(ModelClass, qwen3_weights_path, generate_fn):
 
     torch.manual_seed(123)
     model = ModelClass(QWEN_CONFIG_06_B)
-    model.load_state_dict(torch.load(qwen3_weights_path))
+    model.load_state_dict(torch.load(qwen3_weights_path, weights_only=True))
     model.eval()
 
     tokenizer = Qwen3Tokenizer(
@@ -341,7 +341,7 @@ def test_model_KV_noKV(qwen3_weights_path):
 
     torch.manual_seed(123)
     model_KV = Qwen3ModelKV(QWEN_CONFIG_06_B)
-    model_KV.load_state_dict(torch.load(qwen3_weights_path))
+    model_KV.load_state_dict(torch.load(qwen3_weights_path, weights_only=True))
     model_KV.eval()
 
     tokenizer = Qwen3Tokenizer(
@@ -365,7 +365,7 @@ def test_model_KV_noKV(qwen3_weights_path):
 
     torch.manual_seed(123)
     model_noKV = Qwen3Model(QWEN_CONFIG_06_B)
-    model_noKV.load_state_dict(torch.load(qwen3_weights_path))
+    model_noKV.load_state_dict(torch.load(qwen3_weights_path, weights_only=True))
     model_noKV.eval()
 
     out_noKV = generate_text_simple(
@@ -382,7 +382,7 @@ def test_model_batched_KV(qwen3_weights_path):
 
     torch.manual_seed(123)
     model_KV = Qwen3ModelKV(QWEN_CONFIG_06_B)
-    model_KV.load_state_dict(torch.load(qwen3_weights_path))
+    model_KV.load_state_dict(torch.load(qwen3_weights_path, weights_only=True))
     model_KV.eval()
 
     tokenizer = Qwen3Tokenizer(
@@ -408,7 +408,7 @@ def test_model_batched_KV(qwen3_weights_path):
 
     torch.manual_seed(123)
     model_KV_batched = Qwen3ModelKVBatched(QWEN_CONFIG_06_B)
-    model_KV_batched.load_state_dict(torch.load(qwen3_weights_path))
+    model_KV_batched.load_state_dict(torch.load(qwen3_weights_path, weights_only=True))
     model_KV_batched.eval()
 
     out_KV_bs_1 = generate_text_simple_batched(

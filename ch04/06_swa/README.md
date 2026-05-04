@@ -62,7 +62,7 @@ Distributed layers     : 27 SWA, 5 FULL
 MHA KV total           : 17.18 GB
 GQA KV total           : 4.29 GB
 MHA + SWA (Ratio: 5:1) : 3.14 GB
-MHA + GQA (Ratio: 5:1) : 0.78 GB
+GQA + SWA (Ratio: 5:1) : 0.78 GB
 ```
 
 Note that Gemma 3 uses SWA in combination with GQA.

@@ -58,6 +58,7 @@ You can alternatively view this and other files on GitHub at [https://github.com
 [![Code tests Windows](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/basic-tests-windows-uv-pip.yml/badge.svg)](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/basic-tests-windows-uv-pip.yml)
 [![Code tests macOS](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/basic-tests-macos-uv.yml/badge.svg)](https://github.com/rasbt/LLMs-from-scratch/actions/workflows/basic-tests-macos-uv.yml)
 
+- [Troubleshooting Guide](./troubleshooting.md)
 
 
 | Chapter Title                                              | Main Code (for Quick Access)                                                                                                    | All Code + Supplementary      |

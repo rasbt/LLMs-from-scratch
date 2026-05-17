@@ -20,7 +20,6 @@ jobs:
           script: |
             const owner = context.repo.owner;
             const repo = context.repo.repo;
-            const pullNumber = context.payload.pull_request.number;
             const workflowRunId = context.runId;
             const mergeSha = context.sha;
             const headSha = context.payload.pull_request.head.sha;
@@ -48,6 +47,9 @@ jobs:
               const refs = [...new Set([headSha, mergeSha])];
               const runsById = new Map();
 
+              core.info(`Current PR head SHA: ${headSha}`);
+              core.info(`Current workflow SHA: ${mergeSha}`);
+
               for (const head_sha of refs) {
                 const runs = await github.paginate(github.rest.actions.listWorkflowRunsForRepo, {
                   owner,
@@ -58,19 +60,6 @@ jobs:
                 });
 
                 for (const run of runs) {
-                  runsById.set(run.id, run);
-                }
-              }
-
-              const recentRuns = await github.rest.actions.listWorkflowRunsForRepo({
-                owner,
-                repo,
-                event: "pull_request",
-                per_page: 100,
-              });
-
-              for (const run of recentRuns.data.workflow_runs) {
-                if (run.pull_requests.some((pullRequest) => pullRequest.number === pullNumber)) {
                   runsById.set(run.id, run);
                 }
               }

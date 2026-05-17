@@ -1,0 +1,126 @@
+name: Required checks
+
+on:
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  actions: read
+  contents: read
+  pull-requests: read
+
+jobs:
+  required-checks:
+    name: Required checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for required workflows
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const pullNumber = context.payload.pull_request.number;
+            const workflowRunId = context.runId;
+            const mergeSha = context.sha;
+            const headSha = context.payload.pull_request.head.sha;
+
+            const requiredWorkflows = [
+              "Check hyperlinks",
+              "Code tests Linux",
+              "Code tests macOS",
+              "Code tests (plain pip)",
+              "Code tests (pixi)",
+              "Code tests Windows (uv/pip)",
+              "PEP8 Style checks",
+              "Spell Check",
+              "Test PyTorch 2.3 and 2.5",
+              "Test latest PyTorch nightly / release candidate",
+              "Test latest supported Python version",
+            ];
+
+            core.info(`Required workflows: ${requiredWorkflows.join(", ")}`);
+
+            const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+            const terminalFailures = new Set(["failure", "cancelled", "timed_out", "action_required"]);
+
+            async function listRunsForCurrentPr() {
+              const refs = [...new Set([headSha, mergeSha])];
+              const runsById = new Map();
+
+              for (const head_sha of refs) {
+                const runs = await github.paginate(github.rest.actions.listWorkflowRunsForRepo, {
+                  owner,
+                  repo,
+                  event: "pull_request",
+                  head_sha,
+                  per_page: 100,
+                });
+
+                for (const run of runs) {
+                  runsById.set(run.id, run);
+                }
+              }
+
+              const recentRuns = await github.rest.actions.listWorkflowRunsForRepo({
+                owner,
+                repo,
+                event: "pull_request",
+                per_page: 100,
+              });
+
+              for (const run of recentRuns.data.workflow_runs) {
+                if (run.pull_requests.some((pullRequest) => pullRequest.number === pullNumber)) {
+                  runsById.set(run.id, run);
+                }
+              }
+
+              return [...runsById.values()];
+            }
+
+            function latestRunForWorkflow(runs, workflowName) {
+              const matches = runs
+                .filter((run) => run.id !== workflowRunId)
+                .filter((run) => run.name === workflowName)
+                .sort((a, b) => {
+                  const createdDiff = new Date(b.created_at) - new Date(a.created_at);
+                  return createdDiff || b.run_attempt - a.run_attempt;
+                });
+
+              return matches[0];
+            }
+
+            for (let attempt = 1; attempt <= 180; attempt += 1) {
+              const runs = await listRunsForCurrentPr();
+              const missing = [];
+              const pending = [];
+
+              for (const workflowName of requiredWorkflows) {
+                const run = latestRunForWorkflow(runs, workflowName);
+
+                if (!run) {
+                  missing.push(workflowName);
+                  continue;
+                }
+
+                core.info(`${workflowName}: ${run.status}${run.conclusion ? ` / ${run.conclusion}` : ""}`);
+
+                if (terminalFailures.has(run.conclusion)) {
+                  throw new Error(`${workflowName} finished with ${run.conclusion}`);
+                }
+
+                if (run.status !== "completed" || run.conclusion !== "success") {
+                  pending.push(workflowName);
+                }
+              }
+
+              if (missing.length === 0 && pending.length === 0) {
+                core.info("All required workflows passed.");
+                return;
+              }
+
+              core.info(`Waiting for workflows. Missing: ${missing.join(", ") || "none"}. Pending: ${pending.join(", ") || "none"}.`);
+              await sleep(10000);
+            }
+
+            throw new Error("Timed out waiting for required workflows.");

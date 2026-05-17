@@ -24,20 +24,37 @@ jobs:
             const mergeSha = context.sha;
             const headSha = context.payload.pull_request.head.sha;
 
-            const requiredWorkflows = [
+            const alwaysRequiredWorkflows = [
               "Check hyperlinks",
+              "PEP8 Style checks",
+              "Spell Check",
+            ];
+
+            const codeRequiredWorkflows = [
               "Code tests Linux",
               "Code tests macOS",
               "Code tests (plain pip)",
               "Code tests (pixi)",
               "Code tests Windows (uv/pip)",
-              "PEP8 Style checks",
-              "Spell Check",
               "Test PyTorch 2.3 and 2.5",
               "Test latest PyTorch nightly / release candidate",
               "Test latest supported Python version",
             ];
 
+            const changedFiles = await github.paginate(github.rest.pulls.listFiles, {
+              owner,
+              repo,
+              pull_number: context.payload.pull_request.number,
+              per_page: 100,
+            });
+            const codeFilePattern = /\.(py|ipynb|ya?ml|sh)$/;
+            const hasCodeChanges = changedFiles.some((file) => codeFilePattern.test(file.filename));
+            const requiredWorkflows = hasCodeChanges
+              ? alwaysRequiredWorkflows.concat(codeRequiredWorkflows)
+              : alwaysRequiredWorkflows;
+
+            core.info(`Changed files: ${changedFiles.map((file) => file.filename).join(", ")}`);
+            core.info(`Code-test workflows required: ${hasCodeChanges ? "yes" : "no"}`);
             core.info(`Required workflows: ${requiredWorkflows.join(", ")}`);
 
             const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));

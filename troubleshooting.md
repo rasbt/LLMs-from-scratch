@@ -15,6 +15,45 @@ If images in the `.ipynb` notebooks do not render:
 - If the images also don't load on your phone, please feel  free to open GitHub [Issue](https://github.com/rasbt/LLMs-from-scratch/issues) to help me debug this further.
 
 &nbsp;
+## Keeping Personal Notebook Changes While Updating the Repository
+
+If you want to modify notebooks while also receiving repository updates, fork the repository first, then clone your fork. The main book notebooks are kept in sync with the printed book and are generally not changed, except for critical fixes. Most repository updates add bonus material instead.
+
+Notebook files are JSON files, so Git diffs and merge conflicts can be hard to read. To avoid unnecessary conflicts, I recommend keeping your experiments separate from the tracked book notebooks:
+
+- Copy a notebook before changing it, for example from `ch02.ipynb` to `ch02_experiments.ipynb`.
+- Keep your scratch notebooks in a separate folder or on your own branch.
+- Fetch updates from the original repository with an `upstream` remote, then merge or rebase only when you need those updates.
+
+To create a fork and clone it:
+
+1. Open [https://github.com/rasbt/LLMs-from-scratch](https://github.com/rasbt/LLMs-from-scratch).
+2. Click the **Fork** button in the upper-right corner on GitHub.
+3. Clone your fork, replacing `YOUR-USERNAME` with your GitHub username:
+
+```bash
+git clone https://github.com/YOUR-USERNAME/LLMs-from-scratch.git
+cd LLMs-from-scratch
+```
+
+Then add the original repository as `upstream` so you can fetch future updates:
+
+```bash
+git remote add upstream https://github.com/rasbt/LLMs-from-scratch.git
+git fetch upstream
+git merge upstream/main
+```
+
+If you do need to merge edited notebooks, consider installing [`nbdime`](https://nbdime.readthedocs.io/) to get notebook-aware diffs and merge tools:
+
+```bash
+pip install nbdime
+nbdime config-git --enable
+```
+
+For more context, see [#1015](https://github.com/rasbt/LLMs-from-scratch/issues/1015).
+
+&nbsp;
 ## Apple Silicon and MPS Support
 
 Some notebooks and scripts use `cuda` when available and otherwise fall back to `cpu`, without selecting Apple's `mps` backend. This omission of `mps` support is intentional in many places because earlier PyTorch/MPS versions produced unstable or different results in several examples, especially during training and finetuning.

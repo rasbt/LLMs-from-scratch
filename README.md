@@ -171,6 +171,7 @@ Several folders contain optional materials as a bonus for interested readers:
     - [Multi-Head Latent Attention](ch04/05_mla)
     - [Sliding Window Attention](ch04/06_swa)
     - [Gated DeltaNet](ch04/08_deltanet)
+    - [Cross-Layer KV Sharing](ch04/10_kv-sharing)
   - [Mixture-of-Experts (MoE)](ch04/07_moe)
 
 - **Chapter 5: Pretraining on Unlabeled Data**

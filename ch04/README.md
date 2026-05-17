@@ -27,6 +27,7 @@
 - [05_mla](05_mla) contains an introduction to Multi-Head Latent Attention (MLA), which is used by DeepSeek V3, as alternative to regular Multi-Head Attention (MHA)
 - [06_swa](06_swa) contains an introduction to Sliding Window Attention (SWA), which is used by Gemma 3 and others
 - [08_deltanet](08_deltanet) explanation of Gated DeltaNet as a popular linear attention variant (used in Qwen3-Next and Kimi Linear)
+- [10_kv-sharing](10_kv-sharing) contains an introduction to cross-layer KV sharing, which is used by Gemma 4 E2B and E4B to reduce KV-cache memory
 
 
 &nbsp;

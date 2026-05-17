@@ -82,7 +82,7 @@ jobs:
           pytest pkg/llms_from_scratch/tests/
 
   required-checks:
-    name: Required checks
+    name: Required checks (Linux uv)
     runs-on: ubuntu-latest
     needs:
       - uv-tests

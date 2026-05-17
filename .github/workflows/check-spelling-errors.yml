@@ -32,7 +32,7 @@ jobs:
           codespell -L "ocassion,occassion,ot,te,tje" **/*.{txt,md,py,ipynb}
 
   required-checks:
-    name: Required checks
+    name: Required checks (spelling)
     runs-on: ubuntu-latest
     needs:
       - spellcheck

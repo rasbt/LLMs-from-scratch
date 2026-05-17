@@ -66,7 +66,7 @@ jobs:
           pytest --nbval ch02/04_bonus_dataloader-intuition/dataloader-intuition.ipynb
 
   required-checks:
-    name: Required checks
+    name: Required checks (Windows uv/pip)
     runs-on: ubuntu-latest
     needs:
       - test

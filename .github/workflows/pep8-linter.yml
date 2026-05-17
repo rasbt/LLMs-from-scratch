@@ -27,7 +27,7 @@ jobs:
         ruff check .
 
   required-checks:
-    name: Required checks
+    name: Required checks (flake8)
     runs-on: ubuntu-latest
     needs:
       - flake8

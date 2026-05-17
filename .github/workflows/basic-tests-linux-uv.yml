@@ -33,7 +33,7 @@ jobs:
       - name: Set up Python (uv)
         uses: actions/setup-python@v6
         with:
-          python-version: "3.13"
+          python-version: "3.12"
 
       - name: Install uv and dependencies
         shell: bash

@@ -30,3 +30,17 @@ jobs:
         run: |
           source .venv/bin/activate
           codespell -L "ocassion,occassion,ot,te,tje" **/*.{txt,md,py,ipynb}
+
+  required-checks:
+    name: Required checks
+    runs-on: ubuntu-latest
+    needs:
+      - spellcheck
+    if: always()
+    steps:
+      - name: Check required jobs
+        run: |
+          if [[ "${{ contains(needs.*.result, 'failure') }}" == "true" || \
+                "${{ contains(needs.*.result, 'cancelled') }}" == "true" ]]; then
+            exit 1
+          fi

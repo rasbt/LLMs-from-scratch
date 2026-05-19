@@ -15,9 +15,11 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import tiktoken
 import torch
+# Import Dynamo before TensorFlow is loaded by gpt_download to avoid a native
+# Triton/TensorFlow initialization crash with recent PyTorch nightly builds.
+import torch._dynamo  # noqa: F401
 from torch.utils.data import Dataset, DataLoader
 
-from gpt_download import download_and_load_gpt2
 from previous_chapters import GPTModel, load_weights_into_gpt
 
 
@@ -373,6 +375,8 @@ if __name__ == "__main__":
         )
 
         model_size = CHOOSE_MODEL.split(" ")[-1].lstrip("(").rstrip(")")
+        from gpt_download import download_and_load_gpt2
+
         settings, params = download_and_load_gpt2(model_size=model_size, models_dir="gpt2")
 
         model = GPTModel(BASE_CONFIG)

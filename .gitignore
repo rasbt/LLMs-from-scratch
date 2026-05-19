@@ -8,6 +8,7 @@ ch07/02_dataset-utilities/config.json
 ch07/03_model-evaluation/config.json
 
 # Graphics
+loss.pdf
 appendix-D/01_main-chapter-code/1.pdf
 appendix-D/01_main-chapter-code/2.pdf
 appendix-D/01_main-chapter-code/3.pdf
@@ -36,6 +37,7 @@ ch07/01_main-chapter-code/loss-plot-alpaca52k.pdf
 ch07/04_preference-tuning-with-dpo/reward margins-plot.pdf
 
 # Checkpoint files
+model.pth
 appendix-A/01_main-chapter-code/model.pth
 
 appendix-E/01_main-chapter-code/gpt2

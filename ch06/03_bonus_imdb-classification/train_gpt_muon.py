@@ -172,7 +172,42 @@ def evaluate_model(model, train_loader, val_loader, device, eval_iter,
     return train_loss, val_loss
 
 
-def train_classifier_simple(model, train_loader, val_loader, optimizer, device, num_epochs,
+def create_muon_optimizers(model, adamw_learning_rate, muon_learning_rate, weight_decay=0.1):
+    if not hasattr(torch.optim, "Muon"):
+        raise RuntimeError("torch.optim.Muon is not available. Please update to a more recent PyTorch version.")
+
+    embedding_param_names = set()
+    for module_name, module in model.named_modules():
+        if isinstance(module, torch.nn.Embedding):
+            for param_name, _ in module.named_parameters(recurse=False):
+                full_name = f"{module_name}.{param_name}" if module_name else param_name
+                embedding_param_names.add(full_name)
+
+    muon_params = []
+    adamw_params = []
+    for name, param in model.named_parameters():
+        if not param.requires_grad:
+            continue
+        if param.ndim == 2 and name not in embedding_param_names:
+            muon_params.append(param)
+        else:
+            adamw_params.append(param)
+
+    optimizers = []
+    if muon_params:
+        optimizers.append(
+            torch.optim.Muon(
+                muon_params, lr=muon_learning_rate, weight_decay=weight_decay, adjust_lr_fn="match_rms_adamw"
+            )
+        )
+    if adamw_params:
+        optimizers.append(torch.optim.AdamW(adamw_params, lr=adamw_learning_rate, weight_decay=weight_decay))
+    if not optimizers:
+        raise ValueError("No trainable parameters found.")
+    return optimizers
+
+
+def train_classifier_simple(model, train_loader, val_loader, optimizers, device, num_epochs,
                             eval_freq, eval_iter, max_steps=None, trainable_token_pos=-1,
                             average_embeddings=False):
     # Initialize lists to track losses and tokens seen
@@ -184,11 +219,13 @@ def train_classifier_simple(model, train_loader, val_loader, optimizer, device, 
         model.train()  # Set model to training mode
 
         for input_batch, target_batch in train_loader:
-            optimizer.zero_grad()  # Reset loss gradients from previous batch iteration
+            for optimizer in optimizers:
+                optimizer.zero_grad()  # Reset loss gradients from previous batch iteration
             loss = calc_loss_batch(input_batch, target_batch, model, device,
                                    trainable_token_pos=trainable_token_pos, average_embeddings=average_embeddings)
             loss.backward()  # Calculate loss gradients
-            optimizer.step()  # Update model weights using loss gradients
+            for optimizer in optimizers:
+                optimizer.step()  # Update model weights using loss gradients
             examples_seen += input_batch.shape[0]  # New: track examples instead of tokens
             global_step += 1
 
@@ -293,7 +330,15 @@ if __name__ == "__main__":
         type=float,
         default=5e-5,
         help=(
-            "Learning rate."
+            "Learning rate for AdamW parameters."
+        )
+    )
+    parser.add_argument(
+        "--muon_learning_rate",
+        type=float,
+        default=1e-4,
+        help=(
+            "Learning rate for Muon parameters."
         )
     )
     parser.add_argument(
@@ -415,10 +460,12 @@ if __name__ == "__main__":
 
     start_time = time.time()
     torch.manual_seed(123)
-    optimizer = torch.optim.AdamW(model.parameters(), lr=args.learning_rate, weight_decay=0.1)
+    optimizers = create_muon_optimizers(
+        model, adamw_learning_rate=args.learning_rate, muon_learning_rate=args.muon_learning_rate, weight_decay=0.1
+    )
 
     train_losses, val_losses, train_accs, val_accs, examples_seen = train_classifier_simple(
-        model, train_loader, val_loader, optimizer, device,
+        model, train_loader, val_loader, optimizers, device,
         num_epochs=args.num_epochs, eval_freq=50, eval_iter=20,
         max_steps=None, trainable_token_pos=args.trainable_token_pos,
         average_embeddings=args.average_embeddings

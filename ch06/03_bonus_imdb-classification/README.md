@@ -8,16 +8,17 @@ This folder contains additional experiments to compare the (decoder-style) GPT-2
 
 
 
-|       | Model                        | Test accuracy |
-| ----- | ---------------------------- | ------------- |
-| **1** | 124M GPT-2 Baseline          | 91.88%        |
-| **2** | 340M BERT                    | 90.89%        |
-| **3** | 66M DistilBERT               | 91.40%        |
-| **4** | 355M RoBERTa                 | 92.95%        |
-| **5** | 304M DeBERTa-v3              | 94.69%        |
-| **6** | 149M ModernBERT Base         | 93.79%        |
-| **7** | 395M ModernBERT Large        | 95.07%        |
-| **8** | Logistic Regression Baseline | 88.85%        |
+|         | Model                           | Test accuracy |
+| ------- | ------------------------------- | ------------- |
+| **1.1** | 124M GPT-2 Baseline             | 91.88%        |
+| **1.2** | 124M GPT-2 Baseline (with Muon) | 92.40%        |
+| **2**   | 340M BERT                       | 90.89%        |
+| **3**   | 66M DistilBERT                  | 91.40%        |
+| **4**   | 355M RoBERTa                    | 92.95%        |
+| **5**   | 304M DeBERTa-v3                 | 94.69%        |
+| **6**   | 149M ModernBERT Base            | 93.79%        |
+| **7**   | 395M ModernBERT Large           | 95.07%        |
+| **8**   | Logistic Regression Baseline    | 88.85%        |
 
 
 
@@ -73,6 +74,33 @@ Validation accuracy: 92.32%
 Test accuracy: 91.88%
 ```
 
+<br>
+
+The alternative [train_gpt_muon.py](train_gpt_muon.py) script runs the same code using PyTorch's new Muon optimizer for non-embedding layers. For more information on Muon, see the original [paper](https://arxiv.org/abs/2502.16982) and [../../ch05/18_muon](../../ch05/18_muon).
+
+
+```bash
+python train_gpt_muon.py --trainable_layers "all" --num_epochs 1
+```
+
+```
+Ep 1 (Step 000000): Train loss 2.659, Val loss 3.237
+Ep 1 (Step 000050): Train loss 0.919, Val loss 0.799
+...
+Training accuracy: 98.12% | Validation accuracy: 91.88%
+Training completed in 23.01 minutes.
+
+Evaluating on the full datasets ...
+
+Training accuracy: 97.45%
+Validation accuracy: 92.52%
+Test accuracy: 92.40%
+```
+
+
+Observation: Muon seems to optimize better/faster but this also leads to more overfitting on the training set here.
+
+PS: the training times is not directly comparable as this was run on a different GPU.
 
 <br>
 
@@ -151,7 +179,7 @@ A 355M parameter encoder-style [RoBERTa](https://arxiv.org/abs/1907.11692) model
 
 
 ```bash
-python train_bert_hf.py --trainable_layers "last_block" --num_epochs 1 --model "roberta" 
+python train_bert_hf.py --trainable_layers "last_block" --num_epochs 1 --model "roberta"
 ```
 
 ```

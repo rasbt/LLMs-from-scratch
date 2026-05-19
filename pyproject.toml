@@ -26,10 +26,16 @@ dependencies = [
   "pandas>=2.2.1",
   "pip>=25.0.1",
   "pytest>=8.3.5",
+  "torch>=2.6.0",
 ]
 
 [tool.uv.sources]
 llms-from-scratch = { workspace = true }
+
+[tool.uv]
+environments = [
+  "sys_platform == 'linux' and platform_machine == 'aarch64'",
+]
 
 [dependency-groups]
 dev = [

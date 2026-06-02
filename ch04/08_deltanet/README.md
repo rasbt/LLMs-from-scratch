@@ -206,7 +206,6 @@ class GatedDeltaNet(nn.Module):
         queries = queries.transpose(1, 2)
         values = values.transpose(1, 2)
         beta = beta.transpose(1, 2)
-        gate = gate.transpose(1, 2)  # NEW
 
         ####################################################
         ### NEW: QKNorm-like normalization for delta rule

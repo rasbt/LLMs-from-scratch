@@ -37,7 +37,12 @@ OTHER_SETTINGS = {
 @pytest.mark.parametrize("ModelClass", [GPTModel, GPTModelFast])
 def test_train_simple(tmp_path, ModelClass):
     torch.manual_seed(123)
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    if torch.cuda.is_available():
+        device = torch.device("cuda")
+    elif torch.backends.mps.is_available():
+        device = torch.device("mps")
+    else:
+        device = torch.device("cpu")
 
     ##############################
     # Download data if necessary

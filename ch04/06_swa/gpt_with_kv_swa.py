@@ -346,7 +346,12 @@ def main():
     }
     torch.manual_seed(123)
     model = GPTModel(GPT_CONFIG_124M)
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    if torch.cuda.is_available():
+        device = torch.device("cuda")
+    elif torch.backends.mps.is_available():
+        device = torch.device("mps")
+    else:
+        device = torch.device("cpu")
     model.to(device, dtype=torch.bfloat16)
     model.eval()  # disable dropout
 

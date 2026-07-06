@@ -38,7 +38,12 @@ def test_instruction_finetune(tmp_path):
     test_data = test_data[:15]
 
     tokenizer = tiktoken.get_encoding("gpt2")
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    if torch.cuda.is_available():
+        device = torch.device("cuda")
+    elif torch.backends.mps.is_available():
+        device = torch.device("mps")
+    else:
+        device = torch.device("cpu")
 
     customized_collate_fn = partial(custom_collate_fn, device=device, allowed_max_length=100)
 

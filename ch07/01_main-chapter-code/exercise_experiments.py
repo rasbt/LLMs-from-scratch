@@ -334,7 +334,12 @@ def main(mask_instructions=False, alpaca52k=False, phi3_prompt=False, lora=False
     print(50*"-")
 
     tokenizer = tiktoken.get_encoding("gpt2")
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    if torch.cuda.is_available():
+        device = torch.device("cuda")
+    elif torch.backends.mps.is_available():
+        device = torch.device("mps")
+    else:
+        device = torch.device("cpu")
     print("Device:", device)
     print(50*"-")
 

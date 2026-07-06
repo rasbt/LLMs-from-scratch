@@ -193,7 +193,12 @@ if __name__ == "__main__":
             "qkv_bias": False        # Query-key-value bias
         }
 
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    if torch.cuda.is_available():
+        device = torch.device("cuda")
+    elif torch.backends.mps.is_available():
+        device = torch.device("mps")
+    else:
+        device = torch.device("cpu")
     torch.manual_seed(123)
     model = GPTModel(GPT_CONFIG_124M)
     model.to(device)

@@ -381,7 +381,12 @@ if __name__ == "__main__":
 
         model = GPTModel(BASE_CONFIG)
         load_weights_into_gpt(model, params)
-        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        if torch.cuda.is_available():
+            device = torch.device("cuda")
+        elif torch.backends.mps.is_available():
+            device = torch.device("mps")
+        else:
+            device = torch.device("cpu")
 
     ########################################
     # Modify and pretrained model

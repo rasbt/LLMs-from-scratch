@@ -25,7 +25,7 @@ dependencies = [
   "numpy>=1.26",
   "pandas>=2.2.1",
   "pip>=25.0.1",
-  "pytest>=8.3.5,<9",
+  "pytest>=9.1.1",
 ]
 
 [tool.uv.sources]
@@ -34,7 +34,6 @@ llms-from-scratch = { workspace = true }
 [dependency-groups]
 dev = [
     "build>=1.2.2.post1",
-    "pytest-check-links>=0.10.1,<0.11",
     "twine>=6.1.0",
     "tokenizers>=0.22.0",
     "safetensors>=0.6.2",

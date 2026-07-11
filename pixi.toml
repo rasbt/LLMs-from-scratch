@@ -34,7 +34,7 @@ ipywidgets = ">=8.1.2,<9"
 safetensors = ">=0.4.4,<0.6"
 sentencepiece = ">=0.1.99,<0.3"
 transformers = ">=4.33.2,<5"
-pytest = ">=8.3.4,<9"
+pytest = ">=9.1.1,<10"
 nbval = ">=0.11.0,<0.12"
 
 [feature.tests.pypi-dependencies]

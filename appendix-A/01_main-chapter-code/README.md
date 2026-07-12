@@ -3,7 +3,7 @@
 ### Main Chapter Code
 
 - [code-part1.ipynb](code-part1.ipynb) contains all the section A.1 to A.8 code as it appears in the chapter
-- [code-part2.ipynb](code-part2.ipynb) contains all the section A.9 GPU code as it appears in the chapter 
+- [code-part2.ipynb](code-part2.ipynb) contains all the section A.9 GPU code as it appears in the chapter
 - [DDP-script.py](DDP-script.py) contains the script to demonstrate multi-GPU usage (note that Jupyter Notebooks only support single GPUs, so this is a script, not a notebook). You can run it as `python DDP-script.py`. If your machine has more than 2 GPUs, run it as `CUDA_VISIBLE_DEVIVES=0,1 python DDP-script.py`.
 - [exercise-solutions.ipynb](exercise-solutions.ipynb) contains the exercise solutions for this chapter
 

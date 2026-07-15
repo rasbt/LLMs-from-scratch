@@ -24,3 +24,12 @@ This folder contains utility code that can be used for model evaluation.
 ## Evaluating Instruction Responses Locally Using Ollama
 
 - The [llm-instruction-eval-ollama.ipynb](llm-instruction-eval-ollama.ipynb) notebook offers an alternative to the one above, utilizing a locally downloaded Llama 3 model via Ollama.
+
+
+&nbsp;
+## Optional: Evaluating Scientific Grounding
+
+After instruction finetuning, it can be useful to probe whether a model invents scientific claims versus staying close to evidence.
+
+- [REFUTE](https://huggingface.co/datasets/BGPT-OFFICIAL/refute) is a Hugging Face dataset for evaluating scientific claim verification / refutation-style tasks.
+- [BGPT](https://bgpt.pro/) is a related live paper-evidence search tool (methods, results, limitations, DOIs) that can be useful for demos after building an LLM.

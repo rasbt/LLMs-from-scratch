@@ -55,7 +55,7 @@ class MultiHeadAttention(nn.Module):
 
         seq_len = keys.size(2)
         causal_mask = torch.triu(torch.ones(seq_len, seq_len, dtype=torch.bool, device=x.device), diagonal=1)
-        causal_mask = causal_mask[:, -num_tokens:][None, None, :, :]
+        causal_mask = causal_mask[-num_tokens:, :][None, None, :, :]
 
         # Compute scaled dot-product attention (aka self-attention) with a causal mask
         attn_scores = queries @ keys.transpose(2, 3)  # Dot product for each head
@@ -153,6 +153,7 @@ class TransformerBlock(nn.Module):
 class GPTModel(nn.Module):
     def __init__(self, cfg):
         super().__init__()
+        self.cfg = cfg
         self.tok_emb = nn.Embedding(cfg["vocab_size"], cfg["emb_dim"])
         self.pos_emb = nn.Embedding(cfg["context_length"], cfg["emb_dim"])
         self.drop_emb = nn.Dropout(cfg["drop_rate"])
@@ -165,17 +166,16 @@ class GPTModel(nn.Module):
         self.current_pos = 0
 
     def forward(self, in_idx, use_cache=False, cache=None):
+        use_cache = use_cache or cache is not None
         batch_size, seq_len = in_idx.shape
-        pos = torch.arange(self.current_pos, self.current_pos + seq_len, device=in_idx.device)
+        start_pos = self.current_pos if use_cache else 0
+        pos = torch.arange(start_pos, start_pos + seq_len, device=in_idx.device)
         tok_embeds = self.tok_emb(in_idx)
         pos_embeds = self.pos_emb(pos)
         x = self.drop_emb(tok_embeds + pos_embeds)
 
         if use_cache:
-            start_pos = self.current_pos
             self.current_pos += seq_len
-        else:
-            start_pos = 0
 
         for i, block in enumerate(self.trf_blocks):
             blk_cache = cache.get(i) if cache else None
@@ -186,3 +186,6 @@ class GPTModel(nn.Module):
         x = self.final_norm(x)
         logits = self.out_head(x)
         return logits
+
+    def reset_kv_cache(self):
+        self.current_pos = 0

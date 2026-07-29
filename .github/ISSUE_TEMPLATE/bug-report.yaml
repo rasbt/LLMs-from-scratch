@@ -50,31 +50,64 @@ body:
     attributes:
       label: Environment
       description: |
-        Please provide details about your Python environment via the environment collection script or notebook located at
-        https://github.com/rasbt/LLMs-from-scratch/tree/main/setup/02_installing-python-libraries.
-        For your convenience, you can download and run the script from your terminal as follows:
+        To help with debugging, please run the following code in a Jupyter
+        notebook or Python script. Paste the output below or attach the generated
+        `environment.txt` file.
 
-        ```bash
-        curl --ssl-no-revoke -O https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/main/setup/02_installing-python-libraries/python_environment_check.py  \
-        -O https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/main/requirements.txt
+        ```python
+        import json, platform, subprocess, sys
+        from importlib import metadata
+        from pathlib import Path
+        import torch
 
-        python python_environment_check.py
+        def machine_model():
+            try:
+                if platform.system() == "Darwin":
+                    raw = subprocess.check_output(
+                        ["system_profiler", "SPHardwareDataType", "-json"], text=True
+                    )
+                    hw = json.loads(raw)["SPHardwareDataType"][0]
+                    return f"{hw.get('machine_name')} ({hw.get('machine_model')}, {hw.get('chip_type')})"
+
+                if platform.system() == "Linux":
+                    paths = ["/sys/devices/virtual/dmi/id/sys_vendor",
+                             "/sys/devices/virtual/dmi/id/product_name"]
+                    return " ".join(Path(p).read_text().strip() for p in paths)
+
+                if platform.system() == "Windows":
+                    return subprocess.check_output(
+                        ["powershell", "-NoProfile", "-Command",
+                         "(Get-CimInstance Win32_ComputerSystem).Model"],
+                        text=True,
+                    ).strip()
+            except Exception:
+                pass
+            return platform.machine()
+
+        dist = metadata.distribution("torch")
+        installer = (dist.read_text("INSTALLER") or "").strip()
+        if not installer and (Path(sys.prefix) / "conda-meta").exists():
+            installer = "conda"
+
+        source = dist.read_text("direct_url.json")
+        info = {
+            "machine": machine_model(),
+            "OS": platform.platform(),
+            "architecture": platform.machine(),
+            "Python": sys.version.split()[0],
+            "PyTorch": torch.__version__,
+            "installed_with": installer or "unknown",
+            "installation_source": json.loads(source)["url"] if source else None,
+            "CUDA_build": torch.version.cuda,
+            "CUDA_available": torch.cuda.is_available(),
+            "MPS_available": getattr(torch.backends, "mps", None) is not None
+                             and torch.backends.mps.is_available(),
+        }
+
+        report = json.dumps(info, indent=2)
+        print(report)
+        Path("environment.txt").write_text(report)
         ```
-
-        The script will print your Python environment information in the following format
-        ```console
-        [OK] Your Python version is 3.11.4
-        [OK] torch 2.3.1
-        [OK] jupyterlab 4.2.2
-        [OK] tiktoken 0.7.0
-        [OK] matplotlib 3.9.0
-        [OK] numpy 1.26.4
-        [OK] tensorflow 2.16.1
-        [OK] tqdm 4.66.4
-        [OK] pandas 2.2.2
-        [OK] psutil 5.9.8
-        ```
-        You can simply copy and paste the outputs of this script below.
       value: |
         ```
 

@@ -61,3 +61,25 @@ def test_mha_einsum_matches_ch03(d_in, d_out, batch, seq_len, num_heads, seed, i
 
     assert out_linear.shape == out_einsum.shape == torch.Size([batch, seq_len, d_out])
     assert torch.allclose(out_linear, out_einsum, atol=1e-5)
+
+
+def test_sdpa_without_flash_does_not_attend_to_future_tokens(import_notebook_defs):
+    torch.manual_seed(123)
+
+    model = import_notebook_defs.MHAPyTorchSDPAWithoutFlash(
+        d_in=12,
+        d_out=12,
+        context_length=4,
+        dropout=0.0,
+        num_heads=3,
+        qkv_bias=False,
+    ).eval()
+
+    x = torch.randn(1, 4, 12)
+    x_with_changed_future = x.clone()
+    x_with_changed_future[:, 2:] += 10
+
+    out = model(x)
+    out_with_changed_future = model(x_with_changed_future)
+
+    assert torch.allclose(out[:, :2], out_with_changed_future[:, :2], atol=1e-5)

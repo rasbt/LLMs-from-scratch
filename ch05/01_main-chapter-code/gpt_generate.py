@@ -186,6 +186,9 @@ def load_weights_into_gpt(gpt, params):
 
 def generate(model, idx, max_new_tokens, context_size, temperature=0.0, top_k=None, eos_id=None):
 
+    if eos_id is not None and idx.shape[0] != 1:
+        raise ValueError("EOS stopping currently supports batch size 1 only")
+
     # For-loop is the same as before: Get logits, and only focus on last time step
     for _ in range(max_new_tokens):
         idx_cond = idx[:, -context_size:]
@@ -218,7 +221,7 @@ def generate(model, idx, max_new_tokens, context_size, temperature=0.0, top_k=No
         else:
             idx_next = torch.argmax(logits, dim=-1, keepdim=True)  # (batch_size, 1)
 
-        if eos_id is not None and (idx_next == eos_id).all():  # Stop generating early if end-of-sequence token is encountered and eos_id is specified
+        if idx_next == eos_id:  # Stop generating early if end-of-sequence token is encountered and eos_id is specified
             break
 
         # Same as before: append sampled index to the running sequence

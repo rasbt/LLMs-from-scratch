@@ -218,7 +218,7 @@ def generate(model, idx, max_new_tokens, context_size, temperature=0.0, top_k=No
         else:
             idx_next = torch.argmax(logits, dim=-1, keepdim=True)  # (batch_size, 1)
 
-        if idx_next == eos_id:  # Stop generating early if end-of-sequence token is encountered and eos_id is specified
+        if eos_id is not None and (idx_next == eos_id).all():  # Stop generating early if end-of-sequence token is encountered and eos_id is specified
             break
 
         # Same as before: append sampled index to the running sequence

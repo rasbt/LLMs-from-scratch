@@ -7,7 +7,7 @@ import argparse
 import os
 from pathlib import Path
 import time
-import urllib
+import requests
 import zipfile
 
 import pandas as pd
@@ -62,9 +62,12 @@ def download_and_unzip(url, zip_path, extract_to, new_file_path):
         return
 
     # Downloading the file
-    with urllib.request.urlopen(url) as response:
-        with open(zip_path, "wb") as out_file:
-            out_file.write(response.read())
+    response = requests.get(url, stream=True, timeout=60)
+    response.raise_for_status()
+    with open(zip_path, "wb") as out_file:
+        for chunk in response.iter_content(chunk_size=8192):
+            if chunk:
+                out_file.write(chunk)
 
     # Unzipping the file
     with zipfile.ZipFile(zip_path, "r") as zip_ref:
@@ -76,20 +79,20 @@ def download_and_unzip(url, zip_path, extract_to, new_file_path):
     print(f"File downloaded and saved as {new_file_path}")
 
 
-def random_split(df, train_frac, validation_frac):
+def random_split(df, train_frac, val_frac):
     # Shuffle the entire DataFrame
     df = df.sample(frac=1, random_state=123).reset_index(drop=True)
 
     # Calculate split indices
     train_end = int(len(df) * train_frac)
-    validation_end = train_end + int(len(df) * validation_frac)
+    val_end = train_end + int(len(df) * val_frac)
 
     # Split the DataFrame
     train_df = df[:train_end]
-    validation_df = df[train_end:validation_end]
-    test_df = df[validation_end:]
+    val_df = df[train_end:val_end]
+    test_df = df[val_end:]
 
-    return train_df, validation_df, test_df
+    return train_df, val_df, test_df
 
 
 def create_dataset_csvs(new_file_path):
@@ -103,9 +106,9 @@ def create_dataset_csvs(new_file_path):
     balanced_df["Label"] = balanced_df["Label"].map({"ham": 0, "spam": 1})
 
     # Sample and save csv files
-    train_df, validation_df, test_df = random_split(balanced_df, 0.7, 0.1)
+    train_df, val_df, test_df = random_split(balanced_df, 0.7, 0.1)
     train_df.to_csv("train.csv", index=None)
-    validation_df.to_csv("validation.csv", index=None)
+    val_df.to_csv("validation.csv", index=None)
     test_df.to_csv("test.csv", index=None)
 
 
@@ -269,7 +272,7 @@ def train_classifier_simple(model, train_loader, val_loader, optimizer, device, 
 
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument(
         "--trainable_layers",
         type=str,
@@ -412,7 +415,7 @@ if __name__ == "__main__":
     if not all_exist:
         try:
             download_and_unzip(url, zip_path, extract_to, new_file_path)
-        except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError) as e:
+        except (requests.exceptions.RequestException, TimeoutError) as e:
             print(f"Primary URL failed: {e}. Trying backup URL...")
             backup_url = "https://f001.backblazeb2.com/file/LLMs-from-scratch/sms%2Bspam%2Bcollection.zip"
             download_and_unzip(backup_url, zip_path, extract_to, new_file_path)

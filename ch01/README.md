@@ -10,6 +10,10 @@ There is no code in this chapter.
 &nbsp;
 ## Bonus Materials
 
+[Recommendations for Getting the Most Out of This Book](https://sebastianraschka.com/blog/2025/reading-books.html)
+
+
+
 In the video below, I share my personal approach to setting up a Python environment on my computer:
 
 <br>

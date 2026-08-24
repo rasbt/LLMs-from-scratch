@@ -43,7 +43,7 @@ def combine_files(file_paths, target_dir, max_size_mb=500, separator="<|endoftex
         content = strip_headers(content)
 
         # Regular expression to replace multiple blank lines with a single blank line
-        content = re.sub(r'\n\s*\n', '\n\n', content)
+        content = re.sub(r"\n\s*\n", "\n\n", content)
         estimated_size = len(content.encode("utf-8"))
 
         if current_size + estimated_size > max_size_mb * 1024 * 1024:
@@ -66,7 +66,7 @@ def combine_files(file_paths, target_dir, max_size_mb=500, separator="<|endoftex
 
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser(description="Preprocess and combine text files for pretraining")
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter, description="Preprocess and combine text files for pretraining")
 
     parser.add_argument("--data_dir", type=str, default="gutenberg/data/raw",
                         help="Directory containing the downloaded raw training data")

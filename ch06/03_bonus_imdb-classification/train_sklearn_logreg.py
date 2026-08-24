@@ -19,7 +19,7 @@ def load_dataframes():
     return df_train, df_val, df_test
 
 
-def eval(model, X_train, y_train, X_val, y_val, X_test, y_test):
+def eval_model(model, X_train, y_train, X_val, y_val, X_test, y_test):
     # Making predictions
     y_pred_train = model.predict(X_train)
     y_pred_val = model.predict(X_val)
@@ -67,9 +67,9 @@ if __name__ == "__main__":
     dummy_clf.fit(X_train, y_train)
 
     print("Dummy classifier:")
-    eval(dummy_clf, X_train, y_train, X_val, y_val, X_test, y_test)
+    eval_model(dummy_clf, X_train, y_train, X_val, y_val, X_test, y_test)
 
     print("\n\nLogistic regression classifier:")
     model = LogisticRegression(max_iter=1000)
     model.fit(X_train, y_train)
-    eval(model, X_train, y_train, X_val, y_val, X_test, y_test)
+    eval_model(model, X_train, y_train, X_val, y_val, X_test, y_test)

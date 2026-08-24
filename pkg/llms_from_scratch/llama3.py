@@ -15,8 +15,7 @@ from tiktoken.load import load_tiktoken_bpe
 
 LLAMA32_CONFIG_1B = {
     "vocab_size": 128_256,           # Vocabulary size
-    "context_length": 8192,          # Maximum context length to use (reduced to save memory)
-    "orig_context_length": 131_072,  # Context length that was used to train the model
+    "context_length": 131_072,       # Context length that was used to train the model
     "emb_dim": 2048,                 # Embedding dimension
     "n_heads": 32,                   # Number of attention heads
     "n_layers": 16,                  # Number of layers
@@ -34,8 +33,7 @@ LLAMA32_CONFIG_1B = {
 
 LLAMA32_CONFIG_3B = {
     "vocab_size": 128_256,           # Vocabulary size
-    "context_length": 8192,          # Maximum context length to use (reduced to save memory)
-    "orig_context_length": 131_072,  # Context length that was used to train the model
+    "context_length": 131_072,       # Context length that was used to train the model
     "emb_dim": 3072,                 # Embedding dimension
     "n_heads": 24,                   # Number of attention heads
     "n_layers": 28,                  # Number of layers
@@ -66,18 +64,7 @@ class Llama3Model(nn.Module):
         self.final_norm = nn.RMSNorm(cfg["emb_dim"], eps=1e-5, dtype=cfg["dtype"])
         self.out_head = nn.Linear(cfg["emb_dim"], cfg["vocab_size"], bias=False, dtype=cfg["dtype"])
 
-        # Reusuable utilities
-        self.register_buffer(
-            "mask", torch.triu(torch.ones(cfg["context_length"], cfg["context_length"]), diagonal=1).bool(),
-            persistent=False
-        )
-
-        if cfg["orig_context_length"] != cfg["context_length"]:
-            cfg["rope_base"] = rescale_theta(
-                            cfg["rope_base"],
-                            cfg["orig_context_length"],
-                            cfg["context_length"]
-                        )
+        # Reusable utilities
         cos, sin = compute_rope_params(
             head_dim=cfg["emb_dim"] // cfg["n_heads"],
             theta_base=cfg["rope_base"],
@@ -92,8 +79,11 @@ class Llama3Model(nn.Module):
         tok_embeds = self.tok_emb(in_idx)
         x = tok_embeds
 
+        num_tokens = x.shape[1]
+        mask = torch.triu(torch.ones(num_tokens, num_tokens, device=x.device, dtype=torch.bool), diagonal=1)
+
         for block in self.trf_blocks:
-            x = block(x, self.mask, self.cos, self.sin)
+            x = block(x, mask, self.cos, self.sin)
         x = self.final_norm(x)
         logits = self.out_head(x.to(self.cfg["dtype"]))
         return logits
@@ -176,9 +166,9 @@ class GroupedQueryAttention(nn.Module):
         values = values.view(b, num_tokens, self.num_kv_groups, self.head_dim)
 
         # Transpose keys, values, and queries
-        keys = keys.transpose(1, 2)  # Shape: (b, num_heads, num_tokens, head_dim)
-        values = values.transpose(1, 2)  # Shape: (b, num_heads, num_tokens, head_dim)
-        queries = queries.transpose(1, 2)  # Shape: (b, num_query_groups, num_tokens, head_dim)
+        keys = keys.transpose(1, 2)  # Shape: (b, num_kv_groups, num_tokens, head_dim)
+        values = values.transpose(1, 2)  # Shape: (b, num_kv_groups, num_tokens, head_dim)
+        queries = queries.transpose(1, 2)  # Shape: (b, num_heads, num_tokens, head_dim)
 
         # Apply RoPE
         keys = apply_rope(keys, cos, sin)
@@ -215,6 +205,58 @@ class GroupedQueryAttention(nn.Module):
         return context_vec
 
 
+# ==============================================================================
+# RoPE implementation summary
+#
+#
+# There are two common styles to implement RoPE, which are
+# mathematically equivalent;
+# they mainly differ in how the rotation matrix pairs dimensions.
+#
+# 1) Split-halves style (this repo, Hugging Face Transformers):
+#
+#   For hidden dim d = 8 (example):
+#
+#       [ x0   x1   x2   x3   x4   x5   x6   x7 ]
+#         │    │    │    │    │    │    │    │
+#         ▼    ▼    ▼    ▼    ▼    ▼    ▼    ▼
+#        cos  cos  cos  cos  sin  sin  sin  sin
+#
+#   Rotation matrix:
+#
+#       [ cosθ   -sinθ    0      0   ... ]
+#       [ sinθ    cosθ    0      0   ... ]
+#       [  0       0    cosθ   -sinθ ... ]
+#       [  0       0    sinθ    cosθ ... ]
+#        ...
+#
+#   Here, the embedding dims are split into two halves and then
+#   each one is rotated in blocks.
+#
+#
+# 2) Interleaved (even/odd) style (original paper, Llama repo):
+#
+#   For hidden dim d = 8 (example):
+#
+#       [ x0   x1   x2   x3   x4   x5   x6   x7 ]
+#         │    │    │    │    │    │    │    │
+#         ▼    ▼    ▼    ▼    ▼    ▼    ▼    ▼
+#        cos  sin  cos  sin  cos  sin  cos  sin
+#
+#   Rotation matrix:
+#       [ cosθ  -sinθ    0      0   ... ]
+#       [ sinθ   cosθ    0      0   ... ]
+#       [  0      0    cosθ   -sinθ ... ]
+#       [  0      0    sinθ    cosθ ... ]
+#        ...
+#
+#   Here, embedding dims are interleaved as even/odd cosine/sine pairs.
+#
+# Both layouts encode the same relative positions; the only difference is how
+# dimensions are paired.
+# ==============================================================================
+
+
 def compute_rope_params(head_dim, theta_base=10_000, context_length=4096, freq_config=None, dtype=torch.float32):
     assert head_dim % 2 == 0, "Embedding dimension must be even"
 
@@ -248,7 +290,7 @@ def compute_rope_params(head_dim, theta_base=10_000, context_length=4096, freq_c
     positions = torch.arange(context_length, dtype=dtype)
 
     # Compute the angles
-    angles = positions[:, None] * inv_freq[None, :]  # Shape: (context_length, head_dim // 2)
+    angles = positions.unsqueeze(1) * inv_freq.unsqueeze(0)  # Shape: (context_length, head_dim // 2)
 
     # Expand angles to match the head_dim
     angles = torch.cat([angles, angles], dim=1)  # Shape: (context_length, head_dim)
@@ -281,88 +323,93 @@ def apply_rope(x, cos, sin):
     return x_rotated.to(dtype=x.dtype)
 
 
-def rescale_theta(theta_old, context_length_old, context_length_new):
-    scaling_factor = context_length_new / context_length_old
-    theta_new = theta_old * scaling_factor
-    return theta_new
-
-
 ##########################################
 # Tokenizer
 ##########################################
 
 
 class Llama3Tokenizer:
+    """Thin wrapper around tiktoken that keeps track of Llama-3 special IDs."""
     def __init__(self, model_path):
-        assert os.path.isfile(model_path), f"Model file {model_path} not found"
-        mergeable_ranks = load_tiktoken_bpe(model_path)
+        if not os.path.isfile(model_path):
+            raise FileNotFoundError(model_path)
 
-        self.special_tokens = {
+        mergeable = load_tiktoken_bpe(model_path)
+
+        # hard-coded from Meta's tokenizer.json
+        self.special = {
             "<|begin_of_text|>": 128000,
             "<|end_of_text|>": 128001,
             "<|start_header_id|>": 128006,
             "<|end_header_id|>": 128007,
             "<|eot_id|>": 128009,
         }
-        self.special_tokens.update({
-            f"<|reserved_{i}|>": 128002 + i for i in range(256) if (128002 + i) not in self.special_tokens.values()
-        })
+        self.special.update({f"<|reserved_{i}|>": 128002 + i
+                             for i in range(256)
+                             if 128002 + i not in self.special.values()})
 
         self.model = tiktoken.Encoding(
             name=Path(model_path).name,
-            pat_str=r"(?i:'s|'t|'re|'ve|'m|'ll|'d)|[^\r\n\p{L}\p{N}]?\p{L}+|\p{N}{1,3}| ?[^\s\p{L}\p{N}]+[\r\n]*|\s*[\r\n]+|\s+(?!\S)|\s+",
-            mergeable_ranks=mergeable_ranks,
-            special_tokens=self.special_tokens
+            pat_str=r"(?i:'s|'t|'re|'ve|'m|'ll|'d)"
+                    r"|[^\r\n\p{L}\p{N}]?\p{L}+"
+                    r"|\p{N}{1,3}"
+                    r"| ?[^\s\p{L}\p{N}]+[\r\n]*"
+                    r"|\s*[\r\n]+"
+                    r"|\s+(?!\S)"
+                    r"|\s+",
+            mergeable_ranks=mergeable,
+            special_tokens=self.special,
         )
 
-    def encode(self, text, bos=False, eos=False, allowed_special=set(), disallowed_special=()):
-        if bos:
-            tokens = [self.special_tokens["<|begin_of_text|>"]]
-        else:
-            tokens = []
-
-        tokens += self.model.encode(text, allowed_special=allowed_special, disallowed_special=disallowed_special)
-
+    def encode(self, text, bos=False, eos=False, **kwargs):
+        ids = ([self.special["<|begin_of_text|>"]] if bos else []) \
+              + self.model.encode(text)
         if eos:
-            tokens.append(self.special_tokens["<|end_of_text|>"])
-        return tokens
+            ids.append(self.special["<|end_of_text|>"])
+        return ids
 
-    def decode(self, tokens):
-        return self.model.decode(tokens)
+    def decode(self, ids):
+        return self.model.decode(ids)
 
 
 class ChatFormat:
-    def __init__(self, tokenizer):
-        self.tokenizer = tokenizer
 
-    def encode_header(self, message):
-        tokens = []
-        tokens.append(self.tokenizer.special_tokens["<|start_header_id|>"])
-        tokens.extend(self.tokenizer.encode(message["role"], bos=False, eos=False))
-        tokens.append(self.tokenizer.special_tokens["<|end_header_id|>"])
-        tokens.extend(self.tokenizer.encode("\n\n", bos=False, eos=False))
-        return tokens
+    def __init__(self, tokenizer: Llama3Tokenizer, *,
+                 default_system="You are a helpful assistant."):
+        self.tok = tokenizer
+        self.default_system = default_system
 
-    def encode(self, text, allowed_special=None):
-        message = {
-            "role": "user",
-            "content": text
-        }
-
-        tokens = self.encode_header(message)
-        tokens.extend(
-            self.tokenizer.encode(
-                message["content"].strip(),
-                bos=False,
-                eos=False,
-                allowed_special=allowed_special
-            )
+    def _header(self, role):
+        """Encode <|start_header_id|>role<|end_header_id|>\n\n"""
+        return (
+            [self.tok.special["<|start_header_id|>"]]
+            + self.tok.encode(role)
+            + [self.tok.special["<|end_header_id|>"]]
+            + self.tok.encode("\n\n")
         )
-        tokens.append(self.tokenizer.special_tokens["<|eot_id|>"])
-        return tokens
 
-    def decode(self, token_ids):
-        return self.tokenizer.decode(token_ids)
+    def encode(self, user_message, system_message=None, allowed_special=None):
+        sys_msg = system_message if system_message is not None else self.default_system
+
+        ids = [self.tok.special["<|begin_of_text|>"]]
+
+        # system
+        ids += self._header("system")
+        ids += self.tok.encode(sys_msg, allowed_special=allowed_special)
+        ids += [self.tok.special["<|eot_id|>"]]
+
+        # user
+        ids += self._header("user")
+        ids += self.tok.encode(user_message)
+        ids += [self.tok.special["<|eot_id|>"]]
+
+        # assistant header (no content yet)
+        ids += self._header("assistant")
+
+        return ids
+
+    def decode(self, ids):
+        return self.tok.decode(ids)
 
 
 def clean_text(text, header_end="assistant<|end_header_id|>\n\n"):
@@ -483,12 +530,6 @@ class Llama3ModelFast(nn.Module):
         self.final_norm = nn.RMSNorm(cfg["emb_dim"], eps=1e-5, dtype=cfg["dtype"])
         self.out_head = nn.Linear(cfg["emb_dim"], cfg["vocab_size"], bias=False, dtype=cfg["dtype"])
 
-        if cfg["orig_context_length"] != cfg["context_length"]:
-            cfg["rope_base"] = rescale_theta(
-                            cfg["rope_base"],
-                            cfg["orig_context_length"],
-                            cfg["context_length"]
-                        )
         cos, sin = compute_rope_params(
             head_dim=cfg["emb_dim"] // cfg["n_heads"],
             theta_base=cfg["rope_base"],
@@ -508,3 +549,81 @@ class Llama3ModelFast(nn.Module):
         x = self.final_norm(x)
         logits = self.out_head(x.to(self.cfg["dtype"]))
         return logits
+
+
+def assign(left, right, tensor_name="unknown"):
+    if left.shape != right.shape:
+        raise ValueError(f"Shape mismatch in tensor '{tensor_name}'. Left: {left.shape}, Right: {right.shape}")
+
+    with torch.no_grad():
+        if isinstance(right, torch.Tensor):
+            left.copy_(right)
+        else:
+            left.copy_(torch.as_tensor(right, dtype=left.dtype, device=left.device))
+
+    return left
+
+
+def load_weights_into_llama(model, param_config, params):
+
+    model.tok_emb.weight = assign(model.tok_emb.weight, params["model.embed_tokens.weight"], "model.embed_tokens.weight")
+
+    for l in range(param_config["n_layers"]):
+
+        # Load attention weights
+        model.trf_blocks[l].att.W_query.weight = assign(
+            model.trf_blocks[l].att.W_query.weight,
+            params[f"model.layers.{l}.self_attn.q_proj.weight"],
+            f"model.layers.{l}.self_attn.q_proj.weight"
+        )
+        model.trf_blocks[l].att.W_key.weight = assign(
+            model.trf_blocks[l].att.W_key.weight,
+            params[f"model.layers.{l}.self_attn.k_proj.weight"],
+            f"model.layers.{l}.self_attn.k_proj.weight"
+        )
+        model.trf_blocks[l].att.W_value.weight = assign(
+            model.trf_blocks[l].att.W_value.weight,
+            params[f"model.layers.{l}.self_attn.v_proj.weight"],
+            f"model.layers.{l}.self_attn.v_proj.weight"
+        )
+        model.trf_blocks[l].att.out_proj.weight = assign(
+            model.trf_blocks[l].att.out_proj.weight,
+            params[f"model.layers.{l}.self_attn.o_proj.weight"],
+            f"model.layers.{l}.self_attn.o_proj.weight"
+        )
+        model.trf_blocks[l].norm1.weight = assign(
+            model.trf_blocks[l].norm1.weight,
+            params[f"model.layers.{l}.input_layernorm.weight"],
+            f"model.layers.{l}.input_layernorm.weight"
+        )
+
+        # Load FeedForward weights
+        model.trf_blocks[l].ff.fc1.weight = assign(
+            model.trf_blocks[l].ff.fc1.weight,
+            params[f"model.layers.{l}.mlp.gate_proj.weight"],
+            f"model.layers.{l}.mlp.gate_proj.weight"
+        )
+        model.trf_blocks[l].ff.fc2.weight = assign(
+            model.trf_blocks[l].ff.fc2.weight,
+            params[f"model.layers.{l}.mlp.up_proj.weight"],
+            f"model.layers.{l}.mlp.up_proj.weight"
+        )
+        model.trf_blocks[l].ff.fc3.weight = assign(
+            model.trf_blocks[l].ff.fc3.weight,
+            params[f"model.layers.{l}.mlp.down_proj.weight"],
+            f"model.layers.{l}.mlp.down_proj.weight"
+        )
+        model.trf_blocks[l].norm2.weight = assign(
+            model.trf_blocks[l].norm2.weight,
+            params[f"model.layers.{l}.post_attention_layernorm.weight"],
+            f"model.layers.{l}.post_attention_layernorm.weight"
+        )
+
+    # Load output layer weights
+    model.final_norm.weight = assign(model.final_norm.weight, params["model.norm.weight"], "model.norm.weight")
+
+    if "lm_head.weight" in params.keys():
+        model.out_head.weight = assign(model.out_head.weight, params["lm_head.weight"], "lm_head.weight")
+    else:
+        model.out_head.weight = model.tok_emb.weight
+        print("Model uses weight tying.")

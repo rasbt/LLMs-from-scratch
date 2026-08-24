@@ -78,6 +78,29 @@ mv setup/03_optional-docker-environment/.devcontainer ./
 
 Since the `.devcontainer` folder is present in the main `LLMs-from-scratch` directory (folders starting with `.` may be invisible in your OS depending on your settings), VS Code should automatically detect it and ask whether you would like to open the project in a devcontainer. If it doesn't, simply press `Ctrl + Shift + P` to open the command palette and start typing `dev containers` to see a list of all DevContainer-specific options.
 
+
+&nbsp;
+> ⚠️ **Note about running as root**
+>
+> By default, the DevContainer runs as the *root user*. This is not generally recommended for security reasons, but for simplicity in this book's setup, the root configuration is used so that all required packages install cleanly inside the container.
+>
+> If you try to start Jupyter Lab manually inside the container, you may see this error:
+>
+>   ```bash
+>   Running as root is not recommended. Use --allow-root to bypass.
+>   ```
+>
+>   In this case, you can run:
+>
+>   ```bash
+>   uv run jupyter lab --allow-root
+>   ```
+>
+> - When using VS Code with the Jupyter extension, you usually don't need to start Jupyter Lab manually. Opening notebooks through the extension should work out of the box.
+> - Advanced users who prefer stricter security can modify the `.devcontainer.json` to set up a non-root user, but this requires extra configuration and is not necessary for most use cases.
+
+
+
 8. Select **Reopen in Container**.
 
 Docker will now begin the process of building the Docker image specified in the `.devcontainer` configuration if it hasn't been built before, or pull the image if it's available from a registry.
@@ -86,6 +109,7 @@ The entire process is automated and might take a few minutes, depending on your 
 
 Once completed, VS Code will automatically connect to the container and reopen the project within the newly created Docker development environment. You will be able to write, execute, and debug code as if it were running on your local machine, but with the added benefits of Docker's isolation and consistency.
 
+&nbsp;
 > **Warning:**
 > If you are encountering an error during the build process, this is likely because your machine does not support NVIDIA container toolkit because your machine doesn't have a compatible GPU. In this case, edit the `devcontainer.json` file to remove the `"runArgs": ["--runtime=nvidia", "--gpus=all"],` line and run the "Reopen Dev Container" procedure again.
 

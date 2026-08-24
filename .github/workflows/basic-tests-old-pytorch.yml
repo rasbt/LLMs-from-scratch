@@ -1,4 +1,4 @@
-name: Test PyTorch 2.2 and 2.6
+name: Test PyTorch 2.3 and 2.5
 
 on:
   push:
@@ -23,13 +23,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        pytorch-version: [ 2.3.0, 2.6.0 ]
+        pytorch-version: [ 2.3.0, 2.5.0 ]
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
 
     - name: Set up Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v6
       with:
         python-version: "3.13"
 
@@ -38,21 +38,19 @@ jobs:
         curl -LsSf https://astral.sh/uv/install.sh | sh
         uv sync --dev --python=3.10  # tests for backwards compatibility
         uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
-        uv add torch==${{ matrix.pytorch-version }}
-        uv add pytest-ruff nbval
+        uv pip install torch==${{ matrix.pytorch-version }} pytest-ruff nbval
 
     - name: Test Selected Python Scripts
       run: |
         source .venv/bin/activate
-        pytest --ruff setup/02_installing-python-libraries/tests.py
-        pytest --ruff ch04/01_main-chapter-code/tests.py
-        pytest --ruff ch05/01_main-chapter-code/tests.py
-        pytest --ruff ch05/07_gpt_to_llama/tests/tests.py
-        pytest --ruff ch06/01_main-chapter-code/tests.py
+        pytest setup/02_installing-python-libraries/tests.py
+        pytest ch04/01_main-chapter-code/tests.py
+        pytest ch05/01_main-chapter-code/tests.py
+        pytest ch06/01_main-chapter-code/tests.py
 
     - name: Validate Selected Jupyter Notebooks
       run: |
         source .venv/bin/activate
-        pytest --ruff --nbval ch02/01_main-chapter-code/dataloader.ipynb
-        pytest --ruff --nbval ch03/01_main-chapter-code/multihead-attention.ipynb
-        pytest --ruff --nbval ch02/04_bonus_dataloader-intuition/dataloader-intuition.ipynb
+        pytest --nbval ch02/01_main-chapter-code/dataloader.ipynb
+        pytest --nbval ch03/01_main-chapter-code/multihead-attention.ipynb
+        pytest --nbval ch02/04_bonus_dataloader-intuition/dataloader-intuition.ipynb

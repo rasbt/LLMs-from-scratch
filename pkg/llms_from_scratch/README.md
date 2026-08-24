@@ -109,13 +109,72 @@ from llms_from_scratch.ch07 import (
 from llms_from_scratch.appendix_a import NeuralNetwork, ToyDataset
 
 from llms_from_scratch.appendix_d import find_highest_gradient, train_model
+```
 
+
+
+&nbsp;
+
+### GPT-2 KV cache variant (Bonus material)
+
+```python
+from llms_from_scratch.kv_cache.gpt2 import GPTModel
+from llms_from_scratch.kv_cache.generate import generate_text_simple
+```
+
+For more information about KV caching, please see the [KV cache README](../../ch04/03_kv-cache).
+
+
+
+&nbsp;
+
+### Llama  3 (Bonus material)
+
+```python
 from llms_from_scratch.llama3 import (
-    Llama3Model,
+		load_weights_into_llama,
+  	Llama3Model,
+    Llama3ModelFast,
     Llama3Tokenizer,
     ChatFormat,
     clean_text
 )
+
+# KV cache drop-in replacements
+from llms_from_scratch.kv_cache.llama3 import Llama3Model
+from llms_from_scratch.kv_cache.generate import generate_text_simple
 ```
 
-(For the `llms_from_scratch.llama3` usage information, please see [this bonus section](../../ch05/07_gpt_to_llama/README.md).
+For the `llms_from_scratch.llama3` usage information, please see [this bonus section](../../ch05/07_gpt_to_llama/README.md). 
+
+For more information about KV caching, please see the [KV cache README](../../ch04/03_kv-cache).
+
+
+&nbsp;
+### Qwen3 (Bonus material)
+
+```python
+from llms_from_scratch.qwen3 import (
+    load_weights_into_qwen,
+    Qwen3Model,
+    Qwen3Tokenizer,
+)
+
+# KV cache drop-in replacements
+from llms_from_scratch.kv_cache.qwen3 import Qwen3Model
+from llms_from_scratch.kv_cache.generate import (
+    generate_text_simple,
+    generate_text_simple_stream
+)
+
+# KV cache drop-in replacements with batched inference support
+from llms_from_scratch.kv_cache_batched.generate import (
+    generate_text_simple,
+    generate_text_simple_stream
+)
+from llms_from_scratch.kv_cache_batched.qwen3 import Qwen3Model
+```
+
+For the `llms_from_scratch.qwen3` usage information, please see [this bonus section](../../ch05/11_qwen3/README.md).
+
+For more information about KV caching, please see the [KV cache README](../../ch04/03_kv-cache).

@@ -17,6 +17,7 @@ pip install -r requirements.txt
 
 > **Note:** If you are running any of the notebooks on Google Colab and want to install the dependencies, simply run the following code in a new cell at the top of the notebook:
 > `pip install uv && uv pip install --system -r https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/refs/heads/main/requirements.txt`
+> Optionally, after cloning the repository, you install the dependencies for all bonus materials with `uv pip install --group bonus` from the project root. This is useful if you don't want to install them separately as you check out the optional bonus materials later on.
 
 
 
@@ -61,7 +62,7 @@ There are many good options for code editors. My preferred choice is the popular
 
 ## VSCode Extensions
 
-If you are using Visual Studio Code (VSCode) as your primary code editor, you can find recommended extensions in the `.vscode` subfolder. These extensions provide enhanced functionality and tools helpful for this repositoy.
+If you are using Visual Studio Code (VSCode) as your primary code editor, you can find recommended extensions in the `.vscode` subfolder. These extensions provide enhanced functionality and tools helpful for this repository.
 
 To install these, open this "setup" folder in VSCode (File -> Open Folder...) and then click the "Install" button in the pop-up menu on the lower right.
 

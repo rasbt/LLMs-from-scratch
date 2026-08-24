@@ -5,9 +5,8 @@
 
 
 import os
-import urllib.request
 
-# import requests
+import requests
 import json
 import numpy as np
 import tensorflow as tf
@@ -48,44 +47,40 @@ def download_and_load_gpt2(model_size, models_dir):
 
 def download_file(url, destination, backup_url=None):
     def _attempt_download(download_url):
-        with urllib.request.urlopen(download_url) as response:
-            # Get the total file size from headers, defaulting to 0 if not present
-            file_size = int(response.headers.get("Content-Length", 0))
+        response = requests.get(download_url, stream=True, timeout=60)
+        response.raise_for_status()
 
-            # Check if file exists and has the same size
-            if os.path.exists(destination):
-                file_size_local = os.path.getsize(destination)
-                if file_size == file_size_local:
-                    print(f"File already exists and is up-to-date: {destination}")
-                    return True  # Indicate success without re-downloading
+        file_size = int(response.headers.get("Content-Length", 0))
 
-            block_size = 1024  # 1 Kilobyte
+        # Check if file exists and has same size
+        if os.path.exists(destination):
+            file_size_local = os.path.getsize(destination)
+            if file_size and file_size == file_size_local:
+                print(f"File already exists and is up-to-date: {destination}")
+                return True
 
-            # Initialize the progress bar with total file size
-            progress_bar_description = os.path.basename(download_url)
-            with tqdm(total=file_size, unit="iB", unit_scale=True, desc=progress_bar_description) as progress_bar:
-                with open(destination, "wb") as file:
-                    while True:
-                        chunk = response.read(block_size)
-                        if not chunk:
-                            break
+        block_size = 1024  # 1 KB
+        desc = os.path.basename(download_url)
+        with tqdm(total=file_size, unit="iB", unit_scale=True, desc=desc) as progress_bar:
+            with open(destination, "wb") as file:
+                for chunk in response.iter_content(chunk_size=block_size):
+                    if chunk:
                         file.write(chunk)
                         progress_bar.update(len(chunk))
-            return True
+        return True
 
     try:
         if _attempt_download(url):
             return
-    except (urllib.error.HTTPError, urllib.error.URLError):
+    except requests.exceptions.RequestException:
         if backup_url is not None:
             print(f"Primary URL ({url}) failed. Attempting backup URL: {backup_url}")
             try:
                 if _attempt_download(backup_url):
                     return
-            except urllib.error.HTTPError:
+            except requests.exceptions.RequestException:
                 pass
 
-        # If we reach here, both attempts have failed
         error_message = (
             f"Failed to download from both primary URL ({url})"
             f"{' and backup URL (' + backup_url + ')' if backup_url else ''}."

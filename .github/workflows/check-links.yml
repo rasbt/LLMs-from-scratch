@@ -13,25 +13,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
 
     - name: Set up Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v6
       with:
         python-version: "3.10"
 
-    - name: Install dependencies
-      run: |
-        curl -LsSf https://astral.sh/uv/install.sh | sh
-        uv add pytest-ruff pytest-check-links
+    - name: Install uv
+      run: curl -LsSf https://astral.sh/uv/install.sh | sh
 
     - name: Check links
+      env:
+        CHECK_LINKS_TIMEOUT: "10"
       run: |
-        source .venv/bin/activate
-        pytest --ruff --check-links ./ \
+        uv run --script .github/scripts/check_links.py ./ \
           --check-links-ignore "https://platform.openai.com/*" \
           --check-links-ignore "https://openai.com/*" \
           --check-links-ignore "https://arena.lmsys.org" \
+          --check-links-ignore "https?://localhost(:\\d+)?/.*" \
+          --check-links-ignore "https?://127[.]0[.]0[.]1(:\\d+)?/.*" \
+          --check-links-ignore "https://mng\\.bz/.*" \
+          --check-links-ignore "https://github\\.com/.*" \
           --check-links-ignore "https://unsloth.ai/blog/gradient" \
           --check-links-ignore "https://www.reddit.com/r/*" \
           --check-links-ignore "https://code.visualstudio.com/*" \

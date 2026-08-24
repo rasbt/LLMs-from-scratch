@@ -14,9 +14,11 @@ class LoRALayer(torch.nn.Module):
         torch.nn.init.kaiming_uniform_(self.A, a=math.sqrt(5))  # similar to standard weight initialization
         self.B = torch.nn.Parameter(torch.zeros(rank, out_dim))
         self.alpha = alpha
+        self.rank = rank
 
     def forward(self, x):
-        x = self.alpha * (x @ self.A @ self.B)
+
+        x = (self.alpha / self.rank) * (x @ self.A @ self.B)
         return x
 
 

@@ -6,9 +6,9 @@
 
 import os
 import time
-import urllib.request
 
 import matplotlib.pyplot as plt
+import requests
 import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
@@ -108,7 +108,7 @@ class PyTorchMultiHeadAttention(nn.Module):
     def __init__(self, d_in, d_out, num_heads, dropout=0.0, qkv_bias=False):
         super().__init__()
 
-        assert d_out % num_heads == 0, "embed_dim is indivisible by num_heads"
+        assert d_out % num_heads == 0, "d_out is indivisible by num_heads"
 
         self.num_heads = num_heads
         self.head_dim = d_out // num_heads
@@ -312,7 +312,7 @@ def generate_and_print_sample(model, device, start_context):
 
 
 def train_model_simple_with_timing(model, train_loader, val_loader, optimizer, device,
-                                   num_epochs, eval_freq, eval_iter, start_context, tokenizer):
+                                   num_epochs, eval_freq, eval_iter, start_context):
     train_losses, val_losses, track_tokens = [], [], []
     total_tokens, global_step, last_tokens = 0, -1, 0
 
@@ -468,11 +468,11 @@ def main(gpt_config, settings, rank, world_size):
     # NEW: Only download 1 time
     if rank == 0:
         if not os.path.exists(file_path):
-            with urllib.request.urlopen(url) as response:
-                text_data = response.read().decode('utf-8')
+            response = requests.get(url, timeout=30)
+            response.raise_for_status()
+            text_data = response.text
             with open(file_path, "w", encoding="utf-8") as file:
                 file.write(text_data)
-
     # NEW: All processes wait until rank 0 is done, using the GPU index.
     torch.distributed.barrier(device_ids=[device.index])
 
@@ -524,8 +524,6 @@ def main(gpt_config, settings, rank, world_size):
     # Train model
     ##############################
 
-    tokenizer = tiktoken.get_encoding("gpt2")
-
     train_losses, val_losses, tokens_seen = train_model_simple_with_timing(
         model=model,
         train_loader=train_loader,
@@ -536,7 +534,6 @@ def main(gpt_config, settings, rank, world_size):
         eval_freq=5,
         eval_iter=1,
         start_context="Every effort moves you",
-        tokenizer=tokenizer
     )
 
     # NEW: Clean up distributed processes

@@ -25,4 +25,4 @@ In the video below, I provide a code-along session that covers some of the chapt
 <br>
 <br>
 
-[![Link to the video](https://img.youtube.com/vi/341Rb8fJxY0/0.jpg)](https://www.youtube.com/watch?v=yAcWnfsZhzo)
+[![Link to the video](https://img.youtube.com/vi/341Rb8fJxY0/0.jpg)](https://www.youtube.com/watch?v=341Rb8fJxY0)

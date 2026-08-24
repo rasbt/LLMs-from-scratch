@@ -59,7 +59,7 @@ class CausalAttention(nn.Module):
         self.W_key = nn.Linear(d_in, d_out, bias=qkv_bias)
         self.W_value = nn.Linear(d_in, d_out, bias=qkv_bias)
         self.dropout = nn.Dropout(dropout)  # New
-        self.register_buffer('mask', torch.triu(torch.ones(context_length, context_length), diagonal=1)) # New
+        self.register_buffer("mask", torch.triu(torch.ones(context_length, context_length), diagonal=1)) # New
 
     def forward(self, x):
         b, num_tokens, d_in = x.shape  # New batch dimension b
@@ -109,7 +109,7 @@ class MultiHeadAttention(nn.Module):
         self.W_value = nn.Linear(d_in, d_out, bias=qkv_bias)
         self.out_proj = nn.Linear(d_out, d_out)  # Linear layer to combine head outputs
         self.dropout = nn.Dropout(dropout)
-        self.register_buffer('mask', torch.triu(torch.ones(context_length, context_length), diagonal=1))
+        self.register_buffer("mask", torch.triu(torch.ones(context_length, context_length), diagonal=1))
 
     def forward(self, x):
         b, num_tokens, d_in = x.shape
@@ -160,7 +160,7 @@ class PyTorchMultiHeadAttention(nn.Module):
     def __init__(self, d_in, d_out, num_heads, dropout=0.0, qkv_bias=False):
         super().__init__()
 
-        assert d_out % num_heads == 0, "embed_dim is indivisible by num_heads"
+        assert d_out % num_heads == 0, "d_out is indivisible by num_heads"
 
         self.num_heads = num_heads
         self.head_dim = d_out // num_heads

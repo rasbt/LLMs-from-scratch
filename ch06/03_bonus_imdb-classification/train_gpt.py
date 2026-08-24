@@ -10,6 +10,9 @@ import time
 import pandas as pd
 import tiktoken
 import torch
+# Import Dynamo before TensorFlow is loaded by gpt_download to avoid
+# Triton/TensorFlow initialization crash on Linux aarch64
+import torch._dynamo  # noqa: F401
 from torch.utils.data import DataLoader
 from torch.utils.data import Dataset
 
@@ -17,7 +20,7 @@ from gpt_download import download_and_load_gpt2
 from previous_chapters import GPTModel, load_weights_into_gpt
 
 
-class IMDBDataset(Dataset):
+class IMDbDataset(Dataset):
     def __init__(self, csv_file, tokenizer, max_length=None, pad_token_id=50256):
         self.data = pd.read_csv(csv_file)
         self.max_length = max_length if max_length is not None else self._longest_encoded_length(tokenizer)
@@ -225,7 +228,7 @@ def train_classifier_simple(model, train_loader, val_loader, optimizer, device, 
 
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument(
         "--model_size",
         type=str,
@@ -261,7 +264,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--average_embeddings",
-        action='store_true',
+        action="store_true",
         default=False,
         help=(
             "Average the output embeddings from all tokens instead of using"
@@ -368,7 +371,7 @@ if __name__ == "__main__":
     if args.context_length == "model_context_length":
         max_length = model.pos_emb.weight.shape[0]
     elif args.context_length == "longest_training_example":
-        train_dataset = IMDBDataset(base_path / "train.csv", max_length=None, tokenizer=tokenizer)
+        train_dataset = IMDbDataset(base_path / "train.csv", max_length=None, tokenizer=tokenizer)
         max_length = train_dataset.max_length
     else:
         try:
@@ -377,9 +380,9 @@ if __name__ == "__main__":
             raise ValueError("Invalid --context_length argument")
 
     if train_dataset is None:
-        train_dataset = IMDBDataset(base_path / "train.csv", max_length=max_length, tokenizer=tokenizer)
-    val_dataset = IMDBDataset(base_path / "validation.csv", max_length=max_length, tokenizer=tokenizer)
-    test_dataset = IMDBDataset(base_path / "test.csv", max_length=max_length, tokenizer=tokenizer)
+        train_dataset = IMDbDataset(base_path / "train.csv", max_length=max_length, tokenizer=tokenizer)
+    val_dataset = IMDbDataset(base_path / "validation.csv", max_length=max_length, tokenizer=tokenizer)
+    test_dataset = IMDbDataset(base_path / "test.csv", max_length=max_length, tokenizer=tokenizer)
 
     num_workers = 0
     batch_size = 8

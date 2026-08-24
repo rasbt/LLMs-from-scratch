@@ -426,7 +426,7 @@ def main(gpt_config, settings):
 
     if not os.path.exists(file_path):
         with urllib.request.urlopen(url) as response:
-            text_data = response.read().decode('utf-8')
+            text_data = response.read().decode("utf-8")
         with open(file_path, "w", encoding="utf-8") as file:
             file.write(text_data)
     else:

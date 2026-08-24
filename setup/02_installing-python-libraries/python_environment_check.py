@@ -65,9 +65,10 @@ def get_packages(pkgs):
 
 def get_requirements_dict():
     """
-    Parses requirements.txt and returns a dictionary mapping package names (lowercase)
-    to a specifier string (e.g. ">=2.18.0,<3.0"). It uses packaging.requirements.Requirement
-    to properly handle environment markers.
+    Parses requirements.txt and returns a dictionary mapping package names (in lowercase)
+    to specifier strings (e.g. ">=2.18.0,<3.0"). It uses the Requirement class from 
+    packaging.requirements to properly handle environment markers, and converts each object's
+    specifier to a string.
     """
 
     PROJECT_ROOT = dirname(realpath(__file__))

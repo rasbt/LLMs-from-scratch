@@ -77,7 +77,7 @@ class MultiHeadAttention(nn.Module):
         self.W_value = nn.Linear(d_in, d_out, bias=qkv_bias)
         self.out_proj = nn.Linear(d_out, d_out)  # Linear layer to combine head outputs
         self.dropout = nn.Dropout(dropout)
-        self.register_buffer('mask', torch.triu(torch.ones(context_length, context_length), diagonal=1))
+        self.register_buffer("mask", torch.triu(torch.ones(context_length, context_length), diagonal=1))
 
     def forward(self, x):
         b, num_tokens, d_in = x.shape
@@ -261,14 +261,19 @@ def generate(model, idx, max_new_tokens, context_size, temperature=0.0, top_k=No
             # Keep only top_k values
             top_logits, _ = torch.topk(logits, top_k)
             min_val = top_logits[:, -1]
-            logits = torch.where(logits < min_val, torch.tensor(float('-inf')).to(logits.device), logits)
+            logits = torch.where(logits < min_val, torch.tensor(float("-inf")).to(logits.device), logits)
 
         # New: Apply temperature scaling
         if temperature > 0.0:
             logits = logits / temperature
 
+            # New (not in book): numerical stability tip to get equivalent results on mps device
+            # subtract rowwise max before softmax
+            #logits = logits - logits.max(dim=-1, keepdim=True).values
+
             # Apply softmax to get probabilities
-            probs = torch.softmax(logits, dim=-1)  # (batch_size, context_len)
+            #probs = torch.softmax(logits, dim=-1)  # (batch_size, context_len)
+            probs = torch.log_softmax(logits, dim=-1)
 
             # Sample from the distribution
             idx_next = torch.multinomial(probs, num_samples=1)  # (batch_size, 1)
@@ -352,8 +357,8 @@ def assign(left, right):
 
 
 def load_weights_into_gpt(gpt, params):
-    gpt.pos_emb.weight = assign(gpt.pos_emb.weight, params['wpe'])
-    gpt.tok_emb.weight = assign(gpt.tok_emb.weight, params['wte'])
+    gpt.pos_emb.weight = assign(gpt.pos_emb.weight, params["wpe"])
+    gpt.tok_emb.weight = assign(gpt.tok_emb.weight, params["wte"])
 
     for b in range(len(params["blocks"])):
         q_w, k_w, v_w = np.split(

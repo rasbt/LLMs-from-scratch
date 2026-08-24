@@ -7,7 +7,7 @@ I used the following libraries listed [here](https://github.com/rasbt/LLMs-from-
 
 
 > **Note:**
-> If you you are using `uv` as described in [Option 1: Using uv](../01_optional-python-setup-preferences/README.md), you can replace `pip` via `pip uv` in the commands below. For example, `pip install -r requirements.txt` becomes `uv pip install -r requirements.txt`
+> If you you are using `uv` as described in [Option 1: Using uv](../01_optional-python-setup-preferences/README.md), you can replace `pip` via `uv pip` in the commands below. For example, `pip install -r requirements.txt` becomes `uv pip install -r requirements.txt`
 
 
 
@@ -59,6 +59,22 @@ However, since PyTorch is a comprehensive library featuring CPU- and GPU-compati
 It's also highly recommended to consult the installation guide menu on the official PyTorch website at [https://pytorch.org](https://pytorch.org).
 
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/02_installing-python-libraries/pytorch-installer.jpg" width="600px">
+
+<br>
+
+
+
+&nbsp;
+## JupyterLab tips
+
+If you are viewing the notebook code in JupyterLab rather than VSCode, note that JupyterLab (in its default setting) has had scrolling bugs in recent versions. My recommendation is to go to Settings -> Settings Editor and change the "Windowing mode" to "none" (as illustrated below), which seems to address the issue.
+
+
+![Jupyter Glitch 1](https://sebastianraschka.com/images/reasoning-from-scratch-images/bonus/setup/jupyter_glitching_1.webp)
+
+<br>
+
+![Jupyter Glitch 2](https://sebastianraschka.com/images/reasoning-from-scratch-images/bonus/setup/jupyter_glitching_2.webp)
 
 <br>
 

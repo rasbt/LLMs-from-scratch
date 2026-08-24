@@ -11,9 +11,9 @@ import json
 import os
 import re
 import time
-import urllib
 
 import matplotlib.pyplot as plt
+import requests
 import tiktoken
 import torch
 from torch.utils.data import Dataset, DataLoader
@@ -97,14 +97,14 @@ def custom_collate_fn(
 
 
 def download_and_load_file(file_path, url):
-
     if not os.path.exists(file_path):
-        with urllib.request.urlopen(url) as response:
-            text_data = response.read().decode("utf-8")
+        response = requests.get(url, timeout=30)
+        response.raise_for_status()
+        text_data = response.text
         with open(file_path, "w", encoding="utf-8") as file:
             file.write(text_data)
 
-    with open(file_path, "r") as file:
+    with open(file_path, "r", encoding="utf-8") as file:
         data = json.load(file)
 
     return data
@@ -175,7 +175,7 @@ def main(test_mode=False):
     val_data = data[train_portion + test_portion:]
 
     # Use very small subset for testing purposes
-    if args.test_mode:
+    if test_mode:
         train_data = train_data[:10]
         val_data = val_data[:10]
         test_data = test_data[:10]
@@ -333,7 +333,7 @@ if __name__ == "__main__":
 
     import argparse
 
-    parser = argparse.ArgumentParser(
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter,
         description="Finetune a GPT model for classification"
     )
     parser.add_argument(

@@ -28,18 +28,18 @@ jobs:
     name: Code tests (Linux)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Set up Python (uv)
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
-          python-version: "3.13"
+          python-version: "3.12"
 
       - name: Install uv and dependencies
         shell: bash
         run: |
           curl -LsSf https://astral.sh/uv/install.sh | sh
-          uv sync --dev --python=3.10  # tests for backwards compatibility
+          uv sync --dev  # tests for backwards compatibility
           uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
           uv add pytest-ruff nbval
 
@@ -47,29 +47,36 @@ jobs:
         shell: bash
         run: |
           source .venv/bin/activate
-          pytest --ruff setup/02_installing-python-libraries/tests.py
-          pytest --ruff ch04/01_main-chapter-code/tests.py
-          pytest --ruff ch05/01_main-chapter-code/tests.py
-          pytest --ruff ch05/07_gpt_to_llama/tests/tests.py
-          pytest --ruff ch06/01_main-chapter-code/tests.py
+          pytest setup/02_installing-python-libraries/tests.py
+          pytest ch03/02_bonus_efficient-multihead-attention/tests/test_mha_implementations.py
+          pytest ch04/01_main-chapter-code/tests.py
+          pytest ch04/03_kv-cache/tests.py
+          pytest ch05/01_main-chapter-code/tests.py
+          pytest ch05/07_gpt_to_llama/tests/tests_rope_and_parts.py
+          pytest ch05/07_gpt_to_llama/tests/test_llama32_nb.py
+          pytest ch05/11_qwen3/tests/test_qwen3_nb.py
+          pytest ch05/12_gemma3/tests/test_gemma3_nb.py
+          pytest ch05/12_gemma3/tests/test_gemma3_kv_nb.py
+          pytest ch05/13_olmo3/tests/test_olmo3_nb.py
+          pytest ch05/13_olmo3/tests/test_olmo3_kvcache_nb.py
+          pytest ch06/01_main-chapter-code/tests.py
 
       - name: Validate Selected Jupyter Notebooks (uv)
         shell: bash
         run: |
           source .venv/bin/activate
-          pytest --ruff --nbval ch02/01_main-chapter-code/dataloader.ipynb
-          pytest --ruff --nbval ch03/01_main-chapter-code/multihead-attention.ipynb
-          pytest --ruff --nbval ch02/04_bonus_dataloader-intuition/dataloader-intuition.ipynb
+          pytest --nbval ch02/01_main-chapter-code/dataloader.ipynb
+          pytest --nbval ch03/01_main-chapter-code/multihead-attention.ipynb
+          pytest --nbval ch02/04_bonus_dataloader-intuition/dataloader-intuition.ipynb
 
       - name: Test Selected Bonus Materials
         shell: bash
         run: |
           source .venv/bin/activate
-          pytest ch02/05_bpe-from-scratch/tests/tests.py
+          pytest ch02/05_bpe-from-scratch/tests.py
 
       - name: Test Selected Bonus Materials
         shell: bash
         run: |
           source .venv/bin/activate
-          uv pip install transformers
           pytest pkg/llms_from_scratch/tests/

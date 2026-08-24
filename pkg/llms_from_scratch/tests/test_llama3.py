@@ -5,19 +5,52 @@
 
 from llms_from_scratch.ch04 import generate_text_simple
 from llms_from_scratch.llama3 import (
-    compute_rope_params,
     apply_rope,
-    rescale_theta,
-    LLAMA32_CONFIG_1B,
+    compute_rope_params,
     GroupedQueryAttention,
     GroupedQueryAttentionFast,
+    load_weights_into_llama,
+    LLAMA32_CONFIG_1B,
     Llama3Model,
 )
+from llms_from_scratch.kv_cache.llama3 import Llama3Model as Llama3ModelKV
+from llms_from_scratch.kv_cache.generate import generate_text_simple as generate_text_simple_cached
 
 import importlib
+import os
 import pytest
 import tiktoken
 import torch
+
+
+class LitGPTRMSNorm(torch.nn.Module):
+    """Root Mean Square Layer Normalization.
+
+    From https://github.com/Lightning-AI/litgpt/blob/main/litgpt/model.py
+    Apache License 2.0-Clause License: https://github.com/Lightning-AI/litgpt/blob/main/LICENSE
+
+    Derived from https://github.com/bzhangGo/rmsnorm/blob/master/rmsnorm_torch.py. BSD 3-Clause License:
+    https://github.com/bzhangGo/rmsnorm/blob/master/LICENSE.
+    """
+
+    def __init__(self, size: int, dim: int = -1, eps: float = 1e-6, add_unit_offset: bool = False) -> None:
+        super().__init__()
+        self.weight = torch.nn.Parameter(torch.ones(size))
+        self.eps = eps
+        self.dim = dim
+        self.add_unit_offset = add_unit_offset
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        dtype = x.dtype
+        x = x.float()
+        # NOTE: the original RMSNorm paper implementation is not equivalent
+        norm_x = torch.mean(x * x, dim=self.dim, keepdim=True)
+        x_normed = x * torch.rsqrt(norm_x + self.eps)
+        weight = (1 + self.weight) if self.add_unit_offset else self.weight
+        return (x_normed * weight.float()).to(dtype=dtype)
+
+    def reset_parameters(self) -> None:
+        torch.nn.init.ones_(self.weight)
 
 
 transformers_installed = importlib.util.find_spec("transformers") is not None
@@ -78,6 +111,25 @@ def test_rope():
         hidden_size = head_dim * num_heads
         num_attention_heads = num_heads
 
+        def __init__(self):
+            # Transformers >=5.0.0 expects `rope_parameters` on the instance.
+            self.rope_parameters = {**hf_rope_params, "rope_theta": rope_theta}
+
+        def standardize_rope_params(self):
+            params = dict(getattr(self, "rope_parameters", {}) or {})
+            if "rope_type" not in params:
+                params["rope_type"] = getattr(self, "rope_type", "default")
+            if "rope_theta" not in params:
+                params["rope_theta"] = getattr(self, "rope_theta")
+            # Handle older key name used in this repo.
+            if (
+                "original_max_position_embeddings" not in params
+                and "original_context_length" in params
+            ):
+                params["original_max_position_embeddings"] = params["original_context_length"]
+            self.rope_parameters = params
+            return params
+
     config = RoPEConfig()
 
     rot_emb = LlamaRotaryEmbedding(config=config)
@@ -100,23 +152,6 @@ GPT_CONFIG_124M = {
     "drop_rate": 0.1,        # Dropout rate
     "qkv_bias": False        # Query-Key-Value bias
 }
-
-
-def test_rescale():
-
-    new_theta = rescale_theta(
-        theta_old=500_000.,
-        context_length_old=131_072,
-        context_length_new=8192
-    )
-    assert new_theta == 31250.
-
-    old_theta = rescale_theta(
-        theta_old=new_theta,
-        context_length_old=8192,
-        context_length_new=131_072
-    )
-    assert old_theta == 500_000.
 
 
 def test_grouped_query_attention_equivalence():
@@ -168,11 +203,23 @@ def llama3_weights_path(tmp_path_factory):
     return path
 
 
-@pytest.mark.parametrize("ModelClass", [Llama3Model])
-def test_gpt_model_variants(ModelClass, llama3_weights_path):
+@pytest.mark.skipif(
+    os.getenv("GITHUB_ACTIONS") == "true",
+    reason="Skipping in GitHub Actions due to compute or memory constraints"
+)
+@pytest.mark.parametrize("ModelClass", [Llama3Model, Llama3ModelKV])
+@pytest.mark.parametrize("generate_fn", [generate_text_simple, generate_text_simple_cached])
+def test_model_variants(ModelClass, generate_fn, llama3_weights_path):
+
+    # Skip incompatible combinations
+    if generate_fn is generate_text_simple and getattr(ModelClass, "reset_kv_cache", False):
+        return
+    if generate_fn is generate_text_simple_cached and not getattr(ModelClass, "reset_kv_cache", False):
+        return
+
     torch.manual_seed(123)
     model = ModelClass(LLAMA32_CONFIG_1B)
-    model.load_state_dict(torch.load(llama3_weights_path))
+    model.load_state_dict(torch.load(llama3_weights_path, weights_only=True))
     model.eval()
 
     start_context = "Llamas eat"
@@ -186,7 +233,7 @@ def test_gpt_model_variants(ModelClass, llama3_weights_path):
     print("Encoded input text:", encoded)
     print("encoded_tensor.shape:", encoded_tensor.shape)
 
-    out = generate_text_simple(
+    out = generate_fn(
         model=model,
         idx=encoded_tensor,
         max_new_tokens=5,
@@ -194,6 +241,86 @@ def test_gpt_model_variants(ModelClass, llama3_weights_path):
     )
     print("Encoded output text:", out)
     expect = torch.tensor([
-        [43,   2543,    292,   4483, 100383,   8113,  21197,  33804,  54419]
+        [43, 2543, 292, 4483, 100383, 8113, 76873, 42175, 72641]
     ])
     assert torch.equal(expect, out)
+
+
+def test_rmsnorm_equivalence():
+    torch.manual_seed(42)
+
+    hidden_size = 64
+    batch_size = 8
+    seq_len = 16
+
+    rms_norm = torch.nn.RMSNorm(hidden_size, eps=1e-6)
+    lit_norm = LitGPTRMSNorm(hidden_size)
+
+    # Sync weights
+    with torch.no_grad():
+        lit_norm.weight.copy_(lit_norm.weight)
+
+    x = torch.randn(batch_size, seq_len, hidden_size)
+
+    out1 = rms_norm(x)
+    out2 = lit_norm(x)
+
+    torch.testing.assert_close(out1, out2, atol=1e-5, rtol=1e-5)
+
+
+@torch.inference_mode()
+@pytest.mark.skipif(not transformers_installed, reason="transformers not installed")
+def test_llama3_base_equivalence_with_transformers():
+    from transformers.models.llama import LlamaConfig, LlamaForCausalLM
+    cfg = {
+        "vocab_size": 257,
+        "context_length": 8192,
+        "emb_dim": 32,
+        "n_heads": 4,
+        "n_layers": 2,
+        "hidden_dim": 64,
+        "n_kv_groups": 2,
+        "rope_base": 500_000.0,
+        "rope_freq": {
+            "factor": 32.0,
+            "low_freq_factor": 1.0,
+            "high_freq_factor": 4.0,
+            "original_context_length": 8192,
+        },
+        "dtype": torch.float32,
+    }
+
+    ours = Llama3Model(cfg)
+
+    hf_cfg = LlamaConfig(
+        vocab_size=cfg["vocab_size"],
+        hidden_size=cfg["emb_dim"],
+        num_attention_heads=cfg["n_heads"],
+        num_key_value_heads=cfg["n_kv_groups"],
+        num_hidden_layers=cfg["n_layers"],
+        intermediate_size=cfg["hidden_dim"],
+        max_position_embeddings=cfg["context_length"],
+        rms_norm_eps=1e-5,
+        attention_bias=False,
+        rope_theta=cfg["rope_base"],
+        tie_word_embeddings=False,
+        attn_implementation="eager",
+        torch_dtype=torch.float32,
+        rope_scaling={
+            "type": "llama3",
+            "factor": cfg["rope_freq"]["factor"],
+            "low_freq_factor": cfg["rope_freq"]["low_freq_factor"],
+            "high_freq_factor": cfg["rope_freq"]["high_freq_factor"],
+            "original_max_position_embeddings": cfg["rope_freq"]["original_context_length"],
+        },
+    )
+    theirs = LlamaForCausalLM(hf_cfg)
+
+    hf_state = theirs.state_dict()
+    load_weights_into_llama(ours, {"n_layers": cfg["n_layers"], "hidden_dim": cfg["hidden_dim"]}, hf_state)
+
+    x = torch.randint(0, cfg["vocab_size"], (2, 8), dtype=torch.long)
+    ours_logits = ours(x)
+    theirs_logits = theirs(x).logits.to(ours_logits.dtype)
+
+    torch.testing.assert_close(ours_logits, theirs_logits, rtol=1e-5, atol=1e-5)

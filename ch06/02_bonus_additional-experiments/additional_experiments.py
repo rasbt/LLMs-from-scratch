@@ -8,10 +8,10 @@ import math
 import os
 from pathlib import Path
 import time
-import urllib.request
 import zipfile
 
 import pandas as pd
+import requests
 import tiktoken
 import torch
 from torch.utils.data import DataLoader
@@ -113,9 +113,12 @@ def download_and_unzip(url, zip_path, extract_to, new_file_path):
         return
 
     # Downloading the file
-    with urllib.request.urlopen(url) as response:
-        with open(zip_path, "wb") as out_file:
-            out_file.write(response.read())
+    response = requests.get(url, stream=True, timeout=60)
+    response.raise_for_status()
+    with open(zip_path, "wb") as out_file:
+        for chunk in response.iter_content(chunk_size=8192):
+            if chunk:
+                out_file.write(chunk)
 
     # Unzipping the file
     with zipfile.ZipFile(zip_path, "r") as zip_ref:
@@ -127,20 +130,20 @@ def download_and_unzip(url, zip_path, extract_to, new_file_path):
     print(f"File downloaded and saved as {new_file_path}")
 
 
-def random_split(df, train_frac, validation_frac):
+def random_split(df, train_frac, val_frac):
     # Shuffle the entire DataFrame
     df = df.sample(frac=1, random_state=123).reset_index(drop=True)
 
     # Calculate split indices
     train_end = int(len(df) * train_frac)
-    validation_end = train_end + int(len(df) * validation_frac)
+    val_end = train_end + int(len(df) * val_frac)
 
     # Split the DataFrame
     train_df = df[:train_end]
-    validation_df = df[train_end:validation_end]
-    test_df = df[validation_end:]
+    val_df = df[train_end:val_end]
+    test_df = df[val_end:]
 
-    return train_df, validation_df, test_df
+    return train_df, val_df, test_df
 
 
 def create_dataset_csvs(new_file_path):
@@ -154,9 +157,9 @@ def create_dataset_csvs(new_file_path):
     balanced_df["Label"] = balanced_df["Label"].map({"ham": 0, "spam": 1})
 
     # Sample and save csv files
-    train_df, validation_df, test_df = random_split(balanced_df, 0.7, 0.1)
+    train_df, val_df, test_df = random_split(balanced_df, 0.7, 0.1)
     train_df.to_csv("train.csv", index=None)
-    validation_df.to_csv("validation.csv", index=None)
+    val_df.to_csv("validation.csv", index=None)
     test_df.to_csv("test.csv", index=None)
 
 
@@ -271,12 +274,11 @@ def calc_accuracy_loader(data_loader, model, device, num_batches=None,
                 mask = input_batch != pad_token_id
                 last_token_pos = mask.sum(dim=1) - 1  # Get position of last real token
 
-                with torch.no_grad():
-                    logits = model(input_batch)  # Logits of last output token
-                    # Select the logits corresponding to the last real token of each sequence
-                    batch_size = logits.size(0)
-                    selected_logits = logits[torch.arange(batch_size), last_token_pos]
-                    predicted_labels = torch.argmax(selected_logits, dim=-1)
+                logits = model(input_batch)  # Logits of last output token
+                # Select the logits corresponding to the last real token of each sequence
+                batch_size = logits.size(0)
+                selected_logits = logits[torch.arange(batch_size), last_token_pos]
+                predicted_labels = torch.argmax(selected_logits, dim=-1)
 
                 num_examples += predicted_labels.shape[0]
                 correct_predictions += (predicted_labels == target_batch).sum().item()
@@ -408,7 +410,7 @@ def replace_linear_with_lora(model, rank, alpha, alternative=False):
 
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument(
         "--model_size",
         type=str,
@@ -444,7 +446,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--average_embeddings",
-        action='store_true',
+        action="store_true",
         default=False,
         help=(
             "Average the output embeddings from all tokens instead of using"
@@ -478,7 +480,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--no_padding",
-        action='store_true',
+        action="store_true",
         default=False,
         help=(
             "Disable padding, which means each example may have a different length."
@@ -515,7 +517,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--disable_causal_mask",
-        action='store_true',
+        action="store_true",
         default=False,
         help=(
             "Disables the causal attention mask."
@@ -613,7 +615,7 @@ if __name__ == "__main__":
     if not all_exist:
         try:
             download_and_unzip(url, zip_path, extract_to, new_file_path)
-        except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError) as e:
+        except (requests.exceptions.RequestException, TimeoutError) as e:
             print(f"Primary URL failed: {e}. Trying backup URL...")
             backup_url = "https://f001.backblazeb2.com/file/LLMs-from-scratch/sms%2Bspam%2Bcollection.zip"
             download_and_unzip(backup_url, zip_path, extract_to, new_file_path)
@@ -642,8 +644,6 @@ if __name__ == "__main__":
         train_dataset = SpamDataset(base_path / "train.csv", max_length=max_length, tokenizer=tokenizer, no_padding=args.no_padding)
     val_dataset = SpamDataset(base_path / "validation.csv", max_length=max_length, tokenizer=tokenizer, no_padding=args.no_padding)
     test_dataset = SpamDataset(base_path / "test.csv", max_length=max_length, tokenizer=tokenizer, no_padding=args.no_padding)
-
-    tokenizer = tiktoken.get_encoding("gpt2")
 
     num_workers = 0
 

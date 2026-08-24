@@ -186,6 +186,9 @@ def load_weights_into_gpt(gpt, params):
 
 def generate(model, idx, max_new_tokens, context_size, temperature=0.0, top_k=None, eos_id=None):
 
+    if eos_id is not None and idx.shape[0] != 1:
+        raise ValueError("EOS stopping currently supports batch size 1 only")
+
     # For-loop is the same as before: Get logits, and only focus on last time step
     for _ in range(max_new_tokens):
         idx_cond = idx[:, -context_size:]

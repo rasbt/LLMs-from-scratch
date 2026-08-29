@@ -129,7 +129,7 @@ Similar to *Build A Large Language Model (From Scratch)*, [*Build A Reasoning Mo
 
 <a href="https://mng.bz/lZ5B"><img src="https://sebastianraschka.com/images/reasoning-from-scratch-images/cover.webp?123" width="120px"></a>
 
-- Amazon link (TBD)
+- [Amazon link](https://amzn.to/4aAKiFY)
 - [Manning link](https://mng.bz/lZ5B)
 - [GitHub repository](https://github.com/rasbt/reasoning-from-scratch)
 

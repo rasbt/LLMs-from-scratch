@@ -18,7 +18,6 @@ dependencies = [
   "tensorflow-cpu>=2.18.0; sys_platform == 'linux' and platform_machine == 'x86_64' and python_version < '3.13'",
   "tensorflow>=2.18.0; sys_platform == 'linux' and platform_machine == 'aarch64' and python_version < '3.13'",
   "tensorflow-cpu>=2.18.0; sys_platform == 'win32' and python_version < '3.13'",
-  "jupyterlab>=4.0",
   "tiktoken>=0.5.1",
   "matplotlib>=3.7.1",
   "tqdm>=4.66.1",

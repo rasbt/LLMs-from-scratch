@@ -129,7 +129,7 @@ Similar to *Build A Large Language Model (From Scratch)*, [*Build A Reasoning Mo
 
 <a href="https://mng.bz/lZ5B"><img src="https://sebastianraschka.com/images/reasoning-from-scratch-images/cover.webp?123" width="120px"></a>
 
-- Amazon link (TBD)
+- [Amazon link](https://amzn.to/4aAKiFY)
 - [Manning link](https://mng.bz/lZ5B)
 - [GitHub repository](https://github.com/rasbt/reasoning-from-scratch)
 
@@ -158,6 +158,8 @@ Several folders contain optional materials as a bonus for interested readers:
   - [Comparing Various Byte Pair Encoding (BPE) Implementations](ch02/02_bonus_bytepair-encoder)
   - [Understanding the Difference Between Embedding Layers and Linear Layers](ch02/03_bonus_embedding-vs-matmul)
   - [Dataloader Intuition With Simple Numbers](ch02/04_bonus_dataloader-intuition)
+  - [BPE From Scratch](ch02/05_bpe-from-scratch)
+  - [SimpleTokenizerV3 variant](ch02/06_bonus_simple-tokenizer-v3)
 
 - **Chapter 3: Coding Attention Mechanisms**
   - [Comparing Efficient Multi-Head Attention Implementations](ch03/02_bonus_efficient-multihead-attention/mha-implementations.ipynb)

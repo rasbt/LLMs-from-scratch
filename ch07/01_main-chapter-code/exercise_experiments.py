@@ -128,9 +128,14 @@ class LoRALayer(torch.nn.Module):
         torch.nn.init.kaiming_uniform_(self.A, a=math.sqrt(5))  # similar to standard weight initialization
         self.B = torch.nn.Parameter(torch.zeros(rank, out_dim))
         self.alpha = alpha
+        self.rank = rank
 
     def forward(self, x):
-        x = self.alpha * (x @ self.A @ self.B)
+        # Book formula:      alpha_book * (x @ A @ B)
+        # Canonical formula: (alpha_canonical / rank) * (x @ A @ B)
+        # For the same rank and matrices, they are equal when alpha_canonical = alpha_book * rank.
+        # Here, alpha_book=16 and rank=16 give alpha_canonical=256, so 256 / 16 = 16.
+        x = (self.alpha / self.rank) * (x @ self.A @ self.B)
         return x
 
 
@@ -426,7 +431,8 @@ def main(mask_instructions=False, alpaca52k=False, phi3_prompt=False, lora=False
 
         total_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
         print(f"Total trainable parameters after: {total_params:,}")
-        replace_linear_with_lora(model, rank=16, alpha=16)
+        # alpha / rank = 256 / 16 = 16 preserves the book's original scaling.
+        replace_linear_with_lora(model, rank=16, alpha=256)
 
         total_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
         print(f"Total trainable LoRA parameters: {total_params:,}")

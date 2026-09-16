@@ -318,11 +318,13 @@ def main(mask_instructions=False, alpaca52k=False, phi3_prompt=False, lora=False
     #######################################
     # Download and prepare dataset
     #######################################
-    file_path = "instruction-data.json"
-
     if alpaca52k:
+        # Use a separate file name so that the instruction-data.json that ships in
+        # this folder is not loaded instead of the 52k Alpaca dataset
+        file_path = "alpaca_data.json"
         url = "https://raw.githubusercontent.com/tatsu-lab/stanford_alpaca/main/alpaca_data.json"
     else:
+        file_path = "instruction-data.json"
         url = "https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/main/ch07/01_main-chapter-code/instruction-data.json"
     data = download_and_load_file(file_path, url)
 

@@ -17,6 +17,7 @@
 - [09_extending-tokenizers](09_extending-tokenizers) contains a from-scratch implementation of the GPT-2 BPE tokenizer
 - [10_llm-training-speed](10_llm-training-speed) shows PyTorch performance tips to improve the LLM training speed
 - [18_muon](18_muon) explains how to use the Muon optimizer with the GPT model training setup
+- [19_cpu_mps_differences](19_cpu_mps_differences) collects examples where CPU and MPS devices behave differently
 
 &nbsp;
 ## LLM Architectures From Scratch

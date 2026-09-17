@@ -181,6 +181,7 @@ Several folders contain optional materials as a bonus for interested readers:
   - [Alternative Weight Loading Methods](ch05/02_alternative_weight_loading/)
   - [Pretraining GPT on the Project Gutenberg Dataset](ch05/03_bonus_pretraining_on_gutenberg)
   - [Adding Bells and Whistles to the Training Loop](ch05/04_learning_rate_schedulers)
+  - [Discrepancies between CPU and MPS Devices](ch05/19_cpu_mps_differences)
   - [Optimizing Hyperparameters for Pretraining](ch05/05_bonus_hparam_tuning)
   - [Building a User Interface to Interact With the Pretrained LLM](ch05/06_user_interface)
   - [Converting GPT to Llama](ch05/07_gpt_to_llama)

@@ -1,0 +1,100 @@
+name: Retry required checks
+
+on:
+  workflow_run:
+    workflows:
+      - Required checks
+      - Check hyperlinks
+      - PEP8 Style checks
+      - Spell Check
+      - Code tests Linux
+      - Code tests macOS
+      - Code tests (plain pip)
+      - Code tests (pixi)
+      - Code tests Windows (uv/pip)
+      - Test PyTorch 2.3 and 2.5
+      - Test latest PyTorch nightly / release candidate
+      - Test latest supported Python version
+    types: [ completed ]
+
+permissions:
+  actions: write
+  pull-requests: read
+
+jobs:
+  retry-required-checks:
+    if: >-
+      github.event.workflow_run.event == 'pull_request' &&
+      ((github.event.workflow_run.name != 'Required checks' &&
+        github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.run_attempt > 1) ||
+       (github.event.workflow_run.name == 'Required checks' &&
+        (github.event.workflow_run.conclusion == 'failure' || github.event.workflow_run.conclusion == 'timed_out')))
+    concurrency:
+      group: retry-required-checks-${{ github.event.workflow_run.head_repository.id }}-${{ github.event.workflow_run.head_branch }}-${{ github.event.workflow_run.head_sha }}
+      cancel-in-progress: false
+    runs-on: ubuntu-latest
+    steps:
+      # Use only GitHub metadata here. This workflow has a write token and must not run PR code.
+      - name: Retry the failed PR check after a successful CI retry
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const completedRun = context.payload.workflow_run;
+            const headRepository = completedRun.head_repository;
+
+            // Fork workflow runs can have an empty pull_requests array.
+            const pullRequests = await github.paginate(github.rest.pulls.list, {
+              owner,
+              repo,
+              state: "open",
+              base: "main",
+              head: `${headRepository.owner.login}:${completedRun.head_branch}`,
+              per_page: 100,
+            });
+            const pullRequest = pullRequests.find((pr) =>
+              pr.head.sha === completedRun.head_sha && pr.head.repo?.id === headRepository.id
+            );
+
+            if (!pullRequest) {
+              core.info("No open PR to main still uses this commit.");
+              return;
+            }
+
+            const runs = await github.paginate(github.rest.actions.listWorkflowRunsForRepo, {
+              owner,
+              repo,
+              event: "pull_request",
+              head_sha: completedRun.head_sha,
+              per_page: 100,
+            });
+            const matchingRuns = runs.filter((run) =>
+              run.head_repository?.id === headRepository.id && run.head_branch === completedRun.head_branch
+            );
+            const requiredRun = matchingRuns
+              .filter((run) => run.path === ".github/workflows/required-checks.yml")
+              .sort((a, b) => new Date(b.created_at) - new Date(a.created_at) || b.id - a.id)[0];
+
+            if (!requiredRun || requiredRun.status !== "completed" ||
+                !["failure", "timed_out"].includes(requiredRun.conclusion)) {
+              core.info("Required checks does not need a retry.");
+              return;
+            }
+
+            // Also inspect successful retries when the gate finishes, so a retry that
+            // completes just before the gate fails is not missed. Only new progress
+            // since this gate attempt started can trigger another attempt.
+            const hasSuccessfulRetry = matchingRuns.some((run) =>
+              run.path !== ".github/workflows/required-checks.yml" &&
+              run.run_attempt > 1 && run.status === "completed" && run.conclusion === "success" &&
+              new Date(run.updated_at) > new Date(requiredRun.run_started_at)
+            );
+
+            if (!hasSuccessfulRetry) {
+              core.info("No successful CI retry since this Required checks attempt started.");
+              return;
+            }
+
+            // Rerun the original pull_request workflow so its check still gates the PR.
+            await github.rest.actions.reRunWorkflow({ owner, repo, run_id: requiredRun.id });
+            core.info(`Requested Required checks retry for PR #${pullRequest.number}.`);

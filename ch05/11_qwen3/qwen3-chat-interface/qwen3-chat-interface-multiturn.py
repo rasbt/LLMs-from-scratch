@@ -15,8 +15,7 @@ from llms_from_scratch.kv_cache.qwen3 import (
     load_weights_into_qwen
 )
 from llms_from_scratch.kv_cache.generate import (
-    generate_text_simple_stream,
-    trim_input_tensor
+    generate_text_simple_stream
 )
 
 # ============================================================
@@ -111,6 +110,32 @@ def build_prompt_from_history(history, add_assistant_header=True):
     return "".join(parts)
 
 
+def encode_chat_history(history, tokenizer, context_len, max_new_tokens):
+    if not 0 <= max_new_tokens < context_len:
+        raise ValueError("The output token limit must be nonnegative and smaller than the model's context length.")
+
+    max_input_tokens = context_len - max_new_tokens
+    retained_history = list(history)
+    removed_turns = 0
+
+    while True:
+        input_ids = tokenizer.encode(build_prompt_from_history(retained_history))
+        if len(input_ids) <= max_input_tokens:
+            return input_ids, removed_turns
+
+        user_positions = [i for i, message in enumerate(retained_history) if message["role"] == "user"]
+        if len(user_positions) < 2:
+            raise ValueError(
+                f"The system message and latest user message need {len(input_ids)} tokens, "
+                f"but only {max_input_tokens} are available for input. "
+                "Shorten your message or lower the output token limit."
+            )
+
+        # Remove the oldest user message and its response, keeping the system message.
+        del retained_history[user_positions[0]:user_positions[1]]
+        removed_turns += 1
+
+
 QWEN3_CONFIG = get_qwen_config(MODEL)
 REPO_ID, LOCAL_DIR = build_repo_and_local(MODEL, REASONING, LOCAL_DIR)
 DEVICE = get_device(DEVICE)
@@ -136,17 +161,21 @@ async def main(message: chainlit.Message):
     """
     # 0) Get and track chat history
     history = chainlit.user_session.get("history")
-    history.append({"role": "user", "content": message.content})
+    user_message = {"role": "user", "content": message.content}
 
     # 1) Encode input
-    prompt = build_prompt_from_history(history, add_assistant_header=True)
-    input_ids = TOKENIZER.encode(prompt)
+    try:
+        input_ids, removed_turns = encode_chat_history(
+            history + [user_message], TOKENIZER, MODEL.cfg["context_length"], MAX_NEW_TOKENS
+        )
+    except ValueError as exc:
+        await chainlit.Message(content=str(exc)).send()
+        return
+
+    history.append(user_message)
+    if removed_turns:
+        await chainlit.Message(content=f"Omitted {removed_turns} older conversation turn(s) to fit the context window.").send()
     input_ids_tensor = torch.tensor(input_ids, device=DEVICE).unsqueeze(0)
-    input_ids_tensor = trim_input_tensor(
-        input_ids_tensor=input_ids_tensor,
-        context_len=MODEL.cfg["context_length"],
-        max_new_tokens=MAX_NEW_TOKENS
-    )
 
     # 2) Start an outgoing message we can stream into
     out_msg = chainlit.Message(content="")

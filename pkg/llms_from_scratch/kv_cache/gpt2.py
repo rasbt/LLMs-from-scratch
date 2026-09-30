@@ -169,7 +169,13 @@ class GPTModel(nn.Module):
         use_cache = use_cache or cache is not None
         batch_size, seq_len = in_idx.shape
         start_pos = self.current_pos if use_cache else 0
-        pos = torch.arange(start_pos, start_pos + seq_len, device=in_idx.device)
+        pos_end = start_pos + seq_len
+        if pos_end > self.cfg["context_length"]:
+            raise ValueError(
+                f"Sequence length {pos_end} exceeds the model's context length "
+                f"of {self.cfg['context_length']} tokens."
+            )
+        pos = torch.arange(start_pos, pos_end, device=in_idx.device)
         tok_embeds = self.tok_emb(in_idx)
         pos_embeds = self.pos_emb(pos)
         x = self.drop_emb(tok_embeds + pos_embeds)

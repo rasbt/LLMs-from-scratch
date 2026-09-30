@@ -57,6 +57,42 @@ def dummy_cfg_moe(dummy_cfg_base):
     return cfg
 
 
+@pytest.fixture(params=["standalone-qwen3-plus-kvcache.ipynb", "standalone-qwen3-moe-plus-kvcache.ipynb"])
+def context_model_setup(request, dummy_cfg_base):
+    nb_dir = Path(__file__).resolve().parents[1]
+    module = import_definitions_from_notebook(nb_dir, request.param)
+    cfg = {**dummy_cfg_base, "context_length": 8}
+    if "moe" in request.param:
+        cfg.update(num_experts=4, num_experts_per_tok=2, moe_hidden_dim=32)
+    torch.manual_seed(123)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model = module.Qwen3Model(cfg).to(device).eval()
+    return model, module.KVCache(n_layers=cfg["n_layers"])
+
+
+@torch.inference_mode()
+@pytest.mark.parametrize("use_cache", [False, True])
+def test_notebook_overlong_prompt_reports_context_limit(context_model_setup, use_cache):
+    model, cache = context_model_setup
+    tokens = torch.ones((1, 9), dtype=torch.long, device=model.tok_emb.weight.device)
+    with pytest.raises(ValueError, match=r"Sequence length 9 exceeds .*8 tokens"):
+        model(tokens, cache=cache if use_cache else None)
+
+
+@torch.inference_mode()
+def test_notebook_rejected_decode_preserves_cache(context_model_setup):
+    model, cache = context_model_setup
+    tokens = torch.arange(1, 9, device=model.tok_emb.weight.device).unsqueeze(0)
+    model(tokens[:, :7], cache=cache)
+    with pytest.raises(ValueError, match=r"Sequence length 9 exceeds .*8 tokens"):
+        model(tokens[:, -2:], cache=cache)
+
+    # The failed call must leave enough room for the final valid token.
+    actual = model(tokens[:, -1:], cache=cache)
+    expected = model(tokens)[:, -1:]
+    torch.testing.assert_close(actual, expected, rtol=1e-5, atol=1e-5)
+
+
 @torch.inference_mode()
 def test_dummy_qwen3_forward(dummy_cfg_base, dummy_input, import_notebook_defs):
     torch.manual_seed(123)

@@ -54,6 +54,16 @@ class Qwen3Model(nn.Module):
             pos_start = start_pos
             pos_end = pos_start + num_tokens
             max_len = pos_end.max().item()
+        else:
+            pos_start = torch.zeros(B, dtype=torch.long, device=device)
+            max_len = num_tokens
+        if max_len > self.cfg["context_length"]:
+            raise ValueError(
+                f"Sequence length {max_len} exceeds the model's context length "
+                f"of {self.cfg['context_length']} tokens."
+            )
+
+        if cache is not None:
             full_mask = torch.triu(
                 torch.ones(max_len, max_len, device=device, dtype=torch.bool), diagonal=1
             )
@@ -62,7 +72,6 @@ class Qwen3Model(nn.Module):
                 ps, pe = pos_start[i].item(), pos_end[i].item()
                 mask[i, 0] = full_mask[ps:pe, :pe]
         else:
-            pos_start = torch.zeros(B, dtype=torch.long, device=device)
             mask = torch.triu(
                 torch.ones(num_tokens, num_tokens, device=device, dtype=torch.bool), diagonal=1
             )[None, None, :, :]

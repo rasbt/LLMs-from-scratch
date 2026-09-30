@@ -31,14 +31,15 @@ def generate_text_simple(model, idx, max_new_tokens, context_size=None, use_cach
             model.current_pos += seq_len
 
             # iterative generation
-            for _ in range(max_new_tokens):
+            for step in range(max_new_tokens):
                 next_token = logits[:, -1].argmax(dim=-1, keepdim=True)  # (B, 1)
-                logits = model(
-                    next_token,
-                    cache=cache,
-                    start_pos=model.current_pos.clone()
-                )
-                model.current_pos += 1
+                if step + 1 < max_new_tokens:  # Skips the forward pass after the last token is generated
+                    logits = model(
+                        next_token,
+                        cache=cache,
+                        start_pos=model.current_pos.clone()
+                    )
+                    model.current_pos += 1
                 idx = torch.cat([idx, next_token], dim=1)
         else:
             # no cache

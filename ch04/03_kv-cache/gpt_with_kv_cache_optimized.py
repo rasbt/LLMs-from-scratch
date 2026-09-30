@@ -326,10 +326,11 @@ def generate_text_simple_cached(model, idx, max_new_tokens, context_size=None, u
             max_generable = ctx_len - input_tokens_length
             max_new_tokens = min(max_new_tokens, max_generable)
 
-            for _ in range(max_new_tokens):
+            for step in range(max_new_tokens):
                 next_idx = logits[:, -1].argmax(dim=-1, keepdim=True)
                 idx = torch.cat([idx, next_idx], dim=1)
-                logits = model(next_idx, use_cache=True)
+                if step + 1 < max_new_tokens:  # Skips the forward pass after the last token is generated
+                    logits = model(next_idx, use_cache=True)
         else:
             for _ in range(max_new_tokens):
                 logits = model(idx[:, -ctx_len:], use_cache=False)

@@ -261,13 +261,14 @@ def generate_text_simple_cached(model, idx, max_new_tokens,
             model.reset_kv_cache()
             logits = model(idx[:, -ctx_len:], use_cache=True)
 
-            for _ in range(max_new_tokens):
+            for step in range(max_new_tokens):
                 # a) pick the token with the highest log-probability (greedy sampling)
                 next_idx = logits[:, -1].argmax(dim=-1, keepdim=True)
                 # b) append it to the running sequence
                 idx = torch.cat([idx, next_idx], dim=1)
                 # c) feed model only the new token
-                logits = model(next_idx, use_cache=True)
+                if step + 1 < max_new_tokens:  # Skips the forward pass after the last token is generated
+                    logits = model(next_idx, use_cache=True)
         else:
             for _ in range(max_new_tokens):
                 logits = model(idx[:, -ctx_len:], use_cache=False)

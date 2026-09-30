@@ -7,7 +7,8 @@
 # in the main chapters
 
 def trim_input_tensor(input_ids_tensor, context_len, max_new_tokens):
-    assert max_new_tokens < context_len
+    if max_new_tokens >= context_len:
+        raise ValueError("max_new_tokens must be smaller than context_len.")
     keep_len = max(1, context_len - max_new_tokens)
 
     # If the prompt is too long, left-truncate to keep_len

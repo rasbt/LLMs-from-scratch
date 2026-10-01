@@ -3,6 +3,8 @@
 #   - https://www.manning.com/books/build-a-large-language-model-from-scratch
 # Code: https://github.com/rasbt/LLMs-from-scratch
 
+import warnings
+
 from ..generate import trim_input_tensor  # noqa: F401
 from .utils import KVCache
 import torch
@@ -33,6 +35,14 @@ def generate_text_simple(model, idx, max_new_tokens, context_size=None, use_cach
 
 
 def generate_text_simple_stream(model, token_ids, max_new_tokens, eos_token_id=None, context_size=None):
+    # context_size is accepted for backward compatibility and has no effect.
+    if context_size is not None:
+        warnings.warn(
+            "context_size is ignored by this streaming generator. Prompts are not "
+            "truncated; the model's configured context limit still applies.",
+            stacklevel=2,
+        )
+
     model.eval()
 
     with torch.no_grad():

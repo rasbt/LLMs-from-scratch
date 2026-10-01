@@ -82,9 +82,9 @@ After:
 - `Reserved memory: 26.2422 GB`
 
 &nbsp;
-### 2. Use  tensor cores
+### 2. Use TF32 tensor cores
 
-- Uses tensor cores (only works for Ampere GPUs like A100 and newer)
+- Enables TF32 for float32 matrix multiplications on Ampere GPUs like A100 and newer. This setting does not affect the bfloat16 matrix multiplications introduced in step 5.
 
 Before:
 - `Avg tok/sec: 12526`
@@ -124,6 +124,7 @@ After:
 ### 5. Using bfloat16 precision
 
 - Switches from 32-bit float to 16-bit brain float (bfloat16) precision (for more on this topic, see my [article here](https://magazine.sebastianraschka.com/p/the-missing-bits-llama-2-weights))
+- Note that PyTorch typically automatically uses tensor cores (if supported by the GPU) for bfloat16 matrix multiplications without enabling TF32
 
 Before:
 - `Avg tok/sec: 28402`

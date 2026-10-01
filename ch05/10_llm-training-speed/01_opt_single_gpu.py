@@ -381,12 +381,12 @@ def main(gpt_config, settings):
         print(f"CUDA version: {torch.version.cuda}")
 
         capability = torch.cuda.get_device_capability()
-        if capability[0] >= 7:  # Volta (7.0+), Turing (7.5+), Ampere (8.0+), Hopper (9.0+)
+        if capability[0] >= 8:  # Ampere (8.0+) and newer
+            # Kept for float32 experiments; this setting does not affect bfloat16 matmuls.
             torch.set_float32_matmul_precision("high")
-            print("Uses tensor cores")
+            print("TF32 enabled for float32 matmuls")
         else:
-            print("Tensor cores not supported on this GPU. Using default precision.")
-    print(f"Uses tensor cores: {torch.cuda.is_available()}")
+            print("TF32 is not supported on this GPU.")
     print()
 
     ##############################

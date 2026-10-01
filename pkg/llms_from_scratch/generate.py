@@ -7,9 +7,10 @@
 # in the main chapters
 
 def trim_input_tensor(input_ids_tensor, context_len, max_new_tokens):
-    if max_new_tokens >= context_len:
-        raise ValueError("max_new_tokens must be smaller than context_len.")
-    keep_len = max(1, context_len - max_new_tokens)
+    if max_new_tokens > context_len:
+        raise ValueError("max_new_tokens must not exceed context_len.")
+    # The last generated token does not need another forward pass.
+    keep_len = max(1, context_len - max(0, max_new_tokens - 1))
 
     # If the prompt is too long, left-truncate to keep_len
     if input_ids_tensor.shape[1] > keep_len:

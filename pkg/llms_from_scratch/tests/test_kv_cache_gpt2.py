@@ -3,6 +3,7 @@
 import pytest
 import torch
 
+from llms_from_scratch.generate import trim_input_tensor
 from llms_from_scratch.kv_cache.generate import generate_text_simple, generate_text_simple_stream
 from llms_from_scratch.kv_cache.gpt2 import GPTModel
 from llms_from_scratch.kv_cache.utils import KVCache
@@ -115,14 +116,49 @@ def test_streaming_generation_matches_cached_generation():
     expected = generate_text_simple(
         reference_model, prompt.clone(), max_new_tokens=3, context_size=16, use_cache=True
     )
-    streamed_tokens = list(
-        generate_text_simple_stream(
-            streaming_model,
-            prompt.clone(),
-            max_new_tokens=3,
-            context_size=16,
+    with pytest.warns(UserWarning, match="context_size is ignored"):
+        streamed_tokens = list(
+            generate_text_simple_stream(
+                streaming_model,
+                prompt.clone(),
+                max_new_tokens=3,
+                context_size=16,
+            )
         )
-    )
     observed = torch.cat([prompt, *streamed_tokens], dim=1)
 
     assert torch.equal(observed, expected)
+
+
+@pytest.mark.parametrize("streaming", [False, True])
+@pytest.mark.parametrize("max_new_tokens, expected_prompt_length", [(1, 16), (9, 8), (16, 1)])
+def test_trimmed_prompt_uses_last_context_position(streaming, max_new_tokens, expected_prompt_length):
+    model = make_model()
+    prompt = torch.arange(20).unsqueeze(0)
+    trimmed = trim_input_tensor(prompt, TEST_CONFIG["context_length"], max_new_tokens)
+
+    assert torch.equal(trimmed, prompt[:, -expected_prompt_length:])
+    if streaming:
+        output = list(generate_text_simple_stream(model, trimmed, max_new_tokens))
+        assert len(output) == max_new_tokens
+    else:
+        output = generate_text_simple(model, trimmed, max_new_tokens, use_cache=True)
+        assert output.shape[1] == expected_prompt_length + max_new_tokens
+
+    # Generation should use the full context without overflowing it.
+    assert model.current_pos == TEST_CONFIG["context_length"]
+
+
+def test_zero_generation_budget_keeps_prompt_within_context():
+    model = make_model()
+    prompt = torch.arange(20).unsqueeze(0)
+    trimmed = trim_input_tensor(prompt, TEST_CONFIG["context_length"], max_new_tokens=0)
+
+    assert torch.equal(trimmed, prompt[:, -TEST_CONFIG["context_length"]:])
+    assert list(generate_text_simple_stream(model, trimmed, max_new_tokens=0)) == []
+
+
+def test_trimming_rejects_budget_that_leaves_no_room_for_prompt():
+    prompt = torch.tensor([[4]])
+    with pytest.raises(ValueError, match="max_new_tokens must not exceed context_len"):
+        trim_input_tensor(prompt, TEST_CONFIG["context_length"], max_new_tokens=17)

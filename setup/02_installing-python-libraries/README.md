@@ -7,7 +7,7 @@ I used the following libraries listed [here](https://github.com/rasbt/LLMs-from-
 
 
 > **Note:**
-> If you you are using `uv` as described in [Option 1: Using uv](../01_optional-python-setup-preferences/README.md), you can replace `pip` via `uv pip` in the commands below. For example, `pip install -r requirements.txt` becomes `uv pip install -r requirements.txt`
+> If you are using `uv` as described in [Option 1: Using uv](../01_optional-python-setup-preferences/README.md), you can replace `pip` via `uv pip` in the commands below. For example, `pip install -r requirements.txt` becomes `uv pip install -r requirements.txt`
 
 
 
@@ -36,7 +36,7 @@ It's also recommended to check the versions in JupyterLab by running the `python
 
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/02_installing-python-libraries/check_2.jpg" width="500px">
 
-If you see the following issues, it's likely that your JupyterLab instance is connected to wrong conda environment:
+If you see the following issues, it's likely that your JupyterLab instance is connected to the wrong conda environment:
 
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/02_installing-python-libraries/jupyter-issues.jpg" width="450px">
 

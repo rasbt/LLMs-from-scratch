@@ -124,7 +124,7 @@ Time: 25.13 sec
 Max memory allocated: 11.47 GB
 ```
 
-For a fair comparison with an MoE, we have to shrink the expert size. E.g., of we use 32 experts, we have to set `--hidden_dim 32768/32`:
+For a fair comparison with an MoE, we have to shrink the expert size. E.g., if we use 32 experts, we have to set `--hidden_dim 32768/32`:
 
 
 ```bash
@@ -154,7 +154,7 @@ Overall generation still peaks around 11.5 GB of GPU memory in both cases, since
 
 Either way, we can see the trade-off here where MoE reduces the FFN memory by about 4-5× while roughly doubling the feed-forward compute time.
 
-Note that if we processed more tokens at one, e.g., with a batch size larger than 1 (here we don't have batches due to code simplicity), the savings would be more pronounced.
+Note that if we processed more tokens at once, e.g., with a batch size larger than 1 (here we don't have batches due to code simplicity), the savings would be more pronounced.
 
 
 

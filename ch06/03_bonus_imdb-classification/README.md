@@ -100,7 +100,7 @@ Test accuracy: 92.40%
 
 Observation: Muon seems to optimize better/faster but this also leads to more overfitting on the training set here.
 
-PS: the training times is not directly comparable as this was run on a different GPU.
+PS: the training times are not directly comparable as this was run on a different GPU.
 
 <br>
 
@@ -143,7 +143,7 @@ Test accuracy: 90.89%
 &nbsp;
 ### 3) 66M DistilBERT
 
-A 66M parameter encoder-style [DistilBERT](https://arxiv.org/abs/1910.01108) model (distilled down from a 340M parameter BERT model), starting for the pretrained weights and only training the last transformer block plus output layers:
+A 66M parameter encoder-style [DistilBERT](https://arxiv.org/abs/1910.01108) model (distilled down from a 340M parameter BERT model), starting from the pretrained weights and only training the last transformer block plus output layers:
 
 
 
@@ -175,7 +175,7 @@ Test accuracy: 91.40%
 &nbsp;
 ### 4) 355M RoBERTa
 
-A 355M parameter encoder-style [RoBERTa](https://arxiv.org/abs/1907.11692) model, starting for the pretrained weights and only training the last transformer block plus output layers:
+A 355M parameter encoder-style [RoBERTa](https://arxiv.org/abs/1907.11692) model, starting from the pretrained weights and only training the last transformer block plus output layers:
 
 
 ```bash

@@ -182,7 +182,7 @@ uv pip install -r https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/refs
 
 That’s it! Your environment should now be ready for running the code in the repository.
 
-Optionally, you can run an environment check by executing the `python_environment_check.py` script in this repostiory:
+Optionally, you can run an environment check by executing the `python_environment_check.py` script in this repository:
 
 ```bash
 python setup/02_installing-python-libraries/python_environment_check.py

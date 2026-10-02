@@ -30,7 +30,7 @@ The [`app.py`](app.py) file contains the UI code based. Open and inspect these f
 
 This file loads and uses the GPT-2 classifier weights we generated in chapter 6. This requires that you execute the [`../01_main-chapter-code/ch06.ipynb`](../01_main-chapter-code/ch06.ipynb) file first.
 
-Excecute the following command from the terminal to start the UI server:
+Execute the following command from the terminal to start the UI server:
 
 ```bash
 chainlit run app.py

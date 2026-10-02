@@ -32,7 +32,7 @@ This section guides you through the Python setup and package installation proced
 >
 > The `uv add` syntax also applies to Windows users. However, I found that some dependencies in the `pyproject.toml` cause problems on Windows. So, for Windows users, I recommend `pixi` instead, which has a similar `pixi add` workflow like `uv add`. For more information, see the [./native-pixi.md tutorial](./native-pixi.md).
 >
-> While `uv add` and `pixi add` offer additional speed advantages, I think that `uv pip` is slightly more user-friendly, making it a good starting point for beginners. However, if you're new to Python package management, the native `uv` interface is also a great opportunity to learn it from the start. It's also how I use `uv` now, but I realize it the barrier to entry is a bit higher if you are coming from `pip` and `conda`.
+> While `uv add` and `pixi add` offer additional speed advantages, I think that `uv pip` is slightly more user-friendly, making it a good starting point for beginners. However, if you're new to Python package management, the native `uv` interface is also a great opportunity to learn it from the start. It's also how I use `uv` now, but I realize the barrier to entry is a bit higher if you are coming from `pip` and `conda`.
 
 
 
@@ -132,7 +132,7 @@ Note that you need to activate the virtual environment each time you start a new
 
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/uv-setup/venv-activate-1.png" width="600" height="auto" alt="Venv activated">
 
-Optionally, you can deactivate the environment it by executing the command `deactivate`.
+Optionally, you can deactivate the environment by executing the command `deactivate`.
 
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/uv-setup/venv-activate-2.png" width="800" height="auto" alt="Venv deactivated">
 
@@ -296,7 +296,7 @@ conda install jupyterlab watermark
 
 
 
-You can also still use `pip` to install libraries. By default, `pip` should be linked to your new `LLms` conda environment:
+You can also still use `pip` to install libraries. By default, `pip` should be linked to your new `LLMs` conda environment:
 
 <img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/setup/01_optional-python-setup-preferences/check-pip.png" alt="check-pip" width="600px">
 

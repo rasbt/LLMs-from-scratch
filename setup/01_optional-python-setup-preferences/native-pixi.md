@@ -42,7 +42,7 @@ Download the installer from the official [documentation](https://pixi.sh/latest/
 
 
 &nbsp;
-## 1. Install Python
+## 2. Install Python
 
 You can install Python using pixi:
 

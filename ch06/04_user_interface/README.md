@@ -26,7 +26,7 @@ pip install chainlit
 &nbsp;
 ## Step 2: Run `app` code
 
-The [`app.py`](app.py) file contains the UI code based. Open and inspect these files to learn more.
+The [`app.py`](app.py) file contains the UI code. Open and inspect this file to learn more.
 
 This file loads and uses the GPT-2 classifier weights we generated in chapter 6. This requires that you execute the [`../01_main-chapter-code/ch06.ipynb`](../01_main-chapter-code/ch06.ipynb) file first.
 

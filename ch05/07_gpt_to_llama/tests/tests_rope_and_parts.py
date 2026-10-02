@@ -83,7 +83,7 @@ def litgpt_apply_rope(x: torch.Tensor, cos: torch.Tensor, sin: torch.Tensor) -> 
     rotated = torch.cat((-x2, x1), dim=-1)  # (B, nh, T, hs)
     if cos.dim() > 1:
         # batch dimensions must align
-        # sin/cos are (B, T, hs) so we unsqeeze -3 for nh
+        # sin/cos are (B, T, hs) so we unsqueeze -3 for nh
         # we count from back because all of apply_rope does
         cos = cos.unsqueeze(-3)
         sin = sin.unsqueeze(-3)

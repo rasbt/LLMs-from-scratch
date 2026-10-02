@@ -73,4 +73,4 @@ Number of scores: 110 of 110
 Average score: 51.75
 ```
 
-- [exercise_experiments.py](exercise_experiments.py) is an optional scropt that implements the exercise solutions; for more details see [exercise-solutions.ipynb](exercise-solutions.ipynb)
+- [exercise_experiments.py](exercise_experiments.py) is an optional script that implements the exercise solutions; for more details see [exercise-solutions.ipynb](exercise-solutions.ipynb)

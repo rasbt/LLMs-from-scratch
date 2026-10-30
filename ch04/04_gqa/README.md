@@ -32,6 +32,8 @@ The memory savings are mostly reflected in the KV storage. We can compute the KV
 
 bytes ≈ batch_size × seqlen × (embed_dim / n_heads) × n_layers × 2 (K,V) × bytes_per_elem × n_kv_heads
 
+Here, `n_kv_heads` is the number of key-value heads, which is what `n_kv_groups` specifies in the code (each of the `n_heads` query heads is assigned to one of the `n_kv_groups` key-value heads). So `n_kv_groups=1` corresponds to multi-query attention, and `n_kv_groups=n_heads` recovers standard multi-head attention.
+
 You can use the [memory_estimator_gqa.py](memory_estimator_gqa.py) script in this folder to apply this for different model configs to see how much memory you can save by using GQA over MHA:
 
 ```bash
@@ -48,13 +50,13 @@ n_kv_groups      : 4
 batch_size       : 1
 dtype            : bf16 (2 Bytes/elem)
 head_dim         : 128
-GQA n_kv_heads   : 8
+GQA n_kv_heads   : 4
 
 ==== KV-cache totals across all layers ====
 MHA total KV cache  : 17.18 GB
-GQA total KV cache  : 4.29 GB
-Ratio (MHA / GQA)   : 4.00x
-Savings (GQA vs MHA): 75.00%
+GQA total KV cache  : 2.15 GB
+Ratio (MHA / GQA)   : 8.00x
+Savings (GQA vs MHA): 87.50%
 ```
 
 The savings when using GQA over MHA are further shown in the plot below for different key-value group sizes as a function of the context length:

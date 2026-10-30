@@ -56,7 +56,9 @@ def main():
     head_dim = math.ceil(cfg["emb_dim"] / cfg["n_heads"])
 
     n_kv_heads_mha = cfg["n_heads"]
-    n_kv_heads_gqa = cfg["n_heads"] // cfg["n_kv_groups"]
+    # n_kv_groups is the number of key-value heads (see GroupedQueryAttention
+    # in gpt_with_kv_gqa.py, where W_key/W_value project to n_kv_groups * head_dim)
+    n_kv_heads_gqa = cfg["n_kv_groups"]
 
     total_mha = calc_kv_bytes_total(
         args.batch_size,

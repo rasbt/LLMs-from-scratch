@@ -257,6 +257,14 @@ def generate_text_simple_cached(model, idx, max_new_tokens,
 
     with torch.no_grad():
         if use_cache:
+            # Each generated token is fed back into the model to predict the next one,
+            # except the last token, where generation stops. This means only
+            # max_new_tokens - 1 generated tokens need space in the KV cache.
+            prompt_len = min(idx.shape[1], ctx_len)
+            assert prompt_len + max(0, max_new_tokens - 1) <= ctx_len, (
+                "Prompt tokens plus cached generated tokens exceed context length; "
+                "the KV cache path cannot slide the window."
+            )
             # Init cache with full prompt
             model.reset_kv_cache()
             logits = model(idx[:, -ctx_len:], use_cache=True)
@@ -334,7 +342,8 @@ def main():
     print("Output text:", decoded_text)
 
     print(f"\nTime: {total_time:.2f} sec")
-    print(f"{int(len(token_ids[0])/total_time)} tokens/sec")
+    new_tokens = token_ids.shape[1] - encoded_tensor.shape[1]
+    print(f"{int(new_tokens/total_time)} tokens/sec")
     if torch.cuda.is_available():
         max_mem_bytes = torch.cuda.max_memory_allocated()
         max_mem_gb = max_mem_bytes / (1024 ** 3)

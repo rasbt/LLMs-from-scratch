@@ -42,12 +42,15 @@ def find_near_duplicates(json_data, threshold=0.75, key="instruction"):
     """The higher the threshold, the more similar the texts have to be to match"""
 
     # Extract instructions
-    text = [preprocess_text(item[key]) for item in json_data if item[key]]
+    # (entries with an empty value are skipped, so we keep track of the original
+    # indices to map the rows of the similarity matrix back to json_data)
+    data_indices = [index for index, item in enumerate(json_data) if item[key]]
+    text = [preprocess_text(json_data[index][key]) for index in data_indices]
     near_duplicates = []
     indices_to_remove = set()
 
     if not text:
-        return {}, near_duplicates
+        return json_data, near_duplicates
 
     # Vectorize the text data
     vectorizer = TfidfVectorizer(stop_words=None, analyzer="char", ngram_range=(1, 3))
@@ -61,11 +64,12 @@ def find_near_duplicates(json_data, threshold=0.75, key="instruction"):
     for i in range(len(cos_sim_matrix)):
         for j in range(i+1, len(cos_sim_matrix)):
             if cos_sim_matrix[i, j] > threshold:
-                if len(json_data[i][key]) <= 1 or len(json_data[j][key]) <= 1:
+                item_i, item_j = json_data[data_indices[i]], json_data[data_indices[j]]
+                if len(item_i[key]) <= 1 or len(item_j[key]) <= 1:
                     continue
-                near_duplicates.append((json_data[i], json_data[j], cos_sim_matrix[i, j]))
+                near_duplicates.append((item_i, item_j, cos_sim_matrix[i, j]))
                 if key in ("input", "output"):  # Don't remove duplicates based on the instruction
-                    indices_to_remove.add(j)  # Mark the second entry for removal
+                    indices_to_remove.add(data_indices[j])  # Mark the second entry for removal
 
     # Remove the near-duplicate entries
     filtered_json_data = [item for index, item in enumerate(json_data) if index not in indices_to_remove]

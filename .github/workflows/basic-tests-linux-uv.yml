@@ -42,6 +42,7 @@ jobs:
           uv sync --dev  # tests for backwards compatibility
           uv pip install -r ch05/07_gpt_to_llama/tests/test-requirements-extra.txt
           uv add pytest-ruff nbval
+          uv pip install -r ch07/02_dataset-utilities/requirements-extra.txt
 
       - name: Test Selected Python Scripts (uv)
         shell: bash
@@ -74,6 +75,7 @@ jobs:
         run: |
           source .venv/bin/activate
           pytest ch02/05_bpe-from-scratch/tests.py
+          pytest ch07/02_dataset-utilities/tests.py
 
       - name: Test Selected Bonus Materials
         shell: bash

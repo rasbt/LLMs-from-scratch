@@ -47,9 +47,9 @@ def plot_abs_kv_vs_context_multi_groups():
     plt.plot(context_lengths, mha_gb, marker="o", label="MHA (KV total)")
 
     # GQA curves for selected n_kv_groups
-    groups_list = [4, 8, 12, 24]
+    groups_list = [1, 2, 3, 6]
     for g in groups_list:
-        n_kv_heads = n_heads // g
+        n_kv_heads = g  # n_kv_groups is the number of key-value heads
         gqa_gb = []
         for L in context_lengths:
             total_gqa = calc_kv_bytes_total(

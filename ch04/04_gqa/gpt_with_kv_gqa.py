@@ -269,7 +269,9 @@ def generate_text_simple_cached(model, idx, max_new_tokens,
 
     with torch.no_grad():
         if use_cache:
-            # Prefill crops the prompt; the final generated token is never fed back.
+            # Each generated token is fed back into the model to predict the next one,
+            # except the last token, where generation stops. This means only
+            # max_new_tokens - 1 generated tokens need space in the KV cache.
             prompt_len = min(idx.shape[1], ctx_len)
             assert prompt_len + max(0, max_new_tokens - 1) <= ctx_len, (
                 "Prompt tokens plus cached generated tokens exceed context length; "

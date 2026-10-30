@@ -269,9 +269,11 @@ def generate_text_simple_cached(model, idx, max_new_tokens,
 
     with torch.no_grad():
         if use_cache:
-            assert idx.shape[1] + max_new_tokens <= ctx_len, (
-                "Prompt length + max_new_tokens exceeds context length; "
-+                "the KV cache path cannot slide the window."
+            # Prefill crops the prompt; the final generated token is never fed back.
+            prompt_len = min(idx.shape[1], ctx_len)
+            assert prompt_len + max(0, max_new_tokens - 1) <= ctx_len, (
+                "Prompt tokens plus cached generated tokens exceed context length; "
+                "the KV cache path cannot slide the window."
             )
             # Init cache with full prompt
             model.reset_kv_cache()

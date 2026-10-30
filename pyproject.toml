@@ -9,10 +9,12 @@ description = "Implement a ChatGPT-like LLM in PyTorch from scratch, step by ste
 readme = "README.md"
 requires-python = ">=3.10,<3.15"
 dependencies = [
+  # Keep Intel macOS on older PyTorch wheels.
   "torch>=2.2.2,<2.6; sys_platform == 'darwin' and platform_machine == 'x86_64' and python_version <= '3.14'",
-  "torch>=2.2.2; sys_platform == 'darwin' and platform_machine == 'arm64' and python_version <= '3.14'",
-  "torch>=2.2.2; sys_platform == 'linux' and python_version <= '3.14'",
-  "torch>=2.2.2; sys_platform == 'win32' and python_version <= '3.14'",
+  # Transformers v5 requires PyTorch >=2.6 for the bonus materials and tests.
+  "torch>=2.6.0; sys_platform == 'darwin' and platform_machine == 'arm64' and python_version <= '3.14'",
+  "torch>=2.6.0; sys_platform == 'linux' and python_version <= '3.14'",
+  "torch>=2.6.0; sys_platform == 'win32' and python_version <= '3.14'",
   "tensorflow>=2.16.2; sys_platform == 'darwin' and platform_machine == 'x86_64' and python_version < '3.13'",
   "tensorflow>=2.18.0; sys_platform == 'darwin' and platform_machine == 'arm64' and python_version < '3.13'",
   "tensorflow-cpu>=2.18.0; sys_platform == 'linux' and platform_machine == 'x86_64' and python_version < '3.13'",

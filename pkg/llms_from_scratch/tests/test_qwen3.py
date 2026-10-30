@@ -29,6 +29,7 @@ import shutil
 import tempfile
 import platform
 from collections.abc import Mapping
+from packaging.version import Version
 import pytest
 import torch
 import torch.nn as nn
@@ -329,12 +330,26 @@ def test_model_variants(ModelClass, qwen3_weights_path, generate_fn):
         context_size=QWEN_CONFIG_06_B["context_length"]
     )
     print("Encoded output text:", out)
-    expect = torch.tensor([
+
+    # PyTorch 2.12 changed CPU bf16 normal/uniform sampling, changing seeded weights.
+    # https://github.com/pytorch/pytorch/pull/175988
+    if Version(torch.__version__).release < (2, 12):
+        expected_new_tokens = [[112120, 83942, 60483, 102652, 7414]]
+    else:
+        # bf16 rounding can change the third greedy token; both continuations occur on Linux.
+        expected_new_tokens = [
+            [69468, 119157, 67829, 57827, 132941],
+            [69468, 119157, 79451, 45593, 45384],
+        ]
+
+    expected_outputs = [torch.tensor([
         [151644, 872, 198, 35127, 752, 264, 2805, 16800, 311,
-         3460, 4128,  4119, 13, 151645, 198, 112120, 83942, 60483,
-         102652, 7414]
-    ])
-    assert torch.equal(expect, out)
+         3460, 4128, 4119, 13, 151645, 198] + tokens
+    ]) for tokens in expected_new_tokens]
+    assert any(torch.equal(expect, out) for expect in expected_outputs), (
+        f"Unexpected tokens with PyTorch {torch.__version__} on {platform.system()} {platform.machine()}: "
+        f"{out.tolist()}"
+    )
 
 
 def test_model_KV_noKV():

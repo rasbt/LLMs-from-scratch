@@ -5,6 +5,7 @@
 
 
 import os
+from tempfile import TemporaryDirectory
 
 import requests
 import json
@@ -13,7 +14,8 @@ import tensorflow as tf
 from tqdm import tqdm
 
 
-def download_and_load_gpt2(model_size, models_dir):
+def download_and_load_gpt2(model_size, models_dir, source=None):
+    """Try OpenAI, Hugging Face, then Backblaze, or pass a source to use only that host."""
     # Validate model size
     allowed_sizes = ("124M", "355M", "774M", "1558M")
     if model_size not in allowed_sizes:
@@ -21,8 +23,14 @@ def download_and_load_gpt2(model_size, models_dir):
 
     # Define paths
     model_dir = os.path.join(models_dir, model_size)
-    base_url = "https://openaipublic.blob.core.windows.net/gpt-2/models"
-    backup_base_url = "https://f001.backblazeb2.com/file/LLMs-from-scratch/gpt2"
+    sources = {
+        "openai": "https://openaipublic.blob.core.windows.net/gpt-2/models",
+        "hf": "https://huggingface.co/rasbt/gpt2-tensorflow/resolve/main",
+        "backblaze": "https://f001.backblazeb2.com/file/LLMs-from-scratch/gpt2",
+    }
+    if source is not None and source not in sources:
+        raise ValueError(f"Unknown source {source!r}. Choose from {tuple(sources)}.")
+    base_urls = sources.values() if source is None else [sources[source]]
     filenames = [
         "checkpoint", "encoder.json", "hparams.json",
         "model.ckpt.data-00000-of-00001", "model.ckpt.index",
@@ -32,10 +40,9 @@ def download_and_load_gpt2(model_size, models_dir):
     # Download files
     os.makedirs(model_dir, exist_ok=True)
     for filename in filenames:
-        file_url = os.path.join(base_url, model_size, filename)
-        backup_url = os.path.join(backup_base_url, model_size, filename)
+        urls = [f"{base_url}/{model_size}/{filename}" for base_url in base_urls]
         file_path = os.path.join(model_dir, filename)
-        download_file(file_url, file_path, backup_url)
+        download_file(urls[0], file_path, *urls[1:])
 
     # Load settings and params
     tf_ckpt_path = tf.train.latest_checkpoint(model_dir)
@@ -45,51 +52,37 @@ def download_and_load_gpt2(model_size, models_dir):
     return settings, params
 
 
-def download_file(url, destination, backup_url=None):
-    def _attempt_download(download_url):
-        response = requests.get(download_url, stream=True, timeout=60)
-        response.raise_for_status()
-
-        file_size = int(response.headers.get("Content-Length", 0))
-
-        # Check if file exists and has same size
-        if os.path.exists(destination):
-            file_size_local = os.path.getsize(destination)
-            if file_size and file_size == file_size_local:
-                print(f"File already exists and is up-to-date: {destination}")
-                return True
-
-        block_size = 1024  # 1 KB
-        desc = os.path.basename(download_url)
-        with tqdm(total=file_size, unit="iB", unit_scale=True, desc=desc) as progress_bar:
-            with open(destination, "wb") as file:
-                for chunk in response.iter_content(chunk_size=block_size):
-                    if chunk:
-                        file.write(chunk)
-                        progress_bar.update(len(chunk))
-        return True
-
-    try:
-        if _attempt_download(url):
-            return
-    except requests.exceptions.RequestException:
-        if backup_url is not None:
-            print(f"Primary URL ({url}) failed. Attempting backup URL: {backup_url}")
-            try:
-                if _attempt_download(backup_url):
+def download_file(url, destination, backup_url=None, second_backup_url=None):
+    urls = [u for u in (url, backup_url, second_backup_url) if u is not None]
+    file_size = None
+    for i, download_url in enumerate(urls):
+        try:
+            with requests.get(download_url, stream=True, timeout=60, headers={"Accept-Encoding": "identity"}) as response:
+                response.raise_for_status()
+                file_size = int(response.headers.get("Content-Length", 0))
+                if file_size and os.path.isfile(destination) and os.path.getsize(destination) == file_size:
+                    print(f"File already exists and is up-to-date: {destination}")
                     return
-            except requests.exceptions.RequestException:
-                pass
 
-        error_message = (
-            f"Failed to download from both primary URL ({url})"
-            f"{' and backup URL (' + backup_url + ')' if backup_url else ''}."
-            "\nCheck your internet connection or the file availability.\n"
-            "For help, visit: https://github.com/rasbt/LLMs-from-scratch/discussions/273"
-        )
-        print(error_message)
-    except Exception as e:
-        print(f"An unexpected error occurred: {e}")
+                # Replace the checkpoint file only after the download finishes.
+                with TemporaryDirectory(dir=os.path.dirname(os.path.abspath(destination))) as tmp_dir:
+                    tmp_path = os.path.join(tmp_dir, "download")
+                    desc = os.path.basename(destination)
+                    with open(tmp_path, "wb") as file, tqdm(total=file_size, unit="iB", unit_scale=True, desc=desc) as bar:
+                        for chunk in response.iter_content(chunk_size=1024 * 1024):
+                            file.write(chunk)
+                            bar.update(len(chunk))
+                        if file_size and file.tell() != file_size:
+                            raise requests.exceptions.ChunkedEncodingError(f"Incomplete download from {download_url}")
+                    os.replace(tmp_path, destination)
+                return
+        except requests.exceptions.RequestException:
+            if i + 1 == len(urls):
+                if file_size is None and os.path.isfile(destination):
+                    print(f"Could not verify the download online. Using local file: {destination}")
+                    return
+                raise
+            print(f"Download from {download_url} failed. Trying {urls[i + 1]}.")
 
 
 # Alternative way using `requests`

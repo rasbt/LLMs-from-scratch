@@ -187,3 +187,45 @@ def test_prefill_chunking_basic():
 
     # First 10 tokens should match input
     assert torch.equal(token_ids[:, :10], input_tokens), "Input tokens should be preserved"
+
+def test_full_context_prompt_generates_last_token():
+    """
+    Test that the last position of the context window is still used.
+
+    The token predicted from the final position is not fed back into
+    the model, so a prompt that fills the whole context can still
+    produce one new token, and a prompt one token shorter can produce two.
+    """
+    config = {
+        "vocab_size": 50,
+        "context_length": 8,
+        "emb_dim": 32,
+        "n_heads": 4,
+        "n_layers": 2,
+        "drop_rate": 0.0,
+        "qkv_bias": False,
+        "kv_window_size": 8
+    }
+
+    torch.manual_seed(123)
+    model = GPTModelKV2(config).to(device)
+    model.eval()
+
+    for input_length, expected_new_tokens in [(8, 1), (7, 2)]:
+        input_tokens = torch.randint(0, 50, (1, input_length), device=device)
+
+        token_ids = generate_text_simple_cachedKV2(
+            model=model,
+            idx=input_tokens,
+            max_new_tokens=5,
+            use_cache=True
+        )
+        expected = generate_text_simple_cachedKV2(
+            model=model,
+            idx=input_tokens,
+            max_new_tokens=expected_new_tokens,
+            use_cache=False
+        )
+
+        assert token_ids.shape[1] == input_length + expected_new_tokens
+        assert torch.equal(token_ids, expected)

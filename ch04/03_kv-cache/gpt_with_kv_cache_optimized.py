@@ -323,7 +323,8 @@ def generate_text_simple_cached(model, idx, max_new_tokens, context_size=None, u
 
             # can't generate more than ctx_len of result
             # due to the limitation of position embedding
-            max_generable = ctx_len - input_tokens_length
+            # (+1 because the last generated token is not fed back into the model)
+            max_generable = ctx_len - input_tokens_length + 1
             max_new_tokens = min(max_new_tokens, max_generable)
 
             for step in range(max_new_tokens):

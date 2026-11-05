@@ -97,3 +97,28 @@ def test_model_files():
 
     check_model_files(base_url="https://openaipublic.blob.core.windows.net/gpt-2/models")
     check_model_files(base_url="https://f001.backblazeb2.com/file/LLMs-from-scratch/gpt2")
+
+
+@pytest.mark.parametrize("source, expected_hosts", [
+    (None, ["openaipublic.blob.core.windows.net", "huggingface.co", "f001.backblazeb2.com"]),
+    ("openai", ["openaipublic.blob.core.windows.net"]),
+    ("hf", ["huggingface.co"]),
+    ("backblaze", ["f001.backblazeb2.com"]),
+])
+def test_gpt2_download_source_order(source, expected_hosts, monkeypatch, tmp_path):
+    from urllib.parse import urlsplit
+
+    pytest.importorskip("tensorflow")
+    from gpt_download import download_and_load_gpt2
+
+    attempted_hosts = []
+
+    def unavailable(url, **kwargs):
+        attempted_hosts.append(urlsplit(url).hostname)
+        raise requests.ConnectionError("Host unavailable")
+
+    monkeypatch.setattr(requests, "get", unavailable)
+    options = {} if source is None else {"source": source}
+    with pytest.raises(requests.ConnectionError):
+        download_and_load_gpt2("124M", tmp_path, **options)
+    assert attempted_hosts == expected_hosts

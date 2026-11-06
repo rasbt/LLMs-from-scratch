@@ -119,6 +119,7 @@ if __name__ == "__main__":
 
     # Placeholder for the best loss and best hyperparameters
     best_val_loss = float("inf")
+    best_train_loss = float("inf")
     best_hparams = {}
 
     script_path = os.path.abspath(__file__)
@@ -206,11 +207,11 @@ if __name__ == "__main__":
         except KeyboardInterrupt:
             print("Hyperparameter search completed.")
             print(f"Best hyperparameters: {best_hparams}")
-            print(f"Best Val loss: {best_val_loss} | Training loss {train_loss}")
+            print(f"Best Val loss: {best_val_loss} | Training loss {best_train_loss}")
             interrupted = True
             break
 
     if not interrupted:
         print("Hyperparameter search completed.")
         print(f"Best hyperparameters: {best_hparams}")
-        print(f"Best Val loss: {best_val_loss} | Training loss {train_loss}")
+        print(f"Best Val loss: {best_val_loss} | Training loss {best_train_loss}")

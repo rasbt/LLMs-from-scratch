@@ -47,7 +47,7 @@ uv run memory_estimator_kv_sharing.py \
   --emb_dim 2048 \
   --n_heads 8 \
   --n_layers 35 \
-  --n_kv_groups 8 \
+  --n_kv_groups 1 \
   --n_kv_producing_layers 15 \
   --batch_size 1 \
   --dtype bf16
@@ -58,7 +58,7 @@ uv run memory_estimator_kv_sharing.py \
 #   --emb_dim 2560 \
 #   --n_heads 8 \
 #   --n_layers 42 \
-#   --n_kv_groups 4 \
+#   --n_kv_groups 2 \
 #   --n_kv_producing_layers 24 \
 #   --batch_size 1 \
 #   --dtype bf16
@@ -68,7 +68,7 @@ context_length         : 131072
 emb_dim                : 2048
 n_heads                : 8
 n_layers               : 35
-n_kv_groups            : 8
+n_kv_groups            : 1
 n_kv_producing_layers  : 15
 batch_size             : 1
 dtype                  : bf16 (2 Bytes/elem)
@@ -83,6 +83,8 @@ GQA + KV sharing          : 2.01 GB
 Ratio (MHA / GQA+sharing) : 18.67x
 Savings vs MHA            : 94.64%
 ```
+
+Here, `n_kv_groups` is the number of KV heads. The E2B-like setup uses one KV head, and the E4B-like setup uses two, matching the plot presets below.
 
 This is a Gemma 4 E2B-like setup. The 35 layers include 15 K/V-producing layers, and the remaining layers reuse earlier K/V tensors. For the E4B-like setup, the corresponding numbers are 42 total layers and 24 K/V-producing layers.
 

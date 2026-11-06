@@ -1,5 +1,6 @@
 import copy
 
+import pytest
 import torch
 
 from llms_from_scratch.ch04 import GPTModel as GPTModelBase
@@ -85,3 +86,92 @@ def test_swa_matches_base_model_when_window_equals_context():
         use_cache=True,
     )
     assert torch.equal(actual_ids, expected_ids)
+
+
+def test_estimator_totals_match_measured_model_cache():
+    import importlib.util
+    from pathlib import Path
+
+    import memory_estimator_swa as est
+
+    gqa_path = Path(__file__).resolve().parent.parent / "04_gqa" / "gpt_with_kv_gqa.py"
+    spec = importlib.util.spec_from_file_location("gpt_with_kv_gqa", gqa_path)
+    gqa = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(gqa)
+
+    emb_dim, n_heads, n_kv_groups = 96, 6, 3
+    context_length, n_layers, window = 16, 2, 4
+
+    res = est.estimate_totals(
+        context_length=context_length,
+        sliding_window_size=window,
+        emb_dim=emb_dim,
+        n_heads=n_heads,
+        n_layers=n_layers,
+        n_kv_groups=n_kv_groups,
+        batch_size=1,
+        dtype="bf16",
+        swa_ratio="1:1",
+    )
+    assert res["n_kv_heads_gqa"] == n_kv_groups
+
+    def measured_cache_bytes(num_kv_heads, seq_len):
+        att = gqa.GroupedQueryAttention(
+            d_in=emb_dim, d_out=emb_dim, dropout=0.0,
+            num_heads=n_heads, num_kv_groups=num_kv_heads, dtype=torch.bfloat16,
+        )
+        att.eval()
+        x = torch.randn(1, seq_len, emb_dim, dtype=torch.bfloat16)
+        with torch.no_grad():
+            att(x, use_cache=True)
+        return (att.cache_k.numel() * att.cache_k.element_size()
+                + att.cache_v.numel() * att.cache_v.element_size())
+
+    # Full-attention GQA layers: estimator total equals the measured model cache
+    assert res["total_gqa_allfull"] == measured_cache_bytes(n_kv_groups, context_length) * n_layers
+    # MHA is GQA with one KV head per query head
+    assert res["total_mha_allfull"] == measured_cache_bytes(n_heads, context_length) * n_layers
+
+    # SWA layers: estimator uses the real model's capped window cache
+    swa_att = MultiHeadAttentionWithSWA(
+        d_in=emb_dim, d_out=emb_dim, dropout=0.0, num_heads=n_heads,
+        sliding_window_size=window,
+    ).to(torch.bfloat16)
+    swa_att.eval()
+    x = torch.randn(1, context_length, emb_dim, dtype=torch.bfloat16)
+    with torch.no_grad():
+        swa_att(x, use_cache=True)
+    swa_measured = (swa_att.cache_k.numel() * swa_att.cache_k.element_size()
+                    + swa_att.cache_v.numel() * swa_att.cache_v.element_size())
+    assert swa_att.cache_k.size(1) == window
+    # 1 SWA layer + 1 full MHA layer
+    assert res["total_mixed_mha"] == swa_measured + measured_cache_bytes(n_heads, context_length)
+
+
+@pytest.mark.parametrize("context_length,emb_dim,n_heads,n_layers,n_kv_groups,swa_ratio", [
+    (256, 4096, 32, 32, 4, "5:1"),  # Prompt shorter than the SWA window.
+    (2048, 4096, 32, 32, 4, "5:1"),  # Prompt exactly fills the window.
+    (4096, 4096, 48, 36, 4, "5:1"),  # README plot's rounded head dimension.
+    (4096, 96, 6, 2, 3, "1:5"),  # Incomplete layer block starts with SWA.
+])
+def test_plot_matches_estimator(context_length, emb_dim, n_heads, n_layers, n_kv_groups, swa_ratio):
+    import memory_estimator_swa as est
+    import plot_memory_estimates_swa as plot
+
+    batch, window, bytes_per_elem = 1, 2048, 2
+    expected = est.estimate_totals(
+        context_length, window, emb_dim, n_heads, n_layers,
+        n_kv_groups, batch, "bf16", swa_ratio,
+    )
+    assert plot.calc_kv_bytes_total_mha(
+        batch, context_length, emb_dim, n_heads, n_layers, bytes_per_elem,
+    ) == expected["total_mha_allfull"]
+    assert plot.calc_kv_bytes_total_gqa(
+        batch, context_length, emb_dim, n_heads, n_layers, bytes_per_elem, n_kv_groups,
+    ) == pytest.approx(expected["total_gqa_allfull"])
+    assert plot.calc_kv_bytes_total_mha_swa(
+        batch, context_length, emb_dim, n_heads, n_layers, bytes_per_elem, window, swa_ratio,
+    ) == expected["total_mixed_mha"]
+    assert plot.calc_kv_bytes_total_gqa_swa(
+        batch, context_length, emb_dim, n_heads, n_layers, bytes_per_elem, n_kv_groups, window, swa_ratio,
+    ) == pytest.approx(expected["total_mixed_gqa"])

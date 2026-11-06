@@ -78,7 +78,7 @@ Moreover, if we keep the total parameter count roughly constant and activate the
 
 &nbsp;
 
-<img src="ffn_vs_moe.png" alt="Dense and MoE parameter counts with eight active experts per token" width="500px" />
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/bonus/moe-memory/2.webp?1" alt="Dense and MoE parameter counts with eight active experts per token" width="500px" />
 
 
 

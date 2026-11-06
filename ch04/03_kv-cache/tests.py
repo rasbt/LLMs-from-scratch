@@ -229,3 +229,41 @@ def test_full_context_prompt_generates_last_token():
 
         assert token_ids.shape[1] == input_length + expected_new_tokens
         assert torch.equal(token_ids, expected)
+
+
+def test_cached_generation_bfloat16():
+    """
+    Test that the preallocated KV cache follows the dtype of the model.
+
+    The cache used to be created in the default float32, so generating
+    with a bfloat16 model failed in the attention matmul.
+    """
+    config = {
+        "vocab_size": 50,
+        "context_length": 8,
+        "emb_dim": 32,
+        "n_heads": 4,
+        "n_layers": 2,
+        "drop_rate": 0.0,
+        "qkv_bias": False,
+        "kv_window_size": 8
+    }
+
+    torch.manual_seed(123)
+    model = GPTModelKV2(config).to(torch.bfloat16)
+    model.eval()
+
+    input_tokens = torch.randint(0, 50, (1, 4))
+
+    token_ids = generate_text_simple_cachedKV2(
+        model=model,
+        idx=input_tokens,
+        max_new_tokens=3,
+        use_cache=True
+    )
+
+    assert token_ids.shape[1] == 7, f"Expected 7 tokens, got {token_ids.shape[1]}"
+
+    for block in model.trf_blocks:
+        assert block.att.cache_k.dtype == torch.bfloat16
+        assert block.att.cache_v.dtype == torch.bfloat16

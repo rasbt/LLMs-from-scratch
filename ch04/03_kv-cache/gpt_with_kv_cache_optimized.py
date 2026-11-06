@@ -64,7 +64,7 @@ class MultiHeadAttention(nn.Module):
             if self.cache_k is None or self.cache_k.size(0) != b:
                 self.cache_k = torch.zeros(b, self.num_heads,
                                            self.window_size, self.head_dim,
-                                           device=x.device)
+                                           device=x.device, dtype=keys_new.dtype)
                 self.cache_v = torch.zeros_like(self.cache_k)
                 self.ptr_cur = 0  # pointer to next free slot
 

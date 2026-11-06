@@ -46,12 +46,13 @@ def calc_kv_bytes_total_mha(batch, context_length, emb_dim, n_layers, bytes_per_
 
 
 def calc_kv_bytes_total_gqa(
-    batch, context_length, emb_dim, n_layers, bytes_per_elem, n_kv_groups
+    batch, context_length, emb_dim, n_heads, n_layers, bytes_per_elem, n_kv_groups
 ):
-    # For GQA, n_kv_heads = n_heads / n_kv_groups
-    # => scale the MHA total by 1 / n_kv_groups
+    # n_kv_groups is the number of key-value heads (see GroupedQueryAttention
+    # in ../04_gqa/gpt_with_kv_gqa.py, where W_key/W_value project to n_kv_groups * head_dim)
+    # => scale the MHA total by n_kv_groups / n_heads
     base = calc_kv_bytes_total_mha(batch, context_length, emb_dim, n_layers, bytes_per_elem)
-    return base / n_kv_groups
+    return base * (n_kv_groups / n_heads)
 
 
 def calc_kv_bytes_total_mha_swa(
@@ -76,6 +77,7 @@ def calc_kv_bytes_total_gqa_swa(
     batch,
     context_length,
     emb_dim,
+    n_heads,
     n_layers,
     bytes_per_elem,
     n_kv_groups,
@@ -91,12 +93,13 @@ def calc_kv_bytes_total_gqa_swa(
         batch,
         context_length,
         emb_dim,
+        n_heads,
         n_full_layers,
         bytes_per_elem,
         n_kv_groups,
     )
     total_swa = calc_kv_bytes_total_gqa(
-        batch, window, emb_dim, n_swa_layers, bytes_per_elem, n_kv_groups
+        batch, window, emb_dim, n_heads, n_swa_layers, bytes_per_elem, n_kv_groups
     )
     return total_full + total_swa
 
@@ -163,12 +166,13 @@ def main():
 
         if valid_g4:
             total_gqa = calc_kv_bytes_total_gqa(
-                batch_size, L, emb_dim, n_layers, bytes_per_elem, n_kv_groups=kv_groups
+                batch_size, L, emb_dim, n_heads, n_layers, bytes_per_elem, n_kv_groups=kv_groups
             )
             total_gqa_swa = calc_kv_bytes_total_gqa_swa(
                 batch_size,
                 L,
                 emb_dim,
+                n_heads,
                 n_layers,
                 bytes_per_elem,
                 n_kv_groups=kv_groups,

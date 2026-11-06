@@ -55,7 +55,9 @@ def estimate_totals(context_length, sliding_window_size, emb_dim, n_heads, n_lay
     bytes_per_elem = DTYPE_BYTES[dtype]
     head_dim = math.ceil(emb_dim / n_heads)
     n_kv_heads_mha = n_heads
-    n_kv_heads_gqa = n_heads // n_kv_groups
+    # n_kv_groups is the number of key-value heads (see GroupedQueryAttention
+    # in ../04_gqa/gpt_with_kv_gqa.py, where W_key/W_value project to n_kv_groups * head_dim)
+    n_kv_heads_gqa = n_kv_groups
 
     a_swa, b_full = parse_ratio(swa_ratio)
     n_swa_layers, n_full_layers = distribute_layers(n_layers, a_swa, b_full)
@@ -98,7 +100,7 @@ def main():
     p.add_argument("--n_heads", required=True, type=int)
     p.add_argument("--n_layers", required=True, type=int)
     p.add_argument("--n_kv_groups", required=True, type=int,
-                   help="GQA groups; 1 means MHA-equivalent KV heads.")
+                   help="Number of GQA key-value heads; n_kv_groups = n_heads is MHA-equivalent, 1 is multi-query attention.")
     p.add_argument("--batch_size", default=1, type=int)
     p.add_argument("--dtype", choices=DTYPE_BYTES.keys(), default="fp16")
     p.add_argument("--swa_ratio", default="1:0",

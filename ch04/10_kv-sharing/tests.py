@@ -101,3 +101,44 @@ def test_memory_estimator_counts_cached_layers():
     )
     expected = batch_size * context_length * 8 * n_kv_heads * 2 * bytes_per_elem * n_cached_layers
     assert actual == expected
+
+
+def test_estimator_total_matches_measured_model_cache():
+    import importlib.util
+    from pathlib import Path
+
+    this_dir = Path(__file__).resolve().parent
+    spec = importlib.util.spec_from_file_location(
+        "memory_estimator_kv_sharing", this_dir / "memory_estimator_kv_sharing.py"
+    )
+    est = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(est)
+
+    gqa_path = this_dir.parent / "04_gqa" / "gpt_with_kv_gqa.py"
+    spec = importlib.util.spec_from_file_location("gpt_with_kv_gqa", gqa_path)
+    gqa = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(gqa)
+
+    emb_dim, n_heads, n_kv_groups = 96, 6, 3
+    context_length, n_layers, n_producing = 16, 2, 1
+
+    att = gqa.GroupedQueryAttention(
+        d_in=emb_dim, d_out=emb_dim, dropout=0.0,
+        num_heads=n_heads, num_kv_groups=n_kv_groups, dtype=torch.bfloat16,
+    )
+    att.eval()
+    x = torch.randn(1, context_length, emb_dim, dtype=torch.bfloat16)
+    with torch.no_grad():
+        att(x, use_cache=True)
+    measured_per_layer = (att.cache_k.numel() * att.cache_k.element_size()
+                          + att.cache_v.numel() * att.cache_v.element_size())
+
+    estimator_gqa = est.calc_kv_bytes_total(
+        1, context_length, emb_dim, n_heads, n_kv_groups, n_layers, 2
+    )
+    estimator_gqa_sharing = est.calc_kv_bytes_total(
+        1, context_length, emb_dim, n_heads, n_kv_groups, n_producing, 2
+    )
+
+    assert estimator_gqa == measured_per_layer * n_layers
+    assert estimator_gqa_sharing == measured_per_layer * n_producing

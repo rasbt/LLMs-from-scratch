@@ -73,15 +73,15 @@ n_kv_producing_layers  : 15
 batch_size             : 1
 dtype                  : bf16 (2 Bytes/elem)
 head_dim               : 256
-GQA n_kv_heads         : 1
+GQA n_kv_heads         : 8
 
 ==== KV-cache totals across all layers ====
 MHA total KV cache        : 37.58 GB
-GQA total KV cache        : 4.70 GB
+GQA total KV cache        : 37.58 GB
 MHA + KV sharing          : 16.11 GB
-GQA + KV sharing          : 2.01 GB
-Ratio (MHA / GQA+sharing) : 18.67x
-Savings vs MHA            : 94.64%
+GQA + KV sharing          : 16.11 GB
+Ratio (MHA / GQA+sharing) : 2.33x
+Savings vs MHA            : 57.14%
 ```
 
 This is a Gemma 4 E2B-like setup. The 35 layers include 15 K/V-producing layers, and the remaining layers reuse earlier K/V tensors. For the E4B-like setup, the corresponding numbers are 42 total layers and 24 K/V-producing layers.

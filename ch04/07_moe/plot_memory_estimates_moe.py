@@ -21,6 +21,11 @@ def calc_moe_active_and_total(
     top_k,
     match_dense=True,
 ):
+    if top_k < 1 or top_k > num_experts:
+        raise ValueError(
+            f"top_k ({top_k}) must be between 1 and num_experts ({num_experts})."
+        )
+
     if match_dense:
         dense_params = calc_ffn_params(emb_dim, hidden_dim, ffn_type)
         router = calc_router_params(emb_dim, num_experts)
@@ -49,8 +54,13 @@ def plot_active_params_vs_experts(
     save_path=None,
     match_dense=True,
 ):
+    if top_k < 1:
+        raise ValueError("--top_k must be at least 1.")
+
     experts = [1, 2, 4, 8, 16, 32, 64, 128, 192, 256, 384, 512]
-    experts = [e for e in experts if e <= max_experts]
+    experts = [e for e in experts if top_k <= e <= max_experts]
+    if not experts:
+        raise ValueError("No expert counts satisfy --top_k <= num_experts <= --max_experts.")
 
     dense_active = calc_ffn_params(emb_dim, hidden_dim, ffn_type)
     moe_active = []

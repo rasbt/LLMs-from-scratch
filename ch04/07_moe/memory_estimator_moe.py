@@ -84,6 +84,11 @@ def main():
     )
     args = p.parse_args()
 
+    if args.top_k < 1 or args.top_k > args.num_experts:
+        raise ValueError(
+            f"--top_k ({args.top_k}) must be between 1 and --num_experts ({args.num_experts})."
+        )
+
     bytes_per_elem = DTYPE_BYTES[args.dtype]
 
     res = estimate_params_and_hidden(

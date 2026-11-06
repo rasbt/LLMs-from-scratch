@@ -68,14 +68,14 @@ latent_dim       : 1024
 batch_size       : 1
 dtype            : bf16 (2 Bytes/elem)
 head_dim         : 86
-GQA n_kv_heads   : 6
+GQA n_kv_heads   : 4
 
 ==== KV-cache totals across all layers ====
 MHA total KV cache  : 3.25 GB
-GQA total KV cache  : 0.81 GB
+GQA total KV cache  : 0.54 GB
 MLA total KV cache  : 0.81 GB
-Ratio (MHA / GQA)   : 4.00x
-Savings (GQA vs MHA): 75.00%
+Ratio (MHA / GQA)   : 6.00x
+Savings (GQA vs MHA): 83.33%
 Ratio (MHA / MLA)   : 4.03x
 Savings (MLA vs MHA): 75.19%
 ```

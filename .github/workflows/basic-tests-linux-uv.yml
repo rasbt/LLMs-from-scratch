@@ -52,6 +52,7 @@ jobs:
           pytest ch03/02_bonus_efficient-multihead-attention/tests/test_mha_implementations.py
           pytest ch04/01_main-chapter-code/tests.py
           pytest ch04/03_kv-cache/tests.py
+          pytest ch04/07_moe/tests.py
           pytest ch05/01_main-chapter-code/tests.py
           pytest ch05/07_gpt_to_llama/tests/tests_rope_and_parts.py
           pytest ch05/07_gpt_to_llama/tests/test_llama32_nb.py

@@ -2,6 +2,7 @@ import subprocess
 import sys
 from pathlib import Path
 
+import pytest
 import torch
 
 THIS_DIR = Path(__file__).resolve().parent
@@ -105,46 +106,107 @@ def test_cached_generation_matches_uncached():
     assert torch.equal(cached, uncached)
 
 
-def test_estimator_rejects_top_k_above_num_experts():
+@pytest.mark.parametrize("top_k", [-1, 0, 5])
+def test_estimator_rejects_invalid_top_k(top_k):
     result = subprocess.run(
         [sys.executable, str(THIS_DIR / "memory_estimator_moe.py"),
          "--emb_dim", "96", "--hidden_dim", "48",
-         "--num_experts", "4", "--top_k", "8"],
+         "--num_experts", "4", "--top_k", str(top_k)],
         capture_output=True, text=True,
     )
     assert result.returncode != 0
-    assert "top_k" in result.stderr
+    assert "must be between 1 and --num_experts (4)" in result.stderr
 
 
-def test_estimator_active_params_not_above_total():
-    out = subprocess.run(
-        [sys.executable, str(THIS_DIR / "memory_estimator_moe.py"),
-         "--emb_dim", "96", "--hidden_dim", "48",
-         "--num_experts", "4", "--top_k", "2"],
-        capture_output=True, text=True, check=True,
-    ).stdout
+# Independent counts for emb_dim=96, hidden_dim=48, and four experts.
+# Matching the dense budget gives a rounded per-expert hidden dimension of 12.
+PARAM_COUNTS = [
+    ("gelu", False, 9216, 37248),
+    ("gelu", True, 2304, 9600),
+    ("swiglu", False, 13824, 55680),
+    ("swiglu", True, 3456, 14208),
+]
+
+
+@pytest.mark.parametrize("ffn_type,match_dense,per_expert_params,total_params", PARAM_COUNTS)
+@pytest.mark.parametrize("top_k", [1, 2, 4])
+def test_estimator_active_params_match_selected_experts(ffn_type, match_dense, per_expert_params, total_params, top_k):
+    args = [sys.executable, str(THIS_DIR / "memory_estimator_moe.py"),
+            "--emb_dim", "96", "--hidden_dim", "48", "--ffn_type", ffn_type,
+            "--num_experts", "4", "--top_k", str(top_k)]
+    if match_dense:
+        args.append("--match_dense")
+    out = subprocess.run(args, capture_output=True, text=True, check=True).stdout
 
     def value_after(label):
         line = next(l for l in out.splitlines() if l.startswith(label))
         return int(line.split(":")[1].split("(")[0].strip().replace(",", ""))
 
-    assert value_after("MoE ACTIVE/Token") <= value_after("MoE TOTAL params")
+    # Every token uses the router and exactly top_k experts, even when all
+    # experts are selected. An upper-bound check alone would allow zero counts.
+    assert value_after("MoE ACTIVE/Token") == 384 + top_k * per_expert_params
+    assert value_after("MoE TOTAL params") == total_params
+    if top_k == 4:
+        assert value_after("MoE ACTIVE/Token") == total_params
 
 
-def test_plot_active_params_capped_by_num_experts():
-    sys.path.insert(0, str(THIS_DIR))
-    plot_mod = load_module(THIS_DIR / "plot_memory_estimates_moe.py", "plot_memory_estimates_moe")
+@pytest.fixture
+def plot_module(monkeypatch):
+    monkeypatch.setenv("MPLBACKEND", "Agg")
+    monkeypatch.syspath_prepend(str(THIS_DIR))
+    module = load_module(THIS_DIR / "plot_memory_estimates_moe.py", "plot_memory_estimates_moe")
+    yield module
+    module.plt.close("all")
 
-    # With fewer experts than top_k, a token can only activate all experts,
-    # so active params must not exceed total params
-    active, total = plot_mod.calc_moe_active_and_total(
-        emb_dim=96, hidden_dim=48, ffn_type="swiglu",
-        num_experts=1, top_k=8,
+
+@pytest.mark.parametrize("ffn_type,match_dense,per_expert_params,total_params", PARAM_COUNTS)
+@pytest.mark.parametrize("top_k", [1, 2, 4])
+def test_plot_counts_match_selected_experts(plot_module, ffn_type, match_dense, per_expert_params, total_params, top_k):
+    active, total = plot_module.calc_moe_active_and_total(
+        emb_dim=96, hidden_dim=48, ffn_type=ffn_type,
+        num_experts=4, top_k=top_k, match_dense=match_dense,
     )
-    assert active <= total
+    assert active == 384 + top_k * per_expert_params
+    assert total == total_params
+    if top_k == 4:
+        assert active == total
 
-    active, total = plot_mod.calc_moe_active_and_total(
-        emb_dim=96, hidden_dim=48, ffn_type="swiglu",
-        num_experts=4, top_k=2,
+
+@pytest.mark.parametrize("top_k", [-1, 0, 5])
+def test_plot_helper_rejects_invalid_top_k(plot_module, top_k):
+    with pytest.raises(ValueError, match="must be between 1 and num_experts"):
+        plot_module.calc_moe_active_and_total(
+            emb_dim=96, hidden_dim=48, ffn_type="swiglu",
+            num_experts=4, top_k=top_k,
+        )
+
+
+@pytest.mark.parametrize("top_k,expected_experts", [
+    (2, [2, 4, 8, 16]),  # Default routing count.
+    (3, [4, 8, 16]),  # The requested count need not occur in the sweep grid.
+    (8, [8, 16]),  # README example.
+])
+def test_plot_keeps_top_k_fixed(plot_module, tmp_path, top_k, expected_experts):
+    plot_module.plot_active_params_vs_experts(
+        emb_dim=96, hidden_dim=48, top_k=top_k, max_experts=16,
+        save_path=tmp_path / "moe.png",
     )
-    assert active <= total
+    ax = plot_module.plt.gca()
+    # Check the actual plotted points, so the sweep cannot silently reduce k.
+    assert list(ax.lines[0].get_xdata()) == expected_experts
+    assert list(ax.lines[1].get_xdata()) == expected_experts
+
+
+@pytest.mark.parametrize("top_k,max_experts,error", [
+    (-1, 16, "--top_k must be at least 1"),
+    (0, 16, "--top_k must be at least 1"),
+    (8, 4, "No expert counts"),
+    (3, 3, "No expert counts"),
+    (513, 1024, "No expert counts"),
+])
+def test_plot_rejects_invalid_sweeps(plot_module, tmp_path, top_k, max_experts, error):
+    with pytest.raises(ValueError, match=error):
+        plot_module.plot_active_params_vs_experts(
+            emb_dim=96, hidden_dim=48, top_k=top_k, max_experts=max_experts,
+            save_path=tmp_path / "invalid.png",
+        )

@@ -70,7 +70,7 @@ The savings when using SWA over MHA are further shown in the plot below for diff
 
 &nbsp;
 
-<img src="kv_bytes_vs_context_length.webp" alt="SWA" width="800px" />
+<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/bonus/swa-memory/4.webp?2" alt="SWA" width="800px" />
 
 &nbsp;
 

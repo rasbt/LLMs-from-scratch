@@ -32,7 +32,7 @@ The memory savings are mostly reflected in the KV storage. We can compute the KV
 
 bytes ≈ batch_size × seqlen × (embed_dim / n_heads) × n_layers × 2 (K,V) × bytes_per_elem × n_kv_heads
 
-When using SWA, we replace the sequence length (seqlen) above by the window size W. So, when using sliding window attention, we reduce the KV cache size by a factor of "W / seqlen". (Note that for simplicity, this assumes that sliding window attention is used in every layer.)
+When using SWA, we replace the sequence length (seqlen) above by `min(seqlen, W)`, where W is the window size. For sequences longer than W, the KV cache uses a fraction `W / seqlen` of the full-attention cache. (Note that for simplicity, this assumes that sliding window attention is used in every layer.)
 
 
 You can use the [memory_estimator_swa.py](memory_estimator_swa.py) script in this folder to apply this for different model configs to see how much memory you can save by using SWA over MHA:
@@ -55,14 +55,13 @@ dtype                  : bf16 (2 Bytes/elem)
 head_dim               : 128
 GQA n_kv_heads         : 4
 Effective SWA window W : 1024
-Layer ratio (SWA:Full) : 5:1
-Distributed layers     : 27 SWA, 5 FULL
+Layer ratio (SWA:Full) : 5:1 -> 27 SWA, 5 Full
 
 ==== KV-cache totals across all layers ====
 MHA KV total           : 17.18 GB
 GQA KV total           : 2.15 GB
-MHA + SWA (Ratio: 5:1) : 3.14 GB
-GQA + SWA (Ratio: 5:1) : 0.39 GB
+MHA + SWA (ratio 5:1)  : 3.14 GB
+GQA + SWA (ratio 5:1)  : 0.39 GB
 ```
 
 Note that Gemma 3 uses SWA in combination with GQA.
@@ -71,11 +70,11 @@ The savings when using SWA over MHA are further shown in the plot below for diff
 
 &nbsp;
 
-<img src="https://sebastianraschka.com/images/LLMs-from-scratch-images/bonus/swa-memory/4.webp?2" alt="SWA" width="800px" />
+<img src="kv_bytes_vs_context_length.webp" alt="SWA" width="800px" />
 
 &nbsp;
 
-You can reproduce thi plots via:
+You can reproduce this plot via:
 
 ```bash
 uv run plot_memory_estimates_swa.py \

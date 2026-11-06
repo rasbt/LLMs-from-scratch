@@ -8,10 +8,13 @@
 # This script mirrors the style and structure of plot_memory_estimates_mla.py.
 
 import argparse
+import math
 from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
+
+from memory_estimator_swa import distribute_layers
 
 
 # Bytes per element
@@ -39,10 +42,10 @@ def parse_ratio(ratio_str):
         raise ValueError("--swa_ratio must be in the form 'a:b' with nonnegative integers and a+b>0")
 
 
-def calc_kv_bytes_total_mha(batch, context_length, emb_dim, n_layers, bytes_per_elem):
-    # For MHA, n_kv_heads = n_heads, which cancels out:
-    # total = B * L * E * 2 (K,V) * bytes * n_layers
-    return batch * context_length * emb_dim * 2 * bytes_per_elem * n_layers
+def calc_kv_bytes_total_mha(batch, context_length, emb_dim, n_heads, n_layers, bytes_per_elem):
+    # Match the estimator when emb_dim / n_heads requires rounding.
+    head_dim = math.ceil(emb_dim / n_heads)
+    return batch * context_length * head_dim * n_heads * 2 * bytes_per_elem * n_layers
 
 
 def calc_kv_bytes_total_gqa(
@@ -51,24 +54,23 @@ def calc_kv_bytes_total_gqa(
     # n_kv_groups is the number of key-value heads (see GroupedQueryAttention
     # in ../04_gqa/gpt_with_kv_gqa.py, where W_key/W_value project to n_kv_groups * head_dim)
     # => scale the MHA total by n_kv_groups / n_heads
-    base = calc_kv_bytes_total_mha(batch, context_length, emb_dim, n_layers, bytes_per_elem)
+    base = calc_kv_bytes_total_mha(batch, context_length, emb_dim, n_heads, n_layers, bytes_per_elem)
     return base * (n_kv_groups / n_heads)
 
 
 def calc_kv_bytes_total_mha_swa(
-    batch, context_length, emb_dim, n_layers, bytes_per_elem, window, swa_ratio
+    batch, context_length, emb_dim, n_heads, n_layers, bytes_per_elem, window, swa_ratio
 ):
     # Split layers into SWA vs Full
     a, b = parse_ratio(swa_ratio)
-    total_blocks = a + b
-    n_swa_layers = int(round(n_layers * (a / total_blocks)))
-    n_full_layers = n_layers - n_swa_layers
+    n_swa_layers, n_full_layers = distribute_layers(n_layers, a, b)
+    window = min(context_length, window)
 
     total_full = calc_kv_bytes_total_mha(
-        batch, context_length, emb_dim, n_full_layers, bytes_per_elem
+        batch, context_length, emb_dim, n_heads, n_full_layers, bytes_per_elem
     )
     total_swa = calc_kv_bytes_total_mha(
-        batch, window, emb_dim, n_swa_layers, bytes_per_elem
+        batch, window, emb_dim, n_heads, n_swa_layers, bytes_per_elem
     )
     return total_full + total_swa
 
@@ -85,9 +87,8 @@ def calc_kv_bytes_total_gqa_swa(
     swa_ratio,
 ):
     a, b = parse_ratio(swa_ratio)
-    total_blocks = a + b
-    n_swa_layers = int(round(n_layers * (a / total_blocks)))
-    n_full_layers = n_layers - n_swa_layers
+    n_swa_layers, n_full_layers = distribute_layers(n_layers, a, b)
+    window = min(context_length, window)
 
     total_full = calc_kv_bytes_total_gqa(
         batch,
@@ -148,12 +149,13 @@ def main():
 
     for L in context_lengths:
         total_mha = calc_kv_bytes_total_mha(
-            batch_size, L, emb_dim, n_layers, bytes_per_elem
+            batch_size, L, emb_dim, n_heads, n_layers, bytes_per_elem
         )
         total_mha_swa = calc_kv_bytes_total_mha_swa(
             batch_size,
             L,
             emb_dim,
+            n_heads,
             n_layers,
             bytes_per_elem,
             window=args.sliding_window_size,
@@ -205,22 +207,22 @@ def main():
         else:
             color = None
 
-        plt.plot(x, y, marker="o", label=label, linestyle=linestyle, color=color)
+        plt.plot(x, y, label=label, linestyle=linestyle, color=color)
 
     plt.xscale("log")
-    plt.xlabel("context_length (log scale)")
+    plt.xlabel("Context length (tokens, log scale)")
     plt.ylabel("Total KV cache (GB)")
     plt.title(
-        "KV-cache vs Context Length — MHA vs GQA (SWA overlays)\n"
+        "Sliding windows and GQA reduce KV-cache memory\n"
         f"(n_heads={n_heads}, emb_dim={emb_dim}, n_layers={n_layers}, "
         f"batch={batch_size}, dtype={args.dtype}; "
         f"SWA ratio={args.swa_ratio}, W={args.sliding_window_size})",
         fontsize=8,
     )
-    plt.grid(True, which="both")
+    plt.grid(True, which="major", color="#dddddd", linewidth=0.5)
     plt.legend()
     plt.tight_layout()
-    plt.savefig(args.output)
+    plt.savefig(args.output, dpi=200)
     plt.close()
 
     if not valid_g4:

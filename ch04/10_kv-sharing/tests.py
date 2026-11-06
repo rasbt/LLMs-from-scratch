@@ -1,3 +1,8 @@
+import subprocess
+import sys
+from pathlib import Path
+
+import pytest
 import torch
 
 from gpt_with_kv_mha import GPTModel as GPTModelMHA
@@ -142,3 +147,29 @@ def test_estimator_total_matches_measured_model_cache():
 
     assert estimator_gqa == measured_per_layer * n_layers
     assert estimator_gqa_sharing == measured_per_layer * n_producing
+
+
+@pytest.mark.parametrize("n_kv_groups,total_gqa,total_sharing,ratio", [
+    (1, "4.70 GB", "2.01 GB", "18.67x"),
+    (2, "9.40 GB", "4.03 GB", "9.33x"),
+    (8, "37.58 GB", "16.11 GB", "2.33x"),
+])
+def test_cli_uses_kv_head_count(n_kv_groups, total_gqa, total_sharing, ratio):
+    # Cover MQA, grouped attention, and MHA-equivalent KV heads through the
+    # CLI, where the incorrect n_heads // n_kv_groups conversion occurred.
+    result = subprocess.run(
+        [sys.executable, str(Path(__file__).with_name("memory_estimator_kv_sharing.py")),
+         "--context_length", "131072", "--emb_dim", "2048", "--n_heads", "8",
+         "--n_layers", "35", "--n_kv_groups", str(n_kv_groups),
+         "--n_kv_producing_layers", "15", "--batch_size", "1", "--dtype", "bf16"],
+        capture_output=True, text=True, check=True,
+    )
+    values = {
+        key.strip(): value.strip()
+        for line in result.stdout.splitlines() if ":" in line
+        for key, value in [line.split(":", 1)]
+    }
+    assert values["GQA n_kv_heads"] == str(n_kv_groups)
+    assert values["GQA total KV cache"] == total_gqa
+    assert values["GQA + KV sharing"] == total_sharing
+    assert values["Ratio (MHA / GQA+sharing)"] == ratio

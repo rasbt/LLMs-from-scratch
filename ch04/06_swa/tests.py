@@ -1,5 +1,6 @@
 import copy
 
+import pytest
 import torch
 
 from llms_from_scratch.ch04 import GPTModel as GPTModelBase
@@ -145,3 +146,32 @@ def test_estimator_totals_match_measured_model_cache():
     assert swa_att.cache_k.size(1) == window
     # 1 SWA layer + 1 full MHA layer
     assert res["total_mixed_mha"] == swa_measured + measured_cache_bytes(n_heads, context_length)
+
+
+@pytest.mark.parametrize("context_length,emb_dim,n_heads,n_layers,n_kv_groups,swa_ratio", [
+    (256, 4096, 32, 32, 4, "5:1"),  # Prompt shorter than the SWA window.
+    (2048, 4096, 32, 32, 4, "5:1"),  # Prompt exactly fills the window.
+    (4096, 4096, 48, 36, 4, "5:1"),  # README plot's rounded head dimension.
+    (4096, 96, 6, 2, 3, "1:5"),  # Incomplete layer block starts with SWA.
+])
+def test_plot_matches_estimator(context_length, emb_dim, n_heads, n_layers, n_kv_groups, swa_ratio):
+    import memory_estimator_swa as est
+    import plot_memory_estimates_swa as plot
+
+    batch, window, bytes_per_elem = 1, 2048, 2
+    expected = est.estimate_totals(
+        context_length, window, emb_dim, n_heads, n_layers,
+        n_kv_groups, batch, "bf16", swa_ratio,
+    )
+    assert plot.calc_kv_bytes_total_mha(
+        batch, context_length, emb_dim, n_heads, n_layers, bytes_per_elem,
+    ) == expected["total_mha_allfull"]
+    assert plot.calc_kv_bytes_total_gqa(
+        batch, context_length, emb_dim, n_heads, n_layers, bytes_per_elem, n_kv_groups,
+    ) == pytest.approx(expected["total_gqa_allfull"])
+    assert plot.calc_kv_bytes_total_mha_swa(
+        batch, context_length, emb_dim, n_heads, n_layers, bytes_per_elem, window, swa_ratio,
+    ) == expected["total_mixed_mha"]
+    assert plot.calc_kv_bytes_total_gqa_swa(
+        batch, context_length, emb_dim, n_heads, n_layers, bytes_per_elem, n_kv_groups, window, swa_ratio,
+    ) == pytest.approx(expected["total_mixed_gqa"])

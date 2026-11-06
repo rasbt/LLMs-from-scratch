@@ -80,7 +80,7 @@ Ratio (MHA / MLA)   : 4.03x
 Savings (MLA vs MHA): 75.19%
 ```
 
-Note that the compression above (`--emb_dim 2048 -> latent_dim 1024`) to achieve a similar saving as for GQA. In practice, the compression is a hyperparameter that needs to be carefully investigated, as choosing `latent_dim` to be too small can have negative impact on the modeling performance (similar to choosing too many `n_kv_groups` in GQA).
+In this example, MLA reduces the cache by about 75%, while GQA with four KV heads reduces it by about 83%. The latent dimension is a hyperparameter that needs to be chosen carefully, as choosing `latent_dim` to be too small can reduce modeling performance. Similarly, using fewer KV heads in GQA saves memory but can affect model quality.
 
 The savings when using MLA over MHA are further shown in the plot below for different `latent_dim` values as a function of the context length:
 

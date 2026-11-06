@@ -35,7 +35,9 @@ def calc_moe_active_and_total(
         match_dense=match_dense,
     )
 
-    active = stats["router"] + top_k * stats["per_expert_params"]
+    # A token can activate at most num_experts experts
+    eff_top_k = min(top_k, num_experts)
+    active = stats["router"] + eff_top_k * stats["per_expert_params"]
     return active, stats["moe_total"]
 
 

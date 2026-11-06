@@ -53,16 +53,16 @@ n_kv_groups            : 4
 batch_size             : 1
 dtype                  : bf16 (2 Bytes/elem)
 head_dim               : 128
-GQA n_kv_heads         : 8
+GQA n_kv_heads         : 4
 Effective SWA window W : 1024
 Layer ratio (SWA:Full) : 5:1
 Distributed layers     : 27 SWA, 5 FULL
 
 ==== KV-cache totals across all layers ====
 MHA KV total           : 17.18 GB
-GQA KV total           : 4.29 GB
+GQA KV total           : 2.15 GB
 MHA + SWA (Ratio: 5:1) : 3.14 GB
-GQA + SWA (Ratio: 5:1) : 0.78 GB
+GQA + SWA (Ratio: 5:1) : 0.39 GB
 ```
 
 Note that Gemma 3 uses SWA in combination with GQA.

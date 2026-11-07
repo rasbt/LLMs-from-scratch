@@ -405,7 +405,7 @@ def replace_linear_with_lora(model, rank, alpha, alternative=False):
                 setattr(model, name, LinearWithLoRA(module, rank, alpha))
         else:
             # Recursively apply the same function to child modules
-            replace_linear_with_lora(module, rank, alpha)
+            replace_linear_with_lora(module, rank, alpha, alternative)
 
 
 if __name__ == "__main__":

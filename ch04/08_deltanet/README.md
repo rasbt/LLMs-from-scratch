@@ -162,7 +162,7 @@ class GatedDeltaNet(nn.Module):
         ####################################################
         ### NEW: Gates for delta rule and output gating
         self.W_gate = nn.Linear(d_in, d_out, bias=False)
-        self.W_beta = nn.Linear(d_in, d_out, bias=False)
+        self.W_beta = nn.Linear(d_in, num_heads, bias=False)  # one beta per head
 
         # Note: The decay gate alpha corresponds to
         # A_log + W_alpha(x) + dt_bias
@@ -199,7 +199,7 @@ class GatedDeltaNet(nn.Module):
         keys = keys.view(b, num_tokens, self.num_heads, self.head_dim)
         values = values.view(b, num_tokens, self.num_heads, self.head_dim)
         queries = queries.view(b, num_tokens, self.num_heads, self.head_dim)
-        beta = beta.view(b, num_tokens, self.num_heads, self.head_dim)
+        beta = beta.unsqueeze(-1)  # (b, num_tokens, num_heads, 1)
         gate = gate.view(b, num_tokens, self.num_heads, self.head_dim)  # NEW
 
         keys = keys.transpose(1, 2)

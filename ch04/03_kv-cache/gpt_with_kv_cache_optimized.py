@@ -403,7 +403,8 @@ def main():
     print("Output text:", decoded_text)
 
     print(f"\nTime: {total_time:.2f} sec")
-    print(f"{int(len(token_ids[0])/total_time)} tokens/sec")
+    new_tokens = token_ids.shape[1] - encoded_tensor.shape[1]
+    print(f"{int(new_tokens/total_time)} tokens/sec")
     if torch.cuda.is_available():
         max_mem_bytes = torch.cuda.max_memory_allocated()
         max_mem_gb = max_mem_bytes / (1024 ** 3)

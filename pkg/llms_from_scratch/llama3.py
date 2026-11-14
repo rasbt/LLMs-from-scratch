@@ -361,9 +361,9 @@ class Llama3Tokenizer:
             special_tokens=self.special,
         )
 
-    def encode(self, text, bos=False, eos=False, **kwargs):
+    def encode(self, text, bos=False, eos=False, allowed_special=None, **kwargs):
         ids = ([self.special["<|begin_of_text|>"]] if bos else []) \
-              + self.model.encode(text)
+              + self.model.encode(text, allowed_special=allowed_special or set())
         if eos:
             ids.append(self.special["<|end_of_text|>"])
         return ids

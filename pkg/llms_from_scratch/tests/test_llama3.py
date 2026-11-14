@@ -6,16 +6,21 @@
 from llms_from_scratch.ch04 import generate_text_simple
 from llms_from_scratch.llama3 import (
     apply_rope,
+    ChatFormat,
     compute_rope_params,
     GroupedQueryAttention,
     GroupedQueryAttentionFast,
     load_weights_into_llama,
     LLAMA32_CONFIG_1B,
     Llama3Model,
+    Llama3Tokenizer,
 )
 from llms_from_scratch.kv_cache.llama3 import Llama3Model as Llama3ModelKV
+from llms_from_scratch.kv_cache.llama3 import ChatFormat as ChatFormatKV
+from llms_from_scratch.kv_cache.llama3 import Llama3Tokenizer as Llama3TokenizerKV
 from llms_from_scratch.kv_cache.generate import generate_text_simple as generate_text_simple_cached
 
+import base64
 import importlib
 import os
 import pytest
@@ -324,3 +329,35 @@ def test_llama3_base_equivalence_with_transformers():
     theirs_logits = theirs(x).logits.to(ours_logits.dtype)
 
     torch.testing.assert_close(ours_logits, theirs_logits, rtol=1e-5, atol=1e-5)
+
+
+@pytest.fixture
+def tiny_llama3_tokenizer_file(tmp_path):
+    # Byte-level BPE file with one token per byte (no merges), so no download is needed
+    path = tmp_path / "tokenizer.model"
+    lines = [f"{base64.b64encode(bytes([i])).decode()} {i}" for i in range(256)]
+    path.write_text("\n".join(lines) + "\n")
+    return str(path)
+
+
+@pytest.mark.parametrize("TokenizerClass, ChatFormatClass", [
+    (Llama3Tokenizer, ChatFormat),
+    (Llama3TokenizerKV, ChatFormatKV),
+])
+def test_llama3_tokenizer_allowed_special(TokenizerClass, ChatFormatClass, tiny_llama3_tokenizer_file):
+    tokenizer = TokenizerClass(tiny_llama3_tokenizer_file)
+    eot_id = tokenizer.special["<|eot_id|>"]
+    text = "Hi<|eot_id|>"
+
+    # Special tokens in plain text are still rejected by default
+    with pytest.raises(ValueError):
+        tokenizer.encode(text)
+
+    ids = tokenizer.encode(text, allowed_special={"<|eot_id|>"})
+    assert ids == [ord("H"), ord("i"), eot_id]
+    assert tokenizer.encode(text, allowed_special="all") == ids
+
+    chat = ChatFormatClass(tokenizer)
+    ids = chat.encode("Hello", system_message=text, allowed_special="all")
+    # One from the system message itself, plus the end of the system and user turns
+    assert ids.count(eot_id) == 3

@@ -19,6 +19,7 @@ from llms_from_scratch.kv_cache.utils import KVCache
 from llms_from_scratch.kv_cache.generate import generate_text_simple as generate_text_simple_cached
 
 from llms_from_scratch.kv_cache_batched.qwen3 import Qwen3Model as Qwen3ModelKVBatched
+from llms_from_scratch.kv_cache_batched.utils import KVCache as KVCacheBatched
 from llms_from_scratch.kv_cache_batched.generate import generate_text_simple as generate_text_simple_batched
 
 from llms_from_scratch.utils import download_file
@@ -203,6 +204,44 @@ def test_qwen3_kvcache_equivalence(cfg_name, request):
     for t in range(input_ids.size(1)):
         input_token = input_ids[:, t:t + 1]
         logits = model_kv(input_token, cache=cache)
+        logits_stepwise.append(logits)
+    out_kv = torch.cat(logits_stepwise, dim=1)
+
+    assert out_full.shape == out_kv.shape, f"Shape mismatch: {out_full.shape} vs {out_kv.shape}"
+    assert torch.allclose(out_full, out_kv, atol=1e-5, rtol=1e-3)
+
+
+@torch.inference_mode()
+@pytest.mark.parametrize("cfg_name", ["dummy_cfg_base", "dummy_cfg_moe"])
+def test_qwen3_batched_kvcache_equivalence(cfg_name, request):
+    cfg = request.getfixturevalue(cfg_name)
+
+    torch.manual_seed(123)
+    model_regular = Qwen3Model(cfg)
+    model_regular.eval()
+
+    model_kv_batched = Qwen3ModelKVBatched(cfg)
+    model_kv_batched.eval()
+    model_kv_batched.load_state_dict(model_regular.state_dict())
+
+    if cfg["num_experts"] > 0 and platform.system() == "Linux":
+        pytest.skip("Skipping MoE KV equivalence test on Linux due to nondeterministic expert routing")
+
+    torch.manual_seed(123)
+    input_ids = torch.randint(0, cfg["vocab_size"], (2, 6))
+
+    out_full = model_regular(input_ids)
+
+    cache = KVCacheBatched(n_layers=cfg["n_layers"], batch_size=input_ids.size(0))
+    model_kv_batched.reset_kv_cache(batch_size=input_ids.size(0))
+    logits_stepwise = []
+    for t in range(input_ids.size(1)):
+        logits = model_kv_batched(
+            input_ids[:, t:t + 1],
+            cache=cache,
+            start_pos=model_kv_batched.current_pos.clone()
+        )
+        model_kv_batched.current_pos += 1
         logits_stepwise.append(logits)
     out_kv = torch.cat(logits_stepwise, dim=1)
 

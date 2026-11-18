@@ -131,10 +131,11 @@ def train_model_simple(model, optimizer, device, n_epochs,
                             model, tokenizer, device, start_context
                         )
 
-                if global_step % save_ckpt_freq:
-                    file_name = output_dir / f"model_pg_{global_step}.pth"
-                    torch.save(model.state_dict(), file_name)
-                    print(f"Saved {file_name}")
+                    # Save a checkpoint every save_ckpt_freq steps
+                    if global_step > 0 and global_step % save_ckpt_freq == 0:
+                        file_name = output_dir / f"model_pg_{global_step}.pth"
+                        torch.save(model.state_dict(), file_name)
+                        print(f"Saved {file_name}")
 
                 print_eta(start_time, book_start_time, index, total_files)
 

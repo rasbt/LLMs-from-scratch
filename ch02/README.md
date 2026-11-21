@@ -16,6 +16,8 @@
 
 - [05_bpe-from-scratch](05_bpe-from-scratch) contains (bonus) code that implements and trains a GPT-2 BPE tokenizer from scratch.
 
+- [07_bonus_efficient-data-loader](07_bonus_efficient-data-loader) compares the chapter's data loader with a version that uses PyTorch tensor views.
+
 
 
 

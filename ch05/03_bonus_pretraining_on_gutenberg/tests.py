@@ -8,6 +8,7 @@
 from pathlib import Path
 import os
 import subprocess
+import sys
 
 
 def test_pretraining():
@@ -34,23 +35,20 @@ def test_pretraining():
 
 def test_checkpoints_follow_save_ckpt_freq(tmp_path):
 
-    folder_path = Path("gutenberg") / "data"
-    os.makedirs(folder_path, exist_ok=True)
+    data_dir = tmp_path / "data"
+    data_dir.mkdir()
+    # In debug mode this input takes exactly 60 updates, ending on a checkpoint.
+    (data_dir / "repeated_sequence.txt").write_text("a b c d" * 900, encoding="utf-8")
 
-    with open(folder_path/"repeated_sequence.txt", "w") as file:
-        file.write("a b c d" * 1000)
-
-    save_ckpt_freq = 20
-    result = subprocess.run(
-        ["python", "pretraining_simple.py", "--debug", "true",
-         "--output_dir", str(tmp_path), "--save_ckpt_freq", str(save_ckpt_freq)],
-        capture_output=True, text=True
+    script = Path(__file__).with_name("pretraining_simple.py")
+    subprocess.run(
+        [sys.executable, str(script), "--debug", "true", "--data_dir", str(data_dir),
+         "--output_dir", str(tmp_path), "--save_ckpt_freq", "20"],
+        cwd=tmp_path, check=True
     )
-    assert "Maximum GPU memory allocated" in result.stdout
 
     saved_steps = [
         int(path.stem.split("_")[-1]) for path in tmp_path.glob("model_pg_*.pth")
         if path.stem != "model_pg_final"
     ]
-    assert saved_steps
-    assert all(step > 0 and step % save_ckpt_freq == 0 for step in saved_steps)
+    assert sorted(saved_steps) == [20, 40, 60]

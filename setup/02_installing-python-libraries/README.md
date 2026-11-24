@@ -11,16 +11,18 @@ I used the following libraries listed [here](https://github.com/rasbt/LLMs-from-
 
 
 
+If you are using a cloned copy with native uv, follow the [native uv guide](../01_optional-python-setup-preferences/native-uv.md) to install from `pyproject.toml`.
+
 To install these requirements most conveniently, you can use the `requirements.txt` file in the root directory for this code repository and execute the following command:
 
 ```bash
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
 
 Alternatively, you can install it via the GitHub URL as follows:
 
 ```bash
-pip install -r https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/main/requirements.txt
+python -m pip install -r https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/main/requirements.txt
 ```
 
 

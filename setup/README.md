@@ -7,19 +7,41 @@ This document lists different approaches for setting up your machine and using t
 
 ## Quickstart
 
-If you already have a Python installation on your machine, the quickest way to get started is to install the package requirements from the [../requirements.txt](../requirements.txt) file by executing the following pip installation command from the root directory of this code repository:
+Choose one of the following ways to install the libraries used in the main chapters.
+
+### Use an existing Python environment
+
+Activate your Python environment and run the following command in a terminal:
 
 ```bash
-pip install -r requirements.txt
+python -m pip install -r https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/main/requirements.txt
 ```
 
-<br>
+You can download the chapter notebooks and any files they use separately. If you already have a local copy of the repository, you can use `python -m pip install -r requirements.txt` from the repository root.
 
-> **Note:** If you are running any of the notebooks on Google Colab and want to install the dependencies, simply run the following code in a new cell at the top of the notebook:
-> `pip install uv && uv pip install --system -r https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/refs/heads/main/requirements.txt`
-> Optionally, after cloning the repository, you can install the dependencies for all bonus materials with `uv pip install --group bonus` from the project root. This is useful if you don't want to install them separately as you check out the optional bonus materials later on.
+### Clone the repository and use uv
 
+After [installing uv](./01_optional-python-setup-preferences/native-uv.md#1-install-uv), run:
 
+```bash
+git clone --depth 1 https://github.com/rasbt/LLMs-from-scratch.git
+cd LLMs-from-scratch
+uv sync --dev --python 3.11
+```
+
+This creates a project environment and installs the dependencies in `pyproject.toml`. See the [native uv guide](./01_optional-python-setup-preferences/native-uv.md) for details. For the optional bonus materials, run `uv sync --group bonus` from the repository root.
+
+When you open a notebook, select the kernel for the environment where you installed the libraries.
+
+### Install packages in Google Colab
+
+In a new notebook cell, run:
+
+```python
+%pip install -r https://raw.githubusercontent.com/rasbt/LLMs-from-scratch/main/requirements.txt
+```
+
+See [Using Google Colab](#using-google-colab) below for instructions on opening notebooks and uploading companion files.
 
 In the video below, I share my personal approach to setting up a Python environment on my computer:
 

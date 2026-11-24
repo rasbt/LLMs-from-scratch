@@ -279,8 +279,19 @@ class GPTModel(nn.Module):
 def generate_text_simple_cached(model, idx, max_new_tokens,
                                 context_size=None, use_cache=True):
     model.eval()
-    ctx_len = context_size or model.pos_emb.num_embeddings
+    model_limit = model.pos_emb.num_embeddings
+    ctx_len = min(context_size or model_limit, model_limit)
     batch_size, base_len = idx.shape
+    if use_cache:
+        # Each generated token is fed back into the model to predict the next one,
+        # except the last token, where generation stops. This means only
+        # max_new_tokens - 1 generated tokens need space in the KV cache.
+        prompt_len = min(base_len, ctx_len)
+        assert prompt_len + max(0, max_new_tokens - 1) <= ctx_len, (
+            "Prompt tokens plus cached generated tokens exceed context length; "
+            "the KV cache path cannot slide the window."
+        )
+
     total_len = base_len + max_new_tokens
     generated = torch.empty(
         batch_size, total_len, dtype=idx.dtype, device=idx.device
@@ -293,14 +304,6 @@ def generate_text_simple_cached(model, idx, max_new_tokens,
 
     with torch.no_grad():
         if use_cache:
-            # Each generated token is fed back into the model to predict the next one,
-            # except the last token, where generation stops. This means only
-            # max_new_tokens - 1 generated tokens need space in the KV cache.
-            prompt_len = min(idx.shape[1], ctx_len)
-            assert prompt_len + max(0, max_new_tokens - 1) <= ctx_len, (
-                "Prompt tokens plus cached generated tokens exceed context length; "
-                "the KV cache path cannot slide the window."
-            )
             # Init cache with full prompt
             model.reset_kv_cache()
             prompt_start = max(0, cur_len - ctx_len)

@@ -51,3 +51,18 @@ def test_uncached_generation_can_slide_context_window(model_setup):
 
     assert output.shape[1] == 11
     assert torch.equal(output[:, :8], prompt)
+
+
+def test_oversized_context_size_uses_model_limit(model_setup):
+    model, generate = model_setup
+    prompt = torch.arange(10).unsqueeze(0)
+
+    # Both paths should use the last 8 prompt tokens and can predict one more.
+    expected = generate(model, prompt, 1, context_size=8, use_cache=False)
+    for use_cache in (False, True):
+        actual = generate(model, prompt, 1, context_size=16, use_cache=use_cache)
+        assert torch.equal(actual, expected)
+
+    # A second cached prediction would require position 8 in a table indexed 0–7.
+    with pytest.raises(AssertionError, match="context length"):
+        generate(model, prompt[:, :8], 2, context_size=16, use_cache=True)

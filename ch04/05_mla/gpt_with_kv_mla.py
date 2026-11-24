@@ -261,7 +261,8 @@ class GPTModel(nn.Module):
 def generate_text_simple_cached(model, idx, max_new_tokens,
                                 context_size=None, use_cache=True):
     model.eval()
-    ctx_len = context_size or model.pos_emb.num_embeddings
+    model_limit = model.pos_emb.num_embeddings
+    ctx_len = min(context_size or model_limit, model_limit)
 
     with torch.no_grad():
         if use_cache:

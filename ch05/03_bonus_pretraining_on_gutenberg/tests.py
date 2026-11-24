@@ -8,6 +8,7 @@
 from pathlib import Path
 import os
 import subprocess
+import sys
 
 
 def test_pretraining():
@@ -30,3 +31,24 @@ def test_pretraining():
     )
     print(result.stdout)
     assert "Maximum GPU memory allocated" in result.stdout
+
+
+def test_checkpoints_follow_save_ckpt_freq(tmp_path):
+
+    data_dir = tmp_path / "data"
+    data_dir.mkdir()
+    # In debug mode this input takes exactly 60 updates, ending on a checkpoint.
+    (data_dir / "repeated_sequence.txt").write_text("a b c d" * 900, encoding="utf-8")
+
+    script = Path(__file__).with_name("pretraining_simple.py")
+    subprocess.run(
+        [sys.executable, str(script), "--debug", "true", "--data_dir", str(data_dir),
+         "--output_dir", str(tmp_path), "--save_ckpt_freq", "20"],
+        cwd=tmp_path, check=True
+    )
+
+    saved_steps = [
+        int(path.stem.split("_")[-1]) for path in tmp_path.glob("model_pg_*.pth")
+        if path.stem != "model_pg_final"
+    ]
+    assert sorted(saved_steps) == [20, 40, 60]

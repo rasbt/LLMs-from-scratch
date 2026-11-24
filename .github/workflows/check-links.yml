@@ -27,7 +27,9 @@ jobs:
       env:
         CHECK_LINKS_TIMEOUT: "10"
       run: |
+        # Remove the Gutenberg exception when the permissions page is back online.
         uv run --script .github/scripts/check_links.py ./ \
+          --check-links-ignore "https://www[.]gutenberg[.]org/policy/permission[.]html$" \
           --check-links-ignore "https://platform.openai.com/*" \
           --check-links-ignore "https://openai.com/*" \
           --check-links-ignore "https://arena.lmsys.org" \

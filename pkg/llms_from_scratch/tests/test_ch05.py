@@ -5,7 +5,7 @@
 
 from llms_from_scratch.ch02 import create_dataloader_v1
 from llms_from_scratch.ch04 import GPTModel, GPTModelFast
-from llms_from_scratch.ch05 import train_model_simple
+from llms_from_scratch.ch05 import generate, train_model_simple
 
 import os
 
@@ -110,3 +110,30 @@ def test_train_simple(tmp_path, ModelClass):
     assert round(train_losses[0], 1) == 7.6
     assert round(val_losses[0], 1) == 10.1
     assert train_losses[-1] < train_losses[0]
+
+
+def test_generate_top_k_batched():
+    torch.manual_seed(123)
+    cfg = {
+        "vocab_size": 50,
+        "context_length": 16,
+        "emb_dim": 16,
+        "n_heads": 2,
+        "n_layers": 1,
+        "drop_rate": 0.0,
+        "qkv_bias": False
+    }
+    model = GPTModel(cfg)
+    model.eval()
+
+    top_k = 3
+    idx = torch.tensor([[1, 2, 3, 4], [5, 6, 7, 8]])
+    with torch.no_grad():
+        allowed = torch.topk(model(idx)[:, -1, :], top_k).indices
+
+    out = generate(model, idx, max_new_tokens=1, context_size=cfg["context_length"],
+                   temperature=1.0, top_k=top_k)
+
+    assert out.shape == (2, 5)
+    for row in range(idx.shape[0]):
+        assert out[row, -1].item() in allowed[row].tolist()

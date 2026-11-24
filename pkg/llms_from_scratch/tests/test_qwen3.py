@@ -215,6 +215,9 @@ def test_qwen3_kvcache_equivalence(cfg_name, request):
 @pytest.mark.parametrize("cfg_name", ["dummy_cfg_base", "dummy_cfg_moe"])
 def test_qwen3_batched_kvcache_equivalence(cfg_name, request):
     cfg = request.getfixturevalue(cfg_name)
+    if cfg["num_experts"] > 0:
+        # Select all experts so routing ties cannot change which experts process a token.
+        cfg = {**cfg, "num_experts_per_tok": cfg["num_experts"]}
 
     torch.manual_seed(123)
     model_regular = Qwen3Model(cfg)
@@ -223,9 +226,6 @@ def test_qwen3_batched_kvcache_equivalence(cfg_name, request):
     model_kv_batched = Qwen3ModelKVBatched(cfg)
     model_kv_batched.eval()
     model_kv_batched.load_state_dict(model_regular.state_dict())
-
-    if cfg["num_experts"] > 0 and platform.system() == "Linux":
-        pytest.skip("Skipping MoE KV equivalence test on Linux due to nondeterministic expert routing")
 
     torch.manual_seed(123)
     input_ids = torch.randint(0, cfg["vocab_size"], (2, 6))

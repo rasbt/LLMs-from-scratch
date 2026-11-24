@@ -266,6 +266,8 @@ def test_multiple_leading_spaces_roundtrip(imported_module, gpt2_files):
         "tab\t",
         "\t\tindent",
         "a \tb",
+        "aĉb\taĉb",
+        " ĠĊč\tĉ",
     ],
 )
 def test_tab_roundtrip_and_equivalence(imported_module, gpt2_files, text):
@@ -281,6 +283,29 @@ def test_tab_roundtrip_and_equivalence(imported_module, gpt2_files, text):
     # Each "\t" should correspond to id 197
     assert ids_ours.count(197) == text.count("\t")
     assert tok.decode(ids_ours) == text
+
+
+def test_gpt2_save_load_preserves_byte_tokens(imported_module, gpt2_files, tmp_path):
+    tok = imported_module.BPETokenizerSimple()
+    tok.load_vocab_and_merges_from_openai(gpt2_files["encoder.json"], gpt2_files["vocab.bpe"])
+
+    text = "Implementations\t\r\n"
+    ids = tok.encode(text)
+    assert ids == tiktoken.get_encoding("gpt2").encode(text)
+    vocab_path = tmp_path / "vocab.json"
+    merges_path = tmp_path / "merges.json"
+    tok.save_vocab_and_merges(vocab_path, merges_path)
+
+    reloaded = imported_module.BPETokenizerSimple()
+    reloaded.load_vocab_and_merges(vocab_path, merges_path)
+    assert reloaded.decode(ids) == text
+    assert reloaded.encode(text) == ids
+
+    # Older saves contain the GPT-2 vocabulary and an empty list of merges.
+    merges_path.write_text("[]", encoding="utf-8")
+    legacy = imported_module.BPETokenizerSimple()
+    legacy.load_vocab_and_merges(vocab_path, merges_path)
+    assert legacy.decode(ids) == text
 
 
 def test_trained_tokenizer_whitespace_and_latin1_roundtrip(imported_module, verdict_file):

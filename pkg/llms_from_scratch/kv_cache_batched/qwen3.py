@@ -7,6 +7,7 @@ from .utils import KVCache   # noqa: F401
 from ..qwen3 import (   # noqa: F401
     QWEN_CONFIG_06_B, QWEN3_CONFIG_1_7B, QWEN3_CONFIG_4B,
     QWEN3_CONFIG_8B, QWEN3_CONFIG_14B, QWEN3_CONFIG_32B,
+    MoEFeedForward,
     Qwen3Tokenizer, load_weights_into_qwen,
     download_from_huggingface,
     download_from_huggingface_from_snapshots
@@ -102,7 +103,10 @@ class TransformerBlock(nn.Module):
             qk_norm=cfg["qk_norm"],
             dtype=cfg["dtype"]
         )
-        self.ff = FeedForward(cfg)
+        if "num_experts" in cfg and cfg["num_experts"] > 0:
+            self.ff = MoEFeedForward(cfg)
+        else:
+            self.ff = FeedForward(cfg)
         self.norm1 = RMSNorm(cfg["emb_dim"], eps=1e-6)
         self.norm2 = RMSNorm(cfg["emb_dim"], eps=1e-6)
 

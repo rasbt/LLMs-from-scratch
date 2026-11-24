@@ -133,7 +133,6 @@ The output will be formatted in the following way:
 > Ep 1 (Step 31900): Train loss 3.664, Val loss 3.946
 > Ep 1 (Step 32000): Train loss 3.493, Val loss 3.939
 > Ep 1 (Step 32100): Train loss 3.940, Val loss 3.961
-> Saved model_checkpoints/model_pg_32188.pth
 > Book processed 3h 46m 55s
 > Total time elapsed 3h 46m 55s
 > ETA for remaining books: 7h 33m 50s

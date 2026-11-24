@@ -131,10 +131,12 @@ def train_model_simple(model, optimizer, device, n_epochs,
                             model, tokenizer, device, start_context
                         )
 
-                if global_step % save_ckpt_freq:
-                    file_name = output_dir / f"model_pg_{global_step}.pth"
-                    torch.save(model.state_dict(), file_name)
-                    print(f"Saved {file_name}")
+                    # The training log numbers the first optimizer update as step 0.
+                    completed_steps = global_step + 1
+                    if completed_steps % save_ckpt_freq == 0:
+                        file_name = output_dir / f"model_pg_{completed_steps}.pth"
+                        torch.save(model.state_dict(), file_name)
+                        print(f"Saved {file_name}")
 
                 print_eta(start_time, book_start_time, index, total_files)
 
@@ -161,7 +163,7 @@ if __name__ == "__main__":
     parser.add_argument("--eval_freq", type=int, default=100,
                         help="Frequency of evaluations during training")
     parser.add_argument("--save_ckpt_freq", type=int, default=100_000,
-                        help="Frequency of saving model checkpoints during training")
+                        help="Save a checkpoint every N completed optimizer updates")
     parser.add_argument("--lr", type=float, default=5e-4,
                         help="Learning rate for the optimizer")
     parser.add_argument("--batch_size", type=int, default=4,

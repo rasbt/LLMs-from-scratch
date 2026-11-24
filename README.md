@@ -160,6 +160,7 @@ Several folders contain optional materials as a bonus for interested readers:
   - [Dataloader Intuition With Simple Numbers](ch02/04_bonus_dataloader-intuition)
   - [BPE From Scratch](ch02/05_bpe-from-scratch)
   - [SimpleTokenizerV3 variant](ch02/06_bonus_simple-tokenizer-v3)
+  - [Sliding-window data loading with PyTorch tensor views](ch02/07_bonus_efficient-data-loader), based on [Dmitry Labazkin's proposal](https://github.com/rasbt/LLMs-from-scratch/discussions/745)
 
 - **Chapter 3: Coding Attention Mechanisms**
   - [Comparing Efficient Multi-Head Attention Implementations](ch03/02_bonus_efficient-multihead-attention/mha-implementations.ipynb)

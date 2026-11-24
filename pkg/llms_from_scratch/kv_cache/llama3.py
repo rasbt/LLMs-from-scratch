@@ -328,7 +328,7 @@ class Llama3Tokenizer:
             "<|eot_id|>": 128009,
         }
         self.special.update({f"<|reserved_{i}|>": 128002 + i
-                             for i in range(256)
+                             for i in range(254)  # IDs 128002 through 128255
                              if 128002 + i not in self.special.values()})
 
         self.model = tiktoken.Encoding(
@@ -344,9 +344,9 @@ class Llama3Tokenizer:
             special_tokens=self.special,
         )
 
-    def encode(self, text, bos=False, eos=False, **kwargs):
+    def encode(self, text, bos=False, eos=False, allowed_special=None, **kwargs):
         ids = ([self.special["<|begin_of_text|>"]] if bos else []) \
-              + self.model.encode(text)
+              + self.model.encode(text, allowed_special=allowed_special or set())
         if eos:
             ids.append(self.special["<|end_of_text|>"])
         return ids

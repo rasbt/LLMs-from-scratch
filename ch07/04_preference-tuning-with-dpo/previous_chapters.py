@@ -272,7 +272,7 @@ def generate(model, idx, max_new_tokens, context_size, temperature=0.0, top_k=No
             #logits = logits - logits.max(dim=-1, keepdim=True).values
 
             # Apply softmax to get probabilities
-            #probs = torch.softmax(logits, dim=-1)  # (batch_size, context_len)
+            #probs = torch.softmax(logits, dim=-1)  # (batch_size, vocab_size)
             probs = torch.log_softmax(logits, dim=-1)
 
             # Sample from the distribution

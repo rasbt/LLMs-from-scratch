@@ -346,6 +346,7 @@ def tiny_llama3_tokenizer_file(tmp_path):
 ])
 def test_llama3_tokenizer_allowed_special(TokenizerClass, ChatFormatClass, tiny_llama3_tokenizer_file):
     tokenizer = TokenizerClass(tiny_llama3_tokenizer_file)
+    assert max(tokenizer.special.values()) < LLAMA32_CONFIG_1B["vocab_size"]
     eot_id = tokenizer.special["<|eot_id|>"]
     text = "Hi<|eot_id|>"
 
@@ -361,3 +362,6 @@ def test_llama3_tokenizer_allowed_special(TokenizerClass, ChatFormatClass, tiny_
     ids = chat.encode("Hello", system_message=text, allowed_special="all")
     # One from the system message itself, plus the end of the system and user turns
     assert ids.count(eot_id) == 3
+
+    with pytest.raises(ValueError, match="eot_id"):
+        chat.encode(user_message=text, allowed_special="all")

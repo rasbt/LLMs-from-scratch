@@ -11,13 +11,13 @@ This optional PyPI package lets you conveniently import code from various chapte
 Install the `llms-from-scratch` package from the official [Python Package Index](https://pypi.org/project/llms-from-scratch/) (PyPI):
 
 ```bash
-pip install llms-from-scratch
+pip install "llms-from-scratch>=1.0.20,<2.0"
 ```
 
 > **Note:** If you're using [`uv`](https://github.com/astral-sh/uv), replace `pip` with `uv pip` or use `uv add`:
 
 ```bash
-uv add llms-from-scratch
+uv add "llms-from-scratch>=1.0.20,<2.0"
 ```
 
 

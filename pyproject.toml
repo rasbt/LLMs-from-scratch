@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "llms-from-scratch"
-version = "1.0.18"
+version = "1.0.20"
 description = "Implement a ChatGPT-like LLM in PyTorch from scratch, step by step"
 readme = "README.md"
 requires-python = ">=3.10,<3.15"
@@ -45,7 +45,7 @@ bonus = [
     "chainlit>=1.2.0",
     "huggingface_hub>=0.34.4",
     "ipywidgets>=8.1.2",
-    "llms_from_scratch>=1.0.18",
+    "llms-from-scratch>=1.0.20,<2.0",
     "openai>=1.30.3",
     "requests",
     "safetensors>=0.6.2",

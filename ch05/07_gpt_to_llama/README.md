@@ -20,7 +20,7 @@ For an easy way to use the Llama 3.2 1B and 3B models, you can also use the `llm
 #### 1) Installation
 
 ```bash
-pip install llms_from_scratch blobfile
+pip install "llms-from-scratch>=1.0.20,<2.0" blobfile
 ```
 
 (Note that `blobfile` is needed to load the tokenizer.)

@@ -256,3 +256,67 @@ def test_multiple_leading_spaces_roundtrip(imported_module, gpt2_files):
 
     text = "  Hello World."
     assert tok.decode(tok.encode(text)) == text
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "a\tb",
+        "col1\tcol2\n",
+        "tab\t",
+        "\t\tindent",
+        "a \tb",
+        "aĉb\taĉb",
+        " ĠĊč\tĉ",
+    ],
+)
+def test_tab_roundtrip_and_equivalence(imported_module, gpt2_files, text):
+    BPETokenizerSimple = getattr(imported_module, "BPETokenizerSimple", None)
+    tok = BPETokenizerSimple()
+    tok.load_vocab_and_merges_from_openai(
+        vocab_path=gpt2_files["encoder.json"], bpe_merges_path=gpt2_files["vocab.bpe"]
+    )
+    tik = tiktoken.get_encoding("gpt2")
+
+    ids_ours = tok.encode(text)
+    assert ids_ours == tik.encode(text), f"Mismatch vs tiktoken for: {repr(text)}"
+    # Each "\t" should correspond to id 197
+    assert ids_ours.count(197) == text.count("\t")
+    assert tok.decode(ids_ours) == text
+
+
+def test_gpt2_save_load_preserves_byte_tokens(imported_module, gpt2_files, tmp_path):
+    tok = imported_module.BPETokenizerSimple()
+    tok.load_vocab_and_merges_from_openai(gpt2_files["encoder.json"], gpt2_files["vocab.bpe"])
+
+    text = "Implementations\t\r\n"
+    ids = tok.encode(text)
+    assert ids == tiktoken.get_encoding("gpt2").encode(text)
+    vocab_path = tmp_path / "vocab.json"
+    merges_path = tmp_path / "merges.json"
+    tok.save_vocab_and_merges(vocab_path, merges_path)
+
+    reloaded = imported_module.BPETokenizerSimple()
+    reloaded.load_vocab_and_merges(vocab_path, merges_path)
+    assert reloaded.decode(ids) == text
+    assert reloaded.encode(text) == ids
+
+    # Older saves contain the GPT-2 vocabulary and an empty list of merges.
+    merges_path.write_text("[]", encoding="utf-8")
+    legacy = imported_module.BPETokenizerSimple()
+    legacy.load_vocab_and_merges(vocab_path, merges_path)
+    assert legacy.decode(ids) == text
+
+
+def test_trained_tokenizer_whitespace_and_latin1_roundtrip(imported_module, verdict_file):
+    BPETokenizerSimple = getattr(imported_module, "BPETokenizerSimple", None)
+    tokenizer = BPETokenizerSimple()
+
+    with open(verdict_file, "r", encoding="utf-8") as f:
+        text = f.read()
+    tokenizer.train(text, vocab_size=1000, allowed_special={"<|endoftext|>"})
+
+    # In a trained vocab, ids 197, 198 and 201 are ordinary characters (and not tab,
+    # newline and carriage return as in the OpenAI GPT-2 vocab)
+    for sample in ["Å Æ É", "col1\tcol2\r\nnext line", "cafÉ\tÆsir"]:
+        assert tokenizer.decode(tokenizer.encode(sample)) == sample, repr(sample)

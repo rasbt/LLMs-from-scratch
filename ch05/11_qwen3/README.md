@@ -36,7 +36,7 @@ For an easy way to use the Qwen3 from-scratch implementation, you can also use t
 #### 1) Installation
 
 ```bash
-pip install llms_from_scratch tokenizers
+pip install "llms-from-scratch>=1.0.20,<2.0" tokenizers
 ```
 
 &nbsp;

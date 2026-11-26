@@ -228,13 +228,15 @@ if __name__ == "__main__":
         model = AutoModelForSequenceClassification.from_pretrained(
             "distilbert-base-uncased", num_labels=2
         )
-        model.out_head = torch.nn.Linear(in_features=768, out_features=2)
+        model.classifier = torch.nn.Linear(in_features=768, out_features=2)
         for param in model.parameters():
             param.requires_grad = False
         if args.trainable_layers == "last_layer":
-            for param in model.out_head.parameters():
+            for param in model.classifier.parameters():
                 param.requires_grad = True
         elif args.trainable_layers == "last_block":
+            for param in model.classifier.parameters():
+                param.requires_grad = True
             for param in model.pre_classifier.parameters():
                 param.requires_grad = True
             for param in model.distilbert.transformer.layer[-1].parameters():

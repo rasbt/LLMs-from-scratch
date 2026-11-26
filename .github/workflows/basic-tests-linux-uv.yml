@@ -79,6 +79,7 @@ jobs:
           pytest ch02/05_bpe-from-scratch/tests.py
           pytest ch06/02_bonus_additional-experiments/tests.py
           pytest ch07/02_dataset-utilities/tests.py
+          pytest ch07/04_preference-tuning-with-dpo/tests.py
 
       - name: Test Selected Bonus Materials
         shell: bash

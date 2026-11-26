@@ -140,3 +140,74 @@ def test_olmo3_base_equivalence_with_transformers(import_notebook_defs):
     ours_logits = model(x)
     theirs_logits = hf_model(x).logits
     torch.testing.assert_close(ours_logits, theirs_logits, rtol=1e-5, atol=1e-5)
+
+
+@torch.inference_mode()
+@pytest.mark.skipif(not transformers_installed, reason="transformers not installed")
+def test_olmo3_yarn_sliding_equivalence_with_transformers(import_notebook_defs):
+    from transformers import Olmo3Config, Olmo3ForCausalLM
+
+    # Mix of sliding and full attention layers with YaRN, as in the Olmo 3 configs
+    cfg = {
+        "vocab_size": 257,
+        "context_length": 16,
+        "emb_dim": 32,
+        "n_heads": 4,
+        "n_layers": 4,
+        "hidden_dim": 64,
+        "head_dim": 8,
+        "n_kv_heads": 2,
+        "sliding_window": 4,
+        "layer_types": ["sliding_attention", "sliding_attention", "sliding_attention", "full_attention"],
+        "dtype": torch.float32,
+        "attention_bias": False,
+        "rms_norm_eps": 1e-6,
+        "rope_base": 500_000.0,
+        "rope_attention_factor": 1.2079441541679836,
+        "rope_type": "yarn",
+        "rope_factor": 8.0,
+        "rope_orig_max": 8,
+        "beta_fast": 32.0,
+        "beta_slow": 1.0,
+    }
+
+    torch.manual_seed(123)
+    model = import_notebook_defs.Olmo3Model(cfg)
+
+    hf_cfg = Olmo3Config(
+        vocab_size=cfg["vocab_size"],
+        max_position_embeddings=cfg["context_length"],
+        hidden_size=cfg["emb_dim"],
+        num_attention_heads=cfg["n_heads"],
+        num_hidden_layers=cfg["n_layers"],
+        intermediate_size=cfg["hidden_dim"],
+        head_dim=cfg["head_dim"],
+        num_key_value_heads=cfg["n_kv_heads"],
+        rope_theta=cfg["rope_base"],
+        layer_types=cfg["layer_types"],
+        sliding_window=cfg["sliding_window"],
+        tie_word_embeddings=False,
+        attn_implementation="eager",
+        torch_dtype=torch.float32,
+        rope_scaling={
+            "rope_type": "yarn",
+            "factor": cfg["rope_factor"],
+            "original_max_position_embeddings": cfg["rope_orig_max"],
+            "attention_factor": cfg["rope_attention_factor"],
+            "beta_fast": cfg["beta_fast"],
+            "beta_slow": cfg["beta_slow"],
+        },
+        rms_norm_eps=cfg["rms_norm_eps"],
+    )
+    hf_model = Olmo3ForCausalLM(hf_cfg)
+
+    param_config = {
+        "n_layers": cfg["n_layers"],
+        "hidden_dim": cfg["hidden_dim"],
+    }
+    import_notebook_defs.load_weights_into_olmo(model, param_config, hf_model.state_dict())
+
+    x = torch.randint(0, cfg["vocab_size"], (2, cfg["context_length"]), dtype=torch.long)
+    ours_logits = model(x)
+    theirs_logits = hf_model(x).logits
+    torch.testing.assert_close(ours_logits, theirs_logits, rtol=1e-5, atol=1e-5)

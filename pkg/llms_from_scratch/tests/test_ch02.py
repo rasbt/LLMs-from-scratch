@@ -57,4 +57,4 @@ def test_dataloader(tmp_path, file_name):
 
         break
 
-    input_embeddings.shape == torch.Size([8, 4, 256])
+    assert input_embeddings.shape == torch.Size([8, 4, 256])

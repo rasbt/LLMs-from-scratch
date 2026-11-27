@@ -23,7 +23,7 @@ def test_dataset():
     y_train = torch.tensor([0, 0, 0, 1, 1])
     train_ds = ToyDataset(X_train, y_train)
 
-    len(train_ds) == 5
+    assert len(train_ds) == 5
     torch.manual_seed(123)
 
     train_loader = DataLoader(
